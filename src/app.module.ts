@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
     PrismaModule,
     UserModule,
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
       envFilePath: '.env',
       expandVariables: true,
     }),

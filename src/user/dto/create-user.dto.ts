@@ -23,10 +23,13 @@ export class CreateUserDto {
   @IsString()
   @MinLength(3, { message: 'Username must be at least 3 characters long' })
   @MaxLength(20, { message: 'Username must not exceed 20 characters' })
-   @Transform(({ value }) => value?.trim())
+  @Transform(({ value }) => value?.trim())
   username?: string;
 
-  @ApiPropertyOptional({example: 'P@ssw0rd123', description: 'User password (hashed)' })
+  @ApiPropertyOptional({
+    example: 'P@ssw0rd123',
+    description: 'User password (hashed)',
+  })
   @IsOptional()
   @IsString()
   @MinLength(8, { message: 'Password must be at least 8 characters long' })
@@ -42,7 +45,13 @@ export class CreateUserDto {
     description: 'Avatar URL',
   })
   @IsOptional()
-  @IsUrl({}, { message: 'Please provide a valid URL for the avatar like : https://example.com/avatar.jpg' })
+  @IsUrl(
+    {},
+    {
+      message:
+        'Please provide a valid URL for the avatar like : https://example.com/avatar.jpg',
+    },
+  )
   avatar?: string;
 
   @ApiPropertyOptional({

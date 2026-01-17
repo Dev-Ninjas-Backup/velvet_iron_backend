@@ -30,7 +30,7 @@ export class AuthService {
     private jwtService: JwtService,
     private emailService: EmailService,
     private configService: ConfigService,
-  ) { }
+  ) {}
 
   async validateUser(emailOrUsername: string, password: string): Promise<any> {
     const user: any = await this.Prisma.client.user.findFirst({
@@ -152,17 +152,20 @@ export class AuthService {
   }
 
   async generateTokens(user: any) {
-    const accessTokenExpiration = Number(this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_M')) || 15; // 15 minutes
-    const refreshTokenExpiration = Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_DD')) || 7;
+    const accessTokenExpiration =
+      Number(this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_M')) || 15; // 15 minutes
+    const refreshTokenExpiration =
+      Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_DD')) ||
+      7;
     // const refreshTokenExpirationDays = Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_DD')) || 7;
     const accessToken = this.jwtService.sign(user, {
       // expiresIn: `${accessTokenExpiration}m`,
-      expiresIn: "10s",
+      expiresIn: '10s',
     } as any);
 
     const refreshToken = this.jwtService.sign(user, {
       // expiresIn: `${refreshTokenExpiration}d`,
-      expiresIn: "20s",
+      expiresIn: '20s',
     } as any);
 
     // Store refresh token in session
@@ -170,7 +173,9 @@ export class AuthService {
       data: {
         userId: user.id,
         refreshToken,
-        expiresAt: new Date(Date.now() + (refreshTokenExpiration * 24 * 60 * 60 * 1000)),
+        expiresAt: new Date(
+          Date.now() + refreshTokenExpiration * 24 * 60 * 60 * 1000,
+        ),
       },
     });
 

@@ -16,7 +16,6 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     });
 
     console.log(this.env.get<string>('DATABASE_URL'));
-    
 
     this.prisma = new PrismaClient({
       adapter,

@@ -29,7 +29,7 @@ import { OptionalJwtGuard } from '@/common/optional-auth.guard';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
   // ==================== Registration & Login ====================
 
@@ -42,9 +42,14 @@ export class AuthController {
   @Post('login')
   @UseGuards(AuthGuard('local'))
   @ApiOperation({
-    summary: 'Login with email/username and password (sets cookies + returns tokens in headers)'
+    summary:
+      'Login with email/username and password (sets cookies + returns tokens in headers)',
   })
-  async login(@Body() body: loginDto, @Req() req: any, @Res({ passthrough: true }) res: any) {
+  async login(
+    @Body() body: loginDto,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: any,
+  ) {
     const result = await this.authService.login(body, req.user);
 
     const isProduction = process.env.NODE_ENV === 'production';
@@ -87,11 +92,11 @@ export class AuthController {
       };
     }
     const user = await this.authService.getMe(req.user.id);
-    
+
     // Check if new tokens were issued (they'll be in response headers)
     const newAccessToken = res.getHeader('X-New-Access-Token');
     const newRefreshToken = res.getHeader('X-New-Refresh-Token');
-    
+
     return {
       success: true,
       user,
@@ -103,8 +108,15 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Logout from current device (clears cookies)' })
-  async logout(@Body() body: RefreshTokenDto, @Req() req: any, @Res({ passthrough: true }) res: any) {
-    const result = await this.authService.logout(req.user.id, body.refreshToken);
+  async logout(
+    @Body() body: RefreshTokenDto,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: any,
+  ) {
+    const result = await this.authService.logout(
+      req.user.id,
+      body.refreshToken,
+    );
 
     // Clear cookies on logout
     res.clearCookie('access_token');
@@ -114,8 +126,14 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  @ApiOperation({ summary: 'Refresh access token using refresh token (updates cookies + headers)' })
-  async refreshToken(@Body() body: RefreshTokenDto, @Res({ passthrough: true }) res: any) {
+  @ApiOperation({
+    summary:
+      'Refresh access token using refresh token (updates cookies + headers)',
+  })
+  async refreshToken(
+    @Body() body: RefreshTokenDto,
+    @Res({ passthrough: true }) res: any,
+  ) {
     const result = await this.authService.refreshToken(body.refreshToken);
 
     const isProduction = process.env.NODE_ENV === 'production';

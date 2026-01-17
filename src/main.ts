@@ -16,7 +16,12 @@ async function bootstrap() {
   app.enableCors({
     origin: true, // Allow all origins in development
     credentials: true, // Allow cookies
-    exposedHeaders: ['X-New-Access-Token', 'X-New-Refresh-Token', 'X-Access-Token', 'X-Refresh-Token'], // Expose custom headers
+    exposedHeaders: [
+      'X-New-Access-Token',
+      'X-New-Refresh-Token',
+      'X-Access-Token',
+      'X-Refresh-Token',
+    ], // Expose custom headers
   });
 
   // Enable cookie parser
@@ -37,15 +42,17 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Authentication API')
-    .setDescription('Authentication and User Management API\n\n' +
-      '🔐 How to use authentication:\n' +
-      '1. Login using POST /auth/login\n' +
-      '2. Tokens are automatically saved in cookies\n' +
-      '3. Check browser console for tokens (F12)\n' +
-      '4. Copy tokens and click 🔓 Authorize buttons\n' +
-      '5. Paste tokens and click Authorize\n' +
-      '6. Now you can test protected endpoints!\n\n' +
-      '💡 TIP: Run setSwaggerTokens() in console to display current tokens')
+    .setDescription(
+      'Authentication and User Management API\n\n' +
+        '🔐 How to use authentication:\n' +
+        '1. Login using POST /auth/login\n' +
+        '2. Tokens are automatically saved in cookies\n' +
+        '3. Check browser console for tokens (F12)\n' +
+        '4. Copy tokens and click 🔓 Authorize buttons\n' +
+        '5. Paste tokens and click Authorize\n' +
+        '6. Now you can test protected endpoints!\n\n' +
+        '💡 TIP: Run setSwaggerTokens() in console to display current tokens',
+    )
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
     .addTag('users', 'User management endpoints')
@@ -55,7 +62,8 @@ async function bootstrap() {
         scheme: 'bearer',
         bearerFormat: 'JWT',
         name: 'Authorization',
-        description: 'Enter JWT Access Token (get from login response or browser console)',
+        description:
+          'Enter JWT Access Token (get from login response or browser console)',
         in: 'header',
       },
       'JWT-auth',
@@ -65,7 +73,8 @@ async function bootstrap() {
         type: 'apiKey',
         name: 'x-refresh-token',
         in: 'header',
-        description: 'Enter Refresh Token (get from login response or browser console)',
+        description:
+          'Enter Refresh Token (get from login response or browser console)',
       },
       'refresh-token',
     )

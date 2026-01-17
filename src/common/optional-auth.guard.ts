@@ -94,7 +94,8 @@ export class OptionalJwtGuard extends AuthGuard('jwt') {
     // Scenario 3: Access token valid, Refresh token invalid → Generate new refresh token
     if (accessTokenValid && !refreshTokenValid) {
       try {
-        const tokens = await this.authService.generateTokens(decodedAccessToken);
+        const tokens =
+          await this.authService.generateTokens(decodedAccessToken);
         this.attachTokens(response, tokens);
         return true;
       } catch (err) {
