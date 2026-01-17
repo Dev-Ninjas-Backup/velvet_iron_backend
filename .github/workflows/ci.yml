@@ -3,27 +3,27 @@ on:
     branches:
       - dev
 jobs:
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-      - uses: actions/checkout@v3
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+    test:
+        name: Run Tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+            - uses: actions/checkout@v3
+            
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: '20'
 
-      - name: install pnpm globally
-        run: npm install -g pnpm
+            - name: install pnpm globally
+              run: npm install -g pnpm
 
 
-      - name: Install dependencies
-        run: pnpm i
+            - name: Install dependencies
+              run: pnpm i
 
-      - name: Run tests
-        run: pnpm format
+            - name: Run tests
+              run: pnpm format
 
-      - name: Run build
-        run: pnpm build
+            - name: Run build
+              run: pnpm build
