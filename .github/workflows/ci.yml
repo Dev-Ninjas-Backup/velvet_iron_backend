@@ -47,19 +47,20 @@ jobs:
                 context: .
                 push: true
                 tags: shamimrana2006/velvet_iron:latest
-    deploy:
-        name: Deploy to Server
-        runs-on: ubuntu-latest
-        needs: build-and-push-docker-image
-        steps:
-            - name: SSH and Deploy
-              uses: appleboy/ssh-action@v0.1.6
-              with:
-                host: ${{ secrets.SERVER_HOST }}
-                username: ${{ secrets.SERVER_USER }}
-                key: ${{ secrets.SERVER_SSH_KEY }}
-                script: |
-                  cd /path/to/your/project
-                  docker-compose pull
-                  docker-compose up -d --build
-    
+# docker login then pull and pull then aws login then un
+    deployment:
+      name: Deploy to AWS EC2
+      runs-on: ubuntu-latest
+      needs: build-and-push-docker-image
+      steps:
+          - name: SSH and deploy
+            uses: appleboy/ssh-action@v0.1.6
+            with:
+              host: ${{ secrets.EC2_HOST }}
+              username: ${{ secrets.EC2_USER }}
+              key: ${{ secrets.EC2_SSH_KEY }}
+              script: |
+                docker pull shamimrana2006/velvet_iron:latest
+                docker-compose -f /home/ubuntu/velvet_iron/docker-compose.yml down
+                docker-compose -f /home/ubuntu/velvet_iron/docker-compose.yml up -d
+
