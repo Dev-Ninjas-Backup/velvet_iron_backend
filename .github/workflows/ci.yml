@@ -3,64 +3,65 @@ on:
     branches:
       - dev
 jobs:
-    test:
-        name: Run Tests
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-            
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: '20'
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-            - name: install pnpm globally
-              run: npm install -g pnpm
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
+      - name: install pnpm globally
+        run: npm install -g pnpm
 
-            - name: Install dependencies
-              run: pnpm i
+      - name: Install dependencies
+        run: pnpm i
 
-            - name: Run tests
-              run: pnpm format
+      - name: Run tests
+        run: pnpm format
 
-            - name: Run build
-              run: pnpm build
-    build-and-push-docker-image:
-        name: Build and Push Docker Image
-        runs-on: ubuntu-latest
-        needs: test
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
+      - name: Run build
+        run: pnpm build
+  build-and-push-docker-image:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v2
-              with:
-                username: ${{ secrets.DOCKER_USERNAME }}
-                password: ${{ secrets.SECREATE_PASS }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.SECREATE_PASS }}
 
-            - name: Build and push Docker image
-              uses: docker/build-push-action@v4
-              with:
-                context: .
-                push: true
-                tags: shamimrana2006/velvet_iron:latest
-# docker login then pull and pull then aws login then un
-    deployment:
-      name: Deploy to AWS EC2
-      runs-on: ubuntu-latest
-      needs: build-and-push-docker-image
-      steps:
-          - name: SSH and deploy
-            uses: appleboy/ssh-action@v0.1.6
-            with:
-              host: ${{ secrets.EC2_HOST }}
-              username: ${{ secrets.EC2_USER }}
-              key: ${{ secrets.EC2_SSH_KEY }}
-              script: |
-                docker pull shamimrana2006/velvet_iron:latest
-                docker-compose -f /home/ubuntu/velvet_iron/docker-compose.yml down
-                docker-compose -f /home/ubuntu/velvet_iron/docker-compose.yml up -d
-
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: shamimrana2006/velvet_iron:latest
+  deployment:
+    name: Deploy to AWS EC2
+    runs-on: ubuntu-latest
+    needs: build-and-push-docker-image
+    steps:
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          timeout: 60s
+          command_timeout: 10m
+          script: |
+            cd /home/ubuntu/velvet_iron
+            docker pull shamimrana2006/velvet_iron:latest
+            docker compose down
+            docker compose up -d
