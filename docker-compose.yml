@@ -27,7 +27,7 @@ services:
       - app-network
 
   app:
-    image: shamimrana:latest
+    image: shamimrana2006/velvet_iron:latest
     container_name: velvet_iron_app
     restart: always
     profiles:
