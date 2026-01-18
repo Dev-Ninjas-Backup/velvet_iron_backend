@@ -38,7 +38,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       NODE_ENV: production
     ports:
-      - '8569:3000'
+      - '5090:5090'
     depends_on:
       postgres:
         condition: service_healthy
