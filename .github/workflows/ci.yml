@@ -60,8 +60,4 @@ jobs:
           port: 22
           timeout: 60s
           command_timeout: 10m
-          script: |
-            cd /home/ubuntu/velvet_iron
-            docker pull shamimrana2006/velvet_iron:latest
-            docker compose down
-            docker compose up -d
+          script: echo "SSH to EC2 successful!"
