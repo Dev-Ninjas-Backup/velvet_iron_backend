@@ -25,4 +25,3 @@ test
 docker-compose.yml
 Dockerfile
 .dockerignore
-prisma/generated
