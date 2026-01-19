@@ -23,7 +23,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks: 
+    networks:
       - app-network
 
   app:
@@ -45,9 +45,30 @@ services:
     networks:
       - app-network
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: velvet_iron_caddy
+    restart: always
+    profiles:
+      - prod
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   postgres_data:
+  caddy_data:
+  caddy_config:
