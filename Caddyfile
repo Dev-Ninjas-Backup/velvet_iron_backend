@@ -1,5 +1,5 @@
 api.shamimrana.me {
-  handle @api {
+  handle {
     # Allow up to 500MB upload
     request_body {
       max_size 500MB
