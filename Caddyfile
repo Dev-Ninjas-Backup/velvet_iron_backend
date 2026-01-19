@@ -1,0 +1,4 @@
+api.shamimrana.me {
+    reverse_proxy server:5090
+  
+}
