@@ -38,7 +38,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       NODE_ENV: production
     ports:
-      - '5090:6545'
+      - '7007:6545'
     depends_on:
       postgres:
         condition: service_healthy
@@ -72,8 +72,8 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     ports:
-      - '7896:5555'
-    command: npx prisma studio --port 5555 --browser none
+      - '7008:7008'
+    command: npx prisma studio --port 7008 --browser none
     depends_on:
       postgres:
         condition: service_healthy
