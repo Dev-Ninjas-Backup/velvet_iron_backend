@@ -19,7 +19,7 @@ export class UpdateProfileDto {
   name?: string;
 
   @ApiProperty({
-    example: 'john_doe',
+    example: '',
     required: false,
     description: 'Unique username',
   })

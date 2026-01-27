@@ -26,7 +26,7 @@ services:
       - app-network
 
   server:
-    image: shamimrana2006/server:latest
+    image: shamimranaprofessionaloffice/server:latest
     container_name: server
     restart: unless-stopped
     profiles:
@@ -45,22 +45,22 @@ services:
     networks:
       - app-network
 
-  frontend:
-    image: shamimrana2006/frontend:latest
-    container_name: frontend
-    restart: unless-stopped
-    profiles:
-      - prod
-      - frontend
-    env_file:
-      - .env.local
-    ports:
-      - '5080:8545'
-    networks:
-      - app-network
+  # frontend:
+  #   image: shamimranaprofessionaloffice/frontend:latest
+  #   container_name: frontend
+  #   restart: unless-stopped
+  #   profiles:
+  #     - prod
+  #     - frontend
+  #   env_file:
+  #     - .env.local
+  #   ports:
+  #     - '5080:8545'
+  #   networks:
+  #     - app-network
 
   prisma-studio:
-    image: shamimrana2006/server:latest
+    image: shamimranaprofessionaloffice/server:latest
     container_name: prisma_studio
     restart: unless-stopped
     profiles:

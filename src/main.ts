@@ -54,7 +54,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Authentication API')
+    .setTitle('Velvet Iroon API')
     .setDescription('Authentication and User Management API')
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
