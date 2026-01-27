@@ -46,7 +46,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: shamimrana2006/server:latest
+
+          # username collect from env
+          tags: ${{ secrets.DOCKER_USERNAME }}/server:latest
   deploy:
         name: Deploy
         runs-on: ubuntu-latest
