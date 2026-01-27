@@ -81,7 +81,7 @@ jobs:
                   key: ${{ secrets.EC2_SSH_KEY }}
                   port: ${{ secrets.EC2_SSH_PORT }}
                   source: "docker-compose.yml"
-                  target: "/home/${{ secrets.EC2_USER }}/server"
+                  target: "/${{ secrets.EC2_USER }}/velvet_iron"
           
             - name: Copy Caddyfile
               uses: appleboy/scp-action@v0.1.7
@@ -91,7 +91,7 @@ jobs:
                   key: ${{ secrets.EC2_SSH_KEY }}
                   port: ${{ secrets.EC2_SSH_PORT }}
                   source: "Caddyfile"
-                  target: "/home/${{ secrets.EC2_USER }}/server"
+                  target: "/${{ secrets.EC2_USER }}/velvet_iron"
            
 
             - name: Deploy via SSH
@@ -102,7 +102,7 @@ jobs:
                   key: ${{ secrets.EC2_SSH_KEY }}
                   port: ${{ secrets.EC2_SSH_PORT }}
                   script: |
-                      cd /home/${{ secrets.EC2_USER }}/server
+                      cd /${{ secrets.EC2_USER }}/velvet_iron
                       # Pull the latest images
                       sudo docker compose --profile prod pull
 
