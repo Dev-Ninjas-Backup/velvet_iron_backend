@@ -354,7 +354,7 @@ export class AuthController {
         username: {
           type: 'string',
           description: 'Unique username (optional)',
-          example: 'john_doe',
+          example: '',
         },
         gender: {
           type: 'string',
