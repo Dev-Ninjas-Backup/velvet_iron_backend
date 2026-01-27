@@ -7,6 +7,7 @@ import {
 import { registerDto } from './dto/register.dto';
 import { UserService } from '../user/user.service';
 import { compareHash, hashText } from '@/common/hashText';
+import { generateStrongPassword } from '@/common/password-generator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { loginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -21,6 +22,8 @@ import { CheckUsernameDto } from './dto/check-username.dto';
 import { UpdateUsernameDto } from './dto/update-username.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ConfigService } from '@nestjs/config';
+import { FirebaseAuthService } from './services/firebase-auth.service';
+import { AwsService } from '../aws/aws.service';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +33,8 @@ export class AuthService {
     private jwtService: JwtService,
     private emailService: EmailService,
     private configService: ConfigService,
+    private firebaseAuthService: FirebaseAuthService,
+    private awsService: AwsService,
   ) {}
 
   async validateUser(emailOrUsername: string, password: string): Promise<any> {
@@ -44,12 +49,10 @@ export class AuthService {
     }
 
     const isPasswordValid = await compareHash(password, user.password);
-
     if (isPasswordValid) {
       const { password, ...result } = user;
       return result;
     }
-
     throw new Error('Invalid credentials');
   }
 
@@ -71,27 +74,24 @@ export class AuthService {
 
     // create a unique username if not provided and if provided check uniqueness
 
-    let username = createAuthDto.name.trim().toLowerCase().replace(/\s+/g, '');
+    let username = createAuthDto.username
+      ? createAuthDto.username.trim().toLowerCase().replace(/\s+/g, '')
+      : createAuthDto.name.trim().toLowerCase().replace(/\s+/g, '');
     let isUnique = false;
 
     while (!isUnique) {
       const exists = await this.Prisma.client.user.findUnique({
         where: { username },
       });
-      console.log(username);
 
       if (!exists) {
         isUnique = true;
       } else {
-        // example: johndoe65454
-
         username = `${username}${Math.floor(Math.random() * 100000)}`;
       }
     }
 
     const passwordHash = await hashText(createAuthDto.password);
-
-    console.log(createAuthDto.password, passwordHash);
 
     // Generate OTP for email verification
     const otp = this.generateOtp();
@@ -105,13 +105,17 @@ export class AuthService {
       emailVerificationExpiry: otpExpiry,
     };
 
-    // Send verification email
-    await this.emailService.sendVerificationOtp(
-      createAuthDto.email,
-      otp,
-      createAuthDto.name || 'User',
+    // Send verification email if required
+    const verificationRequired = this.configService.get<string>(
+      'EMAIL_VERIFICATION_REQUIRED',
     );
-
+    if (verificationRequired === 'true') {
+      await this.emailService.sendVerificationOtp(
+        createAuthDto.email,
+        otp,
+        createAuthDto.name || 'User',
+      );
+    }
     const user = await this.Prisma.client.user.create({
       data: payload,
     });
@@ -134,7 +138,7 @@ export class AuthService {
       'EMAIL_VERIFICATION_REQUIRED',
     );
     if (verificationRequired === 'true') {
-      // Check if email is verified
+      // Check if email verification is required
       if (!user.emailVerified) {
         throw new UnauthorizedException(
           'Please verify your email before logging in',
@@ -153,36 +157,72 @@ export class AuthService {
 
   async generateTokens(user: any) {
     const accessTokenExpiration =
-      Number(this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_M')) || 15; // 15 minutes
+      //convert day from milliseconds
+      Number(this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_MS')) /
+        86400000 || 15; // 15 minutes
     const refreshTokenExpiration =
-      Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_DD')) ||
-      7;
-    // const refreshTokenExpirationDays = Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_DD')) || 7;
-    const accessToken = this.jwtService.sign(user, {
-      // expiresIn: `${accessTokenExpiration}m`,
-      expiresIn: '10s',
+      //convert days from milliseconds
+      Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS')) /
+        86400000 || 7;
+
+    // Minimal token payload - only essential claims
+    const tokenPayload = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
+
+    const accessToken = this.jwtService.sign(tokenPayload, {
+      expiresIn: `${accessTokenExpiration}d`,
+      // expiresIn: this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_MS'),
     } as any);
 
-    const refreshToken = this.jwtService.sign(user, {
-      // expiresIn: `${refreshTokenExpiration}d`,
-      expiresIn: '20s',
+    const refreshToken = this.jwtService.sign(tokenPayload, {
+      expiresIn: `${refreshTokenExpiration}d`,
+      // expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS'),
     } as any);
-
-    // Store refresh token in session
-    await this.Prisma.client.session.create({
-      data: {
-        userId: user.id,
-        refreshToken,
-        expiresAt: new Date(
-          Date.now() + refreshTokenExpiration * 24 * 60 * 60 * 1000,
-        ),
-      },
-    });
 
     return {
       access_token: accessToken,
       refresh_token: refreshToken,
     };
+  }
+
+  async generateRefreshTokenOnly(user: any, oldRefreshToken?: string) {
+    const refreshTokenExpiration =
+      Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS')) /
+        86400000 || 7;
+
+    // Minimal token payload - only essential claims
+    const tokenPayload = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
+
+    const refreshToken = this.jwtService.sign(tokenPayload, {
+      expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS'),
+    } as any);
+
+    return refreshToken;
+  }
+
+  async generateAccessTokenOnly(user: any) {
+    // Minimal token payload - only essential claims
+    const tokenPayload = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
+
+    const accessToken = this.jwtService.sign(tokenPayload, {
+      expiresIn: this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_MS'),
+    } as any);
+
+    return accessToken;
   }
 
   async validateRefreshToken(userId: string, refreshToken: string) {
@@ -200,17 +240,17 @@ export class AuthService {
     return true;
   }
 
-  async logout(userId: string, refreshToken: string) {
+  async logout(userId: string) {
     await this.Prisma.client.session.deleteMany({
       where: {
         userId,
-        refreshToken,
       },
     });
 
     return {
       success: true,
       message: 'Logged out successfully',
+      userId,
     };
   }
 
@@ -344,7 +384,7 @@ export class AuthService {
       // Don't reveal if user exists
       return {
         success: true,
-        message: 'If the email exists, a reset code has been sent',
+        message: 'user not found',
       };
     }
 
@@ -596,16 +636,12 @@ export class AuthService {
   async getMe(userId: string) {
     const user = await this.Prisma.client.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        name: true,
-        avatar: true,
-        emailVerified: true,
-        role: true,
-        createdAt: true,
-        updatedAt: true,
+      omit: {
+        password: true,
+        emailVerificationOtp: true,
+        emailVerificationExpiry: true,
+        resetPasswordOtp: true,
+        resetPasswordOtpExpiry: true,
       },
     });
 
@@ -616,15 +652,114 @@ export class AuthService {
     return user;
   }
 
-  async updateProfile(userId: string, dto: UpdateProfileDto) {
-    await this.Prisma.client.user.update({
+  async updateProfile(
+    userId: string,
+    dto: UpdateProfileDto,
+    files?: {
+      profilePhoto?: Express.Multer.File[];
+      avatar?: Express.Multer.File[];
+    },
+  ) {
+    const updateData: any = {};
+
+    // Add name if provided
+    if (dto.name) {
+      updateData.name = dto.name;
+    }
+
+    // Add username if provided
+    if (dto.username) {
+      // Check if username is already taken
+      const existingUser = await this.Prisma.client.user.findUnique({
+        where: { username: dto.username },
+      });
+      if (existingUser && existingUser.id !== userId) {
+        throw new BadRequestException('Username already taken');
+      }
+      updateData.username = dto.username;
+    }
+
+    // Add gender if provided
+    if (dto.gender) {
+      updateData.gender = dto.gender;
+    }
+ 
+    // Add dateOfBirth if provided
+    if (dto.dateOfBirth) {
+      updateData.dateOfBirth = new Date(dto.dateOfBirth);
+    }
+
+    // Handle profilePhoto upload
+    if (files?.profilePhoto?.[0]) {
+      const uploadResult = await this.awsService.uploadProfilePhoto(
+        userId,
+        files.profilePhoto[0],
+      );
+      updateData.profilePhoto = uploadResult.url;
+    }
+
+    // Handle avatar upload
+    if (files?.avatar?.[0]) {
+      const uploadResult = await this.awsService.uploadProfilePhoto(
+        userId,
+        files.avatar[0],
+      );
+      updateData.avatar = uploadResult.url;
+    }
+
+    // If no data to update, just return current user
+    if (Object.keys(updateData).length === 0) {
+      const user = await this.Prisma.client.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          name: true,
+          avatar: true,
+          profilePhoto: true,
+          gender: true,
+          dateOfBirth: true,
+          emailVerified: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      return {
+        success: true,
+        message: 'No updates provided',
+        user,
+      };
+    }
+
+    // Update user in database and return updated user
+    const updatedUser = await this.Prisma.client.user.update({
       where: { id: userId },
-      data: dto,
+      data: updateData,
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        name: true,
+        avatar: true,
+        profilePhoto: true,
+        gender: true,
+        dateOfBirth: true,
+        emailVerified: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
     return {
       success: true,
       message: 'Profile updated successfully',
+      user: updatedUser,
     };
   }
 
@@ -643,5 +778,222 @@ export class AuthService {
     });
 
     return sessions;
+  }
+
+  // ==================== Firebase OAuth (Google, Apple, Facebook, GitHub, etc.) ====================
+
+  async verifyFirebaseToken(token: string) {
+    try {
+      if (!token) {
+        throw new UnauthorizedException('Firebase token is required');
+      }
+      const firebaseUserData =
+        await this.firebaseAuthService.verifyFirebaseToken(token);
+      return await this.firebaseAuthCallback(firebaseUserData);
+    } catch (error: any) {
+      console.error('❌ Firebase token verification error:', error);
+      // Pass through the detailed error message from firebase-auth.service
+      throw error;
+    }
+  }
+
+  async firebaseAuthCallback(firebaseUserData: any) {
+    try {
+      // Check if user exists with Google ID or email
+      let user = await this.Prisma.client.user.findFirst({
+        where: {
+          OR: [
+            { googleId: firebaseUserData.uid },
+            { email: firebaseUserData.email },
+          ],
+        },
+      });
+
+      const isNewUser = !user;
+      let generatedPassword: string | null = null;
+
+      // If user doesn't exist, create new user
+      if (!user) {
+        // Generate strong password
+        generatedPassword = generateStrongPassword();
+        const passwordHash = await hashText(generatedPassword);
+
+        const username = await this.generateUniqueUsername(
+          firebaseUserData.name || 'user',
+        );
+
+        user = await this.Prisma.client.user.create({
+          data: {
+            id: this.generateUserId(),
+            email: firebaseUserData.email,
+            name: firebaseUserData.name || 'User',
+            avatar:
+              firebaseUserData.picture ||
+              'https://i.pinimg.com/236x/1a/a8/d7/1aa8d75f3498784bcd2617b3e3d1e0c4.jpg',
+            googleId: firebaseUserData.uid,
+            emailVerified: firebaseUserData.emailVerified || true,
+            username,
+            password: passwordHash, // Store hashed password
+          },
+        });
+
+        // Send password email to new user
+        try {
+          await this.emailService.sendGoogleAuthPassword(
+            user.email,
+            generatedPassword,
+            user.username || 'User',
+            user.name || 'User',
+          );
+        } catch (emailError) {
+          console.error('⚠️ Failed to send password email:', emailError);
+          // Don't throw - user was created successfully, email failure is not critical
+        }
+      } else if (!user.googleId) {
+        // Link Google ID to existing user
+        user = await this.Prisma.client.user.update({
+          where: { id: user.id },
+          data: {
+            googleId: firebaseUserData.uid,
+            emailVerified: true,
+          },
+        });
+      }
+
+      // Remove password from response
+      const { password, ...userWithoutPassword } = user;
+
+      // Generate tokens
+      const tokens = await this.generateTokens(userWithoutPassword);
+
+      return {
+        success: true,
+        message: isNewUser
+          ? 'Account created successfully. Check your email for password details.'
+          : user.googleId === firebaseUserData.uid
+            ? 'Login successful'
+            : 'Account linked successfully',
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+        user: userWithoutPassword,
+      };
+    } catch (error) {
+      console.error('❌ Firebase auth callback error:', error);
+      throw error;
+    }
+  }
+
+  private async generateUniqueUsername(baseName: string): Promise<string> {
+    let username = baseName.trim().toLowerCase().replace(/\s+/g, '');
+    let isUnique = false;
+    let attempt = 0;
+
+    while (!isUnique && attempt < 10) {
+      const exists = await this.Prisma.client.user.findUnique({
+        where: { username },
+      });
+
+      if (!exists) {
+        isUnique = true;
+      } else {
+        username = `${baseName.toLowerCase().replace(/\s+/g, '')}${Math.floor(Math.random() * 10000)}`;
+        attempt++;
+      }
+    }
+
+    return username;
+  }
+
+  // ==================== Discord OAuth ====================
+
+  async discordAuthCallback(discordUserData: any) {
+    try {
+      // Check if user exists with Discord ID or email
+      let user = await this.Prisma.client.user.findFirst({
+        where: {
+          OR: [
+            { discord: discordUserData.discordId },
+            { email: discordUserData.email },
+          ],
+        },
+      });
+
+      const isNewUser = !user;
+      let generatedPassword: string | null = null;
+
+      // If user doesn't exist, create new user
+      if (!user) {
+        // Generate strong password
+        generatedPassword = generateStrongPassword();
+        const passwordHash = await hashText(generatedPassword);
+
+        const username = await this.generateUniqueUsername(
+          discordUserData.username || 'user',
+        );
+
+        user = await this.Prisma.client.user.create({
+          data: {
+            id: this.generateUserId(),
+            email: discordUserData.email,
+            name:
+              discordUserData.name ||
+              discordUserData.username ||
+              'Discord User',
+            avatar: discordUserData.avatar,
+            discord: discordUserData.discordId,
+            emailVerified: true, // Discord verifies emails
+            username,
+            password: passwordHash, // Store hashed password
+          },
+        });
+
+        // Send password email to new user
+        try {
+          await this.emailService.sendGoogleAuthPassword(
+            user.email,
+            generatedPassword,
+            user.username || 'User',
+            user.name || 'User',
+          );
+        } catch (emailError) {
+          console.error('⚠️ Failed to send password email:', emailError);
+          // Don't throw - user was created successfully, email failure is not critical
+        }
+      } else if (!user.discord) {
+        // Link Discord ID to existing user
+        user = await this.Prisma.client.user.update({
+          where: { id: user.id },
+          data: {
+            discord: discordUserData.discordId,
+            emailVerified: true,
+          },
+        });
+      }
+
+      // Remove password from response
+      const { password, ...userWithoutPassword } = user;
+
+      // Generate tokens
+      const tokens = await this.generateTokens(userWithoutPassword);
+
+      return {
+        success: true,
+        message: isNewUser
+          ? 'Account created successfully. Check your email for password details.'
+          : user.discord === discordUserData.discordId
+            ? 'Login successful'
+            : 'Account linked successfully',
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+        user: userWithoutPassword,
+      };
+    } catch (error) {
+      console.error('❌ Discord auth callback error:', error);
+      throw error;
+    }
+  }
+
+  private generateUserId(): string {
+    return `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 }

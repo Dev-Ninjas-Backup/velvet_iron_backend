@@ -1,21 +1,20 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
     container_name: auth_postgress
-    restart: always
+    restart: unless-stopped
     profiles:
       - prod
       - dev
+      - server
     env_file:
       - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    # ports:
-    #   - '${POSTGRES_PORT:-5432}:5432'
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -26,19 +25,55 @@ services:
     networks:
       - app-network
 
-  app:
-    image: shamimrana2006/velvet_iron:latest
-    container_name: velvet_iron_app
-    restart: always
+  server:
+    image: shamimrana2006/server:latest
+    container_name: server
+    restart: unless-stopped
     profiles:
       - prod
+      - server
     env_file:
       - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       NODE_ENV: production
     ports:
-      - '5090:5090'
+      - '5090:6545'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend:
+    image: shamimrana2006/frontend:latest
+    container_name: frontend
+    restart: unless-stopped
+    profiles:
+      - prod
+      - frontend
+    env_file:
+      - .env.local
+    ports:
+      - '5080:8545'
+    networks:
+      - app-network
+
+  prisma-studio:
+    image: shamimrana2006/server:latest
+    container_name: prisma_studio
+    restart: unless-stopped
+    profiles:
+      - prod
+      - dev
+      - server
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    ports:
+      - '7896:5555'
+    command: npx prisma studio --port 5555 --browser none
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,21 +81,24 @@ services:
       - app-network
 
   caddy:
-    image: caddy:2-alpine
-    container_name: velvet_iron_caddy
-    restart: always
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
     profiles:
       - prod
+      - caddy
     ports:
       - '80:80'
       - '443:443'
-      - '443:443/udp'
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
-      - app
+      server:
+        condition: service_started
+      frontend:
+        condition: service_started
     networks:
       - app-network
 
@@ -70,5 +108,6 @@ networks:
 
 volumes:
   postgres_data:
+  pgadmin_data:
   caddy_data:
   caddy_config:

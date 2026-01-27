@@ -6,14 +6,18 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalStrategy } from '@/lib/strategy/local.strategy';
 import { JwtStrategy } from '@/lib/strategy/jwt';
+import { DiscordStrategy } from '@/lib/strategy/discord.strategy';
 import { EmailModule } from '../email/email.module';
 import { PassportModule } from '@nestjs/passport';
+import { FirebaseAuthService } from './services/firebase-auth.service';
+import { AwsModule } from '../aws/aws.module';
 
 @Module({
   imports: [
     UserModule,
     EmailModule,
     PassportModule,
+    AwsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,7 +28,13 @@ import { PassportModule } from '@nestjs/passport';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
-  exports: [AuthService, JwtModule],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    DiscordStrategy,
+    FirebaseAuthService,
+  ],
+  exports: [AuthService, JwtModule, FirebaseAuthService],
 })
 export class AuthModule {}
