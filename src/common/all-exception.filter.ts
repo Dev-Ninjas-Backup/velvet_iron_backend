@@ -8,7 +8,6 @@ import {
 import { Request, Response } from 'express';
 import { Prisma } from 'generated/client';
 
-
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -26,16 +25,11 @@ export class AllExceptionFilter implements ExceptionFilter {
       status = exception.getStatus();
       const res = exception.getResponse();
 
-      message =
-        typeof res === 'string'
-          ? res
-          : (res as any).message || res;
-    }
-
-    /* ===============================
+      message = typeof res === 'string' ? res : (res as any).message || res;
+    } else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+      /* ===============================
         2️⃣ Prisma Known Errors
     ================================ */
-    else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
         case 'P2002':
           status = HttpStatus.CONFLICT;
@@ -56,20 +50,16 @@ export class AllExceptionFilter implements ExceptionFilter {
           status = HttpStatus.BAD_REQUEST;
           message = exception.message;
       }
-    }
-
-    /* ===============================
+    } else if (exception instanceof Prisma.PrismaClientValidationError) {
+      /* ===============================
         3️⃣ Prisma Validation Error
     ================================ */
-    else if (exception instanceof Prisma.PrismaClientValidationError) {
       status = HttpStatus.BAD_REQUEST;
       message = 'Invalid prisma query data';
-    }
-
-    /* ===============================
+    } else if (exception instanceof Error) {
+      /* ===============================
         4️⃣ Normal JS Error
     ================================ */
-    else if (exception instanceof Error) {
       message = exception.message;
     }
 
