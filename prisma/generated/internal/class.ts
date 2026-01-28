@@ -17,8 +17,8 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.2.0",
-  "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
+  "clientVersion": "7.3.0",
+  "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
   "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n// Simple User Model for Authentication\nmodel User {\n  id       String  @id @default(uuid())\n  email    String  @unique\n  username String? @unique\n  password String? // Hashed password (null for OAuth users)\n\n  // Profile\n  name         String?\n  avatar       String    @default(\"https://i.pinimg.com/236x/1a/a8/d7/1aa8d75f3498784bcd2617b3e3d1e0c4.jpg\")\n  profilePhoto String?\n  gender       String? // MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY\n  dateOfBirth  DateTime?\n\n  // Email Verification\n  emailVerified           Boolean   @default(false)\n  emailVerificationOtp    String?\n  emailVerificationExpiry DateTime?\n\n  // Password Reset\n  resetPasswordOtp       String?\n  resetPasswordOtpExpiry DateTime?\n  resetPasswordVerified  Boolean   @default(false)\n\n  // OAuth Providers\n  googleId String? @unique\n  githubId String? @unique\n  discord  String? @unique\n\n  // Role & Status\n  role     UserRole @default(USER)\n  isActive Boolean  @default(true)\n\n  // Timestamps\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  refreshTokens RefreshToken[]\n  sessions      Session[]\n\n  @@index([email])\n  @@map(\"users\")\n}\n\nenum UserRole {\n  SUPER_ADMIN\n  ADMIN\n  USER\n}\n\n// Refresh Token for JWT\nmodel RefreshToken {\n  id        String   @id @default(uuid())\n  token     String   @unique\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"refresh_tokens\")\n}\n\n// Session tracking for multi-device support\nmodel Session {\n  id           String   @id @default(uuid())\n  userId       String\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  deviceInfo   String?\n  ipAddress    String?\n  refreshToken String   @unique\n  expiresAt    DateTime\n  createdAt    DateTime @default(now())\n  lastActivity DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"sessions\")\n}\n",
   "runtimeDataModel": {
@@ -37,12 +37,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.js"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.js")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 

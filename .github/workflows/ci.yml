@@ -19,7 +19,7 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --force
 
       - name: Run tests
         run: pnpm format
