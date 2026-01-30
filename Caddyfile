@@ -9,7 +9,7 @@
 
 # Backend API
 0.0.0.0:8000, velvet.api.softvence.app {
-    reverse_proxy localhost:9050
+    reverse_proxy host.docker.internal:9050
 }
 
 # prisma studio
