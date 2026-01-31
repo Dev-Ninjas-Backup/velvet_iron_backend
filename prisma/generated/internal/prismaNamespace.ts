@@ -680,6 +680,8 @@ export const UserScalarFieldEnum = {
   resetPasswordOtp: 'resetPasswordOtp',
   resetPasswordOtpExpiry: 'resetPasswordOtpExpiry',
   resetPasswordVerified: 'resetPasswordVerified',
+  dateOfBirth: 'dateOfBirth',
+  gender: 'gender',
   googleId: 'googleId',
   githubId: 'githubId',
   discord: 'discord',
@@ -779,6 +781,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Gender'
+ */
+export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+/**
+ * Reference to a field of type 'Gender[]'
+ */
+export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
     
 
 
