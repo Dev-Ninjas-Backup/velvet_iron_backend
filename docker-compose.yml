@@ -90,6 +90,8 @@ services:
       - caddy
     ports:
       - '80:80'
+      - '8000:8000'
+      - '8001:8001'
       - '443:443'
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
