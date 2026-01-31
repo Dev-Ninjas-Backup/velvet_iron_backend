@@ -53,7 +53,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Authentication API')
+    .setTitle(`${process.env.SERVER_NAME} API`)
     .setDescription('Authentication and User Management API')
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
@@ -129,7 +129,7 @@ async function bootstrap() {
 
     return document;
   };
-  
+
   SwaggerModule.setup('api-docs', app, documentFactory, {
     swaggerOptions: {
       persistAuthorization: true,
