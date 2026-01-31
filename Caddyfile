@@ -9,7 +9,7 @@
 
 # Backend API
 :8000, velvet.api.softvence.app {
-    reverse_proxy host.docker.internal:9050
+    reverse_proxy velvet_backend:3200
 }
 
 # prisma studio
@@ -17,5 +17,7 @@
      basicauth {
         shamimrana2006 $2y$10$/x6ntJtyiAp/NAJlWZlYK.ikj517KYpgqgC.pg4xY32LrLpH6qc6y
     }
-    reverse_proxy host.docker.internal:8462
+    reverse_proxy velvet_backend_postgres:7896
 }
+
+

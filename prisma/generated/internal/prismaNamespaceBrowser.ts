@@ -85,6 +85,8 @@ export const UserScalarFieldEnum = {
   resetPasswordOtp: 'resetPasswordOtp',
   resetPasswordOtpExpiry: 'resetPasswordOtpExpiry',
   resetPasswordVerified: 'resetPasswordVerified',
+  dateOfBirth: 'dateOfBirth',
+  gender: 'gender',
   googleId: 'googleId',
   githubId: 'githubId',
   discord: 'discord',

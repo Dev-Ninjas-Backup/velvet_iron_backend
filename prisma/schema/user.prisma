@@ -19,6 +19,9 @@ model User {
     resetPasswordOtpExpiry DateTime?
     resetPasswordVerified  Boolean   @default(false)
 
+    dateOfBirth DateTime?
+    gender      Gender?
+
     // OAuth Providers
     googleId String? @unique
     githubId String? @unique
@@ -44,6 +47,12 @@ enum UserRole {
     SUPER_ADMIN
     ADMIN
     USER
+}
+
+enum Gender {
+    MALE
+    FEMALE
+    OTHER
 }
 
 // Refresh Token for JWT
