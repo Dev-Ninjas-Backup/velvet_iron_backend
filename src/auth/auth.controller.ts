@@ -24,7 +24,6 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { CheckUsernameDto } from './dto/check-username.dto';
 import { UpdateUsernameDto } from './dto/update-username.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { ConfigService } from '@nestjs/config';
 import {
   ValidUser,
