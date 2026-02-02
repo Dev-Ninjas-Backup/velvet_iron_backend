@@ -5,6 +5,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm
 RUN pnpm install
 RUN npm install -g prisma
+run pnpm add express
 
 COPY prisma ./prisma
 COPY prisma.config.ts ./
