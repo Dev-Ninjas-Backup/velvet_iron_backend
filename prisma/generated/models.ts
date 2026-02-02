@@ -8,6 +8,22 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/UserProfile'
+export type * from './models/Theme'
+export type * from './models/Companion'
+export type * from './models/UserTheme'
+export type * from './models/UserCompanion'
+export type * from './models/WeightLog'
+export type * from './models/MoodLog'
+export type * from './models/MealSchedule'
+export type * from './models/MealLog'
+export type * from './models/Medication'
+export type * from './models/MedicationSchedule'
+export type * from './models/MedicationLog'
+export type * from './models/ExerciseLog'
+export type * from './models/Quest'
+export type * from './models/UserQuest'
+export type * from './models/Subscription'
 export type * from './models/User'
 export type * from './models/RefreshToken'
 export type * from './models/Session'

@@ -1,0 +1,77 @@
+// User Profile with XP and Level
+model UserProfile {
+    id                String     @id @default(uuid())
+    userId            String     @unique
+    user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    activeThemeId     String?
+    activeTheme       Theme?     @relation("ActiveTheme", fields: [activeThemeId], references: [id])
+    activeCompanionId String?
+    activeCompanion   Companion? @relation("ActiveCompanion", fields: [activeCompanionId], references: [id])
+    xp                Int        @default(0)
+    level             Int        @default(1)
+    createdAt         DateTime   @default(now())
+    updatedAt         DateTime   @updatedAt
+
+    @@index([userId])
+    @@map("user_profiles")
+}
+
+// Themes (Admin creates these)
+model Theme {
+    id          String        @id @default(uuid())
+    name        String        @unique
+    tagline     String?
+    description String?
+    unlockXp    Int           @default(0) // XP required to unlock
+    createdAt   DateTime      @default(now())
+    userThemes  UserTheme[]
+    activeUsers UserProfile[] @relation("ActiveTheme")
+
+    @@map("themes")
+}
+
+// Companions (Admin creates these)
+model Companion {
+    id             String          @id @default(uuid())
+    name           String
+    title          String?
+    quote          String?
+    unlockXp       Int             @default(0) // XP required to unlock
+    createdAt      DateTime        @default(now())
+    userCompanions UserCompanion[]
+    activeUsers    UserProfile[]   @relation("ActiveCompanion")
+
+    @@map("companions")
+}
+
+// User's unlocked themes
+model UserTheme {
+    id         String   @id @default(uuid())
+    userId     String
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    themeId    String
+    theme      Theme    @relation(fields: [themeId], references: [id], onDelete: Cascade)
+    unlockedAt DateTime @default(now())
+    isActive   Boolean  @default(false)
+
+    @@unique([userId, themeId]) // A user can only unlock a theme once
+    @@index([userId])
+    @@index([themeId])
+    @@map("user_themes")
+}
+
+// User's unlocked companions
+model UserCompanion {
+    id          String    @id @default(uuid())
+    userId      String
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    companionId String
+    companion   Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+    unlockedAt  DateTime  @default(now())
+    isActive    Boolean   @default(false)
+
+    @@unique([userId, companionId]) // A user can only unlock a companion once
+    @@index([userId])
+    @@index([companionId])
+    @@map("user_companions")
+}

@@ -1,0 +1,121 @@
+// Weight Logs
+model WeightLog {
+    id       String   @id @default(uuid())
+    userId   String
+    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    weight   Decimal  @db.Decimal(5, 2) // e.g., 75.50 kg
+    note     String?
+    loggedAt DateTime @default(now())
+
+    @@index([userId])
+    @@index([loggedAt])
+    @@map("weight_logs")
+}
+
+// Mood Logs
+model MoodLog {
+    id          String   @id @default(uuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mood        String // HAPPY, SAD, ANXIOUS, CALM, etc.
+    energyLevel String? // LOW, MEDIUM, HIGH
+    hungerLevel String? // LOW, MEDIUM, HIGH
+    note        String?
+    loggedAt    DateTime @default(now())
+
+    @@index([userId])
+    @@index([loggedAt])
+    @@map("mood_logs")
+}
+
+// Meal Schedules
+model MealSchedule {
+    id          String   @id @default(uuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mealType    String // BREAKFAST, LUNCH, DINNER, SNACK
+    scheduledAt DateTime
+
+    @@index([userId])
+    @@index([scheduledAt])
+    @@map("meal_schedules")
+}
+
+// Meal Logs
+model MealLog {
+    id          String   @id @default(uuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mealType    String // BREAKFAST, LUNCH, DINNER, SNACK
+    description String?
+    calories    Int?
+    carbs       Int?
+    protein     Int?
+    fats        Int?
+    loggedAt    DateTime @default(now())
+
+    @@index([userId])
+    @@index([loggedAt])
+    @@map("meal_logs")
+}
+
+// Medications
+model Medication {
+    id                  String               @id @default(uuid())
+    userId              String
+    user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name                String
+    type                String? // PILL, INJECTION, LIQUID, etc.
+    createdAt           DateTime             @default(now())
+    medicationSchedules MedicationSchedule[]
+    medicationLogs      MedicationLog[]
+
+    @@index([userId])
+    @@map("medications")
+}
+
+// Medication Schedules
+model MedicationSchedule {
+    id           String     @id @default(uuid())
+    userId       String
+    user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    medicationId String
+    medication   Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+    doseMg       Decimal    @db.Decimal(10, 2) // e.g., 500.00 mg
+    scheduleTime DateTime
+
+    @@index([userId])
+    @@index([medicationId])
+    @@index([scheduleTime])
+    @@map("medication_schedules")
+}
+
+// Medication Logs
+model MedicationLog {
+    id           String     @id @default(uuid())
+    medicationId String
+    medication   Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+    doseMg       Decimal    @db.Decimal(10, 2) // e.g., 500.00 mg
+    takenAt      DateTime   @default(now())
+
+    @@index([medicationId])
+    @@index([takenAt])
+    @@map("medication_logs")
+}
+
+// Exercise Logs
+model ExerciseLog {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    type      String // CARDIO, STRENGTH, FLEXIBILITY, etc.
+    name      String // Running, Push-ups, Yoga, etc.
+    intensity String? // LOW, MEDIUM, HIGH
+    duration  Int? // in minutes
+    note      String?
+    loggedAt  DateTime @default(now())
+
+    @@index([userId])
+    @@index([loggedAt])
+    @@map("exercise_logs")
+}

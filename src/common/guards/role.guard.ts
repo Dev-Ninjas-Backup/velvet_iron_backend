@@ -16,6 +16,8 @@ export class RoleGuard implements CanActivate {
       context.getHandler(),
     );
 
+    
+
     if (!requiredRoles) {
       return true; // No roles required
     }
@@ -26,6 +28,7 @@ export class RoleGuard implements CanActivate {
     if (!user || !user.role) {
       throw new ForbiddenException('User role not found');
     }
+
 
     if (!requiredRoles.includes(user.role)) {
       throw new ForbiddenException(

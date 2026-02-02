@@ -18,6 +18,86 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model UserProfile
+ * 
+ */
+export type UserProfile = Prisma.UserProfileModel
+/**
+ * Model Theme
+ * 
+ */
+export type Theme = Prisma.ThemeModel
+/**
+ * Model Companion
+ * 
+ */
+export type Companion = Prisma.CompanionModel
+/**
+ * Model UserTheme
+ * 
+ */
+export type UserTheme = Prisma.UserThemeModel
+/**
+ * Model UserCompanion
+ * 
+ */
+export type UserCompanion = Prisma.UserCompanionModel
+/**
+ * Model WeightLog
+ * 
+ */
+export type WeightLog = Prisma.WeightLogModel
+/**
+ * Model MoodLog
+ * 
+ */
+export type MoodLog = Prisma.MoodLogModel
+/**
+ * Model MealSchedule
+ * 
+ */
+export type MealSchedule = Prisma.MealScheduleModel
+/**
+ * Model MealLog
+ * 
+ */
+export type MealLog = Prisma.MealLogModel
+/**
+ * Model Medication
+ * 
+ */
+export type Medication = Prisma.MedicationModel
+/**
+ * Model MedicationSchedule
+ * 
+ */
+export type MedicationSchedule = Prisma.MedicationScheduleModel
+/**
+ * Model MedicationLog
+ * 
+ */
+export type MedicationLog = Prisma.MedicationLogModel
+/**
+ * Model ExerciseLog
+ * 
+ */
+export type ExerciseLog = Prisma.ExerciseLogModel
+/**
+ * Model Quest
+ * 
+ */
+export type Quest = Prisma.QuestModel
+/**
+ * Model UserQuest
+ * 
+ */
+export type UserQuest = Prisma.UserQuestModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
  * Model User
  * 
  */

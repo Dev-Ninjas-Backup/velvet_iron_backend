@@ -51,6 +51,22 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  UserProfile: 'UserProfile',
+  Theme: 'Theme',
+  Companion: 'Companion',
+  UserTheme: 'UserTheme',
+  UserCompanion: 'UserCompanion',
+  WeightLog: 'WeightLog',
+  MoodLog: 'MoodLog',
+  MealSchedule: 'MealSchedule',
+  MealLog: 'MealLog',
+  Medication: 'Medication',
+  MedicationSchedule: 'MedicationSchedule',
+  MedicationLog: 'MedicationLog',
+  ExerciseLog: 'ExerciseLog',
+  Quest: 'Quest',
+  UserQuest: 'UserQuest',
+  Subscription: 'Subscription',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session'
@@ -70,6 +86,196 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  activeThemeId: 'activeThemeId',
+  activeCompanionId: 'activeCompanionId',
+  xp: 'xp',
+  level: 'level',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tagline: 'tagline',
+  description: 'description',
+  unlockXp: 'unlockXp',
+  createdAt: 'createdAt'
+} as const
+
+export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
+
+
+export const CompanionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  title: 'title',
+  quote: 'quote',
+  unlockXp: 'unlockXp',
+  createdAt: 'createdAt'
+} as const
+
+export type CompanionScalarFieldEnum = (typeof CompanionScalarFieldEnum)[keyof typeof CompanionScalarFieldEnum]
+
+
+export const UserThemeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  themeId: 'themeId',
+  unlockedAt: 'unlockedAt',
+  isActive: 'isActive'
+} as const
+
+export type UserThemeScalarFieldEnum = (typeof UserThemeScalarFieldEnum)[keyof typeof UserThemeScalarFieldEnum]
+
+
+export const UserCompanionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companionId: 'companionId',
+  unlockedAt: 'unlockedAt',
+  isActive: 'isActive'
+} as const
+
+export type UserCompanionScalarFieldEnum = (typeof UserCompanionScalarFieldEnum)[keyof typeof UserCompanionScalarFieldEnum]
+
+
+export const WeightLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  weight: 'weight',
+  note: 'note',
+  loggedAt: 'loggedAt'
+} as const
+
+export type WeightLogScalarFieldEnum = (typeof WeightLogScalarFieldEnum)[keyof typeof WeightLogScalarFieldEnum]
+
+
+export const MoodLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mood: 'mood',
+  energyLevel: 'energyLevel',
+  hungerLevel: 'hungerLevel',
+  note: 'note',
+  loggedAt: 'loggedAt'
+} as const
+
+export type MoodLogScalarFieldEnum = (typeof MoodLogScalarFieldEnum)[keyof typeof MoodLogScalarFieldEnum]
+
+
+export const MealScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mealType: 'mealType',
+  scheduledAt: 'scheduledAt'
+} as const
+
+export type MealScheduleScalarFieldEnum = (typeof MealScheduleScalarFieldEnum)[keyof typeof MealScheduleScalarFieldEnum]
+
+
+export const MealLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mealType: 'mealType',
+  description: 'description',
+  calories: 'calories',
+  carbs: 'carbs',
+  protein: 'protein',
+  fats: 'fats',
+  loggedAt: 'loggedAt'
+} as const
+
+export type MealLogScalarFieldEnum = (typeof MealLogScalarFieldEnum)[keyof typeof MealLogScalarFieldEnum]
+
+
+export const MedicationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof typeof MedicationScalarFieldEnum]
+
+
+export const MedicationScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  medicationId: 'medicationId',
+  doseMg: 'doseMg',
+  scheduleTime: 'scheduleTime'
+} as const
+
+export type MedicationScheduleScalarFieldEnum = (typeof MedicationScheduleScalarFieldEnum)[keyof typeof MedicationScheduleScalarFieldEnum]
+
+
+export const MedicationLogScalarFieldEnum = {
+  id: 'id',
+  medicationId: 'medicationId',
+  doseMg: 'doseMg',
+  takenAt: 'takenAt'
+} as const
+
+export type MedicationLogScalarFieldEnum = (typeof MedicationLogScalarFieldEnum)[keyof typeof MedicationLogScalarFieldEnum]
+
+
+export const ExerciseLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  name: 'name',
+  intensity: 'intensity',
+  duration: 'duration',
+  note: 'note',
+  loggedAt: 'loggedAt'
+} as const
+
+export type ExerciseLogScalarFieldEnum = (typeof ExerciseLogScalarFieldEnum)[keyof typeof ExerciseLogScalarFieldEnum]
+
+
+export const QuestScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  category: 'category',
+  xpReward: 'xpReward',
+  isDaily: 'isDaily'
+} as const
+
+export type QuestScalarFieldEnum = (typeof QuestScalarFieldEnum)[keyof typeof QuestScalarFieldEnum]
+
+
+export const UserQuestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  questId: 'questId',
+  completed: 'completed',
+  date: 'date'
+} as const
+
+export type UserQuestScalarFieldEnum = (typeof UserQuestScalarFieldEnum)[keyof typeof UserQuestScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  plan: 'plan',
+  price: 'price',
+  status: 'status',
+  startedAt: 'startedAt',
+  expiresAt: 'expiresAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
