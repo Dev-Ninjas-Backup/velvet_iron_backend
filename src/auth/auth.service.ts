@@ -662,13 +662,13 @@ export class AuthService {
   ) {
     const updateData: any = {};
 
-    // Add name if provided
-    if (dto.name) {
+    // Add name if provided and not empty
+    if (dto.name && dto.name.trim() !== '') {
       updateData.name = dto.name;
     }
 
-    // Add username if provided
-    if (dto.username) {
+    // Add username if provided and not empty
+    if (dto.username && dto.username.trim() !== '') {
       // Check if username is already taken
       const existingUser = await this.Prisma.client.user.findUnique({
         where: { username: dto.username },
@@ -679,13 +679,13 @@ export class AuthService {
       updateData.username = dto.username;
     }
 
-    // Add gender if provided
+    // Add gender if provided and not empty
     if (dto.gender) {
       updateData.gender = dto.gender;
     }
  
-    // Add dateOfBirth if provided
-    if (dto.dateOfBirth) {
+    // Add dateOfBirth if provided and not empty
+    if (dto.dateOfBirth && dto.dateOfBirth.trim() !== '') {
       updateData.dateOfBirth = new Date(dto.dateOfBirth);
     }
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsEnum, IsDateString } from 'class-validator';
+import { IsOptional, IsString, IsEnum, IsDateString, ValidateIf } from 'class-validator';
 
 export enum GenderEnum {
   MALE = 'MALE',
@@ -15,6 +15,7 @@ export class UpdateProfileDto {
     description: 'User full name',
   })
   @IsOptional()
+  @ValidateIf((o) => o.name !== '' && o.name !== null)
   @IsString()
   name?: string;
 
@@ -24,6 +25,7 @@ export class UpdateProfileDto {
     description: 'Unique username',
   })
   @IsOptional()
+  @ValidateIf((o) => o.username !== '' && o.username !== null)
   @IsString()
   username?: string;
 
@@ -34,6 +36,7 @@ export class UpdateProfileDto {
     description: 'Gender (MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY)',
   })
   @IsOptional()
+  @ValidateIf((o) => o.gender !== '' && o.gender !== null)
   @IsEnum(GenderEnum)
   gender?: GenderEnum;
 
@@ -43,6 +46,7 @@ export class UpdateProfileDto {
     description: 'Date of birth (YYYY-MM-DD format)',
   })
   @IsOptional()
+  @ValidateIf((o) => o.dateOfBirth !== '' && o.dateOfBirth !== null)
   @IsDateString()
   dateOfBirth?: string;
 

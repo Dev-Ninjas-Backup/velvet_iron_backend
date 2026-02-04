@@ -26,6 +26,7 @@ export class registerDto {
   })
   @IsNotEmpty({ message: 'Email is required.' })
   @IsEmail()
+  @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
   @ApiProperty({
