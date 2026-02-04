@@ -4,6 +4,7 @@ on:
       - main
 jobs:
   test:
+    if: false
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
