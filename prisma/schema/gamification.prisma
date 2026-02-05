@@ -2,14 +2,15 @@
 
 // Themes (Admin creates these)
 model Theme {
-    id          String        @id @default(uuid())
-    name        String        @unique
-    tagline     String?
-    description String?
-    unlockXp    Int           @default(0) // XP required to unlock
-    createdAt   DateTime      @default(now())
-    userThemes  UserTheme[]
-    activeUsers UserProfile[] @relation("ActiveTheme")
+    id           String        @id @default(uuid())
+    name         String        @unique
+    tagline      String?
+    description  String?
+    unlockXp     Int           @default(0) // XP required to unlock
+    createdAt    DateTime      @default(now())
+    userThemes   UserTheme[]
+    activeUsers  UserProfile[] @relation("ActiveTheme")
+    userProfiles UserProfile[] @relation("availabalethemes")
 
     @@map("themes")
 }
@@ -24,6 +25,7 @@ model Companion {
     createdAt      DateTime        @default(now())
     userCompanions UserCompanion[]
     activeUsers    UserProfile[]   @relation("ActiveCompanion")
+    userProfiles   UserProfile[]   @relation("availableCompanions")
 
     @@map("companions")
 }

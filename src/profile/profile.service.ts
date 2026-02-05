@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
 import { LeveladdService } from '@/leveladd/leveladd.service';
+import { calculateLevel } from '@/leveladd/levelCalculator';
 
 @Injectable()
 export class ProfileService {
@@ -18,6 +19,8 @@ export class ProfileService {
       },
     });
 
+    let level = calculateLevel(profile?.totalEarnXp || 0);
+
     if (!profile) {
       // Create profile if it doesn't exist
       profile = await this.prisma.client.userProfile.create({
@@ -29,7 +32,12 @@ export class ProfileService {
       });
     }
 
-    return profile;
+    let finalProfile = {
+      ...profile,
+      level,
+    };
+
+    return finalProfile;
   }
 
   async addXp(userId: string, xpAmount: number) {
@@ -43,12 +51,25 @@ export class ProfileService {
           data: { userId, level: 1, totalEarnXp: 0, balanceXp: 0 },
         });
       }
+
+      const updateResult = await this.prisma.client.userProfile.update({
+        where: { userId },
+        data: {
+          balanceXp: {
+            increment: xpAmount,
+          },
+          totalEarnXp: {
+            increment: xpAmount,
+          },
+        },
+      });
+
       const addXP = await this.leveladdService.addXpToUser(userId, xpAmount);
 
       return { message: 'XP added successfully', ...addXP };
     } catch (error) {
       console.log(error);
-      
+
       error.message = 'Failed to add XP: ' + error.message;
       throw error;
     }

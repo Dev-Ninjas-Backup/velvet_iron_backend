@@ -1,5 +1,6 @@
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
+import { calculateLevel } from './levelCalculator';
 
 @Injectable()
 export class LeveladdService {
@@ -21,12 +22,7 @@ export class LeveladdService {
       });
 
       // Calculate the new level based on updated totalEarnXp
-      const level =
-        Math.floor((Number(updateResult.totalEarnXp) - 400) / 150) + 1 >= 50
-          ? 50
-          : Math.floor((Number(updateResult.totalEarnXp) - 400) / 150) + 1 < 1
-            ? 1
-            : Math.floor((Number(updateResult.totalEarnXp) - 400) / 150) + 1;
+      const level =await calculateLevel(updateResult.totalEarnXp);
 
       // Update the level
       const updateLevel = await this.prisma.client.userProfile.update({
