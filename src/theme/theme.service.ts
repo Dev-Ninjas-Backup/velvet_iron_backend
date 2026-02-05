@@ -86,7 +86,7 @@ export class ThemeService {
     }
 
     // Check if user has enough XP
-    if (userProfile.xp < theme.unlockXp) {
+    if (userProfile.balanceXp < theme.unlockXp) {
       throw new BadRequestException('Not enough XP to unlock this theme');
     }
 

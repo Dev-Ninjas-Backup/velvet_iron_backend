@@ -22,10 +22,11 @@ model User {
     resetPasswordOtpExpiry DateTime?
     resetPasswordVerified  Boolean   @default(false)
 
+    onBoarded Boolean @default(false)
     // OAuth Providers
-    googleId String? @unique
-    githubId String? @unique
-    discord  String? @unique
+    googleId  String? @unique
+    githubId  String? @unique
+    discord   String? @unique
 
     // Role & Status
     role     UserRole @default(USER)

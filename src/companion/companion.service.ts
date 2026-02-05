@@ -67,9 +67,9 @@ export class CompanionService {
     }
 
     // Check if user has enough XP
-    if (userProfile.xp < companion.unlockXp) {
-      throw new BadRequestException('Not enough XP to unlock this companion');
-    }
+    // if (userProfile.xp < companion.unlockXp) {
+    //   throw new BadRequestException('Not enough XP to unlock this companion');
+    // }
 
     // Check if already unlocked
     const existingUnlock = await this.prisma.client.userCompanion.findUnique({

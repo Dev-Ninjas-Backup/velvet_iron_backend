@@ -27,12 +27,14 @@ export type AggregateUserProfile = {
 }
 
 export type UserProfileAvgAggregateOutputType = {
-  xp: number | null
+  totalEarnXp: number | null
+  balanceXp: number | null
   level: number | null
 }
 
 export type UserProfileSumAggregateOutputType = {
-  xp: number | null
+  totalEarnXp: number | null
+  balanceXp: number | null
   level: number | null
 }
 
@@ -41,7 +43,8 @@ export type UserProfileMinAggregateOutputType = {
   userId: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
-  xp: number | null
+  totalEarnXp: number | null
+  balanceXp: number | null
   level: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,7 +55,8 @@ export type UserProfileMaxAggregateOutputType = {
   userId: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
-  xp: number | null
+  totalEarnXp: number | null
+  balanceXp: number | null
   level: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -63,7 +67,8 @@ export type UserProfileCountAggregateOutputType = {
   userId: number
   activeThemeId: number
   activeCompanionId: number
-  xp: number
+  totalEarnXp: number
+  balanceXp: number
   level: number
   createdAt: number
   updatedAt: number
@@ -72,12 +77,14 @@ export type UserProfileCountAggregateOutputType = {
 
 
 export type UserProfileAvgAggregateInputType = {
-  xp?: true
+  totalEarnXp?: true
+  balanceXp?: true
   level?: true
 }
 
 export type UserProfileSumAggregateInputType = {
-  xp?: true
+  totalEarnXp?: true
+  balanceXp?: true
   level?: true
 }
 
@@ -86,7 +93,8 @@ export type UserProfileMinAggregateInputType = {
   userId?: true
   activeThemeId?: true
   activeCompanionId?: true
-  xp?: true
+  totalEarnXp?: true
+  balanceXp?: true
   level?: true
   createdAt?: true
   updatedAt?: true
@@ -97,7 +105,8 @@ export type UserProfileMaxAggregateInputType = {
   userId?: true
   activeThemeId?: true
   activeCompanionId?: true
-  xp?: true
+  totalEarnXp?: true
+  balanceXp?: true
   level?: true
   createdAt?: true
   updatedAt?: true
@@ -108,7 +117,8 @@ export type UserProfileCountAggregateInputType = {
   userId?: true
   activeThemeId?: true
   activeCompanionId?: true
-  xp?: true
+  totalEarnXp?: true
+  balanceXp?: true
   level?: true
   createdAt?: true
   updatedAt?: true
@@ -206,7 +216,8 @@ export type UserProfileGroupByOutputType = {
   userId: string
   activeThemeId: string | null
   activeCompanionId: string | null
-  xp: number
+  totalEarnXp: number
+  balanceXp: number
   level: number
   createdAt: Date
   updatedAt: Date
@@ -240,7 +251,8 @@ export type UserProfileWhereInput = {
   userId?: Prisma.StringFilter<"UserProfile"> | string
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  xp?: Prisma.IntFilter<"UserProfile"> | number
+  totalEarnXp?: Prisma.IntFilter<"UserProfile"> | number
+  balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
@@ -254,7 +266,8 @@ export type UserProfileOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -271,7 +284,8 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  xp?: Prisma.IntFilter<"UserProfile"> | number
+  totalEarnXp?: Prisma.IntFilter<"UserProfile"> | number
+  balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
@@ -285,7 +299,8 @@ export type UserProfileOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -304,7 +319,8 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   activeThemeId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
-  xp?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  totalEarnXp?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  balanceXp?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   level?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
@@ -312,7 +328,8 @@ export type UserProfileScalarWhereWithAggregatesInput = {
 
 export type UserProfileCreateInput = {
   id?: string
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -326,7 +343,8 @@ export type UserProfileUncheckedCreateInput = {
   userId: string
   activeThemeId?: string | null
   activeCompanionId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -334,7 +352,8 @@ export type UserProfileUncheckedCreateInput = {
 
 export type UserProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,7 +367,8 @@ export type UserProfileUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -359,7 +379,8 @@ export type UserProfileCreateManyInput = {
   userId: string
   activeThemeId?: string | null
   activeCompanionId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -367,7 +388,8 @@ export type UserProfileCreateManyInput = {
 
 export type UserProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -378,7 +400,8 @@ export type UserProfileUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -389,14 +412,16 @@ export type UserProfileCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileAvgOrderByAggregateInput = {
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
 }
 
@@ -405,7 +430,8 @@ export type UserProfileMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -416,14 +442,16 @@ export type UserProfileMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileSumOrderByAggregateInput = {
-  xp?: Prisma.SortOrder
+  totalEarnXp?: Prisma.SortOrder
+  balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
 }
 
@@ -580,7 +608,8 @@ export type UserProfileUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type UserProfileCreateWithoutActiveThemeInput = {
   id?: string
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -592,7 +621,8 @@ export type UserProfileUncheckedCreateWithoutActiveThemeInput = {
   id?: string
   userId: string
   activeCompanionId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -632,7 +662,8 @@ export type UserProfileScalarWhereInput = {
   userId?: Prisma.StringFilter<"UserProfile"> | string
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  xp?: Prisma.IntFilter<"UserProfile"> | number
+  totalEarnXp?: Prisma.IntFilter<"UserProfile"> | number
+  balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
@@ -640,7 +671,8 @@ export type UserProfileScalarWhereInput = {
 
 export type UserProfileCreateWithoutActiveCompanionInput = {
   id?: string
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -652,7 +684,8 @@ export type UserProfileUncheckedCreateWithoutActiveCompanionInput = {
   id?: string
   userId: string
   activeThemeId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -686,7 +719,8 @@ export type UserProfileUpdateManyWithWhereWithoutActiveCompanionInput = {
 
 export type UserProfileCreateWithoutUserInput = {
   id?: string
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -698,7 +732,8 @@ export type UserProfileUncheckedCreateWithoutUserInput = {
   id?: string
   activeThemeId?: string | null
   activeCompanionId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -722,7 +757,8 @@ export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type UserProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -734,7 +770,8 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -744,7 +781,8 @@ export type UserProfileCreateManyActiveThemeInput = {
   id?: string
   userId: string
   activeCompanionId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -752,7 +790,8 @@ export type UserProfileCreateManyActiveThemeInput = {
 
 export type UserProfileUpdateWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -764,7 +803,8 @@ export type UserProfileUncheckedUpdateWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -774,7 +814,8 @@ export type UserProfileUncheckedUpdateManyWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,7 +825,8 @@ export type UserProfileCreateManyActiveCompanionInput = {
   id?: string
   userId: string
   activeThemeId?: string | null
-  xp?: number
+  totalEarnXp?: number
+  balanceXp?: number
   level?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -792,7 +834,8 @@ export type UserProfileCreateManyActiveCompanionInput = {
 
 export type UserProfileUpdateWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -804,7 +847,8 @@ export type UserProfileUncheckedUpdateWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -814,7 +858,8 @@ export type UserProfileUncheckedUpdateManyWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -827,7 +872,8 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
-  xp?: boolean
+  totalEarnXp?: boolean
+  balanceXp?: boolean
   level?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -841,7 +887,8 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
-  xp?: boolean
+  totalEarnXp?: boolean
+  balanceXp?: boolean
   level?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -855,7 +902,8 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
-  xp?: boolean
+  totalEarnXp?: boolean
+  balanceXp?: boolean
   level?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -869,13 +917,14 @@ export type UserProfileSelectScalar = {
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
-  xp?: boolean
+  totalEarnXp?: boolean
+  balanceXp?: boolean
   level?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "xp" | "level" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "totalEarnXp" | "balanceXp" | "level" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activeTheme?: boolean | Prisma.UserProfile$activeThemeArgs<ExtArgs>
@@ -904,7 +953,8 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     userId: string
     activeThemeId: string | null
     activeCompanionId: string | null
-    xp: number
+    totalEarnXp: number
+    balanceXp: number
     level: number
     createdAt: Date
     updatedAt: Date
@@ -1338,7 +1388,8 @@ export interface UserProfileFieldRefs {
   readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly activeThemeId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly activeCompanionId: Prisma.FieldRef<"UserProfile", 'String'>
-  readonly xp: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly totalEarnXp: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly balanceXp: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly level: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>

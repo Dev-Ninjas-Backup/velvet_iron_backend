@@ -9,6 +9,9 @@ import { AuthModule } from './auth/auth.module';
 import { ThemeModule } from './theme/theme.module';
 import { CompanionModule } from './companion/companion.module';
 import { ProfileModule } from './profile/profile.module';
+import { LeveladdService } from './leveladd/leveladd.service';
+import { LeveladdModule } from './leveladd/leveladd.module';
+import { SeedService } from './common/seed.service';
 
 @Module({
   imports: [
@@ -24,8 +27,9 @@ import { ProfileModule } from './profile/profile.module';
     ThemeModule,
     CompanionModule,
     ProfileModule,
+    LeveladdModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LeveladdService, SeedService],
 })
 export class AppModule {}

@@ -10,8 +10,10 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiExcludeController } from '@nestjs/swagger';
 
+
+@ApiExcludeController()
 @ApiTags('users')
 @Controller('user')
 export class UserController {

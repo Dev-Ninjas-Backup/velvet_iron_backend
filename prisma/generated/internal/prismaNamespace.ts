@@ -1872,7 +1872,8 @@ export const UserProfileScalarFieldEnum = {
   userId: 'userId',
   activeThemeId: 'activeThemeId',
   activeCompanionId: 'activeCompanionId',
-  xp: 'xp',
+  totalEarnXp: 'totalEarnXp',
+  balanceXp: 'balanceXp',
   level: 'level',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2073,6 +2074,7 @@ export const UserScalarFieldEnum = {
   resetPasswordOtp: 'resetPasswordOtp',
   resetPasswordOtpExpiry: 'resetPasswordOtpExpiry',
   resetPasswordVerified: 'resetPasswordVerified',
+  onBoarded: 'onBoarded',
   googleId: 'googleId',
   githubId: 'githubId',
   discord: 'discord',

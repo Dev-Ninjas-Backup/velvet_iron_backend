@@ -40,6 +40,7 @@ export type UserMinAggregateOutputType = {
   resetPasswordOtp: string | null
   resetPasswordOtpExpiry: Date | null
   resetPasswordVerified: boolean | null
+  onBoarded: boolean | null
   googleId: string | null
   githubId: string | null
   discord: string | null
@@ -65,6 +66,7 @@ export type UserMaxAggregateOutputType = {
   resetPasswordOtp: string | null
   resetPasswordOtpExpiry: Date | null
   resetPasswordVerified: boolean | null
+  onBoarded: boolean | null
   googleId: string | null
   githubId: string | null
   discord: string | null
@@ -90,6 +92,7 @@ export type UserCountAggregateOutputType = {
   resetPasswordOtp: number
   resetPasswordOtpExpiry: number
   resetPasswordVerified: number
+  onBoarded: number
   googleId: number
   githubId: number
   discord: number
@@ -117,6 +120,7 @@ export type UserMinAggregateInputType = {
   resetPasswordOtp?: true
   resetPasswordOtpExpiry?: true
   resetPasswordVerified?: true
+  onBoarded?: true
   googleId?: true
   githubId?: true
   discord?: true
@@ -142,6 +146,7 @@ export type UserMaxAggregateInputType = {
   resetPasswordOtp?: true
   resetPasswordOtpExpiry?: true
   resetPasswordVerified?: true
+  onBoarded?: true
   googleId?: true
   githubId?: true
   discord?: true
@@ -167,6 +172,7 @@ export type UserCountAggregateInputType = {
   resetPasswordOtp?: true
   resetPasswordOtpExpiry?: true
   resetPasswordVerified?: true
+  onBoarded?: true
   googleId?: true
   githubId?: true
   discord?: true
@@ -265,6 +271,7 @@ export type UserGroupByOutputType = {
   resetPasswordOtp: string | null
   resetPasswordOtpExpiry: Date | null
   resetPasswordVerified: boolean
+  onBoarded: boolean
   googleId: string | null
   githubId: string | null
   discord: string | null
@@ -311,6 +318,7 @@ export type UserWhereInput = {
   resetPasswordOtp?: Prisma.StringNullableFilter<"User"> | string | null
   resetPasswordOtpExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   resetPasswordVerified?: Prisma.BoolFilter<"User"> | boolean
+  onBoarded?: Prisma.BoolFilter<"User"> | boolean
   googleId?: Prisma.StringNullableFilter<"User"> | string | null
   githubId?: Prisma.StringNullableFilter<"User"> | string | null
   discord?: Prisma.StringNullableFilter<"User"> | string | null
@@ -350,6 +358,7 @@ export type UserOrderByWithRelationInput = {
   resetPasswordOtp?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordOtpExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordVerified?: Prisma.SortOrder
+  onBoarded?: Prisma.SortOrder
   googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   githubId?: Prisma.SortOrderInput | Prisma.SortOrder
   discord?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -395,6 +404,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   resetPasswordOtp?: Prisma.StringNullableFilter<"User"> | string | null
   resetPasswordOtpExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   resetPasswordVerified?: Prisma.BoolFilter<"User"> | boolean
+  onBoarded?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -431,6 +441,7 @@ export type UserOrderByWithAggregationInput = {
   resetPasswordOtp?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordOtpExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   resetPasswordVerified?: Prisma.SortOrder
+  onBoarded?: Prisma.SortOrder
   googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   githubId?: Prisma.SortOrderInput | Prisma.SortOrder
   discord?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -462,6 +473,7 @@ export type UserScalarWhereWithAggregatesInput = {
   resetPasswordOtp?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   resetPasswordOtpExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   resetPasswordVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  onBoarded?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   githubId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   discord?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -487,6 +499,7 @@ export type UserCreateInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -526,6 +539,7 @@ export type UserUncheckedCreateInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -565,6 +579,7 @@ export type UserUpdateInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -604,6 +619,7 @@ export type UserUncheckedUpdateInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -643,6 +659,7 @@ export type UserCreateManyInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -668,6 +685,7 @@ export type UserUpdateManyMutationInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -693,6 +711,7 @@ export type UserUncheckedUpdateManyInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -723,6 +742,7 @@ export type UserCountOrderByAggregateInput = {
   resetPasswordOtp?: Prisma.SortOrder
   resetPasswordOtpExpiry?: Prisma.SortOrder
   resetPasswordVerified?: Prisma.SortOrder
+  onBoarded?: Prisma.SortOrder
   googleId?: Prisma.SortOrder
   githubId?: Prisma.SortOrder
   discord?: Prisma.SortOrder
@@ -748,6 +768,7 @@ export type UserMaxOrderByAggregateInput = {
   resetPasswordOtp?: Prisma.SortOrder
   resetPasswordOtpExpiry?: Prisma.SortOrder
   resetPasswordVerified?: Prisma.SortOrder
+  onBoarded?: Prisma.SortOrder
   googleId?: Prisma.SortOrder
   githubId?: Prisma.SortOrder
   discord?: Prisma.SortOrder
@@ -773,6 +794,7 @@ export type UserMinOrderByAggregateInput = {
   resetPasswordOtp?: Prisma.SortOrder
   resetPasswordOtpExpiry?: Prisma.SortOrder
   resetPasswordVerified?: Prisma.SortOrder
+  onBoarded?: Prisma.SortOrder
   googleId?: Prisma.SortOrder
   githubId?: Prisma.SortOrder
   discord?: Prisma.SortOrder
@@ -998,6 +1020,7 @@ export type UserCreateWithoutUserProfileInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1036,6 +1059,7 @@ export type UserUncheckedCreateWithoutUserProfileInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1090,6 +1114,7 @@ export type UserUpdateWithoutUserProfileInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1128,6 +1153,7 @@ export type UserUncheckedUpdateWithoutUserProfileInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1166,6 +1192,7 @@ export type UserCreateWithoutUserThemesInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1204,6 +1231,7 @@ export type UserUncheckedCreateWithoutUserThemesInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1258,6 +1286,7 @@ export type UserUpdateWithoutUserThemesInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1296,6 +1325,7 @@ export type UserUncheckedUpdateWithoutUserThemesInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1334,6 +1364,7 @@ export type UserCreateWithoutUserCompanionsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1372,6 +1403,7 @@ export type UserUncheckedCreateWithoutUserCompanionsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1426,6 +1458,7 @@ export type UserUpdateWithoutUserCompanionsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1464,6 +1497,7 @@ export type UserUncheckedUpdateWithoutUserCompanionsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1502,6 +1536,7 @@ export type UserCreateWithoutWeightLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1540,6 +1575,7 @@ export type UserUncheckedCreateWithoutWeightLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1594,6 +1630,7 @@ export type UserUpdateWithoutWeightLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1632,6 +1669,7 @@ export type UserUncheckedUpdateWithoutWeightLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1670,6 +1708,7 @@ export type UserCreateWithoutMoodLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1708,6 +1747,7 @@ export type UserUncheckedCreateWithoutMoodLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1762,6 +1802,7 @@ export type UserUpdateWithoutMoodLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1800,6 +1841,7 @@ export type UserUncheckedUpdateWithoutMoodLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1838,6 +1880,7 @@ export type UserCreateWithoutMealSchedulesInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1876,6 +1919,7 @@ export type UserUncheckedCreateWithoutMealSchedulesInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -1930,6 +1974,7 @@ export type UserUpdateWithoutMealSchedulesInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1968,6 +2013,7 @@ export type UserUncheckedUpdateWithoutMealSchedulesInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2006,6 +2052,7 @@ export type UserCreateWithoutMealLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2044,6 +2091,7 @@ export type UserUncheckedCreateWithoutMealLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2098,6 +2146,7 @@ export type UserUpdateWithoutMealLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2136,6 +2185,7 @@ export type UserUncheckedUpdateWithoutMealLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2174,6 +2224,7 @@ export type UserCreateWithoutMedicationsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2212,6 +2263,7 @@ export type UserUncheckedCreateWithoutMedicationsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2266,6 +2318,7 @@ export type UserUpdateWithoutMedicationsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2304,6 +2357,7 @@ export type UserUncheckedUpdateWithoutMedicationsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2342,6 +2396,7 @@ export type UserCreateWithoutMedicationSchedulesInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2380,6 +2435,7 @@ export type UserUncheckedCreateWithoutMedicationSchedulesInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2434,6 +2490,7 @@ export type UserUpdateWithoutMedicationSchedulesInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2472,6 +2529,7 @@ export type UserUncheckedUpdateWithoutMedicationSchedulesInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2510,6 +2568,7 @@ export type UserCreateWithoutExerciseLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2548,6 +2607,7 @@ export type UserUncheckedCreateWithoutExerciseLogsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2602,6 +2662,7 @@ export type UserUpdateWithoutExerciseLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2640,6 +2701,7 @@ export type UserUncheckedUpdateWithoutExerciseLogsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2678,6 +2740,7 @@ export type UserCreateWithoutUserQuestsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2716,6 +2779,7 @@ export type UserUncheckedCreateWithoutUserQuestsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2770,6 +2834,7 @@ export type UserUpdateWithoutUserQuestsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2808,6 +2873,7 @@ export type UserUncheckedUpdateWithoutUserQuestsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2846,6 +2912,7 @@ export type UserCreateWithoutSubscriptionInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2884,6 +2951,7 @@ export type UserUncheckedCreateWithoutSubscriptionInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -2938,6 +3006,7 @@ export type UserUpdateWithoutSubscriptionInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2976,6 +3045,7 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3014,6 +3084,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -3052,6 +3123,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -3106,6 +3178,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3144,6 +3217,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3182,6 +3256,7 @@ export type UserCreateWithoutSessionsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -3220,6 +3295,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   resetPasswordOtp?: string | null
   resetPasswordOtpExpiry?: Date | string | null
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: string | null
   githubId?: string | null
   discord?: string | null
@@ -3274,6 +3350,7 @@ export type UserUpdateWithoutSessionsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3312,6 +3389,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3480,6 +3558,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   resetPasswordOtp?: boolean
   resetPasswordOtpExpiry?: boolean
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: boolean
   githubId?: boolean
   discord?: boolean
@@ -3520,6 +3599,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   resetPasswordOtp?: boolean
   resetPasswordOtpExpiry?: boolean
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: boolean
   githubId?: boolean
   discord?: boolean
@@ -3545,6 +3625,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   resetPasswordOtp?: boolean
   resetPasswordOtpExpiry?: boolean
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: boolean
   githubId?: boolean
   discord?: boolean
@@ -3570,6 +3651,7 @@ export type UserSelectScalar = {
   resetPasswordOtp?: boolean
   resetPasswordOtpExpiry?: boolean
   resetPasswordVerified?: boolean
+  onBoarded?: boolean
   googleId?: boolean
   githubId?: boolean
   discord?: boolean
@@ -3579,7 +3661,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "password" | "name" | "avatar" | "profilePhoto" | "gender" | "dateOfBirth" | "emailVerified" | "emailVerificationOtp" | "emailVerificationExpiry" | "resetPasswordOtp" | "resetPasswordOtpExpiry" | "resetPasswordVerified" | "googleId" | "githubId" | "discord" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "password" | "name" | "avatar" | "profilePhoto" | "gender" | "dateOfBirth" | "emailVerified" | "emailVerificationOtp" | "emailVerificationExpiry" | "resetPasswordOtp" | "resetPasswordOtpExpiry" | "resetPasswordVerified" | "onBoarded" | "googleId" | "githubId" | "discord" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -3634,6 +3716,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     resetPasswordOtp: string | null
     resetPasswordOtpExpiry: Date | null
     resetPasswordVerified: boolean
+    onBoarded: boolean
     googleId: string | null
     githubId: string | null
     discord: string | null
@@ -4093,6 +4176,7 @@ export interface UserFieldRefs {
   readonly resetPasswordOtp: Prisma.FieldRef<"User", 'String'>
   readonly resetPasswordOtpExpiry: Prisma.FieldRef<"User", 'DateTime'>
   readonly resetPasswordVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly onBoarded: Prisma.FieldRef<"User", 'Boolean'>
   readonly googleId: Prisma.FieldRef<"User", 'String'>
   readonly githubId: Prisma.FieldRef<"User", 'String'>
   readonly discord: Prisma.FieldRef<"User", 'String'>

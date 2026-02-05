@@ -7,7 +7,8 @@ model UserProfile {
     activeTheme       Theme?     @relation("ActiveTheme", fields: [activeThemeId], references: [id])
     activeCompanionId String?
     activeCompanion   Companion? @relation("ActiveCompanion", fields: [activeCompanionId], references: [id])
-    xp                Int        @default(0)
+    totalEarnXp       Int        @default(0) 
+    balanceXp         Int        @default(0) 
     level             Int        @default(1)
     createdAt         DateTime   @default(now())
     updatedAt         DateTime   @updatedAt

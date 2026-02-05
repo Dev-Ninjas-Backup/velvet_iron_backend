@@ -1,9 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
+import { LeveladdService } from '@/leveladd/leveladd.service';
 
 @Injectable()
 export class ProfileService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private leveladdService: LeveladdService,
+  ) {}
 
   async getProfile(userId: string) {
     let profile = await this.prisma.client.userProfile.findUnique({
@@ -29,38 +33,37 @@ export class ProfileService {
   }
 
   async addXp(userId: string, xpAmount: number) {
-    let profile = await this.prisma.client.userProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!profile) {
-      profile = await this.prisma.client.userProfile.create({
-        data: { userId, xp: 0, level: 1 },
+    try {
+      let profile = await this.prisma.client.userProfile.findUnique({
+        where: { userId },
       });
+
+      if (!profile) {
+        profile = await this.prisma.client.userProfile.create({
+          data: { userId, level: 1, totalEarnXp: 0, balanceXp: 0 },
+        });
+      }
+      const addXP = await this.leveladdService.addXpToUser(userId, xpAmount);
+
+      return { message: 'XP added successfully', ...addXP };
+    } catch (error) {
+      console.log(error);
+      
+      error.message = 'Failed to add XP: ' + error.message;
+      throw error;
     }
-
-    const newXp = profile.xp + xpAmount;
-    const newLevel = this.calculateLevel(newXp);
-
-    return this.prisma.client.userProfile.update({
-      where: { userId },
-      data: {
-        xp: newXp,
-        level: newLevel,
-      },
-    });
   }
 
-  // Simple level calculation: Level = floor(XP / 1000) + 1
-  private calculateLevel(xp: number): number {
-    return Math.floor(xp / 1000) + 1;
+  // Simple level calculation: Level = floor((totalEarnXp - 400) / 150) + 1
+  private calculateLevel(totalEarnXp: number): number {
+    return Math.floor((totalEarnXp - 400) / 150) + 1;
   }
 
   async getLeaderboard(limit: number = 10) {
     return this.prisma.client.userProfile.findMany({
       take: limit,
       orderBy: {
-        xp: 'desc',
+        totalEarnXp: 'desc',
       },
       include: {
         user: {
