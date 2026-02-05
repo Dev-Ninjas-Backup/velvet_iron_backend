@@ -18,11 +18,6 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model UserProfile
- * 
- */
-export type UserProfile = Prisma.UserProfileModel
-/**
  * Model Theme
  * 
  */
@@ -112,3 +107,8 @@ export type RefreshToken = Prisma.RefreshTokenModel
  * 
  */
 export type Session = Prisma.SessionModel
+/**
+ * Model UserProfile
+ * 
+ */
+export type UserProfile = Prisma.UserProfileModel

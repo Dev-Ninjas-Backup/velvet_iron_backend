@@ -1,21 +1,4 @@
 // User Profile with XP and Level
-model UserProfile {
-    id                String     @id @default(uuid())
-    userId            String     @unique
-    user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    activeThemeId     String?
-    activeTheme       Theme?     @relation("ActiveTheme", fields: [activeThemeId], references: [id])
-    activeCompanionId String?
-    activeCompanion   Companion? @relation("ActiveCompanion", fields: [activeCompanionId], references: [id])
-    totalEarnXp       Int        @default(0) 
-    balanceXp         Int        @default(0) 
-    level             Int        @default(1)
-    createdAt         DateTime   @default(now())
-    updatedAt         DateTime   @updatedAt
-
-    @@index([userId])
-    @@map("user_profiles")
-}
 
 // Themes (Admin creates these)
 model Theme {

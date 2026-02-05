@@ -407,6 +407,21 @@ export type UserProfileUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type UserProfileListRelationFilter = {
+  every?: Prisma.UserProfileWhereInput
+  some?: Prisma.UserProfileWhereInput
+  none?: Prisma.UserProfileWhereInput
+}
+
+export type UserProfileOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type UserProfileNullableScalarRelationFilter = {
+  is?: Prisma.UserProfileWhereInput | null
+  isNot?: Prisma.UserProfileWhereInput | null
+}
+
 export type UserProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -453,41 +468,6 @@ export type UserProfileSumOrderByAggregateInput = {
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
-}
-
-export type UserProfileListRelationFilter = {
-  every?: Prisma.UserProfileWhereInput
-  some?: Prisma.UserProfileWhereInput
-  none?: Prisma.UserProfileWhereInput
-}
-
-export type UserProfileOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type UserProfileNullableScalarRelationFilter = {
-  is?: Prisma.UserProfileWhereInput | null
-  isNot?: Prisma.UserProfileWhereInput | null
-}
-
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type UserProfileCreateNestedManyWithoutActiveThemeInput = {

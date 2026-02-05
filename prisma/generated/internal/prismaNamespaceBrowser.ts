@@ -51,7 +51,6 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  UserProfile: 'UserProfile',
   Theme: 'Theme',
   Companion: 'Companion',
   UserTheme: 'UserTheme',
@@ -69,7 +68,8 @@ export const ModelName = {
   Subscription: 'Subscription',
   User: 'User',
   RefreshToken: 'RefreshToken',
-  Session: 'Session'
+  Session: 'Session',
+  UserProfile: 'UserProfile'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,21 +86,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-export const UserProfileScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  activeThemeId: 'activeThemeId',
-  activeCompanionId: 'activeCompanionId',
-  totalEarnXp: 'totalEarnXp',
-  balanceXp: 'balanceXp',
-  level: 'level',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
 
 
 export const ThemeScalarFieldEnum = {
@@ -331,6 +316,21 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  activeThemeId: 'activeThemeId',
+  activeCompanionId: 'activeCompanionId',
+  totalEarnXp: 'totalEarnXp',
+  balanceXp: 'balanceXp',
+  level: 'level',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
 
 
 export const SortOrder = {

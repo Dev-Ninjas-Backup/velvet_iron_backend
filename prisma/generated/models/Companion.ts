@@ -350,11 +350,6 @@ export type CompanionUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type CompanionNullableScalarRelationFilter = {
-  is?: Prisma.CompanionWhereInput | null
-  isNot?: Prisma.CompanionWhereInput | null
-}
-
 export type CompanionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -395,20 +390,9 @@ export type CompanionScalarRelationFilter = {
   isNot?: Prisma.CompanionWhereInput
 }
 
-export type CompanionCreateNestedOneWithoutActiveUsersInput = {
-  create?: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
-  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutActiveUsersInput
-  connect?: Prisma.CompanionWhereUniqueInput
-}
-
-export type CompanionUpdateOneWithoutActiveUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
-  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutActiveUsersInput
-  upsert?: Prisma.CompanionUpsertWithoutActiveUsersInput
-  disconnect?: Prisma.CompanionWhereInput | boolean
-  delete?: Prisma.CompanionWhereInput | boolean
-  connect?: Prisma.CompanionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutActiveUsersInput, Prisma.CompanionUpdateWithoutActiveUsersInput>, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
+export type CompanionNullableScalarRelationFilter = {
+  is?: Prisma.CompanionWhereInput | null
+  isNot?: Prisma.CompanionWhereInput | null
 }
 
 export type CompanionCreateNestedOneWithoutUserCompanionsInput = {
@@ -425,60 +409,20 @@ export type CompanionUpdateOneRequiredWithoutUserCompanionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutUserCompanionsInput, Prisma.CompanionUpdateWithoutUserCompanionsInput>, Prisma.CompanionUncheckedUpdateWithoutUserCompanionsInput>
 }
 
-export type CompanionCreateWithoutActiveUsersInput = {
-  id?: string
-  name: string
-  title?: string | null
-  quote?: string | null
-  unlockXp?: number
-  createdAt?: Date | string
-  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutCompanionInput
+export type CompanionCreateNestedOneWithoutActiveUsersInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutActiveUsersInput
+  connect?: Prisma.CompanionWhereUniqueInput
 }
 
-export type CompanionUncheckedCreateWithoutActiveUsersInput = {
-  id?: string
-  name: string
-  title?: string | null
-  quote?: string | null
-  unlockXp?: number
-  createdAt?: Date | string
-  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutCompanionInput
-}
-
-export type CompanionCreateOrConnectWithoutActiveUsersInput = {
-  where: Prisma.CompanionWhereUniqueInput
-  create: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
-}
-
-export type CompanionUpsertWithoutActiveUsersInput = {
-  update: Prisma.XOR<Prisma.CompanionUpdateWithoutActiveUsersInput, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
-  create: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
-  where?: Prisma.CompanionWhereInput
-}
-
-export type CompanionUpdateToOneWithWhereWithoutActiveUsersInput = {
-  where?: Prisma.CompanionWhereInput
-  data: Prisma.XOR<Prisma.CompanionUpdateWithoutActiveUsersInput, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
-}
-
-export type CompanionUpdateWithoutActiveUsersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userCompanions?: Prisma.UserCompanionUpdateManyWithoutCompanionNestedInput
-}
-
-export type CompanionUncheckedUpdateWithoutActiveUsersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutCompanionNestedInput
+export type CompanionUpdateOneWithoutActiveUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutActiveUsersInput
+  upsert?: Prisma.CompanionUpsertWithoutActiveUsersInput
+  disconnect?: Prisma.CompanionWhereInput | boolean
+  delete?: Prisma.CompanionWhereInput | boolean
+  connect?: Prisma.CompanionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutActiveUsersInput, Prisma.CompanionUpdateWithoutActiveUsersInput>, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
 }
 
 export type CompanionCreateWithoutUserCompanionsInput = {
@@ -535,6 +479,62 @@ export type CompanionUncheckedUpdateWithoutUserCompanionsInput = {
   unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeUsers?: Prisma.UserProfileUncheckedUpdateManyWithoutActiveCompanionNestedInput
+}
+
+export type CompanionCreateWithoutActiveUsersInput = {
+  id?: string
+  name: string
+  title?: string | null
+  quote?: string | null
+  unlockXp?: number
+  createdAt?: Date | string
+  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutCompanionInput
+}
+
+export type CompanionUncheckedCreateWithoutActiveUsersInput = {
+  id?: string
+  name: string
+  title?: string | null
+  quote?: string | null
+  unlockXp?: number
+  createdAt?: Date | string
+  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutCompanionInput
+}
+
+export type CompanionCreateOrConnectWithoutActiveUsersInput = {
+  where: Prisma.CompanionWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
+}
+
+export type CompanionUpsertWithoutActiveUsersInput = {
+  update: Prisma.XOR<Prisma.CompanionUpdateWithoutActiveUsersInput, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
+  where?: Prisma.CompanionWhereInput
+}
+
+export type CompanionUpdateToOneWithWhereWithoutActiveUsersInput = {
+  where?: Prisma.CompanionWhereInput
+  data: Prisma.XOR<Prisma.CompanionUpdateWithoutActiveUsersInput, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
+}
+
+export type CompanionUpdateWithoutActiveUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userCompanions?: Prisma.UserCompanionUpdateManyWithoutCompanionNestedInput
+}
+
+export type CompanionUncheckedUpdateWithoutActiveUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutCompanionNestedInput
 }
 
 

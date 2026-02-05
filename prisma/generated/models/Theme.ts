@@ -350,11 +350,6 @@ export type ThemeUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ThemeNullableScalarRelationFilter = {
-  is?: Prisma.ThemeWhereInput | null
-  isNot?: Prisma.ThemeWhereInput | null
-}
-
 export type ThemeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -395,20 +390,29 @@ export type ThemeScalarRelationFilter = {
   isNot?: Prisma.ThemeWhereInput
 }
 
-export type ThemeCreateNestedOneWithoutActiveUsersInput = {
-  create?: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
-  connectOrCreate?: Prisma.ThemeCreateOrConnectWithoutActiveUsersInput
-  connect?: Prisma.ThemeWhereUniqueInput
+export type ThemeNullableScalarRelationFilter = {
+  is?: Prisma.ThemeWhereInput | null
+  isNot?: Prisma.ThemeWhereInput | null
 }
 
-export type ThemeUpdateOneWithoutActiveUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
-  connectOrCreate?: Prisma.ThemeCreateOrConnectWithoutActiveUsersInput
-  upsert?: Prisma.ThemeUpsertWithoutActiveUsersInput
-  disconnect?: Prisma.ThemeWhereInput | boolean
-  delete?: Prisma.ThemeWhereInput | boolean
-  connect?: Prisma.ThemeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ThemeUpdateToOneWithWhereWithoutActiveUsersInput, Prisma.ThemeUpdateWithoutActiveUsersInput>, Prisma.ThemeUncheckedUpdateWithoutActiveUsersInput>
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type ThemeCreateNestedOneWithoutUserThemesInput = {
@@ -425,60 +429,20 @@ export type ThemeUpdateOneRequiredWithoutUserThemesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ThemeUpdateToOneWithWhereWithoutUserThemesInput, Prisma.ThemeUpdateWithoutUserThemesInput>, Prisma.ThemeUncheckedUpdateWithoutUserThemesInput>
 }
 
-export type ThemeCreateWithoutActiveUsersInput = {
-  id?: string
-  name: string
-  tagline?: string | null
-  description?: string | null
-  unlockXp?: number
-  createdAt?: Date | string
-  userThemes?: Prisma.UserThemeCreateNestedManyWithoutThemeInput
+export type ThemeCreateNestedOneWithoutActiveUsersInput = {
+  create?: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
+  connectOrCreate?: Prisma.ThemeCreateOrConnectWithoutActiveUsersInput
+  connect?: Prisma.ThemeWhereUniqueInput
 }
 
-export type ThemeUncheckedCreateWithoutActiveUsersInput = {
-  id?: string
-  name: string
-  tagline?: string | null
-  description?: string | null
-  unlockXp?: number
-  createdAt?: Date | string
-  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutThemeInput
-}
-
-export type ThemeCreateOrConnectWithoutActiveUsersInput = {
-  where: Prisma.ThemeWhereUniqueInput
-  create: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
-}
-
-export type ThemeUpsertWithoutActiveUsersInput = {
-  update: Prisma.XOR<Prisma.ThemeUpdateWithoutActiveUsersInput, Prisma.ThemeUncheckedUpdateWithoutActiveUsersInput>
-  create: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
-  where?: Prisma.ThemeWhereInput
-}
-
-export type ThemeUpdateToOneWithWhereWithoutActiveUsersInput = {
-  where?: Prisma.ThemeWhereInput
-  data: Prisma.XOR<Prisma.ThemeUpdateWithoutActiveUsersInput, Prisma.ThemeUncheckedUpdateWithoutActiveUsersInput>
-}
-
-export type ThemeUpdateWithoutActiveUsersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userThemes?: Prisma.UserThemeUpdateManyWithoutThemeNestedInput
-}
-
-export type ThemeUncheckedUpdateWithoutActiveUsersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutThemeNestedInput
+export type ThemeUpdateOneWithoutActiveUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
+  connectOrCreate?: Prisma.ThemeCreateOrConnectWithoutActiveUsersInput
+  upsert?: Prisma.ThemeUpsertWithoutActiveUsersInput
+  disconnect?: Prisma.ThemeWhereInput | boolean
+  delete?: Prisma.ThemeWhereInput | boolean
+  connect?: Prisma.ThemeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThemeUpdateToOneWithWhereWithoutActiveUsersInput, Prisma.ThemeUpdateWithoutActiveUsersInput>, Prisma.ThemeUncheckedUpdateWithoutActiveUsersInput>
 }
 
 export type ThemeCreateWithoutUserThemesInput = {
@@ -535,6 +499,62 @@ export type ThemeUncheckedUpdateWithoutUserThemesInput = {
   unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeUsers?: Prisma.UserProfileUncheckedUpdateManyWithoutActiveThemeNestedInput
+}
+
+export type ThemeCreateWithoutActiveUsersInput = {
+  id?: string
+  name: string
+  tagline?: string | null
+  description?: string | null
+  unlockXp?: number
+  createdAt?: Date | string
+  userThemes?: Prisma.UserThemeCreateNestedManyWithoutThemeInput
+}
+
+export type ThemeUncheckedCreateWithoutActiveUsersInput = {
+  id?: string
+  name: string
+  tagline?: string | null
+  description?: string | null
+  unlockXp?: number
+  createdAt?: Date | string
+  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutThemeInput
+}
+
+export type ThemeCreateOrConnectWithoutActiveUsersInput = {
+  where: Prisma.ThemeWhereUniqueInput
+  create: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
+}
+
+export type ThemeUpsertWithoutActiveUsersInput = {
+  update: Prisma.XOR<Prisma.ThemeUpdateWithoutActiveUsersInput, Prisma.ThemeUncheckedUpdateWithoutActiveUsersInput>
+  create: Prisma.XOR<Prisma.ThemeCreateWithoutActiveUsersInput, Prisma.ThemeUncheckedCreateWithoutActiveUsersInput>
+  where?: Prisma.ThemeWhereInput
+}
+
+export type ThemeUpdateToOneWithWhereWithoutActiveUsersInput = {
+  where?: Prisma.ThemeWhereInput
+  data: Prisma.XOR<Prisma.ThemeUpdateWithoutActiveUsersInput, Prisma.ThemeUncheckedUpdateWithoutActiveUsersInput>
+}
+
+export type ThemeUpdateWithoutActiveUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userThemes?: Prisma.UserThemeUpdateManyWithoutThemeNestedInput
+}
+
+export type ThemeUncheckedUpdateWithoutActiveUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutThemeNestedInput
 }
 
 

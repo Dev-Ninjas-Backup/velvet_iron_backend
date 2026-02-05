@@ -2,21 +2,6 @@
 CREATE TYPE "UserRole" AS ENUM ('SUPERADMIN', 'ADMIN', 'USER');
 
 -- CreateTable
-CREATE TABLE "user_profiles" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "activeThemeId" TEXT,
-    "activeCompanionId" TEXT,
-    "totalEarnXp" INTEGER NOT NULL DEFAULT 0,
-    "balanceXp" INTEGER NOT NULL DEFAULT 0,
-    "level" INTEGER NOT NULL DEFAULT 1,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "user_profiles_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "themes" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -246,11 +231,20 @@ CREATE TABLE "sessions" (
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "user_profiles_userId_key" ON "user_profiles"("userId");
+-- CreateTable
+CREATE TABLE "user_profiles" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "activeThemeId" TEXT,
+    "activeCompanionId" TEXT,
+    "totalEarnXp" INTEGER NOT NULL DEFAULT 0,
+    "balanceXp" INTEGER NOT NULL DEFAULT 0,
+    "level" INTEGER NOT NULL DEFAULT 1,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- CreateIndex
-CREATE INDEX "user_profiles_userId_idx" ON "user_profiles"("userId");
+    CONSTRAINT "user_profiles_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "themes_name_key" ON "themes"("name");
@@ -366,14 +360,11 @@ CREATE UNIQUE INDEX "sessions_refreshToken_key" ON "sessions"("refreshToken");
 -- CreateIndex
 CREATE INDEX "sessions_userId_idx" ON "sessions"("userId");
 
--- AddForeignKey
-ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "user_profiles_userId_key" ON "user_profiles"("userId");
 
--- AddForeignKey
-ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeThemeId_fkey" FOREIGN KEY ("activeThemeId") REFERENCES "themes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeCompanionId_fkey" FOREIGN KEY ("activeCompanionId") REFERENCES "companions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+-- CreateIndex
+CREATE INDEX "user_profiles_userId_idx" ON "user_profiles"("userId");
 
 -- AddForeignKey
 ALTER TABLE "user_themes" ADD CONSTRAINT "user_themes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -428,3 +419,12 @@ ALTER TABLE "refresh_tokens" ADD CONSTRAINT "refresh_tokens_userId_fkey" FOREIGN
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeThemeId_fkey" FOREIGN KEY ("activeThemeId") REFERENCES "themes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeCompanionId_fkey" FOREIGN KEY ("activeCompanionId") REFERENCES "companions"("id") ON DELETE SET NULL ON UPDATE CASCADE;

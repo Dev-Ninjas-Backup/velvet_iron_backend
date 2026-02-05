@@ -8,7 +8,6 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/UserProfile'
 export type * from './models/Theme'
 export type * from './models/Companion'
 export type * from './models/UserTheme'
@@ -27,4 +26,5 @@ export type * from './models/Subscription'
 export type * from './models/User'
 export type * from './models/RefreshToken'
 export type * from './models/Session'
+export type * from './models/UserProfile'
 export type * from './commonInputTypes'
