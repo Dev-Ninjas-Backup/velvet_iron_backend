@@ -36,25 +36,25 @@ export class SeedService implements OnModuleInit {
         name: 'Adventurer',
         tagline: 'Embrace the Journey',
         description: 'For those who seek excitement and new experiences',
-        unlockXp: 0,
+        unlockXp:250,
       },
       {
         name: 'Reader',
         tagline: 'Knowledge is Power',
         description: 'For those who find wisdom in books and stories',
-        unlockXp: 500,
+        unlockXp:250,
       },
       {
         name: 'Mage',
         tagline: 'Master the Arcane',
         description: 'For those who harness the power of magic and mystery',
-        unlockXp: 1000,
+        unlockXp:250,
       },
       {
         name: 'Gamer',
         tagline: 'Level Up Your Life',
         description: 'For those who turn every challenge into a game',
-        unlockXp: 1500,
+        unlockXp:250,
       },
     ];
 
@@ -77,28 +77,28 @@ export class SeedService implements OnModuleInit {
         name: 'Ser Kael Thornwatch',
         title: 'The Unbroken',
         quote: 'Stand tall. We finish what we start — together.',
-        unlockXp: 0,
+        unlockXp:250,
       },
       {
         name: 'Riven Ashcroft',
         title: 'High Lord of the Veil',
         quote:
           'Try not to disappoint me… I was just starting to enjoy your potential.',
-        unlockXp: 750,
+        unlockXp:250,
       },
       {
         name: 'Pyraxis',
         title: 'The Emberbound',
         quote:
           "Rise, little warrior. I don't guard the weak — I forge the strong.",
-        unlockXp: 1250,
+        unlockXp:250,
       },
       {
         name: 'Bram Ironledger',
         title: 'Keeper of the Codex',
         quote:
           'Every hero stumbles, child. What matters is that you rise wiser.',
-        unlockXp: 2000,
+        unlockXp:250,
       },
     ];
 
@@ -162,7 +162,7 @@ export class SeedService implements OnModuleInit {
         data: {
           userId: superAdmin.id,
           totalEarnXp: 0,
-          balanceXp: 0,
+          balanceXp: 500,
           level: 1,
         },
       });

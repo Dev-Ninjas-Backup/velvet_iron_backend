@@ -237,13 +237,33 @@ CREATE TABLE "user_profiles" (
     "userId" TEXT NOT NULL,
     "activeThemeId" TEXT,
     "activeCompanionId" TEXT,
+    "availableCompanions" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "themeCredits" INTEGER NOT NULL DEFAULT 0,
+    "companionCredits" INTEGER NOT NULL DEFAULT 0,
     "totalEarnXp" INTEGER NOT NULL DEFAULT 0,
     "balanceXp" INTEGER NOT NULL DEFAULT 0,
     "level" INTEGER NOT NULL DEFAULT 1,
+    "onBoardingCompleted" BOOLEAN DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "user_profiles_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_availabalethemes" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_availabalethemes_AB_pkey" PRIMARY KEY ("A","B")
+);
+
+-- CreateTable
+CREATE TABLE "_availableCompanions" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_availableCompanions_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -366,6 +386,12 @@ CREATE UNIQUE INDEX "user_profiles_userId_key" ON "user_profiles"("userId");
 -- CreateIndex
 CREATE INDEX "user_profiles_userId_idx" ON "user_profiles"("userId");
 
+-- CreateIndex
+CREATE INDEX "_availabalethemes_B_index" ON "_availabalethemes"("B");
+
+-- CreateIndex
+CREATE INDEX "_availableCompanions_B_index" ON "_availableCompanions"("B");
+
 -- AddForeignKey
 ALTER TABLE "user_themes" ADD CONSTRAINT "user_themes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -428,3 +454,15 @@ ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeThemeId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeCompanionId_fkey" FOREIGN KEY ("activeCompanionId") REFERENCES "companions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_availabalethemes" ADD CONSTRAINT "_availabalethemes_A_fkey" FOREIGN KEY ("A") REFERENCES "themes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_availabalethemes" ADD CONSTRAINT "_availabalethemes_B_fkey" FOREIGN KEY ("B") REFERENCES "user_profiles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_availableCompanions" ADD CONSTRAINT "_availableCompanions_A_fkey" FOREIGN KEY ("A") REFERENCES "companions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_availableCompanions" ADD CONSTRAINT "_availableCompanions_B_fkey" FOREIGN KEY ("B") REFERENCES "user_profiles"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -27,12 +27,16 @@ export type AggregateUserProfile = {
 }
 
 export type UserProfileAvgAggregateOutputType = {
+  themeCredits: number | null
+  companionCredits: number | null
   totalEarnXp: number | null
   balanceXp: number | null
   level: number | null
 }
 
 export type UserProfileSumAggregateOutputType = {
+  themeCredits: number | null
+  companionCredits: number | null
   totalEarnXp: number | null
   balanceXp: number | null
   level: number | null
@@ -43,9 +47,12 @@ export type UserProfileMinAggregateOutputType = {
   userId: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
+  themeCredits: number | null
+  companionCredits: number | null
   totalEarnXp: number | null
   balanceXp: number | null
   level: number | null
+  onBoardingCompleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -55,9 +62,12 @@ export type UserProfileMaxAggregateOutputType = {
   userId: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
+  themeCredits: number | null
+  companionCredits: number | null
   totalEarnXp: number | null
   balanceXp: number | null
   level: number | null
+  onBoardingCompleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -67,9 +77,13 @@ export type UserProfileCountAggregateOutputType = {
   userId: number
   activeThemeId: number
   activeCompanionId: number
+  availableCompanions: number
+  themeCredits: number
+  companionCredits: number
   totalEarnXp: number
   balanceXp: number
   level: number
+  onBoardingCompleted: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -77,12 +91,16 @@ export type UserProfileCountAggregateOutputType = {
 
 
 export type UserProfileAvgAggregateInputType = {
+  themeCredits?: true
+  companionCredits?: true
   totalEarnXp?: true
   balanceXp?: true
   level?: true
 }
 
 export type UserProfileSumAggregateInputType = {
+  themeCredits?: true
+  companionCredits?: true
   totalEarnXp?: true
   balanceXp?: true
   level?: true
@@ -93,9 +111,12 @@ export type UserProfileMinAggregateInputType = {
   userId?: true
   activeThemeId?: true
   activeCompanionId?: true
+  themeCredits?: true
+  companionCredits?: true
   totalEarnXp?: true
   balanceXp?: true
   level?: true
+  onBoardingCompleted?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -105,9 +126,12 @@ export type UserProfileMaxAggregateInputType = {
   userId?: true
   activeThemeId?: true
   activeCompanionId?: true
+  themeCredits?: true
+  companionCredits?: true
   totalEarnXp?: true
   balanceXp?: true
   level?: true
+  onBoardingCompleted?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -117,9 +141,13 @@ export type UserProfileCountAggregateInputType = {
   userId?: true
   activeThemeId?: true
   activeCompanionId?: true
+  availableCompanions?: true
+  themeCredits?: true
+  companionCredits?: true
   totalEarnXp?: true
   balanceXp?: true
   level?: true
+  onBoardingCompleted?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -216,9 +244,13 @@ export type UserProfileGroupByOutputType = {
   userId: string
   activeThemeId: string | null
   activeCompanionId: string | null
+  availableCompanions: string[]
+  themeCredits: number
+  companionCredits: number
   totalEarnXp: number
   balanceXp: number
   level: number
+  onBoardingCompleted: boolean | null
   createdAt: Date
   updatedAt: Date
   _count: UserProfileCountAggregateOutputType | null
@@ -251,14 +283,20 @@ export type UserProfileWhereInput = {
   userId?: Prisma.StringFilter<"UserProfile"> | string
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
+  themeCredits?: Prisma.IntFilter<"UserProfile"> | number
+  companionCredits?: Prisma.IntFilter<"UserProfile"> | number
   totalEarnXp?: Prisma.IntFilter<"UserProfile"> | number
   balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
+  onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   activeTheme?: Prisma.XOR<Prisma.ThemeNullableScalarRelationFilter, Prisma.ThemeWhereInput> | null
   activeCompanion?: Prisma.XOR<Prisma.CompanionNullableScalarRelationFilter, Prisma.CompanionWhereInput> | null
+  availableThemes?: Prisma.ThemeListRelationFilter
+  availableComponions?: Prisma.CompanionListRelationFilter
 }
 
 export type UserProfileOrderByWithRelationInput = {
@@ -266,14 +304,20 @@ export type UserProfileOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  availableCompanions?: Prisma.SortOrder
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  onBoardingCompleted?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   activeTheme?: Prisma.ThemeOrderByWithRelationInput
   activeCompanion?: Prisma.CompanionOrderByWithRelationInput
+  availableThemes?: Prisma.ThemeOrderByRelationAggregateInput
+  availableComponions?: Prisma.CompanionOrderByRelationAggregateInput
 }
 
 export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -284,14 +328,20 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
+  themeCredits?: Prisma.IntFilter<"UserProfile"> | number
+  companionCredits?: Prisma.IntFilter<"UserProfile"> | number
   totalEarnXp?: Prisma.IntFilter<"UserProfile"> | number
   balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
+  onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   activeTheme?: Prisma.XOR<Prisma.ThemeNullableScalarRelationFilter, Prisma.ThemeWhereInput> | null
   activeCompanion?: Prisma.XOR<Prisma.CompanionNullableScalarRelationFilter, Prisma.CompanionWhereInput> | null
+  availableThemes?: Prisma.ThemeListRelationFilter
+  availableComponions?: Prisma.CompanionListRelationFilter
 }, "id" | "userId">
 
 export type UserProfileOrderByWithAggregationInput = {
@@ -299,9 +349,13 @@ export type UserProfileOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  availableCompanions?: Prisma.SortOrder
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  onBoardingCompleted?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
@@ -319,23 +373,33 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   activeThemeId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
+  themeCredits?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  companionCredits?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   totalEarnXp?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   balanceXp?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   level?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  onBoardingCompleted?: Prisma.BoolNullableWithAggregatesFilter<"UserProfile"> | boolean | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
 }
 
 export type UserProfileCreateInput = {
   id?: string
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
   activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
   activeCompanion?: Prisma.CompanionCreateNestedOneWithoutActiveUsersInput
+  availableThemes?: Prisma.ThemeCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileUncheckedCreateInput = {
@@ -343,23 +407,35 @@ export type UserProfileUncheckedCreateInput = {
   userId: string
   activeThemeId?: string | null
   activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
   activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
   activeCompanion?: Prisma.CompanionUpdateOneWithoutActiveUsersNestedInput
+  availableThemes?: Prisma.ThemeUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileUncheckedUpdateInput = {
@@ -367,11 +443,17 @@ export type UserProfileUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileCreateManyInput = {
@@ -379,18 +461,26 @@ export type UserProfileCreateManyInput = {
   userId: string
   activeThemeId?: string | null
   activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type UserProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -400,9 +490,13 @@ export type UserProfileUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -422,19 +516,33 @@ export type UserProfileNullableScalarRelationFilter = {
   isNot?: Prisma.UserProfileWhereInput | null
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type UserProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
+  availableCompanions?: Prisma.SortOrder
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  onBoardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileAvgOrderByAggregateInput = {
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -445,9 +553,12 @@ export type UserProfileMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  onBoardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -457,14 +568,19 @@ export type UserProfileMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  onBoardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileSumOrderByAggregateInput = {
+  themeCredits?: Prisma.SortOrder
+  companionCredits?: Prisma.SortOrder
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -477,10 +593,22 @@ export type UserProfileCreateNestedManyWithoutActiveThemeInput = {
   connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
 }
 
+export type UserProfileCreateNestedManyWithoutAvailableThemesInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput> | Prisma.UserProfileCreateWithoutAvailableThemesInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput | Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput[]
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+}
+
 export type UserProfileUncheckedCreateNestedManyWithoutActiveThemeInput = {
   create?: Prisma.XOR<Prisma.UserProfileCreateWithoutActiveThemeInput, Prisma.UserProfileUncheckedCreateWithoutActiveThemeInput> | Prisma.UserProfileCreateWithoutActiveThemeInput[] | Prisma.UserProfileUncheckedCreateWithoutActiveThemeInput[]
   connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutActiveThemeInput | Prisma.UserProfileCreateOrConnectWithoutActiveThemeInput[]
   createMany?: Prisma.UserProfileCreateManyActiveThemeInputEnvelope
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+}
+
+export type UserProfileUncheckedCreateNestedManyWithoutAvailableThemesInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput> | Prisma.UserProfileCreateWithoutAvailableThemesInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput | Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput[]
   connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
 }
 
@@ -498,6 +626,19 @@ export type UserProfileUpdateManyWithoutActiveThemeNestedInput = {
   deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
 }
 
+export type UserProfileUpdateManyWithoutAvailableThemesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput> | Prisma.UserProfileCreateWithoutAvailableThemesInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput | Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput[]
+  upsert?: Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableThemesInput | Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableThemesInput[]
+  set?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  disconnect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  delete?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  update?: Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableThemesInput | Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableThemesInput[]
+  updateMany?: Prisma.UserProfileUpdateManyWithWhereWithoutAvailableThemesInput | Prisma.UserProfileUpdateManyWithWhereWithoutAvailableThemesInput[]
+  deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
+}
+
 export type UserProfileUncheckedUpdateManyWithoutActiveThemeNestedInput = {
   create?: Prisma.XOR<Prisma.UserProfileCreateWithoutActiveThemeInput, Prisma.UserProfileUncheckedCreateWithoutActiveThemeInput> | Prisma.UserProfileCreateWithoutActiveThemeInput[] | Prisma.UserProfileUncheckedCreateWithoutActiveThemeInput[]
   connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutActiveThemeInput | Prisma.UserProfileCreateOrConnectWithoutActiveThemeInput[]
@@ -512,6 +653,19 @@ export type UserProfileUncheckedUpdateManyWithoutActiveThemeNestedInput = {
   deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
 }
 
+export type UserProfileUncheckedUpdateManyWithoutAvailableThemesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput> | Prisma.UserProfileCreateWithoutAvailableThemesInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput | Prisma.UserProfileCreateOrConnectWithoutAvailableThemesInput[]
+  upsert?: Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableThemesInput | Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableThemesInput[]
+  set?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  disconnect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  delete?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  update?: Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableThemesInput | Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableThemesInput[]
+  updateMany?: Prisma.UserProfileUpdateManyWithWhereWithoutAvailableThemesInput | Prisma.UserProfileUpdateManyWithWhereWithoutAvailableThemesInput[]
+  deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
+}
+
 export type UserProfileCreateNestedManyWithoutActiveCompanionInput = {
   create?: Prisma.XOR<Prisma.UserProfileCreateWithoutActiveCompanionInput, Prisma.UserProfileUncheckedCreateWithoutActiveCompanionInput> | Prisma.UserProfileCreateWithoutActiveCompanionInput[] | Prisma.UserProfileUncheckedCreateWithoutActiveCompanionInput[]
   connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutActiveCompanionInput | Prisma.UserProfileCreateOrConnectWithoutActiveCompanionInput[]
@@ -519,10 +673,22 @@ export type UserProfileCreateNestedManyWithoutActiveCompanionInput = {
   connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
 }
 
+export type UserProfileCreateNestedManyWithoutAvailableComponionsInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput> | Prisma.UserProfileCreateWithoutAvailableComponionsInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput | Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput[]
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+}
+
 export type UserProfileUncheckedCreateNestedManyWithoutActiveCompanionInput = {
   create?: Prisma.XOR<Prisma.UserProfileCreateWithoutActiveCompanionInput, Prisma.UserProfileUncheckedCreateWithoutActiveCompanionInput> | Prisma.UserProfileCreateWithoutActiveCompanionInput[] | Prisma.UserProfileUncheckedCreateWithoutActiveCompanionInput[]
   connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutActiveCompanionInput | Prisma.UserProfileCreateOrConnectWithoutActiveCompanionInput[]
   createMany?: Prisma.UserProfileCreateManyActiveCompanionInputEnvelope
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+}
+
+export type UserProfileUncheckedCreateNestedManyWithoutAvailableComponionsInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput> | Prisma.UserProfileCreateWithoutAvailableComponionsInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput | Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput[]
   connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
 }
 
@@ -540,6 +706,19 @@ export type UserProfileUpdateManyWithoutActiveCompanionNestedInput = {
   deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
 }
 
+export type UserProfileUpdateManyWithoutAvailableComponionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput> | Prisma.UserProfileCreateWithoutAvailableComponionsInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput | Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput[]
+  upsert?: Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableComponionsInput | Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableComponionsInput[]
+  set?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  disconnect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  delete?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  update?: Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableComponionsInput | Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableComponionsInput[]
+  updateMany?: Prisma.UserProfileUpdateManyWithWhereWithoutAvailableComponionsInput | Prisma.UserProfileUpdateManyWithWhereWithoutAvailableComponionsInput[]
+  deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
+}
+
 export type UserProfileUncheckedUpdateManyWithoutActiveCompanionNestedInput = {
   create?: Prisma.XOR<Prisma.UserProfileCreateWithoutActiveCompanionInput, Prisma.UserProfileUncheckedCreateWithoutActiveCompanionInput> | Prisma.UserProfileCreateWithoutActiveCompanionInput[] | Prisma.UserProfileUncheckedCreateWithoutActiveCompanionInput[]
   connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutActiveCompanionInput | Prisma.UserProfileCreateOrConnectWithoutActiveCompanionInput[]
@@ -551,6 +730,19 @@ export type UserProfileUncheckedUpdateManyWithoutActiveCompanionNestedInput = {
   connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
   update?: Prisma.UserProfileUpdateWithWhereUniqueWithoutActiveCompanionInput | Prisma.UserProfileUpdateWithWhereUniqueWithoutActiveCompanionInput[]
   updateMany?: Prisma.UserProfileUpdateManyWithWhereWithoutActiveCompanionInput | Prisma.UserProfileUpdateManyWithWhereWithoutActiveCompanionInput[]
+  deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
+}
+
+export type UserProfileUncheckedUpdateManyWithoutAvailableComponionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput> | Prisma.UserProfileCreateWithoutAvailableComponionsInput[] | Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput[]
+  connectOrCreate?: Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput | Prisma.UserProfileCreateOrConnectWithoutAvailableComponionsInput[]
+  upsert?: Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableComponionsInput | Prisma.UserProfileUpsertWithWhereUniqueWithoutAvailableComponionsInput[]
+  set?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  disconnect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  delete?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  connect?: Prisma.UserProfileWhereUniqueInput | Prisma.UserProfileWhereUniqueInput[]
+  update?: Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableComponionsInput | Prisma.UserProfileUpdateWithWhereUniqueWithoutAvailableComponionsInput[]
+  updateMany?: Prisma.UserProfileUpdateManyWithWhereWithoutAvailableComponionsInput | Prisma.UserProfileUpdateManyWithWhereWithoutAvailableComponionsInput[]
   deleteMany?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
 }
 
@@ -586,26 +778,51 @@ export type UserProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserProfileUpdateToOneWithWhereWithoutUserInput, Prisma.UserProfileUpdateWithoutUserInput>, Prisma.UserProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type UserProfileCreateavailableCompanionsInput = {
+  set: string[]
+}
+
+export type UserProfileUpdateavailableCompanionsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
 export type UserProfileCreateWithoutActiveThemeInput = {
   id?: string
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
   activeCompanion?: Prisma.CompanionCreateNestedOneWithoutActiveUsersInput
+  availableThemes?: Prisma.ThemeCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileUncheckedCreateWithoutActiveThemeInput = {
   id?: string
   userId: string
   activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileCreateOrConnectWithoutActiveThemeInput = {
@@ -616,6 +833,45 @@ export type UserProfileCreateOrConnectWithoutActiveThemeInput = {
 export type UserProfileCreateManyActiveThemeInputEnvelope = {
   data: Prisma.UserProfileCreateManyActiveThemeInput | Prisma.UserProfileCreateManyActiveThemeInput[]
   skipDuplicates?: boolean
+}
+
+export type UserProfileCreateWithoutAvailableThemesInput = {
+  id?: string
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
+  totalEarnXp?: number
+  balanceXp?: number
+  level?: number
+  onBoardingCompleted?: boolean | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutUserProfileInput
+  activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
+  activeCompanion?: Prisma.CompanionCreateNestedOneWithoutActiveUsersInput
+  availableComponions?: Prisma.CompanionCreateNestedManyWithoutUserProfilesInput
+}
+
+export type UserProfileUncheckedCreateWithoutAvailableThemesInput = {
+  id?: string
+  userId: string
+  activeThemeId?: string | null
+  activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
+  totalEarnXp?: number
+  balanceXp?: number
+  level?: number
+  onBoardingCompleted?: boolean | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
+}
+
+export type UserProfileCreateOrConnectWithoutAvailableThemesInput = {
+  where: Prisma.UserProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput>
 }
 
 export type UserProfileUpsertWithWhereUniqueWithoutActiveThemeInput = {
@@ -642,33 +898,65 @@ export type UserProfileScalarWhereInput = {
   userId?: Prisma.StringFilter<"UserProfile"> | string
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
+  themeCredits?: Prisma.IntFilter<"UserProfile"> | number
+  companionCredits?: Prisma.IntFilter<"UserProfile"> | number
   totalEarnXp?: Prisma.IntFilter<"UserProfile"> | number
   balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
+  onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
 }
 
+export type UserProfileUpsertWithWhereUniqueWithoutAvailableThemesInput = {
+  where: Prisma.UserProfileWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserProfileUpdateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedUpdateWithoutAvailableThemesInput>
+  create: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedCreateWithoutAvailableThemesInput>
+}
+
+export type UserProfileUpdateWithWhereUniqueWithoutAvailableThemesInput = {
+  where: Prisma.UserProfileWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserProfileUpdateWithoutAvailableThemesInput, Prisma.UserProfileUncheckedUpdateWithoutAvailableThemesInput>
+}
+
+export type UserProfileUpdateManyWithWhereWithoutAvailableThemesInput = {
+  where: Prisma.UserProfileScalarWhereInput
+  data: Prisma.XOR<Prisma.UserProfileUpdateManyMutationInput, Prisma.UserProfileUncheckedUpdateManyWithoutAvailableThemesInput>
+}
+
 export type UserProfileCreateWithoutActiveCompanionInput = {
   id?: string
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
   activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
+  availableThemes?: Prisma.ThemeCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileUncheckedCreateWithoutActiveCompanionInput = {
   id?: string
   userId: string
   activeThemeId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileCreateOrConnectWithoutActiveCompanionInput = {
@@ -679,6 +967,45 @@ export type UserProfileCreateOrConnectWithoutActiveCompanionInput = {
 export type UserProfileCreateManyActiveCompanionInputEnvelope = {
   data: Prisma.UserProfileCreateManyActiveCompanionInput | Prisma.UserProfileCreateManyActiveCompanionInput[]
   skipDuplicates?: boolean
+}
+
+export type UserProfileCreateWithoutAvailableComponionsInput = {
+  id?: string
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
+  totalEarnXp?: number
+  balanceXp?: number
+  level?: number
+  onBoardingCompleted?: boolean | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutUserProfileInput
+  activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
+  activeCompanion?: Prisma.CompanionCreateNestedOneWithoutActiveUsersInput
+  availableThemes?: Prisma.ThemeCreateNestedManyWithoutUserProfilesInput
+}
+
+export type UserProfileUncheckedCreateWithoutAvailableComponionsInput = {
+  id?: string
+  userId: string
+  activeThemeId?: string | null
+  activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
+  totalEarnXp?: number
+  balanceXp?: number
+  level?: number
+  onBoardingCompleted?: boolean | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
+}
+
+export type UserProfileCreateOrConnectWithoutAvailableComponionsInput = {
+  where: Prisma.UserProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput>
 }
 
 export type UserProfileUpsertWithWhereUniqueWithoutActiveCompanionInput = {
@@ -697,26 +1024,54 @@ export type UserProfileUpdateManyWithWhereWithoutActiveCompanionInput = {
   data: Prisma.XOR<Prisma.UserProfileUpdateManyMutationInput, Prisma.UserProfileUncheckedUpdateManyWithoutActiveCompanionInput>
 }
 
+export type UserProfileUpsertWithWhereUniqueWithoutAvailableComponionsInput = {
+  where: Prisma.UserProfileWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserProfileUpdateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedUpdateWithoutAvailableComponionsInput>
+  create: Prisma.XOR<Prisma.UserProfileCreateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedCreateWithoutAvailableComponionsInput>
+}
+
+export type UserProfileUpdateWithWhereUniqueWithoutAvailableComponionsInput = {
+  where: Prisma.UserProfileWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserProfileUpdateWithoutAvailableComponionsInput, Prisma.UserProfileUncheckedUpdateWithoutAvailableComponionsInput>
+}
+
+export type UserProfileUpdateManyWithWhereWithoutAvailableComponionsInput = {
+  where: Prisma.UserProfileScalarWhereInput
+  data: Prisma.XOR<Prisma.UserProfileUpdateManyMutationInput, Prisma.UserProfileUncheckedUpdateManyWithoutAvailableComponionsInput>
+}
+
 export type UserProfileCreateWithoutUserInput = {
   id?: string
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
   activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
   activeCompanion?: Prisma.CompanionCreateNestedOneWithoutActiveUsersInput
+  availableThemes?: Prisma.ThemeCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileUncheckedCreateWithoutUserInput = {
   id?: string
   activeThemeId?: string | null
   activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
+  availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
 }
 
 export type UserProfileCreateOrConnectWithoutUserInput = {
@@ -737,66 +1092,148 @@ export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type UserProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
   activeCompanion?: Prisma.CompanionUpdateOneWithoutActiveUsersNestedInput
+  availableThemes?: Prisma.ThemeUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileCreateManyActiveThemeInput = {
   id?: string
   userId: string
   activeCompanionId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type UserProfileUpdateWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
   activeCompanion?: Prisma.CompanionUpdateOneWithoutActiveUsersNestedInput
+  availableThemes?: Prisma.ThemeUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileUncheckedUpdateWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileUncheckedUpdateManyWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserProfileUpdateWithoutAvailableThemesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
+  activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
+  activeCompanion?: Prisma.CompanionUpdateOneWithoutActiveUsersNestedInput
+  availableComponions?: Prisma.CompanionUpdateManyWithoutUserProfilesNestedInput
+}
+
+export type UserProfileUncheckedUpdateWithoutAvailableThemesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
+}
+
+export type UserProfileUncheckedUpdateManyWithoutAvailableThemesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -805,46 +1242,154 @@ export type UserProfileCreateManyActiveCompanionInput = {
   id?: string
   userId: string
   activeThemeId?: string | null
+  availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
+  themeCredits?: number
+  companionCredits?: number
   totalEarnXp?: number
   balanceXp?: number
   level?: number
+  onBoardingCompleted?: boolean | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type UserProfileUpdateWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
   activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
+  availableThemes?: Prisma.ThemeUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileUncheckedUpdateWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
+  availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
 }
 
 export type UserProfileUncheckedUpdateManyWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
   totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type UserProfileUpdateWithoutAvailableComponionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
+  activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
+  activeCompanion?: Prisma.CompanionUpdateOneWithoutActiveUsersNestedInput
+  availableThemes?: Prisma.ThemeUpdateManyWithoutUserProfilesNestedInput
+}
+
+export type UserProfileUncheckedUpdateWithoutAvailableComponionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
+}
+
+export type UserProfileUncheckedUpdateManyWithoutAvailableComponionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
+  themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnXp?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type UserProfileCountOutputType
+ */
+
+export type UserProfileCountOutputType = {
+  availableThemes: number
+  availableComponions: number
+}
+
+export type UserProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  availableThemes?: boolean | UserProfileCountOutputTypeCountAvailableThemesArgs
+  availableComponions?: boolean | UserProfileCountOutputTypeCountAvailableComponionsArgs
+}
+
+/**
+ * UserProfileCountOutputType without action
+ */
+export type UserProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserProfileCountOutputType
+   */
+  select?: Prisma.UserProfileCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserProfileCountOutputType without action
+ */
+export type UserProfileCountOutputTypeCountAvailableThemesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ThemeWhereInput
+}
+
+/**
+ * UserProfileCountOutputType without action
+ */
+export type UserProfileCountOutputTypeCountAvailableComponionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CompanionWhereInput
+}
 
 
 export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -852,14 +1397,21 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
+  availableCompanions?: boolean
+  themeCredits?: boolean
+  companionCredits?: boolean
   totalEarnXp?: boolean
   balanceXp?: boolean
   level?: boolean
+  onBoardingCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activeTheme?: boolean | Prisma.UserProfile$activeThemeArgs<ExtArgs>
   activeCompanion?: boolean | Prisma.UserProfile$activeCompanionArgs<ExtArgs>
+  availableThemes?: boolean | Prisma.UserProfile$availableThemesArgs<ExtArgs>
+  availableComponions?: boolean | Prisma.UserProfile$availableComponionsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -867,9 +1419,13 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
+  availableCompanions?: boolean
+  themeCredits?: boolean
+  companionCredits?: boolean
   totalEarnXp?: boolean
   balanceXp?: boolean
   level?: boolean
+  onBoardingCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -882,9 +1438,13 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
+  availableCompanions?: boolean
+  themeCredits?: boolean
+  companionCredits?: boolean
   totalEarnXp?: boolean
   balanceXp?: boolean
   level?: boolean
+  onBoardingCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -897,18 +1457,25 @@ export type UserProfileSelectScalar = {
   userId?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
+  availableCompanions?: boolean
+  themeCredits?: boolean
+  companionCredits?: boolean
   totalEarnXp?: boolean
   balanceXp?: boolean
   level?: boolean
+  onBoardingCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "totalEarnXp" | "balanceXp" | "level" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activeTheme?: boolean | Prisma.UserProfile$activeThemeArgs<ExtArgs>
   activeCompanion?: boolean | Prisma.UserProfile$activeCompanionArgs<ExtArgs>
+  availableThemes?: boolean | Prisma.UserProfile$availableThemesArgs<ExtArgs>
+  availableComponions?: boolean | Prisma.UserProfile$availableComponionsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -927,15 +1494,21 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     user: Prisma.$UserPayload<ExtArgs>
     activeTheme: Prisma.$ThemePayload<ExtArgs> | null
     activeCompanion: Prisma.$CompanionPayload<ExtArgs> | null
+    availableThemes: Prisma.$ThemePayload<ExtArgs>[]
+    availableComponions: Prisma.$CompanionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
     activeThemeId: string | null
     activeCompanionId: string | null
+    availableCompanions: string[]
+    themeCredits: number
+    companionCredits: number
     totalEarnXp: number
     balanceXp: number
     level: number
+    onBoardingCompleted: boolean | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["userProfile"]>
@@ -1335,6 +1908,8 @@ export interface Prisma__UserProfileClient<T, Null = never, ExtArgs extends runt
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   activeTheme<T extends Prisma.UserProfile$activeThemeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserProfile$activeThemeArgs<ExtArgs>>): Prisma.Prisma__ThemeClient<runtime.Types.Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   activeCompanion<T extends Prisma.UserProfile$activeCompanionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserProfile$activeCompanionArgs<ExtArgs>>): Prisma.Prisma__CompanionClient<runtime.Types.Result.GetResult<Prisma.$CompanionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  availableThemes<T extends Prisma.UserProfile$availableThemesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserProfile$availableThemesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  availableComponions<T extends Prisma.UserProfile$availableComponionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserProfile$availableComponionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1368,9 +1943,13 @@ export interface UserProfileFieldRefs {
   readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly activeThemeId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly activeCompanionId: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly availableCompanions: Prisma.FieldRef<"UserProfile", 'String[]'>
+  readonly themeCredits: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly companionCredits: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly totalEarnXp: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly balanceXp: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly level: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly onBoardingCompleted: Prisma.FieldRef<"UserProfile", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
 }
@@ -1804,6 +2383,54 @@ export type UserProfile$activeCompanionArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.CompanionInclude<ExtArgs> | null
   where?: Prisma.CompanionWhereInput
+}
+
+/**
+ * UserProfile.availableThemes
+ */
+export type UserProfile$availableThemesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Theme
+   */
+  select?: Prisma.ThemeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Theme
+   */
+  omit?: Prisma.ThemeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThemeInclude<ExtArgs> | null
+  where?: Prisma.ThemeWhereInput
+  orderBy?: Prisma.ThemeOrderByWithRelationInput | Prisma.ThemeOrderByWithRelationInput[]
+  cursor?: Prisma.ThemeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ThemeScalarFieldEnum | Prisma.ThemeScalarFieldEnum[]
+}
+
+/**
+ * UserProfile.availableComponions
+ */
+export type UserProfile$availableComponionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Companion
+   */
+  select?: Prisma.CompanionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Companion
+   */
+  omit?: Prisma.CompanionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CompanionInclude<ExtArgs> | null
+  where?: Prisma.CompanionWhereInput
+  orderBy?: Prisma.CompanionOrderByWithRelationInput | Prisma.CompanionOrderByWithRelationInput[]
+  cursor?: Prisma.CompanionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CompanionScalarFieldEnum | Prisma.CompanionScalarFieldEnum[]
 }
 
 /**

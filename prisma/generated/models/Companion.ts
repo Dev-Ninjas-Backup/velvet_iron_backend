@@ -226,6 +226,7 @@ export type CompanionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userCompanions?: Prisma.UserCompanionListRelationFilter
   activeUsers?: Prisma.UserProfileListRelationFilter
+  userProfiles?: Prisma.UserProfileListRelationFilter
 }
 
 export type CompanionOrderByWithRelationInput = {
@@ -237,6 +238,7 @@ export type CompanionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   userCompanions?: Prisma.UserCompanionOrderByRelationAggregateInput
   activeUsers?: Prisma.UserProfileOrderByRelationAggregateInput
+  userProfiles?: Prisma.UserProfileOrderByRelationAggregateInput
 }
 
 export type CompanionWhereUniqueInput = Prisma.AtLeast<{
@@ -251,6 +253,7 @@ export type CompanionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userCompanions?: Prisma.UserCompanionListRelationFilter
   activeUsers?: Prisma.UserProfileListRelationFilter
+  userProfiles?: Prisma.UserProfileListRelationFilter
 }, "id">
 
 export type CompanionOrderByWithAggregationInput = {
@@ -288,6 +291,7 @@ export type CompanionCreateInput = {
   createdAt?: Date | string
   userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutCompanionInput
   activeUsers?: Prisma.UserProfileCreateNestedManyWithoutActiveCompanionInput
+  userProfiles?: Prisma.UserProfileCreateNestedManyWithoutAvailableComponionsInput
 }
 
 export type CompanionUncheckedCreateInput = {
@@ -299,6 +303,7 @@ export type CompanionUncheckedCreateInput = {
   createdAt?: Date | string
   userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutCompanionInput
   activeUsers?: Prisma.UserProfileUncheckedCreateNestedManyWithoutActiveCompanionInput
+  userProfiles?: Prisma.UserProfileUncheckedCreateNestedManyWithoutAvailableComponionsInput
 }
 
 export type CompanionUpdateInput = {
@@ -310,6 +315,7 @@ export type CompanionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userCompanions?: Prisma.UserCompanionUpdateManyWithoutCompanionNestedInput
   activeUsers?: Prisma.UserProfileUpdateManyWithoutActiveCompanionNestedInput
+  userProfiles?: Prisma.UserProfileUpdateManyWithoutAvailableComponionsNestedInput
 }
 
 export type CompanionUncheckedUpdateInput = {
@@ -321,6 +327,7 @@ export type CompanionUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutCompanionNestedInput
   activeUsers?: Prisma.UserProfileUncheckedUpdateManyWithoutActiveCompanionNestedInput
+  userProfiles?: Prisma.UserProfileUncheckedUpdateManyWithoutAvailableComponionsNestedInput
 }
 
 export type CompanionCreateManyInput = {
@@ -395,6 +402,16 @@ export type CompanionNullableScalarRelationFilter = {
   isNot?: Prisma.CompanionWhereInput | null
 }
 
+export type CompanionListRelationFilter = {
+  every?: Prisma.CompanionWhereInput
+  some?: Prisma.CompanionWhereInput
+  none?: Prisma.CompanionWhereInput
+}
+
+export type CompanionOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type CompanionCreateNestedOneWithoutUserCompanionsInput = {
   create?: Prisma.XOR<Prisma.CompanionCreateWithoutUserCompanionsInput, Prisma.CompanionUncheckedCreateWithoutUserCompanionsInput>
   connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutUserCompanionsInput
@@ -415,6 +432,18 @@ export type CompanionCreateNestedOneWithoutActiveUsersInput = {
   connect?: Prisma.CompanionWhereUniqueInput
 }
 
+export type CompanionCreateNestedManyWithoutUserProfilesInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutUserProfilesInput, Prisma.CompanionUncheckedCreateWithoutUserProfilesInput> | Prisma.CompanionCreateWithoutUserProfilesInput[] | Prisma.CompanionUncheckedCreateWithoutUserProfilesInput[]
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutUserProfilesInput | Prisma.CompanionCreateOrConnectWithoutUserProfilesInput[]
+  connect?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+}
+
+export type CompanionUncheckedCreateNestedManyWithoutUserProfilesInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutUserProfilesInput, Prisma.CompanionUncheckedCreateWithoutUserProfilesInput> | Prisma.CompanionCreateWithoutUserProfilesInput[] | Prisma.CompanionUncheckedCreateWithoutUserProfilesInput[]
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutUserProfilesInput | Prisma.CompanionCreateOrConnectWithoutUserProfilesInput[]
+  connect?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+}
+
 export type CompanionUpdateOneWithoutActiveUsersNestedInput = {
   create?: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
   connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutActiveUsersInput
@@ -425,6 +454,32 @@ export type CompanionUpdateOneWithoutActiveUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutActiveUsersInput, Prisma.CompanionUpdateWithoutActiveUsersInput>, Prisma.CompanionUncheckedUpdateWithoutActiveUsersInput>
 }
 
+export type CompanionUpdateManyWithoutUserProfilesNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutUserProfilesInput, Prisma.CompanionUncheckedCreateWithoutUserProfilesInput> | Prisma.CompanionCreateWithoutUserProfilesInput[] | Prisma.CompanionUncheckedCreateWithoutUserProfilesInput[]
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutUserProfilesInput | Prisma.CompanionCreateOrConnectWithoutUserProfilesInput[]
+  upsert?: Prisma.CompanionUpsertWithWhereUniqueWithoutUserProfilesInput | Prisma.CompanionUpsertWithWhereUniqueWithoutUserProfilesInput[]
+  set?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  disconnect?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  delete?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  connect?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  update?: Prisma.CompanionUpdateWithWhereUniqueWithoutUserProfilesInput | Prisma.CompanionUpdateWithWhereUniqueWithoutUserProfilesInput[]
+  updateMany?: Prisma.CompanionUpdateManyWithWhereWithoutUserProfilesInput | Prisma.CompanionUpdateManyWithWhereWithoutUserProfilesInput[]
+  deleteMany?: Prisma.CompanionScalarWhereInput | Prisma.CompanionScalarWhereInput[]
+}
+
+export type CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutUserProfilesInput, Prisma.CompanionUncheckedCreateWithoutUserProfilesInput> | Prisma.CompanionCreateWithoutUserProfilesInput[] | Prisma.CompanionUncheckedCreateWithoutUserProfilesInput[]
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutUserProfilesInput | Prisma.CompanionCreateOrConnectWithoutUserProfilesInput[]
+  upsert?: Prisma.CompanionUpsertWithWhereUniqueWithoutUserProfilesInput | Prisma.CompanionUpsertWithWhereUniqueWithoutUserProfilesInput[]
+  set?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  disconnect?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  delete?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  connect?: Prisma.CompanionWhereUniqueInput | Prisma.CompanionWhereUniqueInput[]
+  update?: Prisma.CompanionUpdateWithWhereUniqueWithoutUserProfilesInput | Prisma.CompanionUpdateWithWhereUniqueWithoutUserProfilesInput[]
+  updateMany?: Prisma.CompanionUpdateManyWithWhereWithoutUserProfilesInput | Prisma.CompanionUpdateManyWithWhereWithoutUserProfilesInput[]
+  deleteMany?: Prisma.CompanionScalarWhereInput | Prisma.CompanionScalarWhereInput[]
+}
+
 export type CompanionCreateWithoutUserCompanionsInput = {
   id?: string
   name: string
@@ -433,6 +488,7 @@ export type CompanionCreateWithoutUserCompanionsInput = {
   unlockXp?: number
   createdAt?: Date | string
   activeUsers?: Prisma.UserProfileCreateNestedManyWithoutActiveCompanionInput
+  userProfiles?: Prisma.UserProfileCreateNestedManyWithoutAvailableComponionsInput
 }
 
 export type CompanionUncheckedCreateWithoutUserCompanionsInput = {
@@ -443,6 +499,7 @@ export type CompanionUncheckedCreateWithoutUserCompanionsInput = {
   unlockXp?: number
   createdAt?: Date | string
   activeUsers?: Prisma.UserProfileUncheckedCreateNestedManyWithoutActiveCompanionInput
+  userProfiles?: Prisma.UserProfileUncheckedCreateNestedManyWithoutAvailableComponionsInput
 }
 
 export type CompanionCreateOrConnectWithoutUserCompanionsInput = {
@@ -469,6 +526,7 @@ export type CompanionUpdateWithoutUserCompanionsInput = {
   unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeUsers?: Prisma.UserProfileUpdateManyWithoutActiveCompanionNestedInput
+  userProfiles?: Prisma.UserProfileUpdateManyWithoutAvailableComponionsNestedInput
 }
 
 export type CompanionUncheckedUpdateWithoutUserCompanionsInput = {
@@ -479,6 +537,7 @@ export type CompanionUncheckedUpdateWithoutUserCompanionsInput = {
   unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeUsers?: Prisma.UserProfileUncheckedUpdateManyWithoutActiveCompanionNestedInput
+  userProfiles?: Prisma.UserProfileUncheckedUpdateManyWithoutAvailableComponionsNestedInput
 }
 
 export type CompanionCreateWithoutActiveUsersInput = {
@@ -489,6 +548,7 @@ export type CompanionCreateWithoutActiveUsersInput = {
   unlockXp?: number
   createdAt?: Date | string
   userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutCompanionInput
+  userProfiles?: Prisma.UserProfileCreateNestedManyWithoutAvailableComponionsInput
 }
 
 export type CompanionUncheckedCreateWithoutActiveUsersInput = {
@@ -499,11 +559,39 @@ export type CompanionUncheckedCreateWithoutActiveUsersInput = {
   unlockXp?: number
   createdAt?: Date | string
   userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutCompanionInput
+  userProfiles?: Prisma.UserProfileUncheckedCreateNestedManyWithoutAvailableComponionsInput
 }
 
 export type CompanionCreateOrConnectWithoutActiveUsersInput = {
   where: Prisma.CompanionWhereUniqueInput
   create: Prisma.XOR<Prisma.CompanionCreateWithoutActiveUsersInput, Prisma.CompanionUncheckedCreateWithoutActiveUsersInput>
+}
+
+export type CompanionCreateWithoutUserProfilesInput = {
+  id?: string
+  name: string
+  title?: string | null
+  quote?: string | null
+  unlockXp?: number
+  createdAt?: Date | string
+  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutCompanionInput
+  activeUsers?: Prisma.UserProfileCreateNestedManyWithoutActiveCompanionInput
+}
+
+export type CompanionUncheckedCreateWithoutUserProfilesInput = {
+  id?: string
+  name: string
+  title?: string | null
+  quote?: string | null
+  unlockXp?: number
+  createdAt?: Date | string
+  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutCompanionInput
+  activeUsers?: Prisma.UserProfileUncheckedCreateNestedManyWithoutActiveCompanionInput
+}
+
+export type CompanionCreateOrConnectWithoutUserProfilesInput = {
+  where: Prisma.CompanionWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutUserProfilesInput, Prisma.CompanionUncheckedCreateWithoutUserProfilesInput>
 }
 
 export type CompanionUpsertWithoutActiveUsersInput = {
@@ -525,6 +613,7 @@ export type CompanionUpdateWithoutActiveUsersInput = {
   unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userCompanions?: Prisma.UserCompanionUpdateManyWithoutCompanionNestedInput
+  userProfiles?: Prisma.UserProfileUpdateManyWithoutAvailableComponionsNestedInput
 }
 
 export type CompanionUncheckedUpdateWithoutActiveUsersInput = {
@@ -535,6 +624,66 @@ export type CompanionUncheckedUpdateWithoutActiveUsersInput = {
   unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutCompanionNestedInput
+  userProfiles?: Prisma.UserProfileUncheckedUpdateManyWithoutAvailableComponionsNestedInput
+}
+
+export type CompanionUpsertWithWhereUniqueWithoutUserProfilesInput = {
+  where: Prisma.CompanionWhereUniqueInput
+  update: Prisma.XOR<Prisma.CompanionUpdateWithoutUserProfilesInput, Prisma.CompanionUncheckedUpdateWithoutUserProfilesInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutUserProfilesInput, Prisma.CompanionUncheckedCreateWithoutUserProfilesInput>
+}
+
+export type CompanionUpdateWithWhereUniqueWithoutUserProfilesInput = {
+  where: Prisma.CompanionWhereUniqueInput
+  data: Prisma.XOR<Prisma.CompanionUpdateWithoutUserProfilesInput, Prisma.CompanionUncheckedUpdateWithoutUserProfilesInput>
+}
+
+export type CompanionUpdateManyWithWhereWithoutUserProfilesInput = {
+  where: Prisma.CompanionScalarWhereInput
+  data: Prisma.XOR<Prisma.CompanionUpdateManyMutationInput, Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesInput>
+}
+
+export type CompanionScalarWhereInput = {
+  AND?: Prisma.CompanionScalarWhereInput | Prisma.CompanionScalarWhereInput[]
+  OR?: Prisma.CompanionScalarWhereInput[]
+  NOT?: Prisma.CompanionScalarWhereInput | Prisma.CompanionScalarWhereInput[]
+  id?: Prisma.StringFilter<"Companion"> | string
+  name?: Prisma.StringFilter<"Companion"> | string
+  title?: Prisma.StringNullableFilter<"Companion"> | string | null
+  quote?: Prisma.StringNullableFilter<"Companion"> | string | null
+  unlockXp?: Prisma.IntFilter<"Companion"> | number
+  createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
+}
+
+export type CompanionUpdateWithoutUserProfilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userCompanions?: Prisma.UserCompanionUpdateManyWithoutCompanionNestedInput
+  activeUsers?: Prisma.UserProfileUpdateManyWithoutActiveCompanionNestedInput
+}
+
+export type CompanionUncheckedUpdateWithoutUserProfilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutCompanionNestedInput
+  activeUsers?: Prisma.UserProfileUncheckedUpdateManyWithoutActiveCompanionNestedInput
+}
+
+export type CompanionUncheckedUpdateManyWithoutUserProfilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unlockXp?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -545,11 +694,13 @@ export type CompanionUncheckedUpdateWithoutActiveUsersInput = {
 export type CompanionCountOutputType = {
   userCompanions: number
   activeUsers: number
+  userProfiles: number
 }
 
 export type CompanionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanions?: boolean | CompanionCountOutputTypeCountUserCompanionsArgs
   activeUsers?: boolean | CompanionCountOutputTypeCountActiveUsersArgs
+  userProfiles?: boolean | CompanionCountOutputTypeCountUserProfilesArgs
 }
 
 /**
@@ -576,6 +727,13 @@ export type CompanionCountOutputTypeCountActiveUsersArgs<ExtArgs extends runtime
   where?: Prisma.UserProfileWhereInput
 }
 
+/**
+ * CompanionCountOutputType without action
+ */
+export type CompanionCountOutputTypeCountUserProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserProfileWhereInput
+}
+
 
 export type CompanionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -586,6 +744,7 @@ export type CompanionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   userCompanions?: boolean | Prisma.Companion$userCompanionsArgs<ExtArgs>
   activeUsers?: boolean | Prisma.Companion$activeUsersArgs<ExtArgs>
+  userProfiles?: boolean | Prisma.Companion$userProfilesArgs<ExtArgs>
   _count?: boolean | Prisma.CompanionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["companion"]>
 
@@ -620,6 +779,7 @@ export type CompanionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type CompanionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanions?: boolean | Prisma.Companion$userCompanionsArgs<ExtArgs>
   activeUsers?: boolean | Prisma.Companion$activeUsersArgs<ExtArgs>
+  userProfiles?: boolean | Prisma.Companion$userProfilesArgs<ExtArgs>
   _count?: boolean | Prisma.CompanionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompanionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -630,6 +790,7 @@ export type $CompanionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     userCompanions: Prisma.$UserCompanionPayload<ExtArgs>[]
     activeUsers: Prisma.$UserProfilePayload<ExtArgs>[]
+    userProfiles: Prisma.$UserProfilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1034,6 +1195,7 @@ export interface Prisma__CompanionClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   userCompanions<T extends Prisma.Companion$userCompanionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$userCompanionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activeUsers<T extends Prisma.Companion$activeUsersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$activeUsersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userProfiles<T extends Prisma.Companion$userProfilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$userProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1484,6 +1646,30 @@ export type Companion$userCompanionsArgs<ExtArgs extends runtime.Types.Extension
  * Companion.activeUsers
  */
 export type Companion$activeUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserProfile
+   */
+  select?: Prisma.UserProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserProfile
+   */
+  omit?: Prisma.UserProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserProfileInclude<ExtArgs> | null
+  where?: Prisma.UserProfileWhereInput
+  orderBy?: Prisma.UserProfileOrderByWithRelationInput | Prisma.UserProfileOrderByWithRelationInput[]
+  cursor?: Prisma.UserProfileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserProfileScalarFieldEnum | Prisma.UserProfileScalarFieldEnum[]
+}
+
+/**
+ * Companion.userProfiles
+ */
+export type Companion$userProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the UserProfile
    */

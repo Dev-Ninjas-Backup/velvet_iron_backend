@@ -19,26 +19,26 @@ import { ValidAll, ValidAdmin } from '../common/decorators/validate.decorator';
 export class ThemeController {
   constructor(private readonly themeService: ThemeService) {}
 
-  @Post()
-  @ValidAdmin()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Create a new theme (Admin only)' })
-  create(@Body() createThemeDto: CreateThemeDto) {
-    return this.themeService.create(createThemeDto);
-  }
+  // @Post()
+  // @ValidAdmin()
+  // @ApiBearerAuth()
+  // @ApiOperation({ summary: 'Create a new theme (Admin only)' })
+  // create(@Body() createThemeDto: CreateThemeDto) {
+  //   return this.themeService.create(createThemeDto);
+  // }
 
-  @Get()
-  @ApiOperation({ summary: 'Get all themes' })
-  findAll() {
-    return this.themeService.findAll();
-  }
+  // @Get()
+  // @ApiOperation({ summary: 'Get all themes' })
+  // findAll() {
+  //   return this.themeService.findAll();
+  // }
 
   @Get('my-themes')
   @ValidAll()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get my unlocked themes' })
   getMyThemes(@GetUser('id') userId: string) {
-    return this.themeService.getUserThemes(userId);
+    return this.themeService.getMyThemes(userId);
   }
 
   @Get(':id')
@@ -47,21 +47,21 @@ export class ThemeController {
     return this.themeService.findOne(id);
   }
 
-  @Patch(':id')
-  @ValidAdmin()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update a theme (Admin only)' })
-  update(@Param('id') id: string, @Body() updateThemeDto: UpdateThemeDto) {
-    return this.themeService.update(id, updateThemeDto);
-  }
+  // @Patch(':id')
+  // @ValidAdmin()
+  // @ApiBearerAuth()
+  // @ApiOperation({ summary: 'Update a theme (Admin only)' })
+  // update(@Param('id') id: string, @Body() updateThemeDto: UpdateThemeDto) {
+  //   return this.themeService.update(id, updateThemeDto);
+  // }
 
-  @Delete(':id')
-  @ValidAdmin()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete a theme (Admin only)' })
-  remove(@Param('id') id: string) {
-    return this.themeService.remove(id);
-  }
+  // @Delete(':id')
+  // @ValidAdmin()
+  // @ApiBearerAuth()
+  // @ApiOperation({ summary: 'Delete a theme (Admin only)' })
+  // remove(@Param('id') id: string) {
+  //   return this.themeService.remove(id);
+  // }
 
   @Post(':id/unlock')
   @ValidAll()

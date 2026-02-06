@@ -19,19 +19,19 @@ import { ValidAll, ValidAdmin } from '../common/decorators/validate.decorator';
 export class CompanionController {
   constructor(private readonly companionService: CompanionService) {}
 
-  @Post()
-  @ValidAdmin()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Create a new companion (Admin only)' })
-  create(@Body() createCompanionDto: CreateCompanionDto) {
-    return this.companionService.create(createCompanionDto);
-  }
+  // @Post()
+  // @ValidAdmin()
+  // @ApiBearerAuth()
+  // @ApiOperation({ summary: 'Create a new companion (Admin only)' })
+  // create(@Body() createCompanionDto: CreateCompanionDto) {
+  //   return this.companionService.create(createCompanionDto);
+  // }
 
-  @Get()
-  @ApiOperation({ summary: 'Get all companions' })
-  findAll() {
-    return this.companionService.findAll();
-  }
+  // @Get()
+  // @ApiOperation({ summary: 'Get all companions' })
+  // findAll() {
+  //   return this.companionService.findAll();
+  // }
 
   @Get('my-companions')
   @ValidAll()
@@ -47,24 +47,24 @@ export class CompanionController {
     return this.companionService.findOne(id);
   }
 
-  @Patch(':id')
-  @ValidAdmin()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update a companion (Admin only)' })
-  update(
-    @Param('id') id: string,
-    @Body() updateCompanionDto: UpdateCompanionDto,
-  ) {
-    return this.companionService.update(id, updateCompanionDto);
-  }
+  // @Patch(':id')
+  // @ValidAdmin()
+  // @ApiBearerAuth()
+  // @ApiOperation({ summary: 'Update a companion (Admin only)' })
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateCompanionDto: UpdateCompanionDto,
+  // ) {
+  //   return this.companionService.update(id, updateCompanionDto);
+  // }
 
-  @Delete(':id')
-  @ValidAdmin()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete a companion (Admin only)' })
-  remove(@Param('id') id: string) {
-    return this.companionService.remove(id);
-  }
+  // @Delete(':id')
+  // @ValidAdmin()
+  // @ApiBearerAuth()
+  // @ApiOperation({ summary: 'Delete a companion (Admin only)' })
+  // remove(@Param('id') id: string) {
+  //   return this.companionService.remove(id);
+  // }
 
   @Post(':id/unlock')
   @ValidAll()

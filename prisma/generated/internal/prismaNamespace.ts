@@ -2102,9 +2102,13 @@ export const UserProfileScalarFieldEnum = {
   userId: 'userId',
   activeThemeId: 'activeThemeId',
   activeCompanionId: 'activeCompanionId',
+  availableCompanions: 'availableCompanions',
+  themeCredits: 'themeCredits',
+  companionCredits: 'companionCredits',
   totalEarnXp: 'totalEarnXp',
   balanceXp: 'balanceXp',
   level: 'level',
+  onBoardingCompleted: 'onBoardingCompleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

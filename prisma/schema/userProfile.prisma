@@ -1,20 +1,21 @@
 model UserProfile {
-    id                String     @id @default(uuid())
-    userId            String     @unique
-    user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    activeThemeId     String?
-    activeTheme       Theme?     @relation("ActiveTheme", fields: [activeThemeId], references: [id])
-    activeCompanionId String?
-    activeCompanion   Companion? @relation("ActiveCompanion", fields: [activeCompanionId], references: [id])
-    availableThemes    Theme[]    @relation("availabalethemes")
-    availableCompanions String[]  @default([])
-    themeCredits     Int        @default(0)
-    companionCredits Int        @default(0)
-    totalEarnXp       Int        @default(0) 
-    balanceXp         Int        @default(0) 
-    level             Int        @default(1)
-    createdAt         DateTime   @default(now())
-    updatedAt         DateTime   @updatedAt
+    id                  String      @id @default(uuid())
+    userId              String      @unique
+    user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    activeThemeId       String?
+    activeTheme         Theme?      @relation("ActiveTheme", fields: [activeThemeId], references: [id])
+    activeCompanionId   String?
+    activeCompanion     Companion?  @relation("ActiveCompanion", fields: [activeCompanionId], references: [id])
+    availableThemes     Theme[]     @relation("availabalethemes")
+    availableCompanions String[]    @default([])
+    themeCredits        Int         @default(0)
+    companionCredits    Int         @default(0)
+    totalEarnXp         Int         @default(0)
+    balanceXp           Int         @default(0)
+    level               Int         @default(1)
+    onBoardingCompleted Boolean?    @default(false)
+    createdAt           DateTime    @default(now())
+    updatedAt           DateTime    @updatedAt
     availableComponions Companion[] @relation("availableCompanions")
 
     @@index([userId])
