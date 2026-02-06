@@ -9,17 +9,17 @@ export class LeveladdService {
   async addXpToUser(userId: string, xpAmount: number) {
     try {
       // First, update the XP values
-      // const updateResult = await this.prisma.client.userProfile.update({
-      //   where: { userId },
-      //   data: {
-      //     balanceXp: {
-      //       increment: xpAmount,
-      //     },
-      //     totalEarnXp: {
-      //       increment: xpAmount,
-      //     },
-      //   },
-      // });
+      const updateResult = await this.prisma.client.userProfile.update({
+        where: { userId },
+        data: {
+          balanceXp: {
+            increment: xpAmount,
+          },
+          totalEarnXp: {
+            increment: xpAmount,
+          },
+        },
+      });
       const userProfile = await this.prisma.client.userProfile.findUnique({
         where: { userId },
       });

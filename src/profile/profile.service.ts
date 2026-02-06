@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { calculateLevel } from '@/leveladd/levelCalculator';
+import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
 
 @Injectable()
 export class ProfileService {
@@ -31,6 +32,7 @@ export class ProfileService {
         },
       });
     }
+console.log(profile);
 
     let finalProfile = {
       ...profile,
@@ -38,6 +40,26 @@ export class ProfileService {
     };
 
     return finalProfile;
+  }
+
+  async updateFitnessGoal(
+    userId: string,
+    updateFitnessGoalDto: fitnessGoalDTO,
+  ) {
+    let profile = await this.prisma.client.userProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Profile not found');
+    }
+
+    profile = await this.prisma.client.userProfile.update({
+      where: { userId },
+     data:{fitnessGoal: updateFitnessGoalDto.goal}
+    });
+
+    return profile;
   }
 
   async addXp(userId: string, xpAmount: number) {
@@ -51,18 +73,6 @@ export class ProfileService {
           data: { userId, level: 1, totalEarnXp: 0, balanceXp: 0 },
         });
       }
-
-      const updateResult = await this.prisma.client.userProfile.update({
-        where: { userId },
-        data: {
-          balanceXp: {
-            increment: xpAmount,
-          },
-          totalEarnXp: {
-            increment: xpAmount,
-          },
-        },
-      });
 
       const addXP = await this.leveladdService.addXpToUser(userId, xpAmount);
 

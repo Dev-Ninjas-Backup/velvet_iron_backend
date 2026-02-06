@@ -2109,6 +2109,7 @@ export const UserProfileScalarFieldEnum = {
   balanceXp: 'balanceXp',
   level: 'level',
   onBoardingCompleted: 'onBoardingCompleted',
+  fitnessGoal: 'fitnessGoal',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -5,6 +5,7 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  Patch,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AddXpDto } from './dto/add-xp.dto';
@@ -16,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidAll } from '../common/decorators/validate.decorator';
+import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
 
 @ApiTags('Profile')
 @Controller('profile')
@@ -36,6 +38,15 @@ export class ProfileController {
   @ApiOperation({ summary: 'Add XP to my profile (for testing)' })
   addXp(@GetUser('id') userId: string, @Body() addXpDto: AddXpDto) {
     return this.profileService.addXp(userId, addXpDto.xp);
+  }
+
+
+  @Patch("fitness-goal")
+  @ValidAll()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update my fitness goal' })
+  updateFitnessGoal(@GetUser('id') userId: string, @Body() updateFitnessGoalDto: fitnessGoalDTO) {
+    return this.profileService.updateFitnessGoal(userId, updateFitnessGoalDto);
   }
 
   @Get('leaderboard')

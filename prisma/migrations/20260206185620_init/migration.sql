@@ -244,6 +244,7 @@ CREATE TABLE "user_profiles" (
     "balanceXp" INTEGER NOT NULL DEFAULT 0,
     "level" INTEGER NOT NULL DEFAULT 1,
     "onBoardingCompleted" BOOLEAN DEFAULT false,
+    "fitnessGoal" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

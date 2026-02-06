@@ -53,6 +53,7 @@ export type UserProfileMinAggregateOutputType = {
   balanceXp: number | null
   level: number | null
   onBoardingCompleted: boolean | null
+  fitnessGoal: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +69,7 @@ export type UserProfileMaxAggregateOutputType = {
   balanceXp: number | null
   level: number | null
   onBoardingCompleted: boolean | null
+  fitnessGoal: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -84,6 +86,7 @@ export type UserProfileCountAggregateOutputType = {
   balanceXp: number
   level: number
   onBoardingCompleted: number
+  fitnessGoal: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -117,6 +120,7 @@ export type UserProfileMinAggregateInputType = {
   balanceXp?: true
   level?: true
   onBoardingCompleted?: true
+  fitnessGoal?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -132,6 +136,7 @@ export type UserProfileMaxAggregateInputType = {
   balanceXp?: true
   level?: true
   onBoardingCompleted?: true
+  fitnessGoal?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -148,6 +153,7 @@ export type UserProfileCountAggregateInputType = {
   balanceXp?: true
   level?: true
   onBoardingCompleted?: true
+  fitnessGoal?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -251,6 +257,7 @@ export type UserProfileGroupByOutputType = {
   balanceXp: number
   level: number
   onBoardingCompleted: boolean | null
+  fitnessGoal: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserProfileCountAggregateOutputType | null
@@ -290,6 +297,7 @@ export type UserProfileWhereInput = {
   balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
+  fitnessGoal?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -311,6 +319,7 @@ export type UserProfileOrderByWithRelationInput = {
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrderInput | Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -335,6 +344,7 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
+  fitnessGoal?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -356,6 +366,7 @@ export type UserProfileOrderByWithAggregationInput = {
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrderInput | Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
@@ -380,6 +391,7 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   balanceXp?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   level?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableWithAggregatesFilter<"UserProfile"> | boolean | null
+  fitnessGoal?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
 }
@@ -393,6 +405,7 @@ export type UserProfileCreateInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -414,6 +427,7 @@ export type UserProfileUncheckedCreateInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -429,6 +443,7 @@ export type UserProfileUpdateInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -450,6 +465,7 @@ export type UserProfileUncheckedUpdateInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -468,6 +484,7 @@ export type UserProfileCreateManyInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -481,6 +498,7 @@ export type UserProfileUpdateManyMutationInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -497,6 +515,7 @@ export type UserProfileUncheckedUpdateManyInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -536,6 +555,7 @@ export type UserProfileCountOrderByAggregateInput = {
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -559,6 +579,7 @@ export type UserProfileMaxOrderByAggregateInput = {
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -574,6 +595,7 @@ export type UserProfileMinOrderByAggregateInput = {
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -800,6 +822,7 @@ export type UserProfileCreateWithoutActiveThemeInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -819,6 +842,7 @@ export type UserProfileUncheckedCreateWithoutActiveThemeInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -844,6 +868,7 @@ export type UserProfileCreateWithoutAvailableThemesInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -864,6 +889,7 @@ export type UserProfileUncheckedCreateWithoutAvailableThemesInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -905,6 +931,7 @@ export type UserProfileScalarWhereInput = {
   balanceXp?: Prisma.IntFilter<"UserProfile"> | number
   level?: Prisma.IntFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
+  fitnessGoal?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
 }
@@ -934,6 +961,7 @@ export type UserProfileCreateWithoutActiveCompanionInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -953,6 +981,7 @@ export type UserProfileUncheckedCreateWithoutActiveCompanionInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -978,6 +1007,7 @@ export type UserProfileCreateWithoutAvailableComponionsInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -998,6 +1028,7 @@ export type UserProfileUncheckedCreateWithoutAvailableComponionsInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -1049,6 +1080,7 @@ export type UserProfileCreateWithoutUserInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
@@ -1068,6 +1100,7 @@ export type UserProfileUncheckedCreateWithoutUserInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -1099,6 +1132,7 @@ export type UserProfileUpdateWithoutUserInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
@@ -1118,6 +1152,7 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1135,6 +1170,7 @@ export type UserProfileCreateManyActiveThemeInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1148,6 +1184,7 @@ export type UserProfileUpdateWithoutActiveThemeInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1167,6 +1204,7 @@ export type UserProfileUncheckedUpdateWithoutActiveThemeInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1184,6 +1222,7 @@ export type UserProfileUncheckedUpdateManyWithoutActiveThemeInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1197,6 +1236,7 @@ export type UserProfileUpdateWithoutAvailableThemesInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1217,6 +1257,7 @@ export type UserProfileUncheckedUpdateWithoutAvailableThemesInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1234,6 +1275,7 @@ export type UserProfileUncheckedUpdateManyWithoutAvailableThemesInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1249,6 +1291,7 @@ export type UserProfileCreateManyActiveCompanionInput = {
   balanceXp?: number
   level?: number
   onBoardingCompleted?: boolean | null
+  fitnessGoal?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1262,6 +1305,7 @@ export type UserProfileUpdateWithoutActiveCompanionInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1281,6 +1325,7 @@ export type UserProfileUncheckedUpdateWithoutActiveCompanionInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1298,6 +1343,7 @@ export type UserProfileUncheckedUpdateManyWithoutActiveCompanionInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1311,6 +1357,7 @@ export type UserProfileUpdateWithoutAvailableComponionsInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1331,6 +1378,7 @@ export type UserProfileUncheckedUpdateWithoutAvailableComponionsInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1348,6 +1396,7 @@ export type UserProfileUncheckedUpdateManyWithoutAvailableComponionsInput = {
   balanceXp?: Prisma.IntFieldUpdateOperationsInput | number
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1404,6 +1453,7 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   balanceXp?: boolean
   level?: boolean
   onBoardingCompleted?: boolean
+  fitnessGoal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1426,6 +1476,7 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   balanceXp?: boolean
   level?: boolean
   onBoardingCompleted?: boolean
+  fitnessGoal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1445,6 +1496,7 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   balanceXp?: boolean
   level?: boolean
   onBoardingCompleted?: boolean
+  fitnessGoal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1464,11 +1516,12 @@ export type UserProfileSelectScalar = {
   balanceXp?: boolean
   level?: boolean
   onBoardingCompleted?: boolean
+  fitnessGoal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "fitnessGoal" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activeTheme?: boolean | Prisma.UserProfile$activeThemeArgs<ExtArgs>
@@ -1509,6 +1562,7 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     balanceXp: number
     level: number
     onBoardingCompleted: boolean | null
+    fitnessGoal: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["userProfile"]>
@@ -1950,6 +2004,7 @@ export interface UserProfileFieldRefs {
   readonly balanceXp: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly level: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly onBoardingCompleted: Prisma.FieldRef<"UserProfile", 'Boolean'>
+  readonly fitnessGoal: Prisma.FieldRef<"UserProfile", 'String'>
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
 }
