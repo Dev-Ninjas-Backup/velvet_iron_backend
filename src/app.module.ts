@@ -13,6 +13,7 @@ import { LeveladdService } from './leveladd/leveladd.service';
 import { LeveladdModule } from './leveladd/leveladd.module';
 import { SeedService } from './common/seed.service';
 import { WeightLogModule } from './weight-log/weight-log.module';
+import { XpStatsModule } from './xp-stats/xp-stats.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { WeightLogModule } from './weight-log/weight-log.module';
     ProfileModule,
     LeveladdModule,
     WeightLogModule,
+    XpStatsModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

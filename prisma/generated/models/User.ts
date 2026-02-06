@@ -340,6 +340,7 @@ export type UserWhereInput = {
   exerciseLogs?: Prisma.ExerciseLogListRelationFilter
   userQuests?: Prisma.UserQuestListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
+  xpLogs?: Prisma.XpLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -380,6 +381,7 @@ export type UserOrderByWithRelationInput = {
   exerciseLogs?: Prisma.ExerciseLogOrderByRelationAggregateInput
   userQuests?: Prisma.UserQuestOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
+  xpLogs?: Prisma.XpLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -423,6 +425,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   exerciseLogs?: Prisma.ExerciseLogListRelationFilter
   userQuests?: Prisma.UserQuestListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
+  xpLogs?: Prisma.XpLogListRelationFilter
 }, "id" | "email" | "username" | "googleId" | "githubId" | "discord">
 
 export type UserOrderByWithAggregationInput = {
@@ -521,6 +524,7 @@ export type UserCreateInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -561,6 +565,7 @@ export type UserUncheckedCreateInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -601,6 +606,7 @@ export type UserUpdateInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -641,6 +647,7 @@ export type UserUncheckedUpdateInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1004,6 +1011,20 @@ export type UserUpdateOneRequiredWithoutUserProfileNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserProfileInput, Prisma.UserUpdateWithoutUserProfileInput>, Prisma.UserUncheckedUpdateWithoutUserProfileInput>
 }
 
+export type UserCreateNestedOneWithoutXpLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutXpLogsInput, Prisma.UserUncheckedCreateWithoutXpLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutXpLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutXpLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutXpLogsInput, Prisma.UserUncheckedCreateWithoutXpLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutXpLogsInput
+  upsert?: Prisma.UserUpsertWithoutXpLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutXpLogsInput, Prisma.UserUpdateWithoutXpLogsInput>, Prisma.UserUncheckedUpdateWithoutXpLogsInput>
+}
+
 export type UserCreateWithoutUserThemesInput = {
   id?: string
   email: string
@@ -1041,6 +1062,7 @@ export type UserCreateWithoutUserThemesInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserThemesInput = {
@@ -1080,6 +1102,7 @@ export type UserUncheckedCreateWithoutUserThemesInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserThemesInput = {
@@ -1135,6 +1158,7 @@ export type UserUpdateWithoutUserThemesInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserThemesInput = {
@@ -1174,6 +1198,7 @@ export type UserUncheckedUpdateWithoutUserThemesInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserCompanionsInput = {
@@ -1213,6 +1238,7 @@ export type UserCreateWithoutUserCompanionsInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserCompanionsInput = {
@@ -1252,6 +1278,7 @@ export type UserUncheckedCreateWithoutUserCompanionsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserCompanionsInput = {
@@ -1307,6 +1334,7 @@ export type UserUpdateWithoutUserCompanionsInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCompanionsInput = {
@@ -1346,6 +1374,7 @@ export type UserUncheckedUpdateWithoutUserCompanionsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWeightLogsInput = {
@@ -1385,6 +1414,7 @@ export type UserCreateWithoutWeightLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWeightLogsInput = {
@@ -1424,6 +1454,7 @@ export type UserUncheckedCreateWithoutWeightLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWeightLogsInput = {
@@ -1479,6 +1510,7 @@ export type UserUpdateWithoutWeightLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWeightLogsInput = {
@@ -1518,6 +1550,7 @@ export type UserUncheckedUpdateWithoutWeightLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMoodLogsInput = {
@@ -1557,6 +1590,7 @@ export type UserCreateWithoutMoodLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMoodLogsInput = {
@@ -1596,6 +1630,7 @@ export type UserUncheckedCreateWithoutMoodLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMoodLogsInput = {
@@ -1651,6 +1686,7 @@ export type UserUpdateWithoutMoodLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMoodLogsInput = {
@@ -1690,6 +1726,7 @@ export type UserUncheckedUpdateWithoutMoodLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMealSchedulesInput = {
@@ -1729,6 +1766,7 @@ export type UserCreateWithoutMealSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMealSchedulesInput = {
@@ -1768,6 +1806,7 @@ export type UserUncheckedCreateWithoutMealSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMealSchedulesInput = {
@@ -1823,6 +1862,7 @@ export type UserUpdateWithoutMealSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMealSchedulesInput = {
@@ -1862,6 +1902,7 @@ export type UserUncheckedUpdateWithoutMealSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMealLogsInput = {
@@ -1901,6 +1942,7 @@ export type UserCreateWithoutMealLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMealLogsInput = {
@@ -1940,6 +1982,7 @@ export type UserUncheckedCreateWithoutMealLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMealLogsInput = {
@@ -1995,6 +2038,7 @@ export type UserUpdateWithoutMealLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMealLogsInput = {
@@ -2034,6 +2078,7 @@ export type UserUncheckedUpdateWithoutMealLogsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicationsInput = {
@@ -2073,6 +2118,7 @@ export type UserCreateWithoutMedicationsInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicationsInput = {
@@ -2112,6 +2158,7 @@ export type UserUncheckedCreateWithoutMedicationsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicationsInput = {
@@ -2167,6 +2214,7 @@ export type UserUpdateWithoutMedicationsInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicationsInput = {
@@ -2206,6 +2254,7 @@ export type UserUncheckedUpdateWithoutMedicationsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicationSchedulesInput = {
@@ -2245,6 +2294,7 @@ export type UserCreateWithoutMedicationSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicationSchedulesInput = {
@@ -2284,6 +2334,7 @@ export type UserUncheckedCreateWithoutMedicationSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicationSchedulesInput = {
@@ -2339,6 +2390,7 @@ export type UserUpdateWithoutMedicationSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicationSchedulesInput = {
@@ -2378,6 +2430,7 @@ export type UserUncheckedUpdateWithoutMedicationSchedulesInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExerciseLogsInput = {
@@ -2417,6 +2470,7 @@ export type UserCreateWithoutExerciseLogsInput = {
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExerciseLogsInput = {
@@ -2456,6 +2510,7 @@ export type UserUncheckedCreateWithoutExerciseLogsInput = {
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExerciseLogsInput = {
@@ -2511,6 +2566,7 @@ export type UserUpdateWithoutExerciseLogsInput = {
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExerciseLogsInput = {
@@ -2550,6 +2606,7 @@ export type UserUncheckedUpdateWithoutExerciseLogsInput = {
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserQuestsInput = {
@@ -2589,6 +2646,7 @@ export type UserCreateWithoutUserQuestsInput = {
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserQuestsInput = {
@@ -2628,6 +2686,7 @@ export type UserUncheckedCreateWithoutUserQuestsInput = {
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserQuestsInput = {
@@ -2683,6 +2742,7 @@ export type UserUpdateWithoutUserQuestsInput = {
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserQuestsInput = {
@@ -2722,6 +2782,7 @@ export type UserUncheckedUpdateWithoutUserQuestsInput = {
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionInput = {
@@ -2761,6 +2822,7 @@ export type UserCreateWithoutSubscriptionInput = {
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionInput = {
@@ -2800,6 +2862,7 @@ export type UserUncheckedCreateWithoutSubscriptionInput = {
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionInput = {
@@ -2855,6 +2918,7 @@ export type UserUpdateWithoutSubscriptionInput = {
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionInput = {
@@ -2894,6 +2958,7 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -2933,6 +2998,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -2972,6 +3038,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -3027,6 +3094,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -3066,6 +3134,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -3105,6 +3174,7 @@ export type UserCreateWithoutSessionsInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -3144,6 +3214,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -3199,6 +3270,7 @@ export type UserUpdateWithoutSessionsInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -3238,6 +3310,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserProfileInput = {
@@ -3277,6 +3350,7 @@ export type UserCreateWithoutUserProfileInput = {
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserProfileInput = {
@@ -3316,6 +3390,7 @@ export type UserUncheckedCreateWithoutUserProfileInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserProfileInput = {
@@ -3371,6 +3446,7 @@ export type UserUpdateWithoutUserProfileInput = {
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserProfileInput = {
@@ -3410,6 +3486,183 @@ export type UserUncheckedUpdateWithoutUserProfileInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutXpLogsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutXpLogsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogUncheckedCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogUncheckedCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleUncheckedCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutXpLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutXpLogsInput, Prisma.UserUncheckedCreateWithoutXpLogsInput>
+}
+
+export type UserUpsertWithoutXpLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutXpLogsInput, Prisma.UserUncheckedUpdateWithoutXpLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutXpLogsInput, Prisma.UserUncheckedCreateWithoutXpLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutXpLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutXpLogsInput, Prisma.UserUncheckedUpdateWithoutXpLogsInput>
+}
+
+export type UserUpdateWithoutXpLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutXpLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUncheckedUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUncheckedUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUncheckedUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -3430,6 +3683,7 @@ export type UserCountOutputType = {
   medicationSchedules: number
   exerciseLogs: number
   userQuests: number
+  xpLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3445,6 +3699,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   medicationSchedules?: boolean | UserCountOutputTypeCountMedicationSchedulesArgs
   exerciseLogs?: boolean | UserCountOutputTypeCountExerciseLogsArgs
   userQuests?: boolean | UserCountOutputTypeCountUserQuestsArgs
+  xpLogs?: boolean | UserCountOutputTypeCountXpLogsArgs
 }
 
 /**
@@ -3541,6 +3796,13 @@ export type UserCountOutputTypeCountUserQuestsArgs<ExtArgs extends runtime.Types
   where?: Prisma.UserQuestWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountXpLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.XpLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3580,6 +3842,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   exerciseLogs?: boolean | Prisma.User$exerciseLogsArgs<ExtArgs>
   userQuests?: boolean | Prisma.User$userQuestsArgs<ExtArgs>
   subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
+  xpLogs?: boolean | Prisma.User$xpLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3677,6 +3940,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   exerciseLogs?: boolean | Prisma.User$exerciseLogsArgs<ExtArgs>
   userQuests?: boolean | Prisma.User$userQuestsArgs<ExtArgs>
   subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
+  xpLogs?: boolean | Prisma.User$xpLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -3699,6 +3963,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     exerciseLogs: Prisma.$ExerciseLogPayload<ExtArgs>[]
     userQuests: Prisma.$UserQuestPayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
+    xpLogs: Prisma.$XpLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4132,6 +4397,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   exerciseLogs<T extends Prisma.User$exerciseLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$exerciseLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExerciseLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userQuests<T extends Prisma.User$userQuestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userQuestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserQuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.User$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  xpLogs<T extends Prisma.User$xpLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$xpLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$XpLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4895,6 +5161,30 @@ export type User$subscriptionArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.SubscriptionInclude<ExtArgs> | null
   where?: Prisma.SubscriptionWhereInput
+}
+
+/**
+ * User.xpLogs
+ */
+export type User$xpLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the XpLog
+   */
+  select?: Prisma.XpLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the XpLog
+   */
+  omit?: Prisma.XpLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.XpLogInclude<ExtArgs> | null
+  where?: Prisma.XpLogWhereInput
+  orderBy?: Prisma.XpLogOrderByWithRelationInput | Prisma.XpLogOrderByWithRelationInput[]
+  cursor?: Prisma.XpLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.XpLogScalarFieldEnum | Prisma.XpLogScalarFieldEnum[]
 }
 
 /**

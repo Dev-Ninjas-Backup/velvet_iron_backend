@@ -1,0 +1,14 @@
+// XP Activity Log
+model XpLog {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    amount    Int      // XP amount (can be positive or negative)
+    source    String   // e.g., "DAILY_LOGIN", "QUEST_COMPLETE", "ACHIEVEMENT", etc.
+    createdAt DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
+    @@index([userId, createdAt])
+    @@map("xp_logs")
+}

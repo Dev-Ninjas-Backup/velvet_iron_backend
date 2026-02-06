@@ -132,3 +132,8 @@ export type Session = Prisma.SessionModel
  * 
  */
 export type UserProfile = Prisma.UserProfileModel
+/**
+ * Model XpLog
+ * 
+ */
+export type XpLog = Prisma.XpLogModel

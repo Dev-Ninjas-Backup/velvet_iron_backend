@@ -69,7 +69,8 @@ export const ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
-  UserProfile: 'UserProfile'
+  UserProfile: 'UserProfile',
+  XpLog: 'XpLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -336,6 +337,17 @@ export const UserProfileScalarFieldEnum = {
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const XpLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type XpLogScalarFieldEnum = (typeof XpLogScalarFieldEnum)[keyof typeof XpLogScalarFieldEnum]
 
 
 export const SortOrder = {

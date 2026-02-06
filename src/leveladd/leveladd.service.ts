@@ -6,10 +6,10 @@ import { calculateLevel } from './levelCalculator';
 export class LeveladdService {
   constructor(private prisma: PrismaService) {}
 
-  async addXpToUser(userId: string, xpAmount: number) {
+  async addXpToUser(userId: string, xpAmount: number, source: string = 'MANUAL') {
     try {
       // First, update the XP values
-      const updateResult = await this.prisma.client.userProfile.update({
+      await this.prisma.client.userProfile.update({
         where: { userId },
         data: {
           balanceXp: {
@@ -20,6 +20,16 @@ export class LeveladdService {
           },
         },
       });
+
+      // Create XP log entry
+      await this.prisma.client.xpLog.create({
+        data: {
+          userId,
+          amount: xpAmount,
+          source,
+        },
+      });
+
       const userProfile = await this.prisma.client.userProfile.findUnique({
         where: { userId },
       });
