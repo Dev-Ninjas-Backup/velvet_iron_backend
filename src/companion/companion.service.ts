@@ -323,7 +323,7 @@ export class CompanionService {
           isAcitve,
           isUnlocked,
         };
-      });
+      }); 
 
       return {
         companions: companionsWithUnlockStatus,
