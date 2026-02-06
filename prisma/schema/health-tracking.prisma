@@ -3,7 +3,7 @@ model WeightLog {
     id       String   @id @default(uuid())
     userId   String
     user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    weight   Decimal  @db.Decimal(5, 2) // e.g., 75.50 kg
+    weight   String
     note     String?
     loggedAt DateTime @default(now())
 

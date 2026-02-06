@@ -12,6 +12,7 @@ import { ProfileModule } from './profile/profile.module';
 import { LeveladdService } from './leveladd/leveladd.service';
 import { LeveladdModule } from './leveladd/leveladd.module';
 import { SeedService } from './common/seed.service';
+import { WeightLogModule } from './weight-log/weight-log.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SeedService } from './common/seed.service';
     CompanionModule,
     ProfileModule,
     LeveladdModule,
+    WeightLogModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],
