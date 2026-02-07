@@ -9,7 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { MoodLogService } from './mood-log.service';
-import { CreateMoodLogDto } from './dto/create-mood-log.dto';
+import { CreateMoodLogDto, EnergyLevel } from './dto/create-mood-log.dto';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -42,12 +42,13 @@ export class MoodLogController {
     description: 'Mood logged successfully',
     type: MoodLogResponseDto,
   })
-@UseInterceptors(AnyFilesInterceptor())
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(AnyFilesInterceptor())
   @ApiBody({
     description: 'Mood log entry data',
     schema: {
       type: 'object',
-      required: ['mood'],
+      required: ['mood', 'energyLevel', 'hungerLevel'],
       properties: {
         mood: {
           type: 'string',
@@ -83,11 +84,9 @@ export class MoodLogController {
   })
   async createMoodLog(
     @GetUser('id') userId: string,
-    @Body() dto:any,
-  
+    @Body() dto: any,
   ): Promise<MoodLogResponseDto> {
     console.log(dto);
-    
     return this.moodLogService.createMoodLog(userId, dto);
   }
 

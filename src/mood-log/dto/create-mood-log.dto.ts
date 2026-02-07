@@ -10,7 +10,7 @@ export { Mood, EnergyLevel, HungerLevel };
 
 export class CreateMoodLogDto {
   @ApiProperty({
-    enum: ['TIRED', 'GOOD', 'PISSED', 'GREAT', 'POOR'],
+    enum: Mood,
     description: 'Current mood',
     example: 'GOOD',
   })
@@ -18,7 +18,7 @@ export class CreateMoodLogDto {
   mood: Mood;
 
   @ApiProperty({
-    enum: ['EXHAUSTED', 'LOW', 'MODERATE', 'ENERGIZED', 'HIGH'],
+    enum: EnergyLevel,
     description: 'Current energy level',
     example: 'MODERATE',
     required: false,
@@ -28,7 +28,7 @@ export class CreateMoodLogDto {
   energyLevel?: EnergyLevel;
 
   @ApiProperty({
-    enum: ['NOT_HUNGRY', 'HUNGRY', 'VERY_HUNGRY'],
+    enum: HungerLevel,
     description: 'Current hunger level',
     example: 'HUNGRY',
     required: false,
