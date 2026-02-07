@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Delete,
   Body,
   Param,
@@ -10,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { MoodLogService } from './mood-log.service';
 import { CreateMoodLogDto, EnergyLevel } from './dto/create-mood-log.dto';
+import { UpdateMoodLogDto } from './dto/update-mood-log.dto';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -140,6 +142,67 @@ export class MoodLogController {
     @GetUser('id') userId: string,
   ): Promise<MoodLogResponseDto | null> {
     return this.moodLogService.getLatestMoodLog(userId);
+  }
+
+  @Patch(':id')
+  @ValidAll()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update mood log by ID' })
+  @ApiParam({
+    name: 'id',
+    description: 'Mood log ID',
+    type: String,
+  })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(AnyFilesInterceptor())
+  @ApiBody({
+    description: 'Updated mood log data (all fields optional)',
+    schema: {
+      type: 'object',
+      properties: {
+        mood: {
+          type: 'string',
+          enum: ['TIRED', 'GOOD', 'PISSED', 'GREAT', 'POOR'],
+          description: 'Current mood',
+          example: 'GOOD',
+        },
+        energyLevel: {
+          type: 'string',
+          enum: ['EXHAUSTED', 'LOW', 'MODERATE', 'ENERGIZED', 'HIGH'],
+          description: 'Current energy level',
+          example: 'MODERATE',
+        },
+        hungerLevel: {
+          type: 'string',
+          enum: ['NOT_HUNGRY', 'HUNGRY', 'VERY_HUNGRY'],
+          description: 'Current hunger level',
+          example: 'HUNGRY',
+        },
+        note: {
+          type: 'string',
+          description: 'Additional notes about mood',
+          example: 'Feeling good after workout',
+        },
+        loggedAt: {
+          type: 'string',
+          format: 'date-time',
+          description: 'Log timestamp (ISO 8601)',
+          example: '2026-02-07T10:30:00Z',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Mood log updated successfully',
+    type: MoodLogResponseDto,
+  })
+  async updateMoodLog(
+    @GetUser('id') userId: string,
+    @Param('id') logId: string,
+    @Body() dto: any,
+  ): Promise<MoodLogResponseDto> {
+    return this.moodLogService.updateMoodLog(userId, logId, dto);
   }
 
   @Delete(':id')

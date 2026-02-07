@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
 import { CreateMoodLogDto } from './dto/create-mood-log.dto';
+import { UpdateMoodLogDto } from './dto/update-mood-log.dto';
 import {
   MoodLogResponseDto,
   MoodLogHistoryDto,
@@ -59,6 +60,38 @@ export class MoodLogService {
     });
 
     return log;
+  }
+
+  async updateMoodLog(
+    userId: string,
+    logId: string,
+    dto: UpdateMoodLogDto,
+  ): Promise<MoodLogResponseDto> {
+    // First verify the log belongs to the user
+    const existingLog = await this.prisma.client.moodLog.findFirst({
+      where: {
+        id: logId,
+        userId,
+      },
+    });
+
+    if (!existingLog) {
+      throw new Error('Mood log not found or does not belong to user');
+    }
+
+    // Update the log
+    const updatedLog = await this.prisma.client.moodLog.update({
+      where: { id: logId },
+      data: {
+        ...(dto.mood && { mood: dto.mood }),
+        ...(dto.energyLevel && { energyLevel: dto.energyLevel }),
+        ...(dto.hungerLevel && { hungerLevel: dto.hungerLevel }),
+        ...(dto.note !== undefined && { note: dto.note }),
+        ...(dto.loggedAt && { loggedAt: new Date(dto.loggedAt) }),
+      },
+    });
+
+    return updatedLog;
   }
 
   async deleteMoodLog(userId: string, logId: string): Promise<void> {
