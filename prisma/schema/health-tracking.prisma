@@ -14,18 +14,40 @@ model WeightLog {
 
 // Mood Logs
 model MoodLog {
-    id          String   @id @default(uuid())
+    id          String       @id @default(uuid())
     userId      String
-    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    mood        String // HAPPY, SAD, ANXIOUS, CALM, etc.
-    energyLevel String? // LOW, MEDIUM, HIGH
-    hungerLevel String? // LOW, MEDIUM, HIGH
+    user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mood        Mood
+    energyLevel EnergyLevel?
+    hungerLevel HungerLevel?
     note        String?
-    loggedAt    DateTime @default(now())
+    loggedAt    DateTime     @default(now())
 
     @@index([userId])
     @@index([loggedAt])
     @@map("mood_logs")
+}
+
+enum Mood {
+    TIRED
+    GOOD
+    PISSED
+    GREAT
+    POOR
+}
+
+enum EnergyLevel {
+    EXHAUSTED
+    LOW
+    MODERATE
+    ENERGIZED
+    HIGH
+}
+
+enum HungerLevel {
+    NOT_HUNGRY
+    HUNGRY
+    VERY_HUNGRY
 }
 
 // Meal Schedules

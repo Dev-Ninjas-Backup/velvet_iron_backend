@@ -150,6 +150,57 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
+export type EnumMoodFilter<$PrismaModel = never> = {
+  equals?: $Enums.Mood | Prisma.EnumMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMoodFilter<$PrismaModel> | $Enums.Mood
+}
+
+export type EnumEnergyLevelNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnergyLevel | Prisma.EnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEnergyLevelNullableFilter<$PrismaModel> | $Enums.EnergyLevel | null
+}
+
+export type EnumHungerLevelNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.HungerLevel | Prisma.EnumHungerLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHungerLevelNullableFilter<$PrismaModel> | $Enums.HungerLevel | null
+}
+
+export type EnumMoodWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Mood | Prisma.EnumMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMoodWithAggregatesFilter<$PrismaModel> | $Enums.Mood
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMoodFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMoodFilter<$PrismaModel>
+}
+
+export type EnumEnergyLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnergyLevel | Prisma.EnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEnergyLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.EnergyLevel | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEnergyLevelNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEnergyLevelNullableFilter<$PrismaModel>
+}
+
+export type EnumHungerLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.HungerLevel | Prisma.EnumHungerLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHungerLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.HungerLevel | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumHungerLevelNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumHungerLevelNullableFilter<$PrismaModel>
+}
+
 export type IntNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
@@ -433,6 +484,57 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedEnumMoodFilter<$PrismaModel = never> = {
+  equals?: $Enums.Mood | Prisma.EnumMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMoodFilter<$PrismaModel> | $Enums.Mood
+}
+
+export type NestedEnumEnergyLevelNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnergyLevel | Prisma.EnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEnergyLevelNullableFilter<$PrismaModel> | $Enums.EnergyLevel | null
+}
+
+export type NestedEnumHungerLevelNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.HungerLevel | Prisma.EnumHungerLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHungerLevelNullableFilter<$PrismaModel> | $Enums.HungerLevel | null
+}
+
+export type NestedEnumMoodWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Mood | Prisma.EnumMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Mood[] | Prisma.ListEnumMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMoodWithAggregatesFilter<$PrismaModel> | $Enums.Mood
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMoodFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMoodFilter<$PrismaModel>
+}
+
+export type NestedEnumEnergyLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnergyLevel | Prisma.EnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EnergyLevel[] | Prisma.ListEnumEnergyLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEnergyLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.EnergyLevel | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEnergyLevelNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEnergyLevelNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumHungerLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.HungerLevel | Prisma.EnumHungerLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HungerLevel[] | Prisma.ListEnumHungerLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHungerLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.HungerLevel | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumHungerLevelNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumHungerLevelNullableFilter<$PrismaModel>
 }
 
 export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {

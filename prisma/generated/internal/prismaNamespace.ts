@@ -2283,6 +2283,48 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'Mood'
+ */
+export type EnumMoodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Mood'>
+    
+
+
+/**
+ * Reference to a field of type 'Mood[]'
+ */
+export type ListEnumMoodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Mood[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EnergyLevel'
+ */
+export type EnumEnergyLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnergyLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'EnergyLevel[]'
+ */
+export type ListEnumEnergyLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnergyLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'HungerLevel'
+ */
+export type EnumHungerLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HungerLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'HungerLevel[]'
+ */
+export type ListEnumHungerLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HungerLevel[]'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>

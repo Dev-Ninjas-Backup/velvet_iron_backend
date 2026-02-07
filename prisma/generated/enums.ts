@@ -9,6 +9,37 @@
 * 🟢 You can import this file directly.
 */
 
+export const Mood = {
+  TIRED: 'TIRED',
+  GOOD: 'GOOD',
+  PISSED: 'PISSED',
+  GREAT: 'GREAT',
+  POOR: 'POOR'
+} as const
+
+export type Mood = (typeof Mood)[keyof typeof Mood]
+
+
+export const EnergyLevel = {
+  EXHAUSTED: 'EXHAUSTED',
+  LOW: 'LOW',
+  MODERATE: 'MODERATE',
+  ENERGIZED: 'ENERGIZED',
+  HIGH: 'HIGH'
+} as const
+
+export type EnergyLevel = (typeof EnergyLevel)[keyof typeof EnergyLevel]
+
+
+export const HungerLevel = {
+  NOT_HUNGRY: 'NOT_HUNGRY',
+  HUNGRY: 'HUNGRY',
+  VERY_HUNGRY: 'VERY_HUNGRY'
+} as const
+
+export type HungerLevel = (typeof HungerLevel)[keyof typeof HungerLevel]
+
+
 export const UserRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
