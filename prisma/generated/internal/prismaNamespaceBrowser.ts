@@ -163,7 +163,11 @@ export const MealScheduleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   mealType: 'mealType',
-  scheduledAt: 'scheduledAt'
+  scheduledAt: 'scheduledAt',
+  calories: 'calories',
+  carbs: 'carbs',
+  protein: 'protein',
+  fats: 'fats'
 } as const
 
 export type MealScheduleScalarFieldEnum = (typeof MealScheduleScalarFieldEnum)[keyof typeof MealScheduleScalarFieldEnum]

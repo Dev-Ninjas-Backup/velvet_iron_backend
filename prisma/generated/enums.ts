@@ -40,6 +40,16 @@ export const HungerLevel = {
 export type HungerLevel = (typeof HungerLevel)[keyof typeof HungerLevel]
 
 
+export const MealType = {
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  DINNER: 'DINNER',
+  SNACK: 'SNACK'
+} as const
+
+export type MealType = (typeof MealType)[keyof typeof MealType]
+
+
 export const UserRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',

@@ -7,9 +7,9 @@ export class VerifyResetOtpDto {
   @IsEmail()
   email: string;
 
-  @ApiProperty({ example: '123456' })
+  @ApiProperty({ example: '1234' })
   @IsNotEmpty()
   @IsString()
-  @Length(6, 6)
+  @Length(4, 4)
   otp: string;
 }

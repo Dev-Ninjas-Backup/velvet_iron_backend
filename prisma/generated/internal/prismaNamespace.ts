@@ -2016,7 +2016,11 @@ export const MealScheduleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   mealType: 'mealType',
-  scheduledAt: 'scheduledAt'
+  scheduledAt: 'scheduledAt',
+  calories: 'calories',
+  carbs: 'carbs',
+  protein: 'protein',
+  fats: 'fats'
 } as const
 
 export type MealScheduleScalarFieldEnum = (typeof MealScheduleScalarFieldEnum)[keyof typeof MealScheduleScalarFieldEnum]
@@ -2321,6 +2325,20 @@ export type EnumHungerLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'HungerLevel[]'
  */
 export type ListEnumHungerLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HungerLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MealType'
+ */
+export type EnumMealTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MealType'>
+    
+
+
+/**
+ * Reference to a field of type 'MealType[]'
+ */
+export type ListEnumMealTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MealType[]'>
     
 
 

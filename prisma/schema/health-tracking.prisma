@@ -55,12 +55,22 @@ model MealSchedule {
     id          String   @id @default(uuid())
     userId      String
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    mealType    String // BREAKFAST, LUNCH, DINNER, SNACK
+    mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK
     scheduledAt DateTime
-
+    calories    Int?
+    carbs       Int?
+    protein     Int?
+    fats        Int?
     @@index([userId])
     @@index([scheduledAt])
     @@map("meal_schedules")
+}
+
+enum MealType {
+    BREAKFAST
+    LUNCH
+    DINNER
+    SNACK
 }
 
 // Meal Logs
@@ -68,7 +78,7 @@ model MealLog {
     id          String   @id @default(uuid())
     userId      String
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    mealType    String // BREAKFAST, LUNCH, DINNER, SNACK
+    mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK
     description String?
     calories    Int?
     carbs       Int?
