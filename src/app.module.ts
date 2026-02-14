@@ -19,6 +19,7 @@ import { MealLogModule } from './meal-log/meal-log.module';
 import { MealScheduleModule } from './meal-schedule/meal-schedule.module';
 import { MedicationModule } from './medication/medication.module';
 import { MedicationScheduleModule } from './medication-schedule/medication-schedule.module';
+import { ExerciseLogModule } from './exercise-log/exercise-log.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { MedicationScheduleModule } from './medication-schedule/medication-sched
     MealScheduleModule,
     MedicationModule,
     MedicationScheduleModule,
+    ExerciseLogModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

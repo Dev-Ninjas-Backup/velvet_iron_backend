@@ -49,6 +49,7 @@ model User {
     medications         Medication[]
     medicationSchedules MedicationSchedule[]
     exerciseLogs        ExerciseLog[]
+    ExerciseScheduleLogs ExerciseScheduleLog[]
     userQuests          UserQuest[]
     subscription        Subscription?
     xpLogs              XpLog[]

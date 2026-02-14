@@ -338,6 +338,7 @@ export type UserWhereInput = {
   medications?: Prisma.MedicationListRelationFilter
   medicationSchedules?: Prisma.MedicationScheduleListRelationFilter
   exerciseLogs?: Prisma.ExerciseLogListRelationFilter
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogListRelationFilter
   userQuests?: Prisma.UserQuestListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
   xpLogs?: Prisma.XpLogListRelationFilter
@@ -379,6 +380,7 @@ export type UserOrderByWithRelationInput = {
   medications?: Prisma.MedicationOrderByRelationAggregateInput
   medicationSchedules?: Prisma.MedicationScheduleOrderByRelationAggregateInput
   exerciseLogs?: Prisma.ExerciseLogOrderByRelationAggregateInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogOrderByRelationAggregateInput
   userQuests?: Prisma.UserQuestOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
   xpLogs?: Prisma.XpLogOrderByRelationAggregateInput
@@ -423,6 +425,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   medications?: Prisma.MedicationListRelationFilter
   medicationSchedules?: Prisma.MedicationScheduleListRelationFilter
   exerciseLogs?: Prisma.ExerciseLogListRelationFilter
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogListRelationFilter
   userQuests?: Prisma.UserQuestListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
   xpLogs?: Prisma.XpLogListRelationFilter
@@ -522,6 +525,7 @@ export type UserCreateInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -563,6 +567,7 @@ export type UserUncheckedCreateInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -604,6 +609,7 @@ export type UserUpdateInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -645,6 +651,7 @@ export type UserUncheckedUpdateInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -937,6 +944,20 @@ export type UserUpdateOneRequiredWithoutExerciseLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExerciseLogsInput, Prisma.UserUpdateWithoutExerciseLogsInput>, Prisma.UserUncheckedUpdateWithoutExerciseLogsInput>
 }
 
+export type UserCreateNestedOneWithoutExerciseScheduleLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExerciseScheduleLogsInput, Prisma.UserUncheckedCreateWithoutExerciseScheduleLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExerciseScheduleLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExerciseScheduleLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExerciseScheduleLogsInput, Prisma.UserUncheckedCreateWithoutExerciseScheduleLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExerciseScheduleLogsInput
+  upsert?: Prisma.UserUpsertWithoutExerciseScheduleLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExerciseScheduleLogsInput, Prisma.UserUpdateWithoutExerciseScheduleLogsInput>, Prisma.UserUncheckedUpdateWithoutExerciseScheduleLogsInput>
+}
+
 export type UserCreateNestedOneWithoutUserQuestsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserQuestsInput
@@ -1060,6 +1081,7 @@ export type UserCreateWithoutUserThemesInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -1100,6 +1122,7 @@ export type UserUncheckedCreateWithoutUserThemesInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -1156,6 +1179,7 @@ export type UserUpdateWithoutUserThemesInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -1196,6 +1220,7 @@ export type UserUncheckedUpdateWithoutUserThemesInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1236,6 +1261,7 @@ export type UserCreateWithoutUserCompanionsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -1276,6 +1302,7 @@ export type UserUncheckedCreateWithoutUserCompanionsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -1332,6 +1359,7 @@ export type UserUpdateWithoutUserCompanionsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -1372,6 +1400,7 @@ export type UserUncheckedUpdateWithoutUserCompanionsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1412,6 +1441,7 @@ export type UserCreateWithoutWeightLogsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -1452,6 +1482,7 @@ export type UserUncheckedCreateWithoutWeightLogsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -1508,6 +1539,7 @@ export type UserUpdateWithoutWeightLogsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -1548,6 +1580,7 @@ export type UserUncheckedUpdateWithoutWeightLogsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1588,6 +1621,7 @@ export type UserCreateWithoutMoodLogsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -1628,6 +1662,7 @@ export type UserUncheckedCreateWithoutMoodLogsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -1684,6 +1719,7 @@ export type UserUpdateWithoutMoodLogsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -1724,6 +1760,7 @@ export type UserUncheckedUpdateWithoutMoodLogsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1764,6 +1801,7 @@ export type UserCreateWithoutMealSchedulesInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -1804,6 +1842,7 @@ export type UserUncheckedCreateWithoutMealSchedulesInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -1860,6 +1899,7 @@ export type UserUpdateWithoutMealSchedulesInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -1900,6 +1940,7 @@ export type UserUncheckedUpdateWithoutMealSchedulesInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1940,6 +1981,7 @@ export type UserCreateWithoutMealLogsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -1980,6 +2022,7 @@ export type UserUncheckedCreateWithoutMealLogsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -2036,6 +2079,7 @@ export type UserUpdateWithoutMealLogsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -2076,6 +2120,7 @@ export type UserUncheckedUpdateWithoutMealLogsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -2116,6 +2161,7 @@ export type UserCreateWithoutMedicationsInput = {
   mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -2156,6 +2202,7 @@ export type UserUncheckedCreateWithoutMedicationsInput = {
   mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -2212,6 +2259,7 @@ export type UserUpdateWithoutMedicationsInput = {
   mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -2252,6 +2300,7 @@ export type UserUncheckedUpdateWithoutMedicationsInput = {
   mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -2292,6 +2341,7 @@ export type UserCreateWithoutMedicationSchedulesInput = {
   mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -2332,6 +2382,7 @@ export type UserUncheckedCreateWithoutMedicationSchedulesInput = {
   mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -2388,6 +2439,7 @@ export type UserUpdateWithoutMedicationSchedulesInput = {
   mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -2428,6 +2480,7 @@ export type UserUncheckedUpdateWithoutMedicationSchedulesInput = {
   mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -2468,6 +2521,7 @@ export type UserCreateWithoutExerciseLogsInput = {
   mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -2508,6 +2562,7 @@ export type UserUncheckedCreateWithoutExerciseLogsInput = {
   mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -2564,6 +2619,7 @@ export type UserUpdateWithoutExerciseLogsInput = {
   mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -2604,6 +2660,187 @@ export type UserUncheckedUpdateWithoutExerciseLogsInput = {
   mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExerciseScheduleLogsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExerciseScheduleLogsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogUncheckedCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogUncheckedCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleUncheckedCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExerciseScheduleLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExerciseScheduleLogsInput, Prisma.UserUncheckedCreateWithoutExerciseScheduleLogsInput>
+}
+
+export type UserUpsertWithoutExerciseScheduleLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExerciseScheduleLogsInput, Prisma.UserUncheckedUpdateWithoutExerciseScheduleLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExerciseScheduleLogsInput, Prisma.UserUncheckedCreateWithoutExerciseScheduleLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExerciseScheduleLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExerciseScheduleLogsInput, Prisma.UserUncheckedUpdateWithoutExerciseScheduleLogsInput>
+}
+
+export type UserUpdateWithoutExerciseScheduleLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExerciseScheduleLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUncheckedUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUncheckedUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUncheckedUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -2645,6 +2882,7 @@ export type UserCreateWithoutUserQuestsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
@@ -2685,6 +2923,7 @@ export type UserUncheckedCreateWithoutUserQuestsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
@@ -2741,6 +2980,7 @@ export type UserUpdateWithoutUserQuestsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
@@ -2781,6 +3021,7 @@ export type UserUncheckedUpdateWithoutUserQuestsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -2821,6 +3062,7 @@ export type UserCreateWithoutSubscriptionInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
 }
@@ -2861,6 +3103,7 @@ export type UserUncheckedCreateWithoutSubscriptionInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
 }
@@ -2917,6 +3160,7 @@ export type UserUpdateWithoutSubscriptionInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
 }
@@ -2957,6 +3201,7 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -2996,6 +3241,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -3036,6 +3282,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -3092,6 +3339,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -3132,6 +3380,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -3172,6 +3421,7 @@ export type UserCreateWithoutSessionsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -3212,6 +3462,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -3268,6 +3519,7 @@ export type UserUpdateWithoutSessionsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -3308,6 +3560,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -3348,6 +3601,7 @@ export type UserCreateWithoutUserProfileInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
@@ -3388,6 +3642,7 @@ export type UserUncheckedCreateWithoutUserProfileInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
@@ -3444,6 +3699,7 @@ export type UserUpdateWithoutUserProfileInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
@@ -3484,6 +3740,7 @@ export type UserUncheckedUpdateWithoutUserProfileInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
@@ -3525,6 +3782,7 @@ export type UserCreateWithoutXpLogsInput = {
   medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
 }
@@ -3565,6 +3823,7 @@ export type UserUncheckedCreateWithoutXpLogsInput = {
   medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
   userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
@@ -3621,6 +3880,7 @@ export type UserUpdateWithoutXpLogsInput = {
   medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
 }
@@ -3661,6 +3921,7 @@ export type UserUncheckedUpdateWithoutXpLogsInput = {
   medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
   medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -3682,6 +3943,7 @@ export type UserCountOutputType = {
   medications: number
   medicationSchedules: number
   exerciseLogs: number
+  ExerciseScheduleLogs: number
   userQuests: number
   xpLogs: number
 }
@@ -3698,6 +3960,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   medications?: boolean | UserCountOutputTypeCountMedicationsArgs
   medicationSchedules?: boolean | UserCountOutputTypeCountMedicationSchedulesArgs
   exerciseLogs?: boolean | UserCountOutputTypeCountExerciseLogsArgs
+  ExerciseScheduleLogs?: boolean | UserCountOutputTypeCountExerciseScheduleLogsArgs
   userQuests?: boolean | UserCountOutputTypeCountUserQuestsArgs
   xpLogs?: boolean | UserCountOutputTypeCountXpLogsArgs
 }
@@ -3792,6 +4055,13 @@ export type UserCountOutputTypeCountExerciseLogsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountExerciseScheduleLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExerciseScheduleLogWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountUserQuestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserQuestWhereInput
 }
@@ -3840,6 +4110,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   medications?: boolean | Prisma.User$medicationsArgs<ExtArgs>
   medicationSchedules?: boolean | Prisma.User$medicationSchedulesArgs<ExtArgs>
   exerciseLogs?: boolean | Prisma.User$exerciseLogsArgs<ExtArgs>
+  ExerciseScheduleLogs?: boolean | Prisma.User$ExerciseScheduleLogsArgs<ExtArgs>
   userQuests?: boolean | Prisma.User$userQuestsArgs<ExtArgs>
   subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
   xpLogs?: boolean | Prisma.User$xpLogsArgs<ExtArgs>
@@ -3938,6 +4209,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   medications?: boolean | Prisma.User$medicationsArgs<ExtArgs>
   medicationSchedules?: boolean | Prisma.User$medicationSchedulesArgs<ExtArgs>
   exerciseLogs?: boolean | Prisma.User$exerciseLogsArgs<ExtArgs>
+  ExerciseScheduleLogs?: boolean | Prisma.User$ExerciseScheduleLogsArgs<ExtArgs>
   userQuests?: boolean | Prisma.User$userQuestsArgs<ExtArgs>
   subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
   xpLogs?: boolean | Prisma.User$xpLogsArgs<ExtArgs>
@@ -3961,6 +4233,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     medications: Prisma.$MedicationPayload<ExtArgs>[]
     medicationSchedules: Prisma.$MedicationSchedulePayload<ExtArgs>[]
     exerciseLogs: Prisma.$ExerciseLogPayload<ExtArgs>[]
+    ExerciseScheduleLogs: Prisma.$ExerciseScheduleLogPayload<ExtArgs>[]
     userQuests: Prisma.$UserQuestPayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
     xpLogs: Prisma.$XpLogPayload<ExtArgs>[]
@@ -4395,6 +4668,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   medications<T extends Prisma.User$medicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$medicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MedicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   medicationSchedules<T extends Prisma.User$medicationSchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$medicationSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MedicationSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   exerciseLogs<T extends Prisma.User$exerciseLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$exerciseLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExerciseLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ExerciseScheduleLogs<T extends Prisma.User$ExerciseScheduleLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ExerciseScheduleLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExerciseScheduleLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userQuests<T extends Prisma.User$userQuestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userQuestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserQuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.User$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   xpLogs<T extends Prisma.User$xpLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$xpLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$XpLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5118,6 +5392,30 @@ export type User$exerciseLogsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ExerciseLogScalarFieldEnum | Prisma.ExerciseLogScalarFieldEnum[]
+}
+
+/**
+ * User.ExerciseScheduleLogs
+ */
+export type User$ExerciseScheduleLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExerciseScheduleLog
+   */
+  select?: Prisma.ExerciseScheduleLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExerciseScheduleLog
+   */
+  omit?: Prisma.ExerciseScheduleLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExerciseScheduleLogInclude<ExtArgs> | null
+  where?: Prisma.ExerciseScheduleLogWhereInput
+  orderBy?: Prisma.ExerciseScheduleLogOrderByWithRelationInput | Prisma.ExerciseScheduleLogOrderByWithRelationInput[]
+  cursor?: Prisma.ExerciseScheduleLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExerciseScheduleLogScalarFieldEnum | Prisma.ExerciseScheduleLogScalarFieldEnum[]
 }
 
 /**

@@ -37,9 +37,9 @@ export type ExerciseLogSumAggregateOutputType = {
 export type ExerciseLogMinAggregateOutputType = {
   id: string | null
   userId: string | null
-  type: string | null
+  type: $Enums.exercise_type | null
   name: string | null
-  intensity: string | null
+  intensity: $Enums.exercise_intensity | null
   duration: number | null
   note: string | null
   loggedAt: Date | null
@@ -48,9 +48,9 @@ export type ExerciseLogMinAggregateOutputType = {
 export type ExerciseLogMaxAggregateOutputType = {
   id: string | null
   userId: string | null
-  type: string | null
+  type: $Enums.exercise_type | null
   name: string | null
-  intensity: string | null
+  intensity: $Enums.exercise_intensity | null
   duration: number | null
   note: string | null
   loggedAt: Date | null
@@ -200,9 +200,9 @@ export type ExerciseLogGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type ExerciseLogGroupByOutputType = {
   id: string
   userId: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity: string | null
+  intensity: $Enums.exercise_intensity | null
   duration: number | null
   note: string | null
   loggedAt: Date
@@ -234,9 +234,9 @@ export type ExerciseLogWhereInput = {
   NOT?: Prisma.ExerciseLogWhereInput | Prisma.ExerciseLogWhereInput[]
   id?: Prisma.StringFilter<"ExerciseLog"> | string
   userId?: Prisma.StringFilter<"ExerciseLog"> | string
-  type?: Prisma.StringFilter<"ExerciseLog"> | string
+  type?: Prisma.Enumexercise_typeFilter<"ExerciseLog"> | $Enums.exercise_type
   name?: Prisma.StringFilter<"ExerciseLog"> | string
-  intensity?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
+  intensity?: Prisma.Enumexercise_intensityNullableFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableFilter<"ExerciseLog"> | number | null
   note?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseLog"> | Date | string
@@ -261,9 +261,9 @@ export type ExerciseLogWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ExerciseLogWhereInput[]
   NOT?: Prisma.ExerciseLogWhereInput | Prisma.ExerciseLogWhereInput[]
   userId?: Prisma.StringFilter<"ExerciseLog"> | string
-  type?: Prisma.StringFilter<"ExerciseLog"> | string
+  type?: Prisma.Enumexercise_typeFilter<"ExerciseLog"> | $Enums.exercise_type
   name?: Prisma.StringFilter<"ExerciseLog"> | string
-  intensity?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
+  intensity?: Prisma.Enumexercise_intensityNullableFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableFilter<"ExerciseLog"> | number | null
   note?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseLog"> | Date | string
@@ -292,9 +292,9 @@ export type ExerciseLogScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ExerciseLogScalarWhereWithAggregatesInput | Prisma.ExerciseLogScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ExerciseLog"> | string
   userId?: Prisma.StringWithAggregatesFilter<"ExerciseLog"> | string
-  type?: Prisma.StringWithAggregatesFilter<"ExerciseLog"> | string
+  type?: Prisma.Enumexercise_typeWithAggregatesFilter<"ExerciseLog"> | $Enums.exercise_type
   name?: Prisma.StringWithAggregatesFilter<"ExerciseLog"> | string
-  intensity?: Prisma.StringNullableWithAggregatesFilter<"ExerciseLog"> | string | null
+  intensity?: Prisma.Enumexercise_intensityNullableWithAggregatesFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableWithAggregatesFilter<"ExerciseLog"> | number | null
   note?: Prisma.StringNullableWithAggregatesFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeWithAggregatesFilter<"ExerciseLog"> | Date | string
@@ -302,9 +302,9 @@ export type ExerciseLogScalarWhereWithAggregatesInput = {
 
 export type ExerciseLogCreateInput = {
   id?: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity?: string | null
+  intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   note?: string | null
   loggedAt?: Date | string
@@ -314,9 +314,9 @@ export type ExerciseLogCreateInput = {
 export type ExerciseLogUncheckedCreateInput = {
   id?: string
   userId: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity?: string | null
+  intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   note?: string | null
   loggedAt?: Date | string
@@ -324,9 +324,9 @@ export type ExerciseLogUncheckedCreateInput = {
 
 export type ExerciseLogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -336,9 +336,9 @@ export type ExerciseLogUpdateInput = {
 export type ExerciseLogUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,9 +347,9 @@ export type ExerciseLogUncheckedUpdateInput = {
 export type ExerciseLogCreateManyInput = {
   id?: string
   userId: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity?: string | null
+  intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   note?: string | null
   loggedAt?: Date | string
@@ -357,9 +357,9 @@ export type ExerciseLogCreateManyInput = {
 
 export type ExerciseLogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -368,9 +368,9 @@ export type ExerciseLogUpdateManyMutationInput = {
 export type ExerciseLogUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -427,6 +427,14 @@ export type ExerciseLogOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type Enumexercise_typeFieldUpdateOperationsInput = {
+  set?: $Enums.exercise_type
+}
+
+export type NullableEnumexercise_intensityFieldUpdateOperationsInput = {
+  set?: $Enums.exercise_intensity | null
+}
+
 export type ExerciseLogCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.ExerciseLogCreateWithoutUserInput, Prisma.ExerciseLogUncheckedCreateWithoutUserInput> | Prisma.ExerciseLogCreateWithoutUserInput[] | Prisma.ExerciseLogUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.ExerciseLogCreateOrConnectWithoutUserInput | Prisma.ExerciseLogCreateOrConnectWithoutUserInput[]
@@ -471,9 +479,9 @@ export type ExerciseLogUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type ExerciseLogCreateWithoutUserInput = {
   id?: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity?: string | null
+  intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   note?: string | null
   loggedAt?: Date | string
@@ -481,9 +489,9 @@ export type ExerciseLogCreateWithoutUserInput = {
 
 export type ExerciseLogUncheckedCreateWithoutUserInput = {
   id?: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity?: string | null
+  intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   note?: string | null
   loggedAt?: Date | string
@@ -521,9 +529,9 @@ export type ExerciseLogScalarWhereInput = {
   NOT?: Prisma.ExerciseLogScalarWhereInput | Prisma.ExerciseLogScalarWhereInput[]
   id?: Prisma.StringFilter<"ExerciseLog"> | string
   userId?: Prisma.StringFilter<"ExerciseLog"> | string
-  type?: Prisma.StringFilter<"ExerciseLog"> | string
+  type?: Prisma.Enumexercise_typeFilter<"ExerciseLog"> | $Enums.exercise_type
   name?: Prisma.StringFilter<"ExerciseLog"> | string
-  intensity?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
+  intensity?: Prisma.Enumexercise_intensityNullableFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableFilter<"ExerciseLog"> | number | null
   note?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseLog"> | Date | string
@@ -531,9 +539,9 @@ export type ExerciseLogScalarWhereInput = {
 
 export type ExerciseLogCreateManyUserInput = {
   id?: string
-  type: string
+  type: $Enums.exercise_type
   name: string
-  intensity?: string | null
+  intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   note?: string | null
   loggedAt?: Date | string
@@ -541,9 +549,9 @@ export type ExerciseLogCreateManyUserInput = {
 
 export type ExerciseLogUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -551,9 +559,9 @@ export type ExerciseLogUpdateWithoutUserInput = {
 
 export type ExerciseLogUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -561,9 +569,9 @@ export type ExerciseLogUncheckedUpdateWithoutUserInput = {
 
 export type ExerciseLogUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enumexercise_typeFieldUpdateOperationsInput | $Enums.exercise_type
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  intensity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -637,9 +645,9 @@ export type $ExerciseLogPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    type: string
+    type: $Enums.exercise_type
     name: string
-    intensity: string | null
+    intensity: $Enums.exercise_intensity | null
     duration: number | null
     note: string | null
     loggedAt: Date
@@ -1069,9 +1077,9 @@ export interface Prisma__ExerciseLogClient<T, Null = never, ExtArgs extends runt
 export interface ExerciseLogFieldRefs {
   readonly id: Prisma.FieldRef<"ExerciseLog", 'String'>
   readonly userId: Prisma.FieldRef<"ExerciseLog", 'String'>
-  readonly type: Prisma.FieldRef<"ExerciseLog", 'String'>
+  readonly type: Prisma.FieldRef<"ExerciseLog", 'exercise_type'>
   readonly name: Prisma.FieldRef<"ExerciseLog", 'String'>
-  readonly intensity: Prisma.FieldRef<"ExerciseLog", 'String'>
+  readonly intensity: Prisma.FieldRef<"ExerciseLog", 'exercise_intensity'>
   readonly duration: Prisma.FieldRef<"ExerciseLog", 'Int'>
   readonly note: Prisma.FieldRef<"ExerciseLog", 'String'>
   readonly loggedAt: Prisma.FieldRef<"ExerciseLog", 'DateTime'>

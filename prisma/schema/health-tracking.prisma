@@ -133,9 +133,9 @@ model ExerciseLog {
     id        String   @id @default(uuid())
     userId    String
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    type      String // CARDIO, STRENGTH, FLEXIBILITY, etc.
+    type      exercise_type // CARDIO, STRENGTH, FLEXIBILITY, etc.
     name      String // Running, Push-ups, Yoga, etc.
-    intensity String? // LOW, MEDIUM, HIGH
+    intensity exercise_intensity? // LOW, MEDIUM, HIGH
     duration  Int? // in minutes
     note      String?
     loggedAt  DateTime @default(now())
@@ -143,4 +143,32 @@ model ExerciseLog {
     @@index([userId])
     @@index([loggedAt])
     @@map("exercise_logs")
+}
+model ExerciseScheduleLog {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    type      exercise_type // CARDIO, STRENGTH, FLEXIBILITY, etc.
+    name      String // Running, Push-ups, Yoga, etc.
+    intensity exercise_intensity? // LOW, MEDIUM, HIGH
+    duration  Int? // in minutes
+    note      String?
+    loggedAt  DateTime @default(now())
+
+    @@index([userId])
+    @@index([loggedAt])
+    @@map("exercise_schedule_logs")
+}
+
+
+enum exercise_type {
+    CARDIO
+    STRENGTH
+    FLEXIBILITY
+    BALANCE
+}
+enum exercise_intensity {
+    MEDIUM
+    LOW
+    HIGH
 }

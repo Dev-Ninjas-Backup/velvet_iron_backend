@@ -60,6 +60,25 @@ export const MedicationType = {
 export type MedicationType = (typeof MedicationType)[keyof typeof MedicationType]
 
 
+export const exercise_type = {
+  CARDIO: 'CARDIO',
+  STRENGTH: 'STRENGTH',
+  FLEXIBILITY: 'FLEXIBILITY',
+  BALANCE: 'BALANCE'
+} as const
+
+export type exercise_type = (typeof exercise_type)[keyof typeof exercise_type]
+
+
+export const exercise_intensity = {
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW',
+  HIGH: 'HIGH'
+} as const
+
+export type exercise_intensity = (typeof exercise_intensity)[keyof typeof exercise_intensity]
+
+
 export const UserRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',

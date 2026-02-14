@@ -62,6 +62,7 @@ export const ModelName = {
   Medication: 'Medication',
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
+  ExerciseScheduleLog: 'ExerciseScheduleLog',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
   Subscription: 'Subscription',
@@ -223,6 +224,20 @@ export const ExerciseLogScalarFieldEnum = {
 } as const
 
 export type ExerciseLogScalarFieldEnum = (typeof ExerciseLogScalarFieldEnum)[keyof typeof ExerciseLogScalarFieldEnum]
+
+
+export const ExerciseScheduleLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  name: 'name',
+  intensity: 'intensity',
+  duration: 'duration',
+  note: 'note',
+  loggedAt: 'loggedAt'
+} as const
+
+export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
 
 
 export const QuestScalarFieldEnum = {

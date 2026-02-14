@@ -395,6 +395,7 @@ export const ModelName = {
   Medication: 'Medication',
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
+  ExerciseScheduleLog: 'ExerciseScheduleLog',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
   Subscription: 'Subscription',
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
+    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1236,6 +1237,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ExerciseScheduleLog: {
+      payload: Prisma.$ExerciseScheduleLogPayload<ExtArgs>
+      fields: Prisma.ExerciseScheduleLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExerciseScheduleLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExerciseScheduleLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ExerciseScheduleLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExerciseScheduleLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>
+        }
+        findMany: {
+          args: Prisma.ExerciseScheduleLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>[]
+        }
+        create: {
+          args: Prisma.ExerciseScheduleLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>
+        }
+        createMany: {
+          args: Prisma.ExerciseScheduleLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExerciseScheduleLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>[]
+        }
+        delete: {
+          args: Prisma.ExerciseScheduleLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>
+        }
+        update: {
+          args: Prisma.ExerciseScheduleLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ExerciseScheduleLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExerciseScheduleLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExerciseScheduleLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.ExerciseScheduleLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExerciseScheduleLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ExerciseScheduleLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExerciseScheduleLog>
+        }
+        groupBy: {
+          args: Prisma.ExerciseScheduleLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExerciseScheduleLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExerciseScheduleLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExerciseScheduleLogCountAggregateOutputType> | number
+        }
+      }
+    }
     Quest: {
       payload: Prisma.$QuestPayload<ExtArgs>
       fields: Prisma.QuestFieldRefs
@@ -2004,6 +2079,20 @@ export const ExerciseLogScalarFieldEnum = {
 export type ExerciseLogScalarFieldEnum = (typeof ExerciseLogScalarFieldEnum)[keyof typeof ExerciseLogScalarFieldEnum]
 
 
+export const ExerciseScheduleLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  name: 'name',
+  intensity: 'intensity',
+  duration: 'duration',
+  note: 'note',
+  loggedAt: 'loggedAt'
+} as const
+
+export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
+
+
 export const QuestScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -2274,6 +2363,34 @@ export type ListEnumMedicationTypeFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
+ * Reference to a field of type 'exercise_type'
+ */
+export type Enumexercise_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'exercise_type'>
+    
+
+
+/**
+ * Reference to a field of type 'exercise_type[]'
+ */
+export type ListEnumexercise_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'exercise_type[]'>
+    
+
+
+/**
+ * Reference to a field of type 'exercise_intensity'
+ */
+export type Enumexercise_intensityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'exercise_intensity'>
+    
+
+
+/**
+ * Reference to a field of type 'exercise_intensity[]'
+ */
+export type ListEnumexercise_intensityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'exercise_intensity[]'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -2420,6 +2537,7 @@ export type GlobalOmitConfig = {
   medication?: Prisma.MedicationOmit
   medicationSchedule?: Prisma.MedicationScheduleOmit
   exerciseLog?: Prisma.ExerciseLogOmit
+  exerciseScheduleLog?: Prisma.ExerciseScheduleLogOmit
   quest?: Prisma.QuestOmit
   userQuest?: Prisma.UserQuestOmit
   subscription?: Prisma.SubscriptionOmit

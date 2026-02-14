@@ -262,6 +262,40 @@ export type EnumMedicationTypeNullableWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumMedicationTypeNullableFilter<$PrismaModel>
 }
 
+export type Enumexercise_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_type | Prisma.Enumexercise_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumexercise_typeFilter<$PrismaModel> | $Enums.exercise_type
+}
+
+export type Enumexercise_intensityNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_intensity | Prisma.Enumexercise_intensityFieldRefInput<$PrismaModel> | null
+  in?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumexercise_intensityNullableFilter<$PrismaModel> | $Enums.exercise_intensity | null
+}
+
+export type Enumexercise_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_type | Prisma.Enumexercise_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumexercise_typeWithAggregatesFilter<$PrismaModel> | $Enums.exercise_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumexercise_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumexercise_typeFilter<$PrismaModel>
+}
+
+export type Enumexercise_intensityNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_intensity | Prisma.Enumexercise_intensityFieldRefInput<$PrismaModel> | null
+  in?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumexercise_intensityNullableWithAggregatesFilter<$PrismaModel> | $Enums.exercise_intensity | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumexercise_intensityNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumexercise_intensityNullableFilter<$PrismaModel>
+}
+
 export type DecimalNullableFilter<$PrismaModel = never> = {
   equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
   in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
@@ -603,6 +637,40 @@ export type NestedEnumMedicationTypeNullableWithAggregatesFilter<$PrismaModel = 
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumMedicationTypeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumMedicationTypeNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumexercise_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_type | Prisma.Enumexercise_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumexercise_typeFilter<$PrismaModel> | $Enums.exercise_type
+}
+
+export type NestedEnumexercise_intensityNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_intensity | Prisma.Enumexercise_intensityFieldRefInput<$PrismaModel> | null
+  in?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumexercise_intensityNullableFilter<$PrismaModel> | $Enums.exercise_intensity | null
+}
+
+export type NestedEnumexercise_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_type | Prisma.Enumexercise_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.exercise_type[] | Prisma.ListEnumexercise_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumexercise_typeWithAggregatesFilter<$PrismaModel> | $Enums.exercise_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumexercise_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumexercise_typeFilter<$PrismaModel>
+}
+
+export type NestedEnumexercise_intensityNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.exercise_intensity | Prisma.Enumexercise_intensityFieldRefInput<$PrismaModel> | null
+  in?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.exercise_intensity[] | Prisma.ListEnumexercise_intensityFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumexercise_intensityNullableWithAggregatesFilter<$PrismaModel> | $Enums.exercise_intensity | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumexercise_intensityNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumexercise_intensityNullableFilter<$PrismaModel>
 }
 
 export type NestedDecimalNullableFilter<$PrismaModel = never> = {
