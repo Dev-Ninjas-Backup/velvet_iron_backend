@@ -17,6 +17,8 @@ import { XpStatsModule } from './xp-stats/xp-stats.module';
 import { MoodLogModule } from './mood-log/mood-log.module';
 import { MealLogModule } from './meal-log/meal-log.module';
 import { MealScheduleModule } from './meal-schedule/meal-schedule.module';
+import { MedicationModule } from './medication/medication.module';
+import { MedicationScheduleModule } from './medication-schedule/medication-schedule.module';
 
 @Module({
   imports: [
@@ -38,8 +40,10 @@ import { MealScheduleModule } from './meal-schedule/meal-schedule.module';
     MoodLogModule,
     MealLogModule,
     MealScheduleModule,
+    MedicationModule,
+    MedicationScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],
 })
-export class AppModule { }
+export class AppModule {}

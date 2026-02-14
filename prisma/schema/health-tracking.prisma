@@ -61,10 +61,11 @@ model MealSchedule {
     carbs       Int?
     protein     Int?
     fats        Int?
+
     @@index([userId])
     @@index([scheduledAt])
     @@map("meal_schedules")
-} 
+}
 
 enum MealType {
     BREAKFAST
@@ -93,46 +94,38 @@ model MealLog {
 
 // Medications
 model Medication {
-    id                  String               @id @default(uuid())
-    userId              String
-    user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-    name                String
-    type                String? // PILL, INJECTION, LIQUID, etc.
-    createdAt           DateTime             @default(now())
-    medicationSchedules MedicationSchedule[]
-    medicationLogs      MedicationLog[]
+    id        String          @id @default(uuid())
+    userId    String
+    user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name      String
+    type      MedicationType?
+    doseMg    Int? // e.g., 500 mg
+    createdAt DateTime        @default(now())
 
     @@index([userId])
     @@map("medications")
 }
 
+enum MedicationType {
+    CAPSULE
+    INJECTION
+    LIQUID
+    TABLET
+}
+
 // Medication Schedules
 model MedicationSchedule {
-    id           String     @id @default(uuid())
+    id           String          @id @default(uuid())
     userId       String
-    user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    medicationId String
-    medication   Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
-    doseMg       Decimal    @db.Decimal(10, 2) // e.g., 500.00 mg
+    user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name         String
+    type         MedicationType?
+    doseMg       Int? // e.g., 500 mg
     scheduleTime DateTime
 
     @@index([userId])
-    @@index([medicationId])
     @@index([scheduleTime])
     @@map("medication_schedules")
-}
-
-// Medication Logs
-model MedicationLog {
-    id           String     @id @default(uuid())
-    medicationId String
-    medication   Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
-    doseMg       Decimal    @db.Decimal(10, 2) // e.g., 500.00 mg
-    takenAt      DateTime   @default(now())
-
-    @@index([medicationId])
-    @@index([takenAt])
-    @@map("medication_logs")
 }
 
 // Exercise Logs

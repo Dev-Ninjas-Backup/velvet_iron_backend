@@ -50,6 +50,16 @@ export const MealType = {
 export type MealType = (typeof MealType)[keyof typeof MealType]
 
 
+export const MedicationType = {
+  CAPSULE: 'CAPSULE',
+  INJECTION: 'INJECTION',
+  LIQUID: 'LIQUID',
+  TABLET: 'TABLET'
+} as const
+
+export type MedicationType = (typeof MedicationType)[keyof typeof MedicationType]
+
+
 export const UserRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',

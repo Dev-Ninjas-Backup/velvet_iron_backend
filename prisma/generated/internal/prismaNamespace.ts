@@ -394,7 +394,6 @@ export const ModelName = {
   MealLog: 'MealLog',
   Medication: 'Medication',
   MedicationSchedule: 'MedicationSchedule',
-  MedicationLog: 'MedicationLog',
   ExerciseLog: 'ExerciseLog',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
@@ -419,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "medicationLog" | "exerciseLog" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
+    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1160,80 +1159,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.MedicationScheduleCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.MedicationScheduleCountAggregateOutputType> | number
-        }
-      }
-    }
-    MedicationLog: {
-      payload: Prisma.$MedicationLogPayload<ExtArgs>
-      fields: Prisma.MedicationLogFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MedicationLogFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MedicationLogFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>
-        }
-        findFirst: {
-          args: Prisma.MedicationLogFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MedicationLogFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>
-        }
-        findMany: {
-          args: Prisma.MedicationLogFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>[]
-        }
-        create: {
-          args: Prisma.MedicationLogCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>
-        }
-        createMany: {
-          args: Prisma.MedicationLogCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MedicationLogCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>[]
-        }
-        delete: {
-          args: Prisma.MedicationLogDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>
-        }
-        update: {
-          args: Prisma.MedicationLogUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>
-        }
-        deleteMany: {
-          args: Prisma.MedicationLogDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MedicationLogUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MedicationLogUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>[]
-        }
-        upsert: {
-          args: Prisma.MedicationLogUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationLogPayload>
-        }
-        aggregate: {
-          args: Prisma.MedicationLogAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMedicationLog>
-        }
-        groupBy: {
-          args: Prisma.MedicationLogGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MedicationLogGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MedicationLogCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MedicationLogCountAggregateOutputType> | number
         }
       }
     }
@@ -2046,6 +1971,7 @@ export const MedicationScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   type: 'type',
+  doseMg: 'doseMg',
   createdAt: 'createdAt'
 } as const
 
@@ -2055,22 +1981,13 @@ export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof
 export const MedicationScheduleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  medicationId: 'medicationId',
+  name: 'name',
+  type: 'type',
   doseMg: 'doseMg',
   scheduleTime: 'scheduleTime'
 } as const
 
 export type MedicationScheduleScalarFieldEnum = (typeof MedicationScheduleScalarFieldEnum)[keyof typeof MedicationScheduleScalarFieldEnum]
-
-
-export const MedicationLogScalarFieldEnum = {
-  id: 'id',
-  medicationId: 'medicationId',
-  doseMg: 'doseMg',
-  takenAt: 'takenAt'
-} as const
-
-export type MedicationLogScalarFieldEnum = (typeof MedicationLogScalarFieldEnum)[keyof typeof MedicationLogScalarFieldEnum]
 
 
 export const ExerciseLogScalarFieldEnum = {
@@ -2343,6 +2260,20 @@ export type ListEnumMealTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'MedicationType'
+ */
+export type EnumMedicationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MedicationType'>
+    
+
+
+/**
+ * Reference to a field of type 'MedicationType[]'
+ */
+export type ListEnumMedicationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MedicationType[]'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -2488,7 +2419,6 @@ export type GlobalOmitConfig = {
   mealLog?: Prisma.MealLogOmit
   medication?: Prisma.MedicationOmit
   medicationSchedule?: Prisma.MedicationScheduleOmit
-  medicationLog?: Prisma.MedicationLogOmit
   exerciseLog?: Prisma.ExerciseLogOmit
   quest?: Prisma.QuestOmit
   userQuest?: Prisma.UserQuestOmit

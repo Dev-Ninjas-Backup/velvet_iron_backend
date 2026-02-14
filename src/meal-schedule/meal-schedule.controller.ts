@@ -10,8 +10,6 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { MealScheduleService } from './meal-schedule.service';
-import { CreateMealScheduleDto } from './dto/create-meal-schedule.dto';
-import { UpdateMealScheduleDto } from './dto/update-meal-schedule.dto';
 import {
     ApiBearerAuth,
     ApiOperation,

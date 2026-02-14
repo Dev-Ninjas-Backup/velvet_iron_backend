@@ -88,11 +88,6 @@ export type Medication = Prisma.MedicationModel
  */
 export type MedicationSchedule = Prisma.MedicationScheduleModel
 /**
- * Model MedicationLog
- * 
- */
-export type MedicationLog = Prisma.MedicationLogModel
-/**
  * Model ExerciseLog
  * 
  */
