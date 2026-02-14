@@ -15,6 +15,8 @@ import { SeedService } from './common/seed.service';
 import { WeightLogModule } from './weight-log/weight-log.module';
 import { XpStatsModule } from './xp-stats/xp-stats.module';
 import { MoodLogModule } from './mood-log/mood-log.module';
+import { MealLogModule } from './meal-log/meal-log.module';
+import { MealScheduleModule } from './meal-schedule/meal-schedule.module';
 
 @Module({
   imports: [
@@ -34,8 +36,10 @@ import { MoodLogModule } from './mood-log/mood-log.module';
     WeightLogModule,
     XpStatsModule,
     MoodLogModule,
+    MealLogModule,
+    MealScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -64,7 +64,7 @@ model MealSchedule {
     @@index([userId])
     @@index([scheduledAt])
     @@map("meal_schedules")
-}
+} 
 
 enum MealType {
     BREAKFAST

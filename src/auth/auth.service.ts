@@ -35,7 +35,7 @@ export class AuthService {
     private configService: ConfigService,
     private firebaseAuthService: FirebaseAuthService,
     private awsService: AwsService,
-  ) {}
+  ) { }
 
   async validateUser(emailOrUsername: string, password: string): Promise<any> {
     const user: any = await this.Prisma.client.user.findFirst({
@@ -159,11 +159,11 @@ export class AuthService {
     const accessTokenExpiration =
       //convert day from milliseconds
       Number(this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_MS')) /
-        86400000 || 15; // 15 minutes
+      86400000 || 15; // 15 minutes
     const refreshTokenExpiration =
       //convert days from milliseconds
       Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS')) /
-        86400000 || 7;
+      86400000 || 7;
 
     // Minimal token payload - only essential claims
     const tokenPayload = {
@@ -192,7 +192,7 @@ export class AuthService {
   async generateRefreshTokenOnly(user: any, oldRefreshToken?: string) {
     const refreshTokenExpiration =
       Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS')) /
-        86400000 || 7;
+      86400000 || 7;
 
     // Minimal token payload - only essential claims
     const tokenPayload = {
@@ -683,7 +683,7 @@ export class AuthService {
     if (dto.gender) {
       updateData.gender = dto.gender;
     }
- 
+
     // Add dateOfBirth if provided and not empty
     if (dto.dateOfBirth && dto.dateOfBirth.trim() !== '') {
       updateData.dateOfBirth = new Date(dto.dateOfBirth);
