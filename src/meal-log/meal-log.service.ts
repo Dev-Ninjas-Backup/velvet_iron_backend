@@ -111,14 +111,48 @@ export class MealLogService {
                     protein: proteinNeed - consumed.protein,
                     fat: fatNeed - consumed.fat,
                     carb: carbNeed - consumed.carb,
+                    calories: calories - consumed.calories,
                 };
             }
         }
+
+        // Weekly presence: which days this week user logged meals
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, ...
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - dayOfWeek);
+        startOfWeek.setHours(0, 0, 0, 0);
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        endOfWeek.setHours(23, 59, 59, 999);
+
+        const weekLogs = await this.prisma.client.mealLog.findMany({
+            where: {
+                userId,
+                loggedAt: { gte: startOfWeek, lte: endOfWeek },
+            },
+            select: { loggedAt: true },
+        });
+
+        const loggedDays = new Set(
+            weekLogs.map((l) => l.loggedAt.getDay()),
+        );
+
+        const weeklyPresent = {
+            sunday: loggedDays.has(0),
+            monday: loggedDays.has(1),
+            tuesday: loggedDays.has(2),
+            wednesday: loggedDays.has(3),
+            thursday: loggedDays.has(4),
+            friday: loggedDays.has(5),
+            saturday: loggedDays.has(6),
+        };
 
         return {
             daily,
             consumed,
             remaining,
+            weeklyPresent,
             logs,
             totalCount,
         };
