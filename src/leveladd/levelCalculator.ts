@@ -26,19 +26,23 @@ export const availableThemesForLevel = (
 
   return result;
 };
+
+
+
 export const availableCompanionForLevel = (
   level: number,
   length: number,
 ): boolean => {
-  const result = level >= 32 && length <= 3
-    ? true
-    : level >= 22 && length <= 2
+  const result =
+    level >= 32 && length <= 3
       ? true
-      : level >= 12 && length <= 1
+      : level >= 22 && length <= 2
         ? true
-        : level < 10 && length < 1
+        : level >= 12 && length <= 1
           ? true
-          : false;
+          : level < 10 && length < 1
+            ? true
+            : false;
   console.log(result);
   return result;
 };

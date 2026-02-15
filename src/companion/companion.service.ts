@@ -71,16 +71,26 @@ export class CompanionService {
     const length = unlockedCompanions.length;
     const level = calculateLevel(user?.userProfile?.totalEarnXp || 0);
 
+    const existingUnlocks = await this.prisma.client.userCompanion.findFirst({
+      where: {
+        userId,
+        companionId,
+      },
+    });
+
+    if (existingUnlocks) {
+      throw new BadRequestException('Companion already unlocked');
+    }
+
     const availableCompanions = availableCompanionForLevel(level, length);
+    if (!availableCompanions) {
+      throw new BadRequestException(
+        `No companions available for unlock at your current level (${level}). Earn more XP to unlock new companions.`,
+      );
+    }
 
     if (availableCompanions) {
-      const existingUnlock = await this.prisma.client.userCompanion.findFirst({
-        where: {
-          userId,
-          companionId,
-        },
-      });
-      if (existingUnlock) {
+      if (existingUnlocks) {
         throw new BadRequestException('Companion already unlocked');
       }
 
@@ -190,8 +200,6 @@ export class CompanionService {
       });
     }
 
-   
-
     // Check if already unlocked
     const existingUnlock = await this.prisma.client.userCompanion.findUnique({
       where: {
@@ -206,7 +214,7 @@ export class CompanionService {
       throw new BadRequestException('Companion already unlocked');
     }
 
-     // Check if user has enough XP
+    // Check if user has enough XP
     if (userProfile.balanceXp < companion.unlockXp) {
       throw new BadRequestException('Not enough XP to unlock this companion');
     }
@@ -221,8 +229,6 @@ export class CompanionService {
         companion: true,
       },
     });
-
-
   }
 
   // Set a companion as active
@@ -323,7 +329,7 @@ export class CompanionService {
           isAcitve,
           isUnlocked,
         };
-      }); 
+      });
 
       return {
         companions: companionsWithUnlockStatus,

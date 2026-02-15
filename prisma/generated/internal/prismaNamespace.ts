@@ -396,6 +396,7 @@ export const ModelName = {
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
   ExerciseScheduleLog: 'ExerciseScheduleLog',
+  onboarding: 'onboarding',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
   Subscription: 'Subscription',
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
+    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "onboarding" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1311,6 +1312,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    onboarding: {
+      payload: Prisma.$onboardingPayload<ExtArgs>
+      fields: Prisma.onboardingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.onboardingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.onboardingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>
+        }
+        findFirst: {
+          args: Prisma.onboardingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.onboardingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>
+        }
+        findMany: {
+          args: Prisma.onboardingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>[]
+        }
+        create: {
+          args: Prisma.onboardingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>
+        }
+        createMany: {
+          args: Prisma.onboardingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.onboardingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>[]
+        }
+        delete: {
+          args: Prisma.onboardingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>
+        }
+        update: {
+          args: Prisma.onboardingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>
+        }
+        deleteMany: {
+          args: Prisma.onboardingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.onboardingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.onboardingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>[]
+        }
+        upsert: {
+          args: Prisma.onboardingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$onboardingPayload>
+        }
+        aggregate: {
+          args: Prisma.OnboardingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOnboarding>
+        }
+        groupBy: {
+          args: Prisma.onboardingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OnboardingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.onboardingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OnboardingCountAggregateOutputType> | number
+        }
+      }
+    }
     Quest: {
       payload: Prisma.$QuestPayload<ExtArgs>
       fields: Prisma.QuestFieldRefs
@@ -2093,6 +2168,15 @@ export const ExerciseScheduleLogScalarFieldEnum = {
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
 
 
+export const OnboardingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  iscomplete: 'iscomplete'
+} as const
+
+export type OnboardingScalarFieldEnum = (typeof OnboardingScalarFieldEnum)[keyof typeof OnboardingScalarFieldEnum]
+
+
 export const QuestScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -2538,6 +2622,7 @@ export type GlobalOmitConfig = {
   medicationSchedule?: Prisma.MedicationScheduleOmit
   exerciseLog?: Prisma.ExerciseLogOmit
   exerciseScheduleLog?: Prisma.ExerciseScheduleLogOmit
+  onboarding?: Prisma.onboardingOmit
   quest?: Prisma.QuestOmit
   userQuest?: Prisma.UserQuestOmit
   subscription?: Prisma.SubscriptionOmit

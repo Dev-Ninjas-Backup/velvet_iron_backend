@@ -59,6 +59,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
     .addTag('uploads', 'File upload endpoints')
+    .addTag('onboarding', 'Onboarding endpoints')
     .addBearerAuth(
       {
         type: 'http',

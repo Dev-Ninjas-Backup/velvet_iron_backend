@@ -1,4 +1,25 @@
 -- CreateEnum
+CREATE TYPE "Mood" AS ENUM ('TIRED', 'GOOD', 'PISSED', 'GREAT', 'POOR');
+
+-- CreateEnum
+CREATE TYPE "EnergyLevel" AS ENUM ('EXHAUSTED', 'LOW', 'MODERATE', 'ENERGIZED', 'HIGH');
+
+-- CreateEnum
+CREATE TYPE "HungerLevel" AS ENUM ('NOT_HUNGRY', 'HUNGRY', 'VERY_HUNGRY');
+
+-- CreateEnum
+CREATE TYPE "MealType" AS ENUM ('BREAKFAST', 'LUNCH', 'DINNER', 'SNACK');
+
+-- CreateEnum
+CREATE TYPE "MedicationType" AS ENUM ('CAPSULE', 'INJECTION', 'LIQUID', 'TABLET');
+
+-- CreateEnum
+CREATE TYPE "exercise_type" AS ENUM ('CARDIO', 'STRENGTH', 'FLEXIBILITY', 'BALANCE');
+
+-- CreateEnum
+CREATE TYPE "exercise_intensity" AS ENUM ('MEDIUM', 'LOW', 'HIGH');
+
+-- CreateEnum
 CREATE TYPE "UserRole" AS ENUM ('SUPERADMIN', 'ADMIN', 'USER');
 
 -- CreateTable
@@ -51,7 +72,7 @@ CREATE TABLE "user_companions" (
 CREATE TABLE "weight_logs" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "weight" DECIMAL(5,2) NOT NULL,
+    "weight" TEXT NOT NULL,
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -62,9 +83,9 @@ CREATE TABLE "weight_logs" (
 CREATE TABLE "mood_logs" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "mood" TEXT NOT NULL,
-    "energyLevel" TEXT,
-    "hungerLevel" TEXT,
+    "mood" "Mood" NOT NULL,
+    "energyLevel" "EnergyLevel",
+    "hungerLevel" "HungerLevel",
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -75,8 +96,12 @@ CREATE TABLE "mood_logs" (
 CREATE TABLE "meal_schedules" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "mealType" TEXT NOT NULL,
+    "mealType" "MealType" NOT NULL,
     "scheduledAt" TIMESTAMP(3) NOT NULL,
+    "calories" INTEGER,
+    "carbs" INTEGER,
+    "protein" INTEGER,
+    "fats" INTEGER,
 
     CONSTRAINT "meal_schedules_pkey" PRIMARY KEY ("id")
 );
@@ -85,7 +110,7 @@ CREATE TABLE "meal_schedules" (
 CREATE TABLE "meal_logs" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "mealType" TEXT NOT NULL,
+    "mealType" "MealType" NOT NULL,
     "description" TEXT,
     "calories" INTEGER,
     "carbs" INTEGER,
@@ -101,7 +126,8 @@ CREATE TABLE "medications" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "type" TEXT,
+    "type" "MedicationType",
+    "doseMg" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "medications_pkey" PRIMARY KEY ("id")
@@ -111,35 +137,40 @@ CREATE TABLE "medications" (
 CREATE TABLE "medication_schedules" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "medicationId" TEXT NOT NULL,
-    "doseMg" DECIMAL(10,2) NOT NULL,
+    "name" TEXT NOT NULL,
+    "type" "MedicationType",
+    "doseMg" INTEGER,
     "scheduleTime" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "medication_schedules_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "medication_logs" (
-    "id" TEXT NOT NULL,
-    "medicationId" TEXT NOT NULL,
-    "doseMg" DECIMAL(10,2) NOT NULL,
-    "takenAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "medication_logs_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "exercise_logs" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
+    "type" "exercise_type" NOT NULL,
     "name" TEXT NOT NULL,
-    "intensity" TEXT,
+    "intensity" "exercise_intensity",
     "duration" INTEGER,
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "exercise_logs_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "exercise_schedule_logs" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "type" "exercise_type" NOT NULL,
+    "name" TEXT NOT NULL,
+    "intensity" "exercise_intensity",
+    "duration" INTEGER,
+    "note" TEXT,
+    "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "exercise_schedule_logs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -252,6 +283,17 @@ CREATE TABLE "user_profiles" (
 );
 
 -- CreateTable
+CREATE TABLE "xp_logs" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "source" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "xp_logs_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_availabalethemes" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -319,22 +361,19 @@ CREATE INDEX "medications_userId_idx" ON "medications"("userId");
 CREATE INDEX "medication_schedules_userId_idx" ON "medication_schedules"("userId");
 
 -- CreateIndex
-CREATE INDEX "medication_schedules_medicationId_idx" ON "medication_schedules"("medicationId");
-
--- CreateIndex
 CREATE INDEX "medication_schedules_scheduleTime_idx" ON "medication_schedules"("scheduleTime");
-
--- CreateIndex
-CREATE INDEX "medication_logs_medicationId_idx" ON "medication_logs"("medicationId");
-
--- CreateIndex
-CREATE INDEX "medication_logs_takenAt_idx" ON "medication_logs"("takenAt");
 
 -- CreateIndex
 CREATE INDEX "exercise_logs_userId_idx" ON "exercise_logs"("userId");
 
 -- CreateIndex
 CREATE INDEX "exercise_logs_loggedAt_idx" ON "exercise_logs"("loggedAt");
+
+-- CreateIndex
+CREATE INDEX "exercise_schedule_logs_userId_idx" ON "exercise_schedule_logs"("userId");
+
+-- CreateIndex
+CREATE INDEX "exercise_schedule_logs_loggedAt_idx" ON "exercise_schedule_logs"("loggedAt");
 
 -- CreateIndex
 CREATE INDEX "user_quests_userId_idx" ON "user_quests"("userId");
@@ -388,6 +427,15 @@ CREATE UNIQUE INDEX "user_profiles_userId_key" ON "user_profiles"("userId");
 CREATE INDEX "user_profiles_userId_idx" ON "user_profiles"("userId");
 
 -- CreateIndex
+CREATE INDEX "xp_logs_userId_idx" ON "xp_logs"("userId");
+
+-- CreateIndex
+CREATE INDEX "xp_logs_createdAt_idx" ON "xp_logs"("createdAt");
+
+-- CreateIndex
+CREATE INDEX "xp_logs_userId_createdAt_idx" ON "xp_logs"("userId", "createdAt");
+
+-- CreateIndex
 CREATE INDEX "_availabalethemes_B_index" ON "_availabalethemes"("B");
 
 -- CreateIndex
@@ -424,13 +472,10 @@ ALTER TABLE "medications" ADD CONSTRAINT "medications_userId_fkey" FOREIGN KEY (
 ALTER TABLE "medication_schedules" ADD CONSTRAINT "medication_schedules_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "medication_schedules" ADD CONSTRAINT "medication_schedules_medicationId_fkey" FOREIGN KEY ("medicationId") REFERENCES "medications"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "medication_logs" ADD CONSTRAINT "medication_logs_medicationId_fkey" FOREIGN KEY ("medicationId") REFERENCES "medications"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "exercise_logs" ADD CONSTRAINT "exercise_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "exercise_schedule_logs" ADD CONSTRAINT "exercise_schedule_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "user_quests" ADD CONSTRAINT "user_quests_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -455,6 +500,9 @@ ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeThemeId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_activeCompanionId_fkey" FOREIGN KEY ("activeCompanionId") REFERENCES "companions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "xp_logs" ADD CONSTRAINT "xp_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_availabalethemes" ADD CONSTRAINT "_availabalethemes_A_fkey" FOREIGN KEY ("A") REFERENCES "themes"("id") ON DELETE CASCADE ON UPDATE CASCADE;

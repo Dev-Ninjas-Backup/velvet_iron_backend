@@ -63,6 +63,7 @@ export const ModelName = {
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
   ExerciseScheduleLog: 'ExerciseScheduleLog',
+  onboarding: 'onboarding',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
   Subscription: 'Subscription',
@@ -238,6 +239,15 @@ export const ExerciseScheduleLogScalarFieldEnum = {
 } as const
 
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
+
+
+export const OnboardingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  iscomplete: 'iscomplete'
+} as const
+
+export type OnboardingScalarFieldEnum = (typeof OnboardingScalarFieldEnum)[keyof typeof OnboardingScalarFieldEnum]
 
 
 export const QuestScalarFieldEnum = {

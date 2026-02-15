@@ -10,7 +10,7 @@ import {
 import { CompanionService } from './companion.service';
 import { CreateCompanionDto } from './dto/create-companion.dto';
 import { UpdateCompanionDto } from './dto/update-companion.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidAll, ValidAdmin } from '../common/decorators/validate.decorator';
 

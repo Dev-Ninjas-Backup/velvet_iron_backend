@@ -20,6 +20,7 @@ import { MealScheduleModule } from './meal-schedule/meal-schedule.module';
 import { MedicationModule } from './medication/medication.module';
 import { MedicationScheduleModule } from './medication-schedule/medication-schedule.module';
 import { ExerciseLogModule } from './exercise-log/exercise-log.module';
+import { OnboardingModule } from './onboarding/onboarding.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { ExerciseLogModule } from './exercise-log/exercise-log.module';
     MedicationModule,
     MedicationScheduleModule,
     ExerciseLogModule,
+    OnboardingModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

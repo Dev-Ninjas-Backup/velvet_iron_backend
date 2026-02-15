@@ -13,6 +13,7 @@ import {
   UploadedFiles,
   Patch,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import {
   FileInterceptor,
@@ -27,6 +28,7 @@ import {
   ApiOperation,
   ApiConsumes,
   ApiBody,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { loginDto } from './dto/login.dto';

@@ -98,6 +98,11 @@ export type ExerciseLog = Prisma.ExerciseLogModel
  */
 export type ExerciseScheduleLog = Prisma.ExerciseScheduleLogModel
 /**
+ * Model onboarding
+ * 
+ */
+export type onboarding = Prisma.onboardingModel
+/**
  * Model Quest
  * 
  */

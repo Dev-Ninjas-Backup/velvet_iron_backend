@@ -90,7 +90,26 @@ export class ThemeService {
     const level = calculateLevel(user?.userProfile?.totalEarnXp || 0);
 
     const availableThemes = availableThemesForLevel(level, length);
-    console.log('amio pelam', availableThemes);
+
+    // Check if already unlocked
+    const existtheme = await this.prisma.client.userTheme.findUnique({
+      where: {
+        userId_themeId: {
+          userId,
+          themeId,
+        },
+      },
+    });
+
+    if (existtheme) {
+      throw new BadRequestException('Theme already unlocked');
+    }
+
+    if (!availableThemes) {
+      throw new BadRequestException(
+        'Your level does not allow you to unlock more themes. Keep earning XP to unlock more!',
+      );
+    }
 
     if (availableThemes) {
       const existingUnlock = await this.prisma.client.userTheme.findFirst({
@@ -163,23 +182,11 @@ export class ThemeService {
       });
     }
 
-   
-
-    // Check if already unlocked
-    const existingUnlock = await this.prisma.client.userTheme.findUnique({
-      where: {
-        userId_themeId: {
-          userId,
-          themeId,
-        },
-      },
-    });
-
-    if (existingUnlock) {
+    if (existtheme) {
       throw new BadRequestException('Theme already unlocked');
     }
 
-     // Check if user has enough XP
+    // Check if user has enough XP
     if (userProfile.balanceXp < theme.unlockXp) {
       throw new BadRequestException('Not enough XP to unlock this theme');
     }
