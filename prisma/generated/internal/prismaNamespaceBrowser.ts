@@ -244,7 +244,10 @@ export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScal
 export const OnboardingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  iscomplete: 'iscomplete'
+  iscomplete: 'iscomplete',
+  fitnessGoal: 'fitnessGoal',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OnboardingScalarFieldEnum = (typeof OnboardingScalarFieldEnum)[keyof typeof OnboardingScalarFieldEnum]

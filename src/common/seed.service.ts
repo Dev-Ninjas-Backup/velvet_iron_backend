@@ -162,7 +162,7 @@ export class SeedService implements OnModuleInit {
         data: {
           userId: superAdmin.id,
           totalEarnXp: 0,
-          balanceXp: 500,
+          balanceXp: 0,
           level: 1,
         },
       });

@@ -28,18 +28,27 @@ export type OnboardingMinAggregateOutputType = {
   id: string | null
   userId: string | null
   iscomplete: boolean | null
+  fitnessGoal: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type OnboardingMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   iscomplete: boolean | null
+  fitnessGoal: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type OnboardingCountAggregateOutputType = {
   id: number
   userId: number
   iscomplete: number
+  fitnessGoal: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -48,18 +57,27 @@ export type OnboardingMinAggregateInputType = {
   id?: true
   userId?: true
   iscomplete?: true
+  fitnessGoal?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type OnboardingMaxAggregateInputType = {
   id?: true
   userId?: true
   iscomplete?: true
+  fitnessGoal?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type OnboardingCountAggregateInputType = {
   id?: true
   userId?: true
   iscomplete?: true
+  fitnessGoal?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -139,6 +157,9 @@ export type OnboardingGroupByOutputType = {
   id: string
   userId: string
   iscomplete: boolean
+  fitnessGoal: string | null
+  createdAt: Date
+  updatedAt: Date
   _count: OnboardingCountAggregateOutputType | null
   _min: OnboardingMinAggregateOutputType | null
   _max: OnboardingMaxAggregateOutputType | null
@@ -166,6 +187,9 @@ export type onboardingWhereInput = {
   id?: Prisma.StringFilter<"onboarding"> | string
   userId?: Prisma.StringFilter<"onboarding"> | string
   iscomplete?: Prisma.BoolFilter<"onboarding"> | boolean
+  fitnessGoal?: Prisma.StringNullableFilter<"onboarding"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"onboarding"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"onboarding"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -173,6 +197,9 @@ export type onboardingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   iscomplete?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -183,6 +210,9 @@ export type onboardingWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.onboardingWhereInput[]
   NOT?: Prisma.onboardingWhereInput | Prisma.onboardingWhereInput[]
   iscomplete?: Prisma.BoolFilter<"onboarding"> | boolean
+  fitnessGoal?: Prisma.StringNullableFilter<"onboarding"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"onboarding"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"onboarding"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
@@ -190,6 +220,9 @@ export type onboardingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   iscomplete?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.onboardingCountOrderByAggregateInput
   _max?: Prisma.onboardingMaxOrderByAggregateInput
   _min?: Prisma.onboardingMinOrderByAggregateInput
@@ -202,11 +235,17 @@ export type onboardingScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"onboarding"> | string
   userId?: Prisma.StringWithAggregatesFilter<"onboarding"> | string
   iscomplete?: Prisma.BoolWithAggregatesFilter<"onboarding"> | boolean
+  fitnessGoal?: Prisma.StringNullableWithAggregatesFilter<"onboarding"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"onboarding"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"onboarding"> | Date | string
 }
 
 export type onboardingCreateInput = {
   id?: string
   iscomplete?: boolean
+  fitnessGoal?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOnboardingInput
 }
 
@@ -214,11 +253,17 @@ export type onboardingUncheckedCreateInput = {
   id?: string
   userId: string
   iscomplete?: boolean
+  fitnessGoal?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type onboardingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   iscomplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOnboardingNestedInput
 }
 
@@ -226,41 +271,62 @@ export type onboardingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   iscomplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type onboardingCreateManyInput = {
   id?: string
   userId: string
   iscomplete?: boolean
+  fitnessGoal?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type onboardingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   iscomplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type onboardingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   iscomplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type onboardingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   iscomplete?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type onboardingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   iscomplete?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type onboardingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   iscomplete?: Prisma.SortOrder
+  fitnessGoal?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OnboardingNullableScalarRelationFilter = {
@@ -303,11 +369,17 @@ export type onboardingUncheckedUpdateOneWithoutUserNestedInput = {
 export type onboardingCreateWithoutUserInput = {
   id?: string
   iscomplete?: boolean
+  fitnessGoal?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type onboardingUncheckedCreateWithoutUserInput = {
   id?: string
   iscomplete?: boolean
+  fitnessGoal?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type onboardingCreateOrConnectWithoutUserInput = {
@@ -329,11 +401,17 @@ export type onboardingUpdateToOneWithWhereWithoutUserInput = {
 export type onboardingUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   iscomplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type onboardingUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   iscomplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -342,6 +420,9 @@ export type onboardingSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   userId?: boolean
   iscomplete?: boolean
+  fitnessGoal?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["onboarding"]>
 
@@ -349,6 +430,9 @@ export type onboardingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   iscomplete?: boolean
+  fitnessGoal?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["onboarding"]>
 
@@ -356,6 +440,9 @@ export type onboardingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   iscomplete?: boolean
+  fitnessGoal?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["onboarding"]>
 
@@ -363,9 +450,12 @@ export type onboardingSelectScalar = {
   id?: boolean
   userId?: boolean
   iscomplete?: boolean
+  fitnessGoal?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type onboardingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "iscomplete", ExtArgs["result"]["onboarding"]>
+export type onboardingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "iscomplete" | "fitnessGoal" | "createdAt" | "updatedAt", ExtArgs["result"]["onboarding"]>
 export type onboardingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -385,6 +475,9 @@ export type $onboardingPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     userId: string
     iscomplete: boolean
+    fitnessGoal: string | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["onboarding"]>
   composites: {}
 }
@@ -812,6 +905,9 @@ export interface onboardingFieldRefs {
   readonly id: Prisma.FieldRef<"onboarding", 'String'>
   readonly userId: Prisma.FieldRef<"onboarding", 'String'>
   readonly iscomplete: Prisma.FieldRef<"onboarding", 'Boolean'>
+  readonly fitnessGoal: Prisma.FieldRef<"onboarding", 'String'>
+  readonly createdAt: Prisma.FieldRef<"onboarding", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"onboarding", 'DateTime'>
 }
     
 
