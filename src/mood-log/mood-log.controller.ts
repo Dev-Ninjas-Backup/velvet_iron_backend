@@ -33,7 +33,7 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 @ApiTags('Mood Log')
 @Controller('mood-log')
 export class MoodLogController {
-  constructor(private readonly moodLogService: MoodLogService) {}
+  constructor(private readonly moodLogService: MoodLogService) { }
 
   @Post()
   @ValidAll()
@@ -50,7 +50,6 @@ export class MoodLogController {
     description: 'Mood log entry data',
     schema: {
       type: 'object',
-      required: ['mood', 'energyLevel', 'hungerLevel'],
       properties: {
         mood: {
           type: 'string',

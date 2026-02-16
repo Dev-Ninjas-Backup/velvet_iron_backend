@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
 import { CreateMoodLogDto } from './dto/create-mood-log.dto';
 import { UpdateMoodLogDto } from './dto/update-mood-log.dto';
@@ -9,24 +9,65 @@ import {
 
 @Injectable()
 export class MoodLogService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createMoodLog(
     userId: string,
     dto: CreateMoodLogDto,
   ): Promise<MoodLogResponseDto> {
-    const moodLog = await this.prisma.client.moodLog.create({
-      data: {
+    const normalize = (value?: string) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      return value.trim().length === 0 ? undefined : value;
+    };
+
+    const mood = normalize(dto.mood as unknown as string) as CreateMoodLogDto['mood'] | undefined;
+    const energyLevel = normalize(dto.energyLevel as unknown as string) as CreateMoodLogDto['energyLevel'] | undefined;
+    const hungerLevel = normalize(dto.hungerLevel as unknown as string) as CreateMoodLogDto['hungerLevel'] | undefined;
+    const note = normalize(dto.note);
+    const loggedAt = normalize(dto.loggedAt);
+
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const existingToday = await this.prisma.client.moodLog.findFirst({
+      where: {
         userId,
-        mood: dto.mood,
-        energyLevel: dto.energyLevel,
-        hungerLevel: dto.hungerLevel,
-        note: dto.note,
-        loggedAt: dto.loggedAt ? new Date(dto.loggedAt) : new Date(),
+        loggedAt: { gte: startOfToday, lte: endOfToday },
       },
+      orderBy: { loggedAt: 'desc' },
     });
 
-    return moodLog;
+    if (existingToday) {
+      return this.prisma.client.moodLog.update({
+        where: { id: existingToday.id },
+        data: {
+          ...(mood !== undefined && { mood }),
+          ...(energyLevel !== undefined && { energyLevel }),
+          ...(hungerLevel !== undefined && { hungerLevel }),
+          ...(note !== undefined && { note }),
+          ...(loggedAt && { loggedAt: new Date(loggedAt) }),
+        },
+      });
+    }
+
+    if (mood === undefined) {
+      throw new BadRequestException('Mood is required to create a new log');
+    }
+
+    return this.prisma.client.moodLog.create({
+      data: {
+        userId,
+        mood,
+        energyLevel,
+        hungerLevel,
+        note,
+        loggedAt: loggedAt ? new Date(loggedAt) : new Date(),
+      },
+    });
   }
 
   async getMoodLogHistory(
@@ -67,6 +108,19 @@ export class MoodLogService {
     logId: string,
     dto: UpdateMoodLogDto,
   ): Promise<MoodLogResponseDto> {
+    const normalize = (value?: string) => {
+      if (value === undefined) {
+        return undefined;
+      }
+      return value.trim().length === 0 ? undefined : value;
+    };
+
+    const mood = normalize(dto.mood as unknown as string) as UpdateMoodLogDto['mood'] | undefined;
+    const energyLevel = normalize(dto.energyLevel as unknown as string) as UpdateMoodLogDto['energyLevel'] | undefined;
+    const hungerLevel = normalize(dto.hungerLevel as unknown as string) as UpdateMoodLogDto['hungerLevel'] | undefined;
+    const note = normalize(dto.note);
+    const loggedAt = normalize(dto.loggedAt);
+
     // First verify the log belongs to the user
     const existingLog = await this.prisma.client.moodLog.findFirst({
       where: {
@@ -83,11 +137,11 @@ export class MoodLogService {
     const updatedLog = await this.prisma.client.moodLog.update({
       where: { id: logId },
       data: {
-        ...(dto.mood && { mood: dto.mood }),
-        ...(dto.energyLevel && { energyLevel: dto.energyLevel }),
-        ...(dto.hungerLevel && { hungerLevel: dto.hungerLevel }),
-        ...(dto.note !== undefined && { note: dto.note }),
-        ...(dto.loggedAt && { loggedAt: new Date(dto.loggedAt) }),
+        ...(mood !== undefined && { mood }),
+        ...(energyLevel !== undefined && { energyLevel }),
+        ...(hungerLevel !== undefined && { hungerLevel }),
+        ...(note !== undefined && { note }),
+        ...(loggedAt && { loggedAt: new Date(loggedAt) }),
       },
     });
 

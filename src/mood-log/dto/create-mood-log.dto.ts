@@ -13,9 +13,11 @@ export class CreateMoodLogDto {
     enum: Mood,
     description: 'Current mood',
     example: 'GOOD',
+    required: false,
   })
   @IsEnum(Mood)
-  mood: Mood;
+  @IsOptional()
+  mood?: Mood;
 
   @ApiProperty({
     enum: EnergyLevel,
