@@ -103,6 +103,28 @@ export class MoodLogService {
     return log;
   }
 
+  async getTodayMoodLog(userId: string): Promise<MoodLogResponseDto | null> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const todayValue=await this.prisma.client.moodLog.findFirst({
+      where: {
+        userId,
+        loggedAt: { gte: startOfToday, lte: endOfToday },
+      },
+      orderBy: { loggedAt: 'desc' },
+    });
+
+    console.log("asdfasdfasdfasdfaaaaaaaaaaaaaaaaaa"+todayValue);
+    
+    if (!todayValue) {
+     throw new BadRequestException('No mood log found for today');
+    }
+    return todayValue;
+  }
+
   async updateMoodLog(
     userId: string,
     logId: string,

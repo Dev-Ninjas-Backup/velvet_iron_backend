@@ -74,12 +74,12 @@ export class MoodLogController {
           description: 'Additional notes about mood',
           example: 'Feeling good after workout',
         },
-        loggedAt: {
-          type: 'string',
-          format: 'date-time',
-          description: 'Log timestamp (ISO 8601)',
-          example: '2026-02-07T10:30:00Z',
-        },
+        // loggedAt: {
+        //   type: 'string',
+        //   format: 'date-time',
+        //   description: 'Log timestamp (ISO 8601)',
+        //   example: '2026-02-07T10:30:00Z',
+        // },
       },
     },
   })
@@ -141,6 +141,16 @@ export class MoodLogController {
     @GetUser('id') userId: string,
   ): Promise<MoodLogResponseDto | null> {
     return this.moodLogService.getLatestMoodLog(userId);
+  }
+
+  @Get('today')
+  @ValidAll()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get today\'s mood log' })
+  async getTodayMoodLog(
+    @GetUser('id') userId: string,
+  ): Promise<MoodLogResponseDto | null> {
+    return this.moodLogService.getTodayMoodLog(userId);
   }
 
   @Patch(':id')
