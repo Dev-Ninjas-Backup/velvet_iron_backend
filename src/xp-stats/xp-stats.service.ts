@@ -3,7 +3,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 
 @Injectable()
 export class XpStatsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   /**
    * Get today's total XP for a user
@@ -19,14 +19,14 @@ export class XpStatsService {
   }
 
   /**
-   * Get this week's total XP for a user
+   * Get this week's total XP for a user (Sunday to Saturday)
    */
   async getWeeklyXp(userId: string) {
     const now = new Date();
-    const startOfWeek = new Date(now);
+    // Calculate the most recent Sunday
     const dayOfWeek = now.getDay();
-    const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Monday as first day
-    startOfWeek.setDate(now.getDate() - diff);
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - dayOfWeek);
     startOfWeek.setHours(0, 0, 0, 0);
 
     const endOfWeek = new Date(startOfWeek);
@@ -143,27 +143,35 @@ export class XpStatsService {
   }
 
   /**
-   * Get weekly chart data - Daily XP for each day of the current week
+   * Get weekly chart data - Daily XP for each day of the current week (Sunday to Saturday)
    */
   async getWeeklyChartData(userId: string) {
     const now = new Date();
-    const startOfWeek = new Date(now);
-    const dayOfWeek = now.getDay();
-    const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Monday as first day
-    startOfWeek.setDate(now.getDate() - diff);
-    startOfWeek.setHours(0, 0, 0, 0);
+    const currentDayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+    // Calculate the date of this Sunday
+    const sundayDate = new Date(now);
+    sundayDate.setDate(now.getDate() - currentDayOfWeek);
+    sundayDate.setHours(0, 0, 0, 0);
 
     const chartData = [];
-    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const dayNames = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-    // Get XP for each day of the week
-    for (let i = 0; i < 7; i++) {
-      const dayStart = new Date(startOfWeek);
-      dayStart.setDate(startOfWeek.getDate() + i);
+    // Iterate through each day of the week
+    for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+      const dayStart = new Date(sundayDate);
+      dayStart.setDate(sundayDate.getDate() + dayOffset);
       dayStart.setHours(0, 0, 0, 0);
 
       const dayEnd = new Date(dayStart);
       dayEnd.setHours(23, 59, 59, 999);
+
+      // Get the actual day of the week for this specific date
+      const dateDay = dayStart.getDay();
+      const dayName = dayNames[dateDay];
+      const dateString = dayStart.toISOString().split('T')[0];
+
+      console.log(`[Weekly XP] ${dateString} = ${dayName} (dayOfWeek: ${dateDay})`);
 
       const logs = await this.prisma.client.xpLog.findMany({
         where: {
@@ -178,8 +186,8 @@ export class XpStatsService {
       const totalXp = logs.reduce((sum: number, log: any) => sum + log.amount, 0);
 
       chartData.push({
-        day: dayNames[i],
-        date: dayStart.toISOString().split('T')[0],
+        day: dayName,
+        date: dateString,
         xp: totalXp,
         logsCount: logs.length,
       });

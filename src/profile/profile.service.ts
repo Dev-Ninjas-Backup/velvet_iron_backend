@@ -3,20 +3,29 @@ import { PrismaService } from '../lib/prisma/prisma.service';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { calculateLevel } from '@/leveladd/levelCalculator';
 import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
+import { levelStatus } from '@/leveladd/levelStatus';
 
 @Injectable()
 export class ProfileService {
   constructor(
     private prisma: PrismaService,
     private leveladdService: LeveladdService,
-  ) {}
+  ) { }
 
   async getProfile(userId: string) {
     let profile = await this.prisma.client.userProfile.findUnique({
       where: { userId },
       include: {
-        activeTheme: true,
-        activeCompanion: true,
+        user: {
+          select: {
+            userProfile: {
+              select: {
+                balanceXp: true,
+              }
+            },
+            name: true,
+          },
+        },
       },
     });
 
@@ -27,16 +36,48 @@ export class ProfileService {
       profile = await this.prisma.client.userProfile.create({
         data: { userId },
         include: {
-          activeTheme: true,
-          activeCompanion: true,
+
+          user: {
+            select: {
+              userProfile: {
+                select: {
+                  balanceXp: true,
+                }
+              },
+              name: true,
+            },
+          },
         },
       });
     }
-console.log(profile);
+    console.log(profile);
+
+    const activeTheme = await this.prisma.client.userTheme.findFirst({
+      where: { userId, isActive: true },
+      select: {
+        theme: true,
+      },
+
+    });
+    const activecomponion = await this.prisma.client.userCompanion.findFirst({
+      where: { userId, isActive: true },
+      select: {
+        companion: true,
+      },
+    });
 
     let finalProfile = {
       ...profile,
+      userName: profile?.user?.name || null,
       level,
+      activeTheme,
+      activecomponion,
+      levelStatus: levelStatus(level),
+      // if level 50 or above, show then next level is max and xp required is 0
+      nextLevel:{
+        level: level >= 50 ? 50 : level + 1,
+        xpRequired: level >= 50 ? 0 : (level + 1) * 150 + 400,
+      }
     };
 
     return finalProfile;
@@ -56,7 +97,7 @@ console.log(profile);
 
     profile = await this.prisma.client.userProfile.update({
       where: { userId },
-     data:{fitnessGoal: updateFitnessGoalDto.goal}
+      data: { fitnessGoal: updateFitnessGoalDto.goal }
     });
 
     return profile;
