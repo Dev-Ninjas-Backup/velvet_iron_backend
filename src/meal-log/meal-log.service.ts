@@ -72,6 +72,9 @@ export class MealLogService {
             },
         });
 
+        console.log("9999999999",todayLogs,userId);
+        
+
         const consumed = {
             protein: todayLogs.reduce((sum, l) => sum + (l.protein || 0), 0),
             fat: todayLogs.reduce((sum, l) => sum + (l.fats || 0), 0),
@@ -80,41 +83,43 @@ export class MealLogService {
         };
 
         // Daily need from latest weight
-        const latestWeight = await this.prisma.client.weightLog.findFirst({
+        const latestMacroGoal = await this.prisma.client.macroGoal.findFirst({
             where: { userId },
-            orderBy: { loggedAt: 'desc' },
+            orderBy: {
+                createdAt: 'desc'
+            }
         });
 
         let daily = null;
         let remaining = null;
 
-        if (latestWeight) {
-            const weightLbs = parseFloat(latestWeight.weight);
+        daily = {
+            calories: latestMacroGoal ? latestMacroGoal.calories : null,
+            macroNeed: {
+                protein: latestMacroGoal ? latestMacroGoal.protein : null,
+                fat: latestMacroGoal ? latestMacroGoal.fat : null,
+                carb: latestMacroGoal ? latestMacroGoal.carbs : null,
+            },
+        };
+//remaining dont show minus that is show 0 if user over consume
+        remaining = {
+            protein: Math.max(0, (latestMacroGoal ? latestMacroGoal.protein : 0) - consumed.protein),
+            fat: Math.max(0, (latestMacroGoal ? latestMacroGoal.fat : 0) - consumed.fat),
+            carb: Math.max(0, (latestMacroGoal ? latestMacroGoal.carbs : 0) - consumed.carb), // issue not whoeing
+            calories: Math.max(0, (latestMacroGoal ? latestMacroGoal.calories : 0) - consumed.calories),
+        };
+        // if (latestMacroGoal) {
+        //     // const weightLbs = parseFloat(latestMacroGoal.weight);
 
-            if (!isNaN(weightLbs) && weightLbs > 0) {
-                const weight = weightLbs * 0.453592; // lbs to kg
-                const calories = Math.round(weight * 35);
-                const proteinNeed = Math.round(weight * 1.5);
-                const fatNeed = Math.round(weight * 0.8);
-                const carbNeed = Math.round((calories - (proteinNeed * 4 + fatNeed * 9)) / 4);
+        //     if (!isNaN(weightLbs) && weightLbs > 0) {
+        //         const weight = weightLbs * 0.453592; // lbs to kg
+        //         const calories = Math.round(weight * 35);
+        //         const proteinNeed = Math.round(weight * 1.5);
+        //         const fatNeed = Math.round(weight * 0.8);
+        //         const carbNeed = Math.round((calories - (proteinNeed * 4 + fatNeed * 9)) / 4);
 
-                daily = {
-                    calories,
-                    macroNeed: {
-                        protein: proteinNeed,
-                        fat: fatNeed,
-                        carb: carbNeed,
-                    },
-                };
-
-                remaining = {
-                    protein: proteinNeed - consumed.protein,
-                    fat: fatNeed - consumed.fat,
-                    carb: carbNeed - consumed.carb,
-                    calories: calories - consumed.calories,
-                };
-            }
-        }
+        //     }
+        // }
 
         // Weekly presence: which days this week user logged meals
         const now = new Date();
