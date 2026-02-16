@@ -21,6 +21,7 @@ import { MedicationModule } from './medication/medication.module';
 import { MedicationScheduleModule } from './medication-schedule/medication-schedule.module';
 import { ExerciseLogModule } from './exercise-log/exercise-log.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
+import { MacroGoalModule } from './macro-goal/macro-goal.module';
 
 @Module({
   imports: [
@@ -46,8 +47,9 @@ import { OnboardingModule } from './onboarding/onboarding.module';
     MedicationScheduleModule,
     ExerciseLogModule,
     OnboardingModule,
+    MacroGoalModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],
 })
-export class AppModule {}
+export class AppModule { }

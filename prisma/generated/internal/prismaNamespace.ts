@@ -396,6 +396,7 @@ export const ModelName = {
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
   ExerciseScheduleLog: 'ExerciseScheduleLog',
+  MacroGoal: 'MacroGoal',
   onboarding: 'onboarding',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
@@ -420,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "onboarding" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
+    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "macroGoal" | "onboarding" | "quest" | "userQuest" | "subscription" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1312,6 +1313,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MacroGoal: {
+      payload: Prisma.$MacroGoalPayload<ExtArgs>
+      fields: Prisma.MacroGoalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MacroGoalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MacroGoalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>
+        }
+        findFirst: {
+          args: Prisma.MacroGoalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MacroGoalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>
+        }
+        findMany: {
+          args: Prisma.MacroGoalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>[]
+        }
+        create: {
+          args: Prisma.MacroGoalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>
+        }
+        createMany: {
+          args: Prisma.MacroGoalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MacroGoalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>[]
+        }
+        delete: {
+          args: Prisma.MacroGoalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>
+        }
+        update: {
+          args: Prisma.MacroGoalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>
+        }
+        deleteMany: {
+          args: Prisma.MacroGoalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MacroGoalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MacroGoalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>[]
+        }
+        upsert: {
+          args: Prisma.MacroGoalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MacroGoalPayload>
+        }
+        aggregate: {
+          args: Prisma.MacroGoalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMacroGoal>
+        }
+        groupBy: {
+          args: Prisma.MacroGoalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MacroGoalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MacroGoalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MacroGoalCountAggregateOutputType> | number
+        }
+      }
+    }
     onboarding: {
       payload: Prisma.$onboardingPayload<ExtArgs>
       fields: Prisma.onboardingFieldRefs
@@ -2168,6 +2243,21 @@ export const ExerciseScheduleLogScalarFieldEnum = {
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
 
 
+export const MacroGoalScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  carbs: 'carbs',
+  fat: 'fat',
+  protein: 'protein',
+  calories: 'calories',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MacroGoalScalarFieldEnum = (typeof MacroGoalScalarFieldEnum)[keyof typeof MacroGoalScalarFieldEnum]
+
+
 export const OnboardingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2478,6 +2568,20 @@ export type ListEnumexercise_intensityFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -2502,20 +2606,6 @@ export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'UserRole[]'
  */
 export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -2625,6 +2715,7 @@ export type GlobalOmitConfig = {
   medicationSchedule?: Prisma.MedicationScheduleOmit
   exerciseLog?: Prisma.ExerciseLogOmit
   exerciseScheduleLog?: Prisma.ExerciseScheduleLogOmit
+  macroGoal?: Prisma.MacroGoalOmit
   onboarding?: Prisma.onboardingOmit
   quest?: Prisma.QuestOmit
   userQuest?: Prisma.UserQuestOmit

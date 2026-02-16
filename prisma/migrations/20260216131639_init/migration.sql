@@ -174,6 +174,33 @@ CREATE TABLE "exercise_schedule_logs" (
 );
 
 -- CreateTable
+CREATE TABLE "macro_goals" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "carbs" DOUBLE PRECISION NOT NULL,
+    "fat" DOUBLE PRECISION NOT NULL,
+    "protein" DOUBLE PRECISION NOT NULL,
+    "calories" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "macro_goals_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "onboarding" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "iscomplete" BOOLEAN NOT NULL DEFAULT false,
+    "fitnessGoal" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "onboarding_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "quests" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -376,6 +403,12 @@ CREATE INDEX "exercise_schedule_logs_userId_idx" ON "exercise_schedule_logs"("us
 CREATE INDEX "exercise_schedule_logs_loggedAt_idx" ON "exercise_schedule_logs"("loggedAt");
 
 -- CreateIndex
+CREATE INDEX "macro_goals_userId_idx" ON "macro_goals"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "onboarding_userId_key" ON "onboarding"("userId");
+
+-- CreateIndex
 CREATE INDEX "user_quests_userId_idx" ON "user_quests"("userId");
 
 -- CreateIndex
@@ -476,6 +509,12 @@ ALTER TABLE "exercise_logs" ADD CONSTRAINT "exercise_logs_userId_fkey" FOREIGN K
 
 -- AddForeignKey
 ALTER TABLE "exercise_schedule_logs" ADD CONSTRAINT "exercise_schedule_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "macro_goals" ADD CONSTRAINT "macro_goals_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "onboarding" ADD CONSTRAINT "onboarding_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "user_quests" ADD CONSTRAINT "user_quests_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

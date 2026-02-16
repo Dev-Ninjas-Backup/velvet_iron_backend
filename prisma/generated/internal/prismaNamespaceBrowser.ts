@@ -63,6 +63,7 @@ export const ModelName = {
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
   ExerciseScheduleLog: 'ExerciseScheduleLog',
+  MacroGoal: 'MacroGoal',
   onboarding: 'onboarding',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
@@ -239,6 +240,21 @@ export const ExerciseScheduleLogScalarFieldEnum = {
 } as const
 
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
+
+
+export const MacroGoalScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  carbs: 'carbs',
+  fat: 'fat',
+  protein: 'protein',
+  calories: 'calories',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MacroGoalScalarFieldEnum = (typeof MacroGoalScalarFieldEnum)[keyof typeof MacroGoalScalarFieldEnum]
 
 
 export const OnboardingScalarFieldEnum = {

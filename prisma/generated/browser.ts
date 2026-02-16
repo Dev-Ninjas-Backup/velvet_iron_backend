@@ -78,6 +78,11 @@ export type ExerciseLog = Prisma.ExerciseLogModel
  */
 export type ExerciseScheduleLog = Prisma.ExerciseScheduleLogModel
 /**
+ * Model MacroGoal
+ * 
+ */
+export type MacroGoal = Prisma.MacroGoalModel
+/**
  * Model onboarding
  * 
  */

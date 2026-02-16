@@ -53,7 +53,8 @@ model User {
     userQuests           UserQuest[]
     subscription         Subscription?
     xpLogs               XpLog[]
-   onboarding           onboarding?
+    onboarding           onboarding?
+    macroGoals           MacroGoal[]
 
     @@index([email])
     @@map("users")

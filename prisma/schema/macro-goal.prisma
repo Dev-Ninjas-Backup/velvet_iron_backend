@@ -1,0 +1,17 @@
+model MacroGoal {
+    id     String @id @default(uuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    name     String?
+    carbs    Float // in grams
+    fat      Float // in grams
+    protein  Float // in grams
+    calories Float // calculated from macros (4*carbs + 9*fat + 4*protein)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@map("macro_goals")
+}
