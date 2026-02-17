@@ -30,6 +30,7 @@ export class XpStatsService {
       moodLogCount,
       exerciseLogAggregate,
       exerciseScheduleAggregate,
+      todayXpAggregate,
     ] = await Promise.all([
       this.prisma.client.medication.count({
         where: {
@@ -98,6 +99,7 @@ export class XpStatsService {
           },
         },
         _sum: { duration: true },
+        _count: true,
       }),
       this.prisma.client.exerciseScheduleLog.aggregate({
         where: {
@@ -109,6 +111,18 @@ export class XpStatsService {
           },
         },
         _sum: { duration: true },
+        _count: true,
+      }),
+      this.prisma.client.xpLog.aggregate({
+        where: {
+          userId,
+          createdAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+        _sum: { amount: true },
+        _count: true,
       }),
     ]);
 
@@ -131,7 +145,9 @@ export class XpStatsService {
     const totalExerciseDuration =
       exerciseLogDuration + exerciseScheduleDuration;
 
-    return [
+    const todayTotalXp = Number(todayXpAggregate._sum?.amount ?? 0);
+    const todayLogCount = Number(todayXpAggregate._count ?? 0);
+    const quests = [
       {
         id: 'track-your-shot',
         title: 'Track Your Shot',
@@ -168,6 +184,12 @@ export class XpStatsService {
         isDone: totalProtein >= 120,
       },
     ];
+
+    return {
+      todayTotalXp,
+      todayLogCount,
+      quests,
+    };
   }
 
   /**
