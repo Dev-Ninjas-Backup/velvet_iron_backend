@@ -43,7 +43,7 @@ export class ExerciseLogResponseDto {
   })
   note?: string;
 
-  
+
 
   @ApiProperty({
     description: 'When the exercise was logged',

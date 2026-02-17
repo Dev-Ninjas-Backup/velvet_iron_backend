@@ -81,10 +81,10 @@ export class ProfileService {
       activecomponion,
       levelStatus: levelStatus(level),
       // if level 50 or above, show then next level is max and xp required is 0
-      nextLevel: {
-        level: level >= 50 ? 50 : level + 1,
-        xpRequired: level >= 50 ? 0 : (level + 1) * 150 + 400,
-      }
+    nextLevel: {
+  level: level >= 50 ? 50 : level + 1,
+  xpRequired: level >= 50 ? 0 : 400 + (level * 150),
+}
     };
 
     return finalProfile;

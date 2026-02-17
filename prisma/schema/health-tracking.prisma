@@ -22,7 +22,7 @@ model MoodLog {
     energyLevel EnergyLevel?
     hungerLevel HungerLevel?
     note        String?
-    earnedXp    Int      @default(10)
+    earnedXp    Int          @default(10)
     loggedAt    DateTime     @default(now())
 
     @@index([userId])
