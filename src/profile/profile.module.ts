@@ -4,10 +4,10 @@ import { ProfileController } from './profile.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from '../auth/auth.module';
 import { MealScheduleModule } from '../meal-schedule/meal-schedule.module';
 import { MedicationScheduleModule } from '../medication-schedule/medication-schedule.module';
 import { ExerciseLogModule } from '../exercise-log/exercise-log.module';
+import { XpStatsModule } from '../xp-stats/xp-stats.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { ExerciseLogModule } from '../exercise-log/exercise-log.module';
     MealScheduleModule,
     MedicationScheduleModule,
     ExerciseLogModule,
+    XpStatsModule,
   ],
   controllers: [ProfileController],
   providers: [ProfileService],

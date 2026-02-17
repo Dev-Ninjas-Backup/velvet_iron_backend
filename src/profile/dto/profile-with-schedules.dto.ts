@@ -33,6 +33,10 @@ export class ProfileWithSchedulesDto {
     };
     activeTheme?: any;
     activecomponion?: any;
+    charts?: {
+        weekly: any;
+        monthly: any;
+    };
 
     todaySchedules: ScheduleCombinedDto;
     thisWeek: RangeScheduleSummaryDto;

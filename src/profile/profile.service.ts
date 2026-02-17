@@ -8,6 +8,7 @@ import { MealScheduleService } from '../meal-schedule/meal-schedule.service';
 import { MedicationScheduleService } from '../medication-schedule/medication-schedule.service';
 import { ExerciseLogService } from '../exercise-log/exercise-log.service';
 import { ProfileWithSchedulesDto, TodayScheduleItemDto } from './dto/profile-with-schedules.dto';
+import { XpStatsService } from '@/xp-stats/xp-stats.service';
 
 export type ScheduleRange = 'today' | 'week' | 'month' | 'all';
 
@@ -19,6 +20,7 @@ export class ProfileService {
     private mealScheduleService: MealScheduleService,
     private medicationScheduleService: MedicationScheduleService,
     private exerciseLogService: ExerciseLogService,
+    private xpStatsService: XpStatsService,
   ) { }
 
   async getProfile(userId: string) {
@@ -61,19 +63,21 @@ export class ProfileService {
     }
     console.log(profile);
 
-    const activeTheme = await this.prisma.client.userTheme.findFirst({
-      where: { userId, isActive: true },
-      select: {
-        theme: true,
-      },
-
-    });
-    const activecomponion = await this.prisma.client.userCompanion.findFirst({
-      where: { userId, isActive: true },
-      select: {
-        companion: true,
-      },
-    });
+    const [activeTheme, activecomponion, charts] = await Promise.all([
+      this.prisma.client.userTheme.findFirst({
+        where: { userId, isActive: true },
+        select: {
+          theme: true,
+        },
+      }),
+      this.prisma.client.userCompanion.findFirst({
+        where: { userId, isActive: true },
+        select: {
+          companion: true,
+        },
+      }),
+      this.getProfileCharts(userId),
+    ]);
 
     let finalProfile = {
       ...profile,
@@ -87,7 +91,10 @@ export class ProfileService {
       }
     };
 
-    return finalProfile;
+    return {
+      ...finalProfile,
+      charts,
+    };
   }
 
   async updateFitnessGoal(
@@ -533,6 +540,32 @@ export class ProfileService {
           loggedAt: todayMoodLog.loggedAt,
         }
         : null,
+    };
+  }
+
+  async getWeeklyChartData(userId: string) {
+    return this.xpStatsService.getWeeklyChartData(userId);
+  }
+
+  async getMonthlyChartData(userId: string) {
+    return this.xpStatsService.getMonthlyChartData(userId);
+  }
+
+  private async getProfileCharts(userId: string) {
+    const [weeklyChart, monthlyChart] = await Promise.all([
+      this.xpStatsService.getWeeklyChartData(userId).catch((error) => {
+        console.error('Failed to load weekly chart data', error);
+        return null;
+      }),
+      this.xpStatsService.getMonthlyChartData(userId).catch((error) => {
+        console.error('Failed to load monthly chart data', error);
+        return null;
+      }),
+    ]);
+
+    return {
+      weekly: weeklyChart,
+      monthly: monthlyChart,
     };
   }
 }

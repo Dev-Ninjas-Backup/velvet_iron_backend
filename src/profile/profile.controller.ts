@@ -70,4 +70,20 @@ export class ProfileController {
   ) {
     return this.profileService.getLeaderboard(limit || 10);
   }
+
+  @Get('chart/weekly')
+  @ValidAll()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get weekly chart data - Daily XP for each day of the week' })
+  getWeeklyChart(@GetUser('id') userId: string) {
+    return this.profileService.getWeeklyChartData(userId);
+  }
+
+  @Get('chart/monthly')
+  @ValidAll()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get monthly chart data - Weekly XP for each week of the month' })
+  getMonthlyChart(@GetUser('id') userId: string) {
+    return this.profileService.getMonthlyChartData(userId);
+  }
 }
