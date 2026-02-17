@@ -93,7 +93,7 @@ export class ProfileService {
 
     return {
       ...finalProfile,
-      charts,
+      XPcharts: charts,
     };
   }
 

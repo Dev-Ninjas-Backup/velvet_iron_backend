@@ -108,6 +108,10 @@ export class MedicationScheduleController {
     return this.medicationScheduleService.createMedicationSchedule(userId, dto);
   }
 
+
+  //
+
+
   @Get('history')
   @ValidAll()
   @ApiBearerAuth()
