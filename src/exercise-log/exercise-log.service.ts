@@ -10,6 +10,7 @@ import {
 } from './dto/create-exercise-schedule.dto';
 import {
   ExerciseLogHistoryDto,
+  ExerciseHistoryLogDto,
   ExerciseLogResponseDto,
   ExerciseScheduleResponseDto,
   ExerciseScheduleDetailResponseDto,
@@ -38,18 +39,56 @@ export class ExerciseLogService {
   }
 
   async getExerciseLogHistory(userId: string): Promise<ExerciseLogHistoryDto> {
-    const logs = await this.prisma.client.exerciseLog.findMany({
-      where: { userId },
-      orderBy: { loggedAt: 'desc' },
+    const [exerciseLogs, scheduleLogs] = await Promise.all([
+      this.prisma.client.exerciseLog.findMany({ where: { userId } }),
+      this.prisma.client.exerciseScheduleLog.findMany({ where: { userId } }),
+    ]);
+
+    const logs: ExerciseHistoryLogDto[] = [
+      ...exerciseLogs.map((log) => ({
+        id: log.id,
+        userId: log.userId,
+        type: log.type,
+        name: log.name,
+        intensity: log.intensity ?? undefined,
+        duration: log.duration ?? undefined,
+        note: log.note ?? undefined,
+        isTaken: log.isTaken ?? false,
+        loggedAt: log.loggedAt,
+        scheduledAt: null,
+        entryType: 'LOG' as const,
+      })),
+      ...scheduleLogs.map((schedule) => ({
+        id: schedule.id,
+        userId: schedule.userId,
+        type: schedule.type,
+        name: schedule.name,
+        intensity: schedule.intensity ?? undefined,
+        duration: schedule.duration ?? undefined,
+        note: schedule.note ?? undefined,
+        isTaken: schedule.isTaken ?? false,
+        loggedAt: schedule.loggedAt,
+        scheduledAt: schedule.loggedAt,
+        entryType: 'SCHEDULE' as const,
+      })),
+    ];
+
+    logs.sort((a, b) => {
+      if (a.isTaken !== b.isTaken) {
+        return a.isTaken ? 1 : -1;
+      }
+
+      const timeA = a.loggedAt ? new Date(a.loggedAt).getTime() : 0;
+      const timeB = b.loggedAt ? new Date(b.loggedAt).getTime() : 0;
+      return timeB - timeA;
     });
 
-    const totalCount = logs.length;
+    const pendingCount = logs.filter((log) => !log.isTaken).length;
 
-    console.log(logs);
-    
     return {
-      totalCount,
-      logs: logs.map((log) => this.mapToResponseDto(log)),
+      totalCount: logs.length,
+      pendingCount,
+      logs,
     };
   }
 

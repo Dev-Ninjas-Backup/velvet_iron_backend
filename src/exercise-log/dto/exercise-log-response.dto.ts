@@ -52,6 +52,51 @@ export class ExerciseLogResponseDto {
   loggedAt: Date;
 }
 
+export class ExerciseHistoryLogDto {
+  @ApiProperty({ description: 'Entry ID' })
+  id: string;
+
+  @ApiProperty({ description: 'User ID' })
+  userId: string;
+
+  @ApiProperty({ description: 'Exercise type' })
+  type: string;
+
+  @ApiProperty({ description: 'Exercise name' })
+  name: string;
+
+  @ApiProperty({ description: 'Exercise intensity', required: false })
+  intensity?: string;
+
+  @ApiProperty({ description: 'Duration in minutes', required: false })
+  duration?: number;
+
+  @ApiProperty({ description: 'Additional notes', required: false })
+  note?: string;
+
+  @ApiProperty({ description: 'Whether the exercise was completed' })
+  isTaken: boolean;
+
+  @ApiProperty({
+    description: 'Timestamp representing when the entry was logged',
+    type: String,
+    format: 'date-time',
+  })
+  loggedAt: Date;
+
+  @ApiProperty({
+    description: 'Scheduled timestamp for the exercise (if applicable)',
+    type: String,
+    format: 'date-time',
+    required: false,
+    nullable: true,
+  })
+  scheduledAt?: Date | null;
+
+  @ApiProperty({ description: 'Source of the entry', enum: ['LOG', 'SCHEDULE'] })
+  entryType: 'LOG' | 'SCHEDULE';
+}
+
 export class ExerciseLogHistoryDto {
   @ApiProperty({
     description: 'Total count of exercise logs',
@@ -59,11 +104,14 @@ export class ExerciseLogHistoryDto {
   })
   totalCount: number;
 
+  @ApiProperty({ description: 'Entries still awaiting completion', example: 3 })
+  pendingCount: number;
+
   @ApiProperty({
-    description: 'List of exercise logs',
-    type: [ExerciseLogResponseDto],
+    description: 'Combined view of exercise logs and schedules',
+    type: [ExerciseHistoryLogDto],
   })
-  logs: ExerciseLogResponseDto[];
+  logs: ExerciseHistoryLogDto[];
 }
 
 export class ExerciseScheduleResponseDto {

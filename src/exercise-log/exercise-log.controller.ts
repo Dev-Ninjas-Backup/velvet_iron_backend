@@ -276,11 +276,7 @@ export class ExerciseLogController {
           description: 'Scheduled time (ISO 8601)',
           example: '2026-02-15T08:00:00Z',
         },
-        isTaken: {
-          type: 'boolean',
-          description: 'Whether the exercise was done',
-          example: true,
-        },
+       
       },
     },
   })
