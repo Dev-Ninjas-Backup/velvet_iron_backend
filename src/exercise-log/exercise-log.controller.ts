@@ -39,7 +39,27 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 @ApiTags('Exercise Log')
 @Controller('exercise-log')
 export class ExerciseLogController {
-  constructor(private readonly exerciseLogService: ExerciseLogService) {}
+  constructor(private readonly exerciseLogService: ExerciseLogService) { }
+
+  private normalizeBooleanInput(value: unknown): boolean | undefined {
+    if (value === '' || value === undefined || value === null) {
+      return undefined;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (['true', '1', 'on'].includes(normalized)) return true;
+      if (['false', '0', 'off'].includes(normalized)) return false;
+      return undefined;
+    }
+    if (typeof value === 'number') {
+      if (value === 1) return true;
+      if (value === 0) return false;
+    }
+    if (value === true || value === false) {
+      return value;
+    }
+    return undefined;
+  }
 
   @Post()
   @ValidAll()
@@ -256,6 +276,11 @@ export class ExerciseLogController {
           description: 'Scheduled time (ISO 8601)',
           example: '2026-02-15T08:00:00Z',
         },
+        isTaken: {
+          type: 'boolean',
+          description: 'Whether the exercise was done',
+          example: true,
+        },
       },
     },
   })
@@ -346,6 +371,11 @@ export class ExerciseLogController {
           description: 'Scheduled time (ISO 8601)',
           example: '2026-02-15T08:00:00Z',
         },
+        isTaken: {
+          type: 'boolean',
+          description: 'Whether the exercise was done',
+          example: true,
+        },
       },
     },
   })
@@ -359,7 +389,12 @@ export class ExerciseLogController {
     @Param('id') id: string,
     @Body() dto: UpdateExerciseScheduleDto,
   ): Promise<ExerciseScheduleDetailResponseDto> {
-    return this.exerciseLogService.updateExerciseSchedule(userId, id, dto);
+    const normalizedIsTaken = this.normalizeBooleanInput(dto.isTaken as unknown);
+    const updatedDto = {
+      ...dto,
+      ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+    } as UpdateExerciseScheduleDto;
+    return this.exerciseLogService.updateExerciseSchedule(userId, id, updatedDto);
   }
 
   @Delete('scheduled/:id')

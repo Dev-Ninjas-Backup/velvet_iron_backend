@@ -299,6 +299,7 @@ export class ProfileService {
         carbs: meal.carbs,
         protein: meal.protein,
         fats: meal.fats,
+        isTaken: meal.isTaken ?? undefined,
       },
     }));
 
@@ -311,6 +312,7 @@ export class ProfileService {
       details: {
         type: med.type,
         doseMg: med.doseMg,
+        isTaken: med.isTaken ?? undefined,
       },
     }));
 
@@ -327,6 +329,7 @@ export class ProfileService {
         intensity: exercise.intensity,
         duration: exercise.duration,
         note: exercise.note,
+        isTaken: exercise.isTaken ?? undefined,
       },
     }));
 
@@ -345,6 +348,7 @@ export class ProfileService {
         carbs: meal.carbs,
         protein: meal.protein,
         fats: meal.fats,
+        isTaken: meal.isTaken ?? undefined,
       },
     }));
 
@@ -357,6 +361,7 @@ export class ProfileService {
       details: {
         type: med.type,
         doseMg: med.doseMg,
+        isTaken: med.isTaken ?? undefined,
       },
     }));
 
@@ -373,6 +378,7 @@ export class ProfileService {
         intensity: exercise.intensity,
         duration: exercise.duration,
         note: exercise.note,
+        isTaken: exercise.isTaken ?? undefined,
       },
     }));
 
@@ -391,6 +397,7 @@ export class ProfileService {
         carbs: meal.carbs,
         protein: meal.protein,
         fats: meal.fats,
+        isTaken: meal.isTaken ?? undefined,
       },
     }));
 
@@ -403,6 +410,7 @@ export class ProfileService {
       details: {
         type: med.type,
         doseMg: med.doseMg,
+        isTaken: med.isTaken ?? undefined,
       },
     }));
 
@@ -419,6 +427,7 @@ export class ProfileService {
         intensity: exercise.intensity,
         duration: exercise.duration,
         note: exercise.note,
+        isTaken: exercise.isTaken ?? undefined,
       },
     }));
 

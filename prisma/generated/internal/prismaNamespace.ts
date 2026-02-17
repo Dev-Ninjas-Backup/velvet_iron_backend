@@ -2167,6 +2167,7 @@ export const MealScheduleScalarFieldEnum = {
   userId: 'userId',
   mealType: 'mealType',
   scheduledAt: 'scheduledAt',
+  isTaken: 'isTaken',
   calories: 'calories',
   carbs: 'carbs',
   protein: 'protein',
@@ -2184,6 +2185,7 @@ export const MealLogScalarFieldEnum = {
   calories: 'calories',
   carbs: 'carbs',
   protein: 'protein',
+  isTaken: 'isTaken',
   fats: 'fats',
   loggedAt: 'loggedAt'
 } as const
@@ -2196,6 +2198,7 @@ export const MedicationScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   type: 'type',
+  isTaken: 'isTaken',
   doseMg: 'doseMg',
   createdAt: 'createdAt'
 } as const
@@ -2209,7 +2212,8 @@ export const MedicationScheduleScalarFieldEnum = {
   name: 'name',
   type: 'type',
   doseMg: 'doseMg',
-  scheduleTime: 'scheduleTime'
+  scheduleTime: 'scheduleTime',
+  isTaken: 'isTaken'
 } as const
 
 export type MedicationScheduleScalarFieldEnum = (typeof MedicationScheduleScalarFieldEnum)[keyof typeof MedicationScheduleScalarFieldEnum]
@@ -2222,6 +2226,7 @@ export const ExerciseLogScalarFieldEnum = {
   name: 'name',
   intensity: 'intensity',
   duration: 'duration',
+  isTaken: 'isTaken',
   note: 'note',
   loggedAt: 'loggedAt'
 } as const
@@ -2237,7 +2242,8 @@ export const ExerciseScheduleLogScalarFieldEnum = {
   intensity: 'intensity',
   duration: 'duration',
   note: 'note',
-  loggedAt: 'loggedAt'
+  loggedAt: 'loggedAt',
+  isTaken: 'isTaken'
 } as const
 
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]

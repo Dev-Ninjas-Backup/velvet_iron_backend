@@ -45,6 +45,7 @@ export type MealScheduleMinAggregateOutputType = {
   userId: string | null
   mealType: $Enums.MealType | null
   scheduledAt: Date | null
+  isTaken: boolean | null
   calories: number | null
   carbs: number | null
   protein: number | null
@@ -56,6 +57,7 @@ export type MealScheduleMaxAggregateOutputType = {
   userId: string | null
   mealType: $Enums.MealType | null
   scheduledAt: Date | null
+  isTaken: boolean | null
   calories: number | null
   carbs: number | null
   protein: number | null
@@ -67,6 +69,7 @@ export type MealScheduleCountAggregateOutputType = {
   userId: number
   mealType: number
   scheduledAt: number
+  isTaken: number
   calories: number
   carbs: number
   protein: number
@@ -94,6 +97,7 @@ export type MealScheduleMinAggregateInputType = {
   userId?: true
   mealType?: true
   scheduledAt?: true
+  isTaken?: true
   calories?: true
   carbs?: true
   protein?: true
@@ -105,6 +109,7 @@ export type MealScheduleMaxAggregateInputType = {
   userId?: true
   mealType?: true
   scheduledAt?: true
+  isTaken?: true
   calories?: true
   carbs?: true
   protein?: true
@@ -116,6 +121,7 @@ export type MealScheduleCountAggregateInputType = {
   userId?: true
   mealType?: true
   scheduledAt?: true
+  isTaken?: true
   calories?: true
   carbs?: true
   protein?: true
@@ -214,6 +220,7 @@ export type MealScheduleGroupByOutputType = {
   userId: string
   mealType: $Enums.MealType
   scheduledAt: Date
+  isTaken: boolean
   calories: number | null
   carbs: number | null
   protein: number | null
@@ -248,6 +255,7 @@ export type MealScheduleWhereInput = {
   userId?: Prisma.StringFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFilter<"MealSchedule"> | Date | string
+  isTaken?: Prisma.BoolFilter<"MealSchedule"> | boolean
   calories?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
   protein?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
@@ -260,6 +268,7 @@ export type MealScheduleOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   calories?: Prisma.SortOrderInput | Prisma.SortOrder
   carbs?: Prisma.SortOrderInput | Prisma.SortOrder
   protein?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -275,6 +284,7 @@ export type MealScheduleWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFilter<"MealSchedule"> | Date | string
+  isTaken?: Prisma.BoolFilter<"MealSchedule"> | boolean
   calories?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
   protein?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
@@ -287,6 +297,7 @@ export type MealScheduleOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   calories?: Prisma.SortOrderInput | Prisma.SortOrder
   carbs?: Prisma.SortOrderInput | Prisma.SortOrder
   protein?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -306,6 +317,7 @@ export type MealScheduleScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeWithAggregatesFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeWithAggregatesFilter<"MealSchedule"> | Date | string
+  isTaken?: Prisma.BoolWithAggregatesFilter<"MealSchedule"> | boolean
   calories?: Prisma.IntNullableWithAggregatesFilter<"MealSchedule"> | number | null
   carbs?: Prisma.IntNullableWithAggregatesFilter<"MealSchedule"> | number | null
   protein?: Prisma.IntNullableWithAggregatesFilter<"MealSchedule"> | number | null
@@ -316,6 +328,7 @@ export type MealScheduleCreateInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  isTaken?: boolean
   calories?: number | null
   carbs?: number | null
   protein?: number | null
@@ -328,6 +341,7 @@ export type MealScheduleUncheckedCreateInput = {
   userId: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  isTaken?: boolean
   calories?: number | null
   carbs?: number | null
   protein?: number | null
@@ -338,6 +352,7 @@ export type MealScheduleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -350,6 +365,7 @@ export type MealScheduleUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -361,6 +377,7 @@ export type MealScheduleCreateManyInput = {
   userId: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  isTaken?: boolean
   calories?: number | null
   carbs?: number | null
   protein?: number | null
@@ -371,6 +388,7 @@ export type MealScheduleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -382,6 +400,7 @@ export type MealScheduleUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -393,6 +412,7 @@ export type MealScheduleCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
@@ -411,6 +431,7 @@ export type MealScheduleMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
@@ -422,6 +443,7 @@ export type MealScheduleMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
@@ -503,6 +525,7 @@ export type MealScheduleCreateWithoutUserInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  isTaken?: boolean
   calories?: number | null
   carbs?: number | null
   protein?: number | null
@@ -513,6 +536,7 @@ export type MealScheduleUncheckedCreateWithoutUserInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  isTaken?: boolean
   calories?: number | null
   carbs?: number | null
   protein?: number | null
@@ -553,6 +577,7 @@ export type MealScheduleScalarWhereInput = {
   userId?: Prisma.StringFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFilter<"MealSchedule"> | Date | string
+  isTaken?: Prisma.BoolFilter<"MealSchedule"> | boolean
   calories?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
   protein?: Prisma.IntNullableFilter<"MealSchedule"> | number | null
@@ -563,6 +588,7 @@ export type MealScheduleCreateManyUserInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  isTaken?: boolean
   calories?: number | null
   carbs?: number | null
   protein?: number | null
@@ -573,6 +599,7 @@ export type MealScheduleUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -583,6 +610,7 @@ export type MealScheduleUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -593,6 +621,7 @@ export type MealScheduleUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -606,6 +635,7 @@ export type MealScheduleSelect<ExtArgs extends runtime.Types.Extensions.Internal
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  isTaken?: boolean
   calories?: boolean
   carbs?: boolean
   protein?: boolean
@@ -618,6 +648,7 @@ export type MealScheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  isTaken?: boolean
   calories?: boolean
   carbs?: boolean
   protein?: boolean
@@ -630,6 +661,7 @@ export type MealScheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  isTaken?: boolean
   calories?: boolean
   carbs?: boolean
   protein?: boolean
@@ -642,13 +674,14 @@ export type MealScheduleSelectScalar = {
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  isTaken?: boolean
   calories?: boolean
   carbs?: boolean
   protein?: boolean
   fats?: boolean
 }
 
-export type MealScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "scheduledAt" | "calories" | "carbs" | "protein" | "fats", ExtArgs["result"]["mealSchedule"]>
+export type MealScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "scheduledAt" | "isTaken" | "calories" | "carbs" | "protein" | "fats", ExtArgs["result"]["mealSchedule"]>
 export type MealScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -669,6 +702,7 @@ export type $MealSchedulePayload<ExtArgs extends runtime.Types.Extensions.Intern
     userId: string
     mealType: $Enums.MealType
     scheduledAt: Date
+    isTaken: boolean
     calories: number | null
     carbs: number | null
     protein: number | null
@@ -1101,6 +1135,7 @@ export interface MealScheduleFieldRefs {
   readonly userId: Prisma.FieldRef<"MealSchedule", 'String'>
   readonly mealType: Prisma.FieldRef<"MealSchedule", 'MealType'>
   readonly scheduledAt: Prisma.FieldRef<"MealSchedule", 'DateTime'>
+  readonly isTaken: Prisma.FieldRef<"MealSchedule", 'Boolean'>
   readonly calories: Prisma.FieldRef<"MealSchedule", 'Int'>
   readonly carbs: Prisma.FieldRef<"MealSchedule", 'Int'>
   readonly protein: Prisma.FieldRef<"MealSchedule", 'Int'>

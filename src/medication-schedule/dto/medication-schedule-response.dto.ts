@@ -23,6 +23,9 @@ export class MedicationScheduleResponseDto {
 
   @ApiProperty({ description: 'Scheduled time for medication' })
   scheduleTime: Date;
+
+  @ApiProperty({ description: 'Whether the medication was taken', required: false })
+  isTaken?: boolean | null;
 }
 
 export class MedicationScheduleHistoryWithStatsDto {

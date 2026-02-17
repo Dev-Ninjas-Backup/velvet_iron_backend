@@ -57,6 +57,7 @@ model MealSchedule {
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK
     scheduledAt DateTime
+    isTaken     Boolean  @default(false)
     calories    Int?
     carbs       Int?
     protein     Int?
@@ -84,6 +85,7 @@ model MealLog {
     calories    Int?
     carbs       Int?
     protein     Int?
+    isTaken     Boolean  @default(true)
     fats        Int?
     loggedAt    DateTime @default(now())
 
@@ -99,6 +101,7 @@ model Medication {
     user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     name      String
     type      MedicationType?
+    isTaken   Boolean         @default(true)
     doseMg    Int? // e.g., 500 mg
     createdAt DateTime        @default(now())
 
@@ -122,6 +125,7 @@ model MedicationSchedule {
     type         MedicationType?
     doseMg       Int? // e.g., 500 mg
     scheduleTime DateTime
+    isTaken      Boolean         @default(false)
 
     @@index([userId])
     @@index([scheduleTime])
@@ -130,36 +134,38 @@ model MedicationSchedule {
 
 // Exercise Logs
 model ExerciseLog {
-    id        String   @id @default(uuid())
+    id        String              @id @default(uuid())
     userId    String
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
     type      exercise_type // CARDIO, STRENGTH, FLEXIBILITY, etc.
     name      String // Running, Push-ups, Yoga, etc.
     intensity exercise_intensity? // LOW, MEDIUM, HIGH
     duration  Int? // in minutes
+    isTaken   Boolean             @default(true)
     note      String?
-    loggedAt  DateTime @default(now())
+    loggedAt  DateTime            @default(now())
 
     @@index([userId])
     @@index([loggedAt])
     @@map("exercise_logs")
 }
+
 model ExerciseScheduleLog {
-    id        String   @id @default(uuid())
+    id        String              @id @default(uuid())
     userId    String
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
     type      exercise_type // CARDIO, STRENGTH, FLEXIBILITY, etc.
     name      String // Running, Push-ups, Yoga, etc.
     intensity exercise_intensity? // LOW, MEDIUM, HIGH
     duration  Int? // in minutes
     note      String?
-    loggedAt  DateTime @default(now())
+    loggedAt  DateTime            @default(now())
+    isTaken   Boolean             @default(false)
 
     @@index([userId])
     @@index([loggedAt])
     @@map("exercise_schedule_logs")
 }
-
 
 enum exercise_type {
     CARDIO
@@ -167,6 +173,7 @@ enum exercise_type {
     FLEXIBILITY
     BALANCE
 }
+
 enum exercise_intensity {
     MEDIUM
     LOW

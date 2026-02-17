@@ -33,6 +33,7 @@ export class MealScheduleService {
                 userId,
                 mealType: dto.mealType,
                 scheduledAt: new Date(dto.scheduledAt),
+                isTaken: false,
                 calories,
                 carbs: Number(dto.carbs),
                 protein: Number(dto.protein),
@@ -107,6 +108,28 @@ export class MealScheduleService {
             throw new NotFoundException('Meal schedule not found or does not belong to user');
         }
 
+        const normalizeBooleanValue = (value: unknown): boolean | undefined => {
+            if (value === '' || value === undefined || value === null) {
+                return undefined;
+            }
+            if (typeof value === 'string') {
+                const normalized = value.trim().toLowerCase();
+                if (['true', '1', 'on'].includes(normalized)) return true;
+                if (['false', '0', 'off'].includes(normalized)) return false;
+                return undefined;
+            }
+            if (typeof value === 'number') {
+                if (value === 1) return true;
+                if (value === 0) return false;
+            }
+            if (value === true || value === false) {
+                return value;
+            }
+            return undefined;
+        };
+
+        const normalizedIsTaken = normalizeBooleanValue(dto.isTaken);
+
         // Recalculate calories if macros changed
         const carbs = dto.carbs !== undefined ? Number(dto.carbs) : existing.carbs;
         const protein = dto.protein !== undefined ? Number(dto.protein) : existing.protein;
@@ -118,6 +141,7 @@ export class MealScheduleService {
             data: {
                 ...(dto.mealType && { mealType: dto.mealType }),
                 ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
+                ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
                 carbs,
                 protein,
                 fats,

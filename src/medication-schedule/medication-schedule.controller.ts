@@ -36,7 +36,27 @@ import { MedicationType } from '../../prisma/generated/enums';
 export class MedicationScheduleController {
   constructor(
     private readonly medicationScheduleService: MedicationScheduleService,
-  ) {}
+  ) { }
+
+  private normalizeBooleanInput(value: unknown): boolean | undefined {
+    if (value === '' || value === undefined || value === null) {
+      return undefined;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (['true', '1', 'on'].includes(normalized)) return true;
+      if (['false', '0', 'off'].includes(normalized)) return false;
+      return undefined;
+    }
+    if (typeof value === 'number') {
+      if (value === 1) return true;
+      if (value === 0) return false;
+    }
+    if (value === true || value === false) {
+      return value;
+    }
+    return undefined;
+  }
 
   @Post()
   @ValidAll()
@@ -71,6 +91,11 @@ export class MedicationScheduleController {
           format: 'date-time',
           description: 'Scheduled time (ISO 8601)',
           example: '2026-02-15T08:00:00Z',
+        },
+        isTaken: {
+          type: 'boolean',
+          description: 'Whether the medication was taken',
+          example: true,
         },
       },
     },
@@ -168,6 +193,11 @@ export class MedicationScheduleController {
           description: 'Scheduled time (ISO 8601)',
           example: '2026-02-15T08:00:00Z',
         },
+        isTaken: {
+          type: 'boolean',
+          description: 'Whether the medication was taken',
+          example: true,
+        },
       },
     },
   })
@@ -181,10 +211,16 @@ export class MedicationScheduleController {
     @Param('id') id: string,
     @Body() dto: UpdateMedicationScheduleDto,
   ): Promise<MedicationScheduleResponseDto> {
+    const normalizedIsTaken = this.normalizeBooleanInput(dto.isTaken as unknown);
+    const updatedDto = {
+      ...dto,
+      ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+    } as UpdateMedicationScheduleDto;
+
     return this.medicationScheduleService.updateMedicationSchedule(
       userId,
       id,
-      dto,
+      updatedDto,
     );
   }
 

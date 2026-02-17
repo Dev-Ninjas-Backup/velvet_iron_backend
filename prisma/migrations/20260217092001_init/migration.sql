@@ -98,6 +98,7 @@ CREATE TABLE "meal_schedules" (
     "userId" TEXT NOT NULL,
     "mealType" "MealType" NOT NULL,
     "scheduledAt" TIMESTAMP(3) NOT NULL,
+    "isTaken" BOOLEAN NOT NULL DEFAULT false,
     "calories" INTEGER,
     "carbs" INTEGER,
     "protein" INTEGER,
@@ -115,6 +116,7 @@ CREATE TABLE "meal_logs" (
     "calories" INTEGER,
     "carbs" INTEGER,
     "protein" INTEGER,
+    "isTaken" BOOLEAN NOT NULL DEFAULT true,
     "fats" INTEGER,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -127,6 +129,7 @@ CREATE TABLE "medications" (
     "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "type" "MedicationType",
+    "isTaken" BOOLEAN NOT NULL DEFAULT true,
     "doseMg" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -141,6 +144,7 @@ CREATE TABLE "medication_schedules" (
     "type" "MedicationType",
     "doseMg" INTEGER,
     "scheduleTime" TIMESTAMP(3) NOT NULL,
+    "isTaken" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "medication_schedules_pkey" PRIMARY KEY ("id")
 );
@@ -153,6 +157,7 @@ CREATE TABLE "exercise_logs" (
     "name" TEXT NOT NULL,
     "intensity" "exercise_intensity",
     "duration" INTEGER,
+    "isTaken" BOOLEAN NOT NULL DEFAULT true,
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -169,6 +174,7 @@ CREATE TABLE "exercise_schedule_logs" (
     "duration" INTEGER,
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "isTaken" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "exercise_schedule_logs_pkey" PRIMARY KEY ("id")
 );
@@ -177,7 +183,7 @@ CREATE TABLE "exercise_schedule_logs" (
 CREATE TABLE "macro_goals" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" TEXT,
     "carbs" DOUBLE PRECISION NOT NULL,
     "fat" DOUBLE PRECISION NOT NULL,
     "protein" DOUBLE PRECISION NOT NULL,

@@ -39,6 +39,7 @@ export type MedicationMinAggregateOutputType = {
   userId: string | null
   name: string | null
   type: $Enums.MedicationType | null
+  isTaken: boolean | null
   doseMg: number | null
   createdAt: Date | null
 }
@@ -48,6 +49,7 @@ export type MedicationMaxAggregateOutputType = {
   userId: string | null
   name: string | null
   type: $Enums.MedicationType | null
+  isTaken: boolean | null
   doseMg: number | null
   createdAt: Date | null
 }
@@ -57,6 +59,7 @@ export type MedicationCountAggregateOutputType = {
   userId: number
   name: number
   type: number
+  isTaken: number
   doseMg: number
   createdAt: number
   _all: number
@@ -76,6 +79,7 @@ export type MedicationMinAggregateInputType = {
   userId?: true
   name?: true
   type?: true
+  isTaken?: true
   doseMg?: true
   createdAt?: true
 }
@@ -85,6 +89,7 @@ export type MedicationMaxAggregateInputType = {
   userId?: true
   name?: true
   type?: true
+  isTaken?: true
   doseMg?: true
   createdAt?: true
 }
@@ -94,6 +99,7 @@ export type MedicationCountAggregateInputType = {
   userId?: true
   name?: true
   type?: true
+  isTaken?: true
   doseMg?: true
   createdAt?: true
   _all?: true
@@ -190,6 +196,7 @@ export type MedicationGroupByOutputType = {
   userId: string
   name: string
   type: $Enums.MedicationType | null
+  isTaken: boolean
   doseMg: number | null
   createdAt: Date
   _count: MedicationCountAggregateOutputType | null
@@ -222,6 +229,7 @@ export type MedicationWhereInput = {
   userId?: Prisma.StringFilter<"Medication"> | string
   name?: Prisma.StringFilter<"Medication"> | string
   type?: Prisma.EnumMedicationTypeNullableFilter<"Medication"> | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableFilter<"Medication"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Medication"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -232,6 +240,7 @@ export type MedicationOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -245,6 +254,7 @@ export type MedicationWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Medication"> | string
   name?: Prisma.StringFilter<"Medication"> | string
   type?: Prisma.EnumMedicationTypeNullableFilter<"Medication"> | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableFilter<"Medication"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Medication"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -255,6 +265,7 @@ export type MedicationOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MedicationCountOrderByAggregateInput
@@ -272,6 +283,7 @@ export type MedicationScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Medication"> | string
   name?: Prisma.StringWithAggregatesFilter<"Medication"> | string
   type?: Prisma.EnumMedicationTypeNullableWithAggregatesFilter<"Medication"> | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolWithAggregatesFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableWithAggregatesFilter<"Medication"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Medication"> | Date | string
 }
@@ -280,6 +292,7 @@ export type MedicationCreateInput = {
   id?: string
   name: string
   type?: $Enums.MedicationType | null
+  isTaken?: boolean
   doseMg?: number | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMedicationsInput
@@ -290,6 +303,7 @@ export type MedicationUncheckedCreateInput = {
   userId: string
   name: string
   type?: $Enums.MedicationType | null
+  isTaken?: boolean
   doseMg?: number | null
   createdAt?: Date | string
 }
@@ -298,6 +312,7 @@ export type MedicationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMedicationsNestedInput
@@ -308,6 +323,7 @@ export type MedicationUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -317,6 +333,7 @@ export type MedicationCreateManyInput = {
   userId: string
   name: string
   type?: $Enums.MedicationType | null
+  isTaken?: boolean
   doseMg?: number | null
   createdAt?: Date | string
 }
@@ -325,6 +342,7 @@ export type MedicationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -334,6 +352,7 @@ export type MedicationUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -343,6 +362,7 @@ export type MedicationCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -356,6 +376,7 @@ export type MedicationMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -365,6 +386,7 @@ export type MedicationMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -433,6 +455,7 @@ export type MedicationCreateWithoutUserInput = {
   id?: string
   name: string
   type?: $Enums.MedicationType | null
+  isTaken?: boolean
   doseMg?: number | null
   createdAt?: Date | string
 }
@@ -441,6 +464,7 @@ export type MedicationUncheckedCreateWithoutUserInput = {
   id?: string
   name: string
   type?: $Enums.MedicationType | null
+  isTaken?: boolean
   doseMg?: number | null
   createdAt?: Date | string
 }
@@ -479,6 +503,7 @@ export type MedicationScalarWhereInput = {
   userId?: Prisma.StringFilter<"Medication"> | string
   name?: Prisma.StringFilter<"Medication"> | string
   type?: Prisma.EnumMedicationTypeNullableFilter<"Medication"> | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableFilter<"Medication"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Medication"> | Date | string
 }
@@ -487,6 +512,7 @@ export type MedicationCreateManyUserInput = {
   id?: string
   name: string
   type?: $Enums.MedicationType | null
+  isTaken?: boolean
   doseMg?: number | null
   createdAt?: Date | string
 }
@@ -495,6 +521,7 @@ export type MedicationUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -503,6 +530,7 @@ export type MedicationUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -511,6 +539,7 @@ export type MedicationUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -522,6 +551,7 @@ export type MedicationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   userId?: boolean
   name?: boolean
   type?: boolean
+  isTaken?: boolean
   doseMg?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -532,6 +562,7 @@ export type MedicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   userId?: boolean
   name?: boolean
   type?: boolean
+  isTaken?: boolean
   doseMg?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -542,6 +573,7 @@ export type MedicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   userId?: boolean
   name?: boolean
   type?: boolean
+  isTaken?: boolean
   doseMg?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -552,11 +584,12 @@ export type MedicationSelectScalar = {
   userId?: boolean
   name?: boolean
   type?: boolean
+  isTaken?: boolean
   doseMg?: boolean
   createdAt?: boolean
 }
 
-export type MedicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "type" | "doseMg" | "createdAt", ExtArgs["result"]["medication"]>
+export type MedicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "type" | "isTaken" | "doseMg" | "createdAt", ExtArgs["result"]["medication"]>
 export type MedicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -577,6 +610,7 @@ export type $MedicationPayload<ExtArgs extends runtime.Types.Extensions.Internal
     userId: string
     name: string
     type: $Enums.MedicationType | null
+    isTaken: boolean
     doseMg: number | null
     createdAt: Date
   }, ExtArgs["result"]["medication"]>
@@ -1007,6 +1041,7 @@ export interface MedicationFieldRefs {
   readonly userId: Prisma.FieldRef<"Medication", 'String'>
   readonly name: Prisma.FieldRef<"Medication", 'String'>
   readonly type: Prisma.FieldRef<"Medication", 'MedicationType'>
+  readonly isTaken: Prisma.FieldRef<"Medication", 'Boolean'>
   readonly doseMg: Prisma.FieldRef<"Medication", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Medication", 'DateTime'>
 }

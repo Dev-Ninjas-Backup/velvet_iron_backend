@@ -33,6 +33,26 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 export class MealScheduleController {
     constructor(private readonly mealScheduleService: MealScheduleService) { }
 
+    private normalizeBooleanInput(value: unknown): boolean | undefined {
+        if (value === '' || value === undefined || value === null) {
+            return undefined;
+        }
+        if (typeof value === 'string') {
+            const normalized = value.trim().toLowerCase();
+            if (['true', '1', 'on'].includes(normalized)) return true;
+            if (['false', '0', 'off'].includes(normalized)) return false;
+            return undefined;
+        }
+        if (typeof value === 'number') {
+            if (value === 1) return true;
+            if (value === 0) return false;
+        }
+        if (value === true || value === false) {
+            return value;
+        }
+        return undefined;
+    }
+
     @Post()
     @ValidAll()
     @ApiBearerAuth()
@@ -182,6 +202,11 @@ export class MealScheduleController {
                     description: 'Fats in grams',
                     example: 10,
                 },
+                isTaken: {
+                    type: 'boolean',
+                    description: 'Whether the meal was taken',
+                    example: true,
+                },
             },
         },
     })
@@ -195,7 +220,12 @@ export class MealScheduleController {
         @Param('id') scheduleId: string,
         @Body() dto: any,
     ): Promise<MealScheduleResponseDto> {
-        return this.mealScheduleService.updateMealSchedule(userId, scheduleId, dto);
+        const normalizedIsTaken = this.normalizeBooleanInput(dto?.isTaken);
+        const updatedDto = {
+            ...dto,
+            ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+        };
+        return this.mealScheduleService.updateMealSchedule(userId, scheduleId, updatedDto);
     }
 
     @Delete(':id')

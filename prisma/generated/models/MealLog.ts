@@ -48,6 +48,7 @@ export type MealLogMinAggregateOutputType = {
   calories: number | null
   carbs: number | null
   protein: number | null
+  isTaken: boolean | null
   fats: number | null
   loggedAt: Date | null
 }
@@ -60,6 +61,7 @@ export type MealLogMaxAggregateOutputType = {
   calories: number | null
   carbs: number | null
   protein: number | null
+  isTaken: boolean | null
   fats: number | null
   loggedAt: Date | null
 }
@@ -72,6 +74,7 @@ export type MealLogCountAggregateOutputType = {
   calories: number
   carbs: number
   protein: number
+  isTaken: number
   fats: number
   loggedAt: number
   _all: number
@@ -100,6 +103,7 @@ export type MealLogMinAggregateInputType = {
   calories?: true
   carbs?: true
   protein?: true
+  isTaken?: true
   fats?: true
   loggedAt?: true
 }
@@ -112,6 +116,7 @@ export type MealLogMaxAggregateInputType = {
   calories?: true
   carbs?: true
   protein?: true
+  isTaken?: true
   fats?: true
   loggedAt?: true
 }
@@ -124,6 +129,7 @@ export type MealLogCountAggregateInputType = {
   calories?: true
   carbs?: true
   protein?: true
+  isTaken?: true
   fats?: true
   loggedAt?: true
   _all?: true
@@ -223,6 +229,7 @@ export type MealLogGroupByOutputType = {
   calories: number | null
   carbs: number | null
   protein: number | null
+  isTaken: boolean
   fats: number | null
   loggedAt: Date
   _count: MealLogCountAggregateOutputType | null
@@ -258,6 +265,7 @@ export type MealLogWhereInput = {
   calories?: Prisma.IntNullableFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealLog"> | number | null
   protein?: Prisma.IntNullableFilter<"MealLog"> | number | null
+  isTaken?: Prisma.BoolFilter<"MealLog"> | boolean
   fats?: Prisma.IntNullableFilter<"MealLog"> | number | null
   loggedAt?: Prisma.DateTimeFilter<"MealLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -271,6 +279,7 @@ export type MealLogOrderByWithRelationInput = {
   calories?: Prisma.SortOrderInput | Prisma.SortOrder
   carbs?: Prisma.SortOrderInput | Prisma.SortOrder
   protein?: Prisma.SortOrderInput | Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   fats?: Prisma.SortOrderInput | Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -287,6 +296,7 @@ export type MealLogWhereUniqueInput = Prisma.AtLeast<{
   calories?: Prisma.IntNullableFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealLog"> | number | null
   protein?: Prisma.IntNullableFilter<"MealLog"> | number | null
+  isTaken?: Prisma.BoolFilter<"MealLog"> | boolean
   fats?: Prisma.IntNullableFilter<"MealLog"> | number | null
   loggedAt?: Prisma.DateTimeFilter<"MealLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -300,6 +310,7 @@ export type MealLogOrderByWithAggregationInput = {
   calories?: Prisma.SortOrderInput | Prisma.SortOrder
   carbs?: Prisma.SortOrderInput | Prisma.SortOrder
   protein?: Prisma.SortOrderInput | Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   fats?: Prisma.SortOrderInput | Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   _count?: Prisma.MealLogCountOrderByAggregateInput
@@ -320,6 +331,7 @@ export type MealLogScalarWhereWithAggregatesInput = {
   calories?: Prisma.IntNullableWithAggregatesFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableWithAggregatesFilter<"MealLog"> | number | null
   protein?: Prisma.IntNullableWithAggregatesFilter<"MealLog"> | number | null
+  isTaken?: Prisma.BoolWithAggregatesFilter<"MealLog"> | boolean
   fats?: Prisma.IntNullableWithAggregatesFilter<"MealLog"> | number | null
   loggedAt?: Prisma.DateTimeWithAggregatesFilter<"MealLog"> | Date | string
 }
@@ -331,6 +343,7 @@ export type MealLogCreateInput = {
   calories?: number | null
   carbs?: number | null
   protein?: number | null
+  isTaken?: boolean
   fats?: number | null
   loggedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMealLogsInput
@@ -344,6 +357,7 @@ export type MealLogUncheckedCreateInput = {
   calories?: number | null
   carbs?: number | null
   protein?: number | null
+  isTaken?: boolean
   fats?: number | null
   loggedAt?: Date | string
 }
@@ -355,6 +369,7 @@ export type MealLogUpdateInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMealLogsNestedInput
@@ -368,6 +383,7 @@ export type MealLogUncheckedUpdateInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,6 +396,7 @@ export type MealLogCreateManyInput = {
   calories?: number | null
   carbs?: number | null
   protein?: number | null
+  isTaken?: boolean
   fats?: number | null
   loggedAt?: Date | string
 }
@@ -391,6 +408,7 @@ export type MealLogUpdateManyMutationInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -403,6 +421,7 @@ export type MealLogUncheckedUpdateManyInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -415,6 +434,7 @@ export type MealLogCountOrderByAggregateInput = {
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   fats?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
@@ -434,6 +454,7 @@ export type MealLogMaxOrderByAggregateInput = {
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   fats?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
@@ -446,6 +467,7 @@ export type MealLogMinOrderByAggregateInput = {
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   fats?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
@@ -516,6 +538,7 @@ export type MealLogCreateWithoutUserInput = {
   calories?: number | null
   carbs?: number | null
   protein?: number | null
+  isTaken?: boolean
   fats?: number | null
   loggedAt?: Date | string
 }
@@ -527,6 +550,7 @@ export type MealLogUncheckedCreateWithoutUserInput = {
   calories?: number | null
   carbs?: number | null
   protein?: number | null
+  isTaken?: boolean
   fats?: number | null
   loggedAt?: Date | string
 }
@@ -568,6 +592,7 @@ export type MealLogScalarWhereInput = {
   calories?: Prisma.IntNullableFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealLog"> | number | null
   protein?: Prisma.IntNullableFilter<"MealLog"> | number | null
+  isTaken?: Prisma.BoolFilter<"MealLog"> | boolean
   fats?: Prisma.IntNullableFilter<"MealLog"> | number | null
   loggedAt?: Prisma.DateTimeFilter<"MealLog"> | Date | string
 }
@@ -579,6 +604,7 @@ export type MealLogCreateManyUserInput = {
   calories?: number | null
   carbs?: number | null
   protein?: number | null
+  isTaken?: boolean
   fats?: number | null
   loggedAt?: Date | string
 }
@@ -590,6 +616,7 @@ export type MealLogUpdateWithoutUserInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -601,6 +628,7 @@ export type MealLogUncheckedUpdateWithoutUserInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -612,6 +640,7 @@ export type MealLogUncheckedUpdateManyWithoutUserInput = {
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   protein?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -626,6 +655,7 @@ export type MealLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   calories?: boolean
   carbs?: boolean
   protein?: boolean
+  isTaken?: boolean
   fats?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -639,6 +669,7 @@ export type MealLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   calories?: boolean
   carbs?: boolean
   protein?: boolean
+  isTaken?: boolean
   fats?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -652,6 +683,7 @@ export type MealLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   calories?: boolean
   carbs?: boolean
   protein?: boolean
+  isTaken?: boolean
   fats?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -665,11 +697,12 @@ export type MealLogSelectScalar = {
   calories?: boolean
   carbs?: boolean
   protein?: boolean
+  isTaken?: boolean
   fats?: boolean
   loggedAt?: boolean
 }
 
-export type MealLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "description" | "calories" | "carbs" | "protein" | "fats" | "loggedAt", ExtArgs["result"]["mealLog"]>
+export type MealLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "description" | "calories" | "carbs" | "protein" | "isTaken" | "fats" | "loggedAt", ExtArgs["result"]["mealLog"]>
 export type MealLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -693,6 +726,7 @@ export type $MealLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     calories: number | null
     carbs: number | null
     protein: number | null
+    isTaken: boolean
     fats: number | null
     loggedAt: Date
   }, ExtArgs["result"]["mealLog"]>
@@ -1126,6 +1160,7 @@ export interface MealLogFieldRefs {
   readonly calories: Prisma.FieldRef<"MealLog", 'Int'>
   readonly carbs: Prisma.FieldRef<"MealLog", 'Int'>
   readonly protein: Prisma.FieldRef<"MealLog", 'Int'>
+  readonly isTaken: Prisma.FieldRef<"MealLog", 'Boolean'>
   readonly fats: Prisma.FieldRef<"MealLog", 'Int'>
   readonly loggedAt: Prisma.FieldRef<"MealLog", 'DateTime'>
 }

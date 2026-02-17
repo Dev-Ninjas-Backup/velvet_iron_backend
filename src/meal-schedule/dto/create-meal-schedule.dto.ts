@@ -5,6 +5,7 @@ import {
     IsInt,
     IsDateString,
     Min,
+    IsBoolean,
 } from 'class-validator';
 import { MealType } from '../../../prisma/generated/enums';
 
@@ -49,4 +50,13 @@ export class CreateMealScheduleDto {
     @IsInt()
     @Min(0)
     fats: number;
+
+    @ApiProperty({
+        description: 'Whether the meal was taken',
+        required: false,
+        example: true,
+    })
+    @IsOptional()
+    @IsBoolean()
+    isTaken?: boolean;
 }

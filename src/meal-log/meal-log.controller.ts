@@ -78,18 +78,18 @@ export class MealLogController {
                     description: 'Fats in grams',
                     example: 15,
                 },
-                loggedAt: {
-                    type: 'string',
-                    format: 'date-time',
-                    description: 'Log timestamp (ISO 8601)',
-                    example: '2026-02-14T10:30:00Z',
-                },
+                // loggedAt: {
+                //     type: 'string',
+                //     format: 'date-time',
+                //     description: 'Log timestamp (ISO 8601)',
+                //     example: '2026-02-14T10:30:00Z',
+                // },
             },
         },
     })
     async createMealLog(
         @GetUser('id') userId: string,
-        @Body() dto: any,
+        @Body() dto: CreateMealLogDto,
     ): Promise<MealLogResponseDto> {
         return this.mealLogService.createMealLog(userId, dto);
     }
@@ -157,7 +157,8 @@ export class MealLogController {
     @ApiConsumes('multipart/form-data')
     @UseInterceptors(AnyFilesInterceptor())
     @ApiBody({
-        description: 'Updated meal log data (all fields optional, calories auto-recalculated)',
+
+        description: 'Updated meal log data (all fields optional, calories auto-recalculated) but if you want to change carb, protein or fats, you must provide carb,protein and fats data other wise all 0 update. if you want to update spesific one data so you can change only you spesific data and give me ohter filed old data',
         schema: {
             type: 'object',
             properties: {
@@ -194,6 +195,7 @@ export class MealLogController {
                     example: '2026-02-14T12:00:00Z',
                 },
             },
+            required: [],
         },
     })
     @ApiResponse({
@@ -204,8 +206,11 @@ export class MealLogController {
     async updateMealLog(
         @GetUser('id') userId: string,
         @Param('id') logId: string,
-        @Body() dto: any,
+        @Body() dto: UpdateMealLogDto,
     ): Promise<MealLogResponseDto> {
+
+        console.log("controller value", dto);
+
         return this.mealLogService.updateMealLog(userId, logId, dto);
     }
 

@@ -8,6 +8,7 @@ import {
     Min,
 } from 'class-validator';
 import { MealType } from '../../../prisma/generated/enums';
+import { Type } from 'class-transformer';
 
 export { MealType };
 
@@ -35,6 +36,7 @@ export class CreateMealLogDto {
     })
     @IsInt()
     @Min(0)
+    @Type(() => Number)
     carbs: number;
 
     @ApiProperty({
@@ -43,6 +45,7 @@ export class CreateMealLogDto {
     })
     @IsInt()
     @Min(0)
+    @Type(() => Number)
     protein: number;
 
     @ApiProperty({
@@ -51,6 +54,7 @@ export class CreateMealLogDto {
     })
     @IsInt()
     @Min(0)
+    @Type(() => Number)
     fats: number;
 
     @ApiProperty({

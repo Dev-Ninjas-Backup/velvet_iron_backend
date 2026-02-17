@@ -41,6 +41,7 @@ export type MedicationScheduleMinAggregateOutputType = {
   type: $Enums.MedicationType | null
   doseMg: number | null
   scheduleTime: Date | null
+  isTaken: boolean | null
 }
 
 export type MedicationScheduleMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type MedicationScheduleMaxAggregateOutputType = {
   type: $Enums.MedicationType | null
   doseMg: number | null
   scheduleTime: Date | null
+  isTaken: boolean | null
 }
 
 export type MedicationScheduleCountAggregateOutputType = {
@@ -59,6 +61,7 @@ export type MedicationScheduleCountAggregateOutputType = {
   type: number
   doseMg: number
   scheduleTime: number
+  isTaken: number
   _all: number
 }
 
@@ -78,6 +81,7 @@ export type MedicationScheduleMinAggregateInputType = {
   type?: true
   doseMg?: true
   scheduleTime?: true
+  isTaken?: true
 }
 
 export type MedicationScheduleMaxAggregateInputType = {
@@ -87,6 +91,7 @@ export type MedicationScheduleMaxAggregateInputType = {
   type?: true
   doseMg?: true
   scheduleTime?: true
+  isTaken?: true
 }
 
 export type MedicationScheduleCountAggregateInputType = {
@@ -96,6 +101,7 @@ export type MedicationScheduleCountAggregateInputType = {
   type?: true
   doseMg?: true
   scheduleTime?: true
+  isTaken?: true
   _all?: true
 }
 
@@ -192,6 +198,7 @@ export type MedicationScheduleGroupByOutputType = {
   type: $Enums.MedicationType | null
   doseMg: number | null
   scheduleTime: Date
+  isTaken: boolean
   _count: MedicationScheduleCountAggregateOutputType | null
   _avg: MedicationScheduleAvgAggregateOutputType | null
   _sum: MedicationScheduleSumAggregateOutputType | null
@@ -224,6 +231,7 @@ export type MedicationScheduleWhereInput = {
   type?: Prisma.EnumMedicationTypeNullableFilter<"MedicationSchedule"> | $Enums.MedicationType | null
   doseMg?: Prisma.IntNullableFilter<"MedicationSchedule"> | number | null
   scheduleTime?: Prisma.DateTimeFilter<"MedicationSchedule"> | Date | string
+  isTaken?: Prisma.BoolFilter<"MedicationSchedule"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -234,6 +242,7 @@ export type MedicationScheduleOrderByWithRelationInput = {
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   doseMg?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduleTime?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -247,6 +256,7 @@ export type MedicationScheduleWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumMedicationTypeNullableFilter<"MedicationSchedule"> | $Enums.MedicationType | null
   doseMg?: Prisma.IntNullableFilter<"MedicationSchedule"> | number | null
   scheduleTime?: Prisma.DateTimeFilter<"MedicationSchedule"> | Date | string
+  isTaken?: Prisma.BoolFilter<"MedicationSchedule"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -257,6 +267,7 @@ export type MedicationScheduleOrderByWithAggregationInput = {
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   doseMg?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduleTime?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
   _count?: Prisma.MedicationScheduleCountOrderByAggregateInput
   _avg?: Prisma.MedicationScheduleAvgOrderByAggregateInput
   _max?: Prisma.MedicationScheduleMaxOrderByAggregateInput
@@ -274,6 +285,7 @@ export type MedicationScheduleScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumMedicationTypeNullableWithAggregatesFilter<"MedicationSchedule"> | $Enums.MedicationType | null
   doseMg?: Prisma.IntNullableWithAggregatesFilter<"MedicationSchedule"> | number | null
   scheduleTime?: Prisma.DateTimeWithAggregatesFilter<"MedicationSchedule"> | Date | string
+  isTaken?: Prisma.BoolWithAggregatesFilter<"MedicationSchedule"> | boolean
 }
 
 export type MedicationScheduleCreateInput = {
@@ -282,6 +294,7 @@ export type MedicationScheduleCreateInput = {
   type?: $Enums.MedicationType | null
   doseMg?: number | null
   scheduleTime: Date | string
+  isTaken?: boolean
   user: Prisma.UserCreateNestedOneWithoutMedicationSchedulesInput
 }
 
@@ -292,6 +305,7 @@ export type MedicationScheduleUncheckedCreateInput = {
   type?: $Enums.MedicationType | null
   doseMg?: number | null
   scheduleTime: Date | string
+  isTaken?: boolean
 }
 
 export type MedicationScheduleUpdateInput = {
@@ -300,6 +314,7 @@ export type MedicationScheduleUpdateInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutMedicationSchedulesNestedInput
 }
 
@@ -310,6 +325,7 @@ export type MedicationScheduleUncheckedUpdateInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type MedicationScheduleCreateManyInput = {
@@ -319,6 +335,7 @@ export type MedicationScheduleCreateManyInput = {
   type?: $Enums.MedicationType | null
   doseMg?: number | null
   scheduleTime: Date | string
+  isTaken?: boolean
 }
 
 export type MedicationScheduleUpdateManyMutationInput = {
@@ -327,6 +344,7 @@ export type MedicationScheduleUpdateManyMutationInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type MedicationScheduleUncheckedUpdateManyInput = {
@@ -336,6 +354,7 @@ export type MedicationScheduleUncheckedUpdateManyInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type MedicationScheduleCountOrderByAggregateInput = {
@@ -345,6 +364,7 @@ export type MedicationScheduleCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
   scheduleTime?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
 }
 
 export type MedicationScheduleAvgOrderByAggregateInput = {
@@ -358,6 +378,7 @@ export type MedicationScheduleMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
   scheduleTime?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
 }
 
 export type MedicationScheduleMinOrderByAggregateInput = {
@@ -367,6 +388,7 @@ export type MedicationScheduleMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
   scheduleTime?: Prisma.SortOrder
+  isTaken?: Prisma.SortOrder
 }
 
 export type MedicationScheduleSumOrderByAggregateInput = {
@@ -431,6 +453,7 @@ export type MedicationScheduleCreateWithoutUserInput = {
   type?: $Enums.MedicationType | null
   doseMg?: number | null
   scheduleTime: Date | string
+  isTaken?: boolean
 }
 
 export type MedicationScheduleUncheckedCreateWithoutUserInput = {
@@ -439,6 +462,7 @@ export type MedicationScheduleUncheckedCreateWithoutUserInput = {
   type?: $Enums.MedicationType | null
   doseMg?: number | null
   scheduleTime: Date | string
+  isTaken?: boolean
 }
 
 export type MedicationScheduleCreateOrConnectWithoutUserInput = {
@@ -477,6 +501,7 @@ export type MedicationScheduleScalarWhereInput = {
   type?: Prisma.EnumMedicationTypeNullableFilter<"MedicationSchedule"> | $Enums.MedicationType | null
   doseMg?: Prisma.IntNullableFilter<"MedicationSchedule"> | number | null
   scheduleTime?: Prisma.DateTimeFilter<"MedicationSchedule"> | Date | string
+  isTaken?: Prisma.BoolFilter<"MedicationSchedule"> | boolean
 }
 
 export type MedicationScheduleCreateManyUserInput = {
@@ -485,6 +510,7 @@ export type MedicationScheduleCreateManyUserInput = {
   type?: $Enums.MedicationType | null
   doseMg?: number | null
   scheduleTime: Date | string
+  isTaken?: boolean
 }
 
 export type MedicationScheduleUpdateWithoutUserInput = {
@@ -493,6 +519,7 @@ export type MedicationScheduleUpdateWithoutUserInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type MedicationScheduleUncheckedUpdateWithoutUserInput = {
@@ -501,6 +528,7 @@ export type MedicationScheduleUncheckedUpdateWithoutUserInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type MedicationScheduleUncheckedUpdateManyWithoutUserInput = {
@@ -509,6 +537,7 @@ export type MedicationScheduleUncheckedUpdateManyWithoutUserInput = {
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   scheduleTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -520,6 +549,7 @@ export type MedicationScheduleSelect<ExtArgs extends runtime.Types.Extensions.In
   type?: boolean
   doseMg?: boolean
   scheduleTime?: boolean
+  isTaken?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["medicationSchedule"]>
 
@@ -530,6 +560,7 @@ export type MedicationScheduleSelectCreateManyAndReturn<ExtArgs extends runtime.
   type?: boolean
   doseMg?: boolean
   scheduleTime?: boolean
+  isTaken?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["medicationSchedule"]>
 
@@ -540,6 +571,7 @@ export type MedicationScheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.
   type?: boolean
   doseMg?: boolean
   scheduleTime?: boolean
+  isTaken?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["medicationSchedule"]>
 
@@ -550,9 +582,10 @@ export type MedicationScheduleSelectScalar = {
   type?: boolean
   doseMg?: boolean
   scheduleTime?: boolean
+  isTaken?: boolean
 }
 
-export type MedicationScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "type" | "doseMg" | "scheduleTime", ExtArgs["result"]["medicationSchedule"]>
+export type MedicationScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "type" | "doseMg" | "scheduleTime" | "isTaken", ExtArgs["result"]["medicationSchedule"]>
 export type MedicationScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -575,6 +608,7 @@ export type $MedicationSchedulePayload<ExtArgs extends runtime.Types.Extensions.
     type: $Enums.MedicationType | null
     doseMg: number | null
     scheduleTime: Date
+    isTaken: boolean
   }, ExtArgs["result"]["medicationSchedule"]>
   composites: {}
 }
@@ -1005,6 +1039,7 @@ export interface MedicationScheduleFieldRefs {
   readonly type: Prisma.FieldRef<"MedicationSchedule", 'MedicationType'>
   readonly doseMg: Prisma.FieldRef<"MedicationSchedule", 'Int'>
   readonly scheduleTime: Prisma.FieldRef<"MedicationSchedule", 'DateTime'>
+  readonly isTaken: Prisma.FieldRef<"MedicationSchedule", 'Boolean'>
 }
     
 

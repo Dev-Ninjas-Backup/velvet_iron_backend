@@ -14,6 +14,12 @@ export class ExerciseLogResponseDto {
   type: string;
 
   @ApiProperty({
+    description: 'Whether the exercise was taken',
+    example: true,
+  })
+  isTaken?: boolean | null;
+
+  @ApiProperty({
     description: 'Exercise name',
     example: 'Running',
   })
@@ -36,6 +42,8 @@ export class ExerciseLogResponseDto {
     example: 'Morning run',
   })
   note?: string;
+
+  
 
   @ApiProperty({
     description: 'When the exercise was logged',
@@ -140,6 +148,12 @@ export class ExerciseScheduleDetailResponseDto {
     example: '2026-02-15T08:00:00Z',
   })
   loggedAt: Date;
+
+  @ApiProperty({
+    description: 'Whether the exercise was done',
+    required: false,
+  })
+  isTaken?: boolean | null;
 }
 
 export class ExerciseScheduleHistoryDto {

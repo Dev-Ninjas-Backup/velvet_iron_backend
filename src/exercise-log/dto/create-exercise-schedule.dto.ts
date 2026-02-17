@@ -5,7 +5,9 @@ import {
   IsString,
   IsInt,
   IsDateString,
+  IsBoolean,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateExerciseScheduleDto {
   @ApiProperty({
@@ -60,6 +62,15 @@ export class CreateExerciseScheduleDto {
   @IsDateString()
   @IsNotEmpty()
   scheduledAt: string;
+
+  @ApiProperty({
+    description: 'Whether the exercise was done',
+    required: false,
+    example: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isTaken?: boolean;
 }
 
 export class UpdateExerciseScheduleDto {
@@ -69,6 +80,7 @@ export class UpdateExerciseScheduleDto {
     required: false,
     example: 'STRENGTH',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   type?: string;
@@ -78,6 +90,7 @@ export class UpdateExerciseScheduleDto {
     required: false,
     example: 'Push-ups',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   name?: string;
@@ -88,6 +101,7 @@ export class UpdateExerciseScheduleDto {
     required: false,
     example: 'HIGH',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   intensity?: string;
@@ -97,6 +111,7 @@ export class UpdateExerciseScheduleDto {
     required: false,
     example: 45,
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsInt()
   duration?: number;
@@ -106,6 +121,7 @@ export class UpdateExerciseScheduleDto {
     required: false,
     example: 'Evening workout',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   note?: string;
@@ -115,7 +131,36 @@ export class UpdateExerciseScheduleDto {
     required: false,
     example: '2026-02-15T08:00:00Z',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsDateString()
   scheduledAt?: string;
+
+  @ApiProperty({
+    description: 'Whether the exercise was done',
+    required: false,
+    example: true,
+  })
+  @Transform(({ value }) => {
+    if (value === '' || value === undefined || value === null) {
+      return undefined;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (['true', '1', 'on'].includes(normalized)) return true;
+      if (['false', '0', 'off'].includes(normalized)) return false;
+      return undefined;
+    }
+    if (typeof value === 'number') {
+      if (value === 1) return true;
+      if (value === 0) return false;
+    }
+    if (value === true || value === false) {
+      return value;
+    }
+    return undefined;
+  })
+  @IsOptional()
+  @IsBoolean()
+  isTaken?: boolean;
 }

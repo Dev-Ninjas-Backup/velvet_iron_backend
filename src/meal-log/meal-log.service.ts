@@ -72,8 +72,8 @@ export class MealLogService {
             },
         });
 
-        console.log("9999999999",todayLogs,userId);
-        
+        console.log("9999999999", todayLogs, userId);
+
 
         const consumed = {
             protein: todayLogs.reduce((sum, l) => sum + (l.protein || 0), 0),
@@ -101,7 +101,7 @@ export class MealLogService {
                 carb: latestMacroGoal ? latestMacroGoal.carbs : null,
             },
         };
-//remaining dont show minus that is show 0 if user over consume
+        //remaining dont show minus that is show 0 if user over consume
         remaining = {
             protein: Math.max(0, (latestMacroGoal ? latestMacroGoal.protein : 0) - consumed.protein),
             fat: Math.max(0, (latestMacroGoal ? latestMacroGoal.fat : 0) - consumed.fat),
@@ -177,6 +177,7 @@ export class MealLogService {
         logId: string,
         dto: UpdateMealLogDto,
     ): Promise<MealLogResponseDto> {
+        // 1️⃣ Fetch existing log
         const existingLog = await this.prisma.client.mealLog.findFirst({
             where: { id: logId, userId },
         });
@@ -185,27 +186,40 @@ export class MealLogService {
             throw new NotFoundException('Meal log not found or does not belong to user');
         }
 
-        // Recalculate calories if macros changed
-        const carbs = dto.carbs !== undefined ? Number(dto.carbs) : existingLog.carbs;
-        const protein = dto.protein !== undefined ? Number(dto.protein) : existingLog.protein;
-        const fats = dto.fats !== undefined ? Number(dto.fats) : existingLog.fats;
-        const calories = this.calculateCalories(carbs ?? 0, protein ?? 0, fats ?? 0);
+        // 2️⃣ Use updated macros if provided, else fallback
+        const carbs = dto.carbs ?? existingLog.carbs;
+        const protein = dto.protein ?? existingLog.protein;
+        const fats = dto.fats ?? existingLog.fats;
 
+        console.log("ddddddddddddddd",dto);
+        
+
+        // 3️⃣ Recalculate calories
+        const calories = this.calculateCalories(
+            carbs ?? 0,
+            protein ?? 0,
+            fats ?? 0,
+        );
+
+
+        // 4️⃣ Update the log
         const updatedLog = await this.prisma.client.mealLog.update({
             where: { id: logId },
             data: {
-                ...(dto.mealType && { mealType: dto.mealType }),
+                // only update if provided
+                ...(dto.mealType !== undefined && { mealType: dto.mealType }),
                 ...(dto.description !== undefined && { description: dto.description }),
-                carbs,
-                protein,
-                fats,
+                ...(dto.carbs !== undefined && { carbs }),
+                ...(dto.protein !== undefined && { protein }),
+                ...(dto.fats !== undefined && { fats }),
                 calories,
-                ...(dto.loggedAt && { loggedAt: new Date(dto.loggedAt) }),
+                ...(dto.loggedAt !== undefined && { loggedAt: new Date(dto.loggedAt) }),
             },
         });
 
         return updatedLog;
     }
+
 
     async deleteMealLog(userId: string, logId: string): Promise<void> {
         await this.prisma.client.mealLog.deleteMany({

@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class MedicationScheduleService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createMedicationSchedule(
     userId: string,
@@ -25,6 +25,7 @@ export class MedicationScheduleService {
         type: dto.type,
         doseMg: dto.doseMg,
         scheduleTime: new Date(dto.scheduleTime),
+        isTaken: false,
       },
     });
 
@@ -117,6 +118,28 @@ export class MedicationScheduleService {
       throw new NotFoundException('Medication schedule not found');
     }
 
+    const normalizeBooleanValue = (value: unknown): boolean | undefined => {
+      if (value === '' || value === undefined || value === null) {
+        return undefined;
+      }
+      if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        if (['true', '1', 'on'].includes(normalized)) return true;
+        if (['false', '0', 'off'].includes(normalized)) return false;
+        return undefined;
+      }
+      if (typeof value === 'number') {
+        if (value === 1) return true;
+        if (value === 0) return false;
+      }
+      if (value === true || value === false) {
+        return value;
+      }
+      return undefined;
+    };
+
+    const normalizedIsTaken = normalizeBooleanValue(dto.isTaken);
+
     const schedule = await this.prisma.client.medicationSchedule.update({
       where: { id },
       data: {
@@ -124,6 +147,7 @@ export class MedicationScheduleService {
         type: dto.type,
         doseMg: dto.doseMg,
         scheduleTime: dto.scheduleTime ? new Date(dto.scheduleTime) : undefined,
+        ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
       },
     });
 

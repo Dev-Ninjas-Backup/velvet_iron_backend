@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsNotEmpty,
   IsOptional,
@@ -6,6 +7,7 @@ import {
   IsInt,
   IsEnum,
   IsDateString,
+  IsBoolean,
 } from 'class-validator';
 import { MedicationType } from '../../../prisma/generated/enums';
 
@@ -44,6 +46,15 @@ export class CreateMedicationScheduleDto {
   @IsDateString()
   @IsNotEmpty()
   scheduleTime: string;
+
+  @ApiProperty({
+    description: 'Whether the medication was taken',
+    required: false,
+    example: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isTaken?: boolean;
 }
 
 export class UpdateMedicationScheduleDto {
@@ -52,6 +63,7 @@ export class UpdateMedicationScheduleDto {
     example: 'Aspirin',
     required: false,
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   name?: string;
@@ -62,6 +74,7 @@ export class UpdateMedicationScheduleDto {
     required: false,
     example: MedicationType.TABLET,
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsEnum(MedicationType)
   type?: MedicationType;
@@ -71,6 +84,7 @@ export class UpdateMedicationScheduleDto {
     example: 500,
     required: false,
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsInt()
   doseMg?: number;
@@ -80,7 +94,36 @@ export class UpdateMedicationScheduleDto {
     example: '2026-02-15T08:00:00Z',
     required: false,
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsDateString()
   scheduleTime?: string;
+
+  @ApiProperty({
+    description: 'Whether the medication was taken',
+    required: false,
+    example: true,
+  })
+  @Transform(({ value }) => {
+    if (value === '' || value === undefined || value === null) {
+      return undefined;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (['true', '1', 'on'].includes(normalized)) return true;
+      if (['false', '0', 'off'].includes(normalized)) return false;
+      return undefined;
+    }
+    if (typeof value === 'number') {
+      if (value === 1) return true;
+      if (value === 0) return false;
+    }
+    if (value === true || value === false) {
+      return value;
+    }
+    return value;
+  })
+  @IsOptional()
+  @IsBoolean()
+  isTaken?: boolean;
 }

@@ -14,6 +14,9 @@ export class MealScheduleResponseDto {
     @ApiProperty({ example: '2026-02-14T08:00:00.000Z' })
     scheduledAt: Date;
 
+    @ApiProperty({ example: true, required: false })
+    isTaken?: boolean | null;
+
     @ApiProperty({ example: 455 })
     calories: number | null;
 

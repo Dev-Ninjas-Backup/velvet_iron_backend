@@ -45,6 +45,8 @@ export class ExerciseLogService {
 
     const totalCount = logs.length;
 
+    console.log(logs);
+    
     return {
       totalCount,
       logs: logs.map((log) => this.mapToResponseDto(log)),
@@ -68,6 +70,7 @@ export class ExerciseLogService {
       duration: log.duration || undefined,
       note: log.note || undefined,
       loggedAt: log.loggedAt,
+      isTaken: log.isTaken
     }));
   }
 
@@ -121,6 +124,7 @@ export class ExerciseLogService {
       duration: log.duration,
       note: log.note,
       loggedAt: log.loggedAt,
+      isTaken: log.isTaken ?? undefined,
     };
   }
 
@@ -138,6 +142,7 @@ export class ExerciseLogService {
         duration: dto.duration,
         note: dto.note,
         loggedAt: new Date(dto.scheduledAt),
+        isTaken: false,
       },
     });
     return this.mapToScheduleResponseDto(schedule);
@@ -179,6 +184,27 @@ export class ExerciseLogService {
     id: string,
     dto: UpdateExerciseScheduleDto,
   ): Promise<ExerciseScheduleDetailResponseDto> {
+    const normalizeBooleanValue = (value: unknown): boolean | undefined => {
+      if (value === '' || value === undefined || value === null) {
+        return undefined;
+      }
+      if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        if (['true', '1', 'on'].includes(normalized)) return true;
+        if (['false', '0', 'off'].includes(normalized)) return false;
+        return undefined;
+      }
+      if (typeof value === 'number') {
+        if (value === 1) return true;
+        if (value === 0) return false;
+      }
+      if (value === true || value === false) {
+        return value;
+      }
+      return undefined;
+    };
+
+    const normalizedIsTaken = normalizeBooleanValue(dto.isTaken);
     const schedule = await this.prisma.client.exerciseScheduleLog.update({
       where: { id },
       data: {
@@ -188,6 +214,7 @@ export class ExerciseLogService {
         duration: dto.duration,
         note: dto.note,
         loggedAt: dto.scheduledAt ? new Date(dto.scheduledAt) : undefined,
+        ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
       },
     });
     return this.mapToScheduleResponseDto(schedule);
@@ -214,6 +241,7 @@ export class ExerciseLogService {
       duration: schedule.duration || undefined,
       note: schedule.note || undefined,
       loggedAt: schedule.loggedAt,
+      isTaken: schedule.isTaken ?? undefined,
     };
   }
 

@@ -6,6 +6,7 @@ import {
   IsInt,
   IsEnum,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { exercise_intensity, exercise_type } from 'generated/enums';
 
 export class CreateExerciseLogDto {
@@ -62,6 +63,7 @@ export class UpdateExerciseLogDto {
     required: false,
     example: 'STRENGTH',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   type?: string;
@@ -71,6 +73,7 @@ export class UpdateExerciseLogDto {
     required: false,
     example: 'Push-ups',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   name?: string;
@@ -81,6 +84,7 @@ export class UpdateExerciseLogDto {
     required: false,
     example: 'HIGH',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   intensity?: string;
@@ -90,6 +94,7 @@ export class UpdateExerciseLogDto {
     required: false,
     example: 45,
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsInt()
   duration?: number;
@@ -99,6 +104,7 @@ export class UpdateExerciseLogDto {
     required: false,
     example: 'Evening workout',
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsString()
   note?: string;
