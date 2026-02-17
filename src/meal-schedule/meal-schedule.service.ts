@@ -133,4 +133,22 @@ export class MealScheduleService {
             where: { id: scheduleId, userId },
         });
     }
+
+    async getTodaySchedules(userId: string): Promise<MealScheduleResponseDto[]> {
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+
+        const endOfToday = new Date();
+        endOfToday.setHours(23, 59, 59, 999);
+
+        const schedules = await this.prisma.client.mealSchedule.findMany({
+            where: {
+                userId,
+                scheduledAt: { gte: startOfToday, lte: endOfToday },
+            },
+            orderBy: { scheduledAt: 'asc' },
+        });
+
+        return schedules;
+    }
 }

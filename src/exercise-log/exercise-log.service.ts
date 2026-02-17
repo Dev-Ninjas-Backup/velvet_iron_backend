@@ -18,7 +18,7 @@ import {
 
 @Injectable()
 export class ExerciseLogService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createExerciseLog(
     userId: string,
@@ -215,4 +215,30 @@ export class ExerciseLogService {
       note: schedule.note || undefined,
       loggedAt: schedule.loggedAt,
     };
-  }}
+  }
+
+  async getTodaySchedules(
+    userId: string,
+  ): Promise<ExerciseScheduleDetailResponseDto[]> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const schedules = await this.prisma.client.exerciseScheduleLog.findMany({
+      where: {
+        userId,
+        loggedAt: {
+          gte: startOfToday,
+          lte: endOfToday,
+        },
+      },
+      orderBy: { loggedAt: 'asc' },
+    });
+
+    return schedules.map((schedule) =>
+      this.mapToScheduleResponseDto(schedule),
+    );
+  }
+}

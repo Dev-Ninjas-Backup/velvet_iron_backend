@@ -22,13 +22,22 @@ import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
 @ApiTags('Profile')
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService) { }
 
   @Get()
   @ValidAll()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get my profile with XP and level' })
-  getMyProfile(@GetUser('id') userId: string) {
+  @ApiOperation({ summary: 'Get my profile with XP and level, optionally with today\'s schedules' })
+  @ApiQuery({ name: 'withSchedules', required: false, type: Boolean, description: 'Include meal, medication, and exercise schedules for today' })
+  getMyProfile(
+    @GetUser('id') userId: string,
+    @Query('withSchedules') withSchedules?: string | boolean,
+  ) {
+    const includeSchedules = withSchedules === 'true' || withSchedules === true;
+
+    if (true) {
+      return this.profileService.getProfileWithSchedules(userId);
+    }
     return this.profileService.getProfile(userId);
   }
 
