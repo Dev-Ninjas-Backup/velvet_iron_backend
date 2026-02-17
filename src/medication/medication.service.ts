@@ -7,11 +7,12 @@ import {
 import {
   MedicationResponseDto,
   MedicationHistoryWithStatsDto,
+  MedicationHistoryLogDto,
 } from './dto/medication-response.dto';
 
 @Injectable()
 export class MedicationService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createMedication(
     userId: string,
@@ -36,20 +37,53 @@ export class MedicationService {
   async getMedicationHistory(
     userId: string,
   ): Promise<MedicationHistoryWithStatsDto> {
-    const medications = await this.prisma.client.medication.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
+    const [medications, schedules] = await Promise.all([
+      this.prisma.client.medication.findMany({ where: { userId } }),
+      this.prisma.client.medicationSchedule.findMany({ where: { userId } }),
+    ]);
 
-    const totalCount = medications.length;
-
-    return {
-      totalCount,
-      medications: medications.map((med) => ({
-        ...med,
+    const logs: MedicationHistoryLogDto[] = [
+      ...medications.map((med) => ({
+        id: med.id,
+        userId: med.userId,
+        name: med.name,
         type: med.type ?? undefined,
         doseMg: med.doseMg ?? undefined,
+        isTaken: med.isTaken ?? false,
+        loggedAt: med.createdAt,
+        scheduledAt: null,
+        entryType: 'LOG' as const,
       })),
+      ...schedules.map((schedule) => ({
+        id: schedule.id,
+        userId: schedule.userId,
+        name: schedule.name,
+        type: schedule.type ?? undefined,
+        doseMg: schedule.doseMg ?? undefined,
+        isTaken: schedule.isTaken ?? false,
+        loggedAt: schedule.scheduleTime,
+        scheduledAt: schedule.scheduleTime,
+        entryType: 'SCHEDULE' as const,
+      })),
+    ];
+
+    logs.sort((a, b) => {
+      if (a.isTaken !== b.isTaken) {
+        return a.isTaken ? 1 : -1;
+      }
+
+      const dateA = a.loggedAt ?? a.scheduledAt ?? new Date(0);
+      const dateB = b.loggedAt ?? b.scheduledAt ?? new Date(0);
+
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    const pendingCount = logs.filter((log) => !log.isTaken).length;
+
+    return {
+      totalCount: logs.length,
+      pendingCount,
+      logs,
     };
   }
 
