@@ -3,19 +3,171 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 
 @Injectable()
 export class XpStatsService {
-  constructor(private prisma: PrismaService) { }
+  private readonly questTimeZone = 'Asia/Dhaka';
+
+  constructor(private prisma: PrismaService) {}
 
   /**
    * Get today's total XP for a user
    */
   async getTodayXp(userId: string) {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
-
+    const { startOfDay, endOfDay } = this.getTodayDateRange();
     return this.getXpForPeriod(userId, startOfDay, endOfDay, 'today');
+  }
+
+  /**
+   * Return the daily quest checklist with completion state.
+   */
+  async getTodayQuestXp(userId: string) {
+    const { startOfDay, endOfDay } = this.getTodayDateRange();
+    const mainMealTypes = new Set(['BREAKFAST', 'LUNCH', 'DINNER']);
+
+    const [
+      medicationCount,
+      medicationScheduleCount,
+      mealLogs,
+      mealSchedules,
+      moodLogCount,
+      exerciseLogAggregate,
+      exerciseScheduleAggregate,
+    ] = await Promise.all([
+      this.prisma.client.medication.count({
+        where: {
+          userId,
+          isTaken: true,
+          createdAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+      }),
+      this.prisma.client.medicationSchedule.count({
+        where: {
+          userId,
+          isTaken: true,
+          scheduleTime: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+      }),
+      this.prisma.client.mealLog.findMany({
+        where: {
+          userId,
+          isTaken: true,
+          loggedAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+        select: {
+          mealType: true,
+          protein: true,
+        },
+      }),
+      this.prisma.client.mealSchedule.findMany({
+        where: {
+          userId,
+          isTaken: true,
+          scheduledAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+        select: {
+          mealType: true,
+          protein: true,
+        },
+      }),
+      this.prisma.client.moodLog.count({
+        where: {
+          userId,
+          loggedAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+      }),
+      this.prisma.client.exerciseLog.aggregate({
+        where: {
+          userId,
+          isTaken: true,
+          loggedAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+        _sum: { duration: true },
+      }),
+      this.prisma.client.exerciseScheduleLog.aggregate({
+        where: {
+          userId,
+          isTaken: true,
+          loggedAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+        _sum: { duration: true },
+      }),
+    ]);
+
+    const takenMainMeals = [...mealLogs, ...mealSchedules].filter((meal) =>
+      mainMealTypes.has(meal.mealType),
+    ).length;
+
+    const totalProtein = [...mealLogs, ...mealSchedules].reduce(
+      (sum, meal) => sum + (meal.protein ?? 0),
+      0,
+    );
+
+    const exerciseLogDuration = Number(
+      exerciseLogAggregate._sum?.duration ?? 0,
+    );
+    const exerciseScheduleDuration = Number(
+      exerciseScheduleAggregate._sum?.duration ?? 0,
+    );
+
+    const totalExerciseDuration =
+      exerciseLogDuration + exerciseScheduleDuration;
+
+    return [
+      {
+        id: 'track-your-shot',
+        title: 'Track Your Shot',
+        xp: 10,
+        description: 'Log your GLP-1 medication',
+        isDone: medicationCount + medicationScheduleCount > 0,
+      },
+      {
+        id: 'three-meals',
+        title: 'Three Meals a Day',
+        xp: 30,
+        description: 'Log breakfast, lunch, and dinner',
+        isDone: takenMainMeals >= 3,
+      },
+      {
+        id: 'mood-check',
+        title: 'Mood Check',
+        xp: 30,
+        description: 'Log your mood and energy levels',
+        isDone: moodLogCount > 0,
+      },
+      {
+        id: 'step-master',
+        title: 'Step Master',
+        xp: 20,
+        description: 'Do 30 minutes of workout',
+        isDone: totalExerciseDuration >= 30,
+      },
+      {
+        id: 'protein-power',
+        title: 'Protein Power',
+        xp: 30,
+        description: 'Log a meal with 120g+ protein',
+        isDone: totalProtein >= 120,
+      },
+    ];
   }
 
   /**
@@ -320,6 +472,70 @@ export class XpStatsService {
       month: now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
       data: chartData,
       totalXp: chartData.reduce((sum, week) => sum + week.xp, 0),
+    };
+  }
+
+  private getTodayDateRange() {
+    const now = new Date();
+    const tzParts = this.getTimeZoneDateParts(now, this.questTimeZone);
+    const offsetFromUtc =
+      Date.UTC(
+        tzParts.year,
+        tzParts.month - 1,
+        tzParts.day,
+        tzParts.hour,
+        tzParts.minute,
+        tzParts.second,
+      ) - now.getTime();
+
+    const startTimestamp = Date.UTC(
+      tzParts.year,
+      tzParts.month - 1,
+      tzParts.day,
+      0,
+      0,
+      0,
+      0,
+    );
+    const endTimestamp = Date.UTC(
+      tzParts.year,
+      tzParts.month - 1,
+      tzParts.day,
+      23,
+      59,
+      59,
+      999,
+    );
+
+    return {
+      startOfDay: new Date(startTimestamp - offsetFromUtc),
+      endOfDay: new Date(endTimestamp - offsetFromUtc),
+    } as const;
+  }
+
+  private getTimeZoneDateParts(date: Date, timeZone: string) {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+
+    const parts = formatter.formatToParts(date);
+    const pick = (type: Intl.DateTimeFormatPartTypes) =>
+      Number(parts.find((part) => part.type === type)?.value ?? '0');
+
+    return {
+      year: pick('year'),
+      month: pick('month'),
+      day: pick('day'),
+      hour: pick('hour'),
+      minute: pick('minute'),
+      second: pick('second'),
     };
   }
 }

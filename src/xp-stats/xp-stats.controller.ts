@@ -1,6 +1,11 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { XpStatsService } from './xp-stats.service';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetUser } from '@/common/decorators/get-user.decorator';
 import { ValidAll } from '@/common/decorators/validate.decorator';
 import { XpStatsQueryDto } from './dto/xp-stats-query.dto';
@@ -16,6 +21,14 @@ export class XpStatsController {
   @ApiOperation({ summary: "Get today's total XP" })
   async getTodayXp(@GetUser('id') userId: string) {
     return this.xpStatsService.getTodayXp(userId);
+  }
+
+  @Get('quests')
+  @ValidAll()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get quest data from XP today' })
+  async getTodayQuestXp(@GetUser('id') userId: string) {
+    return this.xpStatsService.getTodayQuestXp(userId);
   }
 
   @Get('weekly')
@@ -61,7 +74,9 @@ export class XpStatsController {
   @Get('chart/weekly')
   @ValidAll()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get weekly chart data - Daily XP for each day of the week' })
+  @ApiOperation({
+    summary: 'Get weekly chart data - Daily XP for each day of the week',
+  })
   async getWeeklyChartData(@GetUser('id') userId: string) {
     return this.xpStatsService.getWeeklyChartData(userId);
   }
@@ -69,7 +84,9 @@ export class XpStatsController {
   @Get('chart/monthly')
   @ValidAll()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get monthly chart data - Weekly XP for each week of the month' })
+  @ApiOperation({
+    summary: 'Get monthly chart data - Weekly XP for each week of the month',
+  })
   async getMonthlyChartData(@GetUser('id') userId: string) {
     return this.xpStatsService.getMonthlyChartData(userId);
   }

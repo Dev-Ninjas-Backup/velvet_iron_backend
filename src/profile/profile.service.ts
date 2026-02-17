@@ -175,7 +175,6 @@ export class ProfileService {
   }
 
   async logXpChange(userId: string, xpAmount: number, reason?: string) {
-    ///
 
     // find active theme
     const activeTheme = await this.prisma.client.userTheme.findFirst({
