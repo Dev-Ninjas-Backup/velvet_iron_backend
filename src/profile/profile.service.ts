@@ -9,6 +9,8 @@ import { MedicationScheduleService } from '../medication-schedule/medication-sch
 import { ExerciseLogService } from '../exercise-log/exercise-log.service';
 import { ProfileWithSchedulesDto, TodayScheduleItemDto } from './dto/profile-with-schedules.dto';
 
+export type ScheduleRange = 'today' | 'week' | 'month' | 'all';
+
 @Injectable()
 export class ProfileService {
   constructor(
@@ -77,14 +79,12 @@ export class ProfileService {
       ...profile,
       userName: profile?.user?.name || null,
       level,
-      activeTheme,
-      activecomponion,
       levelStatus: levelStatus(level),
       // if level 50 or above, show then next level is max and xp required is 0
-    nextLevel: {
-  level: level >= 50 ? 50 : level + 1,
-  xpRequired: level >= 50 ? 0 : 400 + (level * 150),
-}
+      nextLevel: {
+        level: level >= 50 ? 50 : level + 1,
+        xpRequired: level >= 50 ? 0 : 400 + (level * 150),
+      }
     };
 
     return finalProfile;
@@ -229,27 +229,47 @@ export class ProfileService {
     };
   }
 
-  async getProfileWithSchedules(userId: string): Promise<any> {
+  private normalizeScheduleRange(range?: string | ScheduleRange): ScheduleRange {
+    if (!range) {
+      return 'all';
+    }
+
+    const normalizedValue = typeof range === 'string' ? range.trim().toLowerCase() : range;
+    const aliasMap: Record<string, ScheduleRange> = {
+      today: 'today',
+      week: 'week',
+      thisweek: 'week',
+      month: 'month',
+      thismonth: 'month',
+      all: 'all',
+    };
+
+    return aliasMap[normalizedValue as keyof typeof aliasMap] ?? 'all';
+  }
+
+  async getProfileWithSchedules(
+    userId: string,
+    range?: string | ScheduleRange,
+  ): Promise<ProfileWithSchedulesDto> {
     // Get base profile
     const baseProfile = await this.getProfile(userId);
 
+    const selectedRange = this.normalizeScheduleRange(range);
+    const includeToday = selectedRange === 'all' || selectedRange === 'today';
+    const includeWeek = selectedRange === 'all' || selectedRange === 'week';
+    const includeMonth = selectedRange === 'all' || selectedRange === 'month';
+
     // Get all schedules (using larger limit for history)
-    // For meal and medication, fetch history; for exercise, fetch both logs and schedules
-    const [mealHistoryResult, medicationHistoryResult, exerciseLogHistory, exerciseScheduleHistory] = await Promise.all([
+    const [mealHistoryResult, medicationHistoryResult, exerciseScheduleHistory] = await Promise.all([
       this.mealScheduleService.getMealScheduleHistory(userId, 100, 0).catch(() => ({ schedules: [], totalCount: 0, todaySummary: {} })),
       this.medicationScheduleService.getMedicationScheduleHistory(userId).catch(() => ({ schedules: [], totalCount: 0 })),
-      this.exerciseLogService.getExerciseLogHistory(userId).catch(() => ({ logs: [], totalCount: 0 })),
       this.exerciseLogService.getExerciseScheduleHistory(userId).catch(() => ({ schedules: [], totalCount: 0 })),
     ]);
 
     // Extract schedules from responses
     const mealSchedules = mealHistoryResult.schedules || [];
     const medicationSchedules = medicationHistoryResult.schedules || [];
-    const exerciseLogs = exerciseLogHistory.logs || [];
     const exerciseSchedules = exerciseScheduleHistory.schedules || [];
-
-    // Combine exercise logs and schedules
-    const allExercises = [...exerciseLogs, ...exerciseSchedules];
 
     // Get date ranges
     const todayRange = this.getDateRange('week');
@@ -263,7 +283,7 @@ export class ProfileService {
     const todayFiltered = this.filterItemsByDateRange(
       mealSchedules,
       medicationSchedules,
-      allExercises,
+      exerciseSchedules,
       todayRange.start,
       todayRange.end,
     );
@@ -271,7 +291,7 @@ export class ProfileService {
     const weekFiltered = this.filterItemsByDateRange(
       mealSchedules,
       medicationSchedules,
-      allExercises,
+      exerciseSchedules,
       weekRange.start,
       weekRange.end,
     );
@@ -279,62 +299,68 @@ export class ProfileService {
     const monthFiltered = this.filterItemsByDateRange(
       mealSchedules,
       medicationSchedules,
-      allExercises,
+      exerciseSchedules,
       monthRange.start,
       monthRange.end,
     );
 
     // Build combined schedules for today
-    const todayMealItems = todayFiltered.meals.map((meal: any) => ({
-      id: meal.id,
-      type: 'meal' as const,
-      title: meal.mealType,
-      description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
-        ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-        : ''
-        }`,
-      scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
-      details: {
-        calories: meal.calories,
-        carbs: meal.carbs,
-        protein: meal.protein,
-        fats: meal.fats,
-        isTaken: meal.isTaken ?? undefined,
-      },
-    }));
+    const todayMealItems = includeToday
+      ? todayFiltered.meals.map((meal: any) => ({
+        id: meal.id,
+        type: 'meal' as const,
+        title: meal.mealType,
+        description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
+          ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+          : ''
+          }`,
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        details: {
+          calories: meal.calories,
+          carbs: meal.carbs,
+          protein: meal.protein,
+          fats: meal.fats,
+          isTaken: meal.isTaken ?? undefined,
+        },
+      }))
+      : [];
 
-    const todayMedicationItems = todayFiltered.medications.map((med: any) => ({
-      id: med.id,
-      type: 'medication' as const,
-      title: med.name,
-      description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-      scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
-      details: {
-        type: med.type,
-        doseMg: med.doseMg,
-        isTaken: med.isTaken ?? undefined,
-      },
-    }));
+    const todayMedicationItems = includeToday
+      ? todayFiltered.medications.map((med: any) => ({
+        id: med.id,
+        type: 'medication' as const,
+        title: med.name,
+        description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        details: {
+          type: med.type,
+          doseMg: med.doseMg,
+          isTaken: med.isTaken ?? undefined,
+        },
+      }))
+      : [];
 
-    const todayExerciseItems = todayFiltered.exercises.map((exercise: any) => ({
-      id: exercise.id,
-      type: 'exercise' as const,
-      title: exercise.name,
-      description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
-        }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
-        }`,
-      scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
-      details: {
-        type: exercise.type,
-        intensity: exercise.intensity,
-        duration: exercise.duration,
-        note: exercise.note,
-        isTaken: exercise.isTaken ?? undefined,
-      },
-    }));
+    const todayExerciseItems = includeToday
+      ? todayFiltered.exercises.map((exercise: any) => ({
+        id: exercise.id,
+        type: 'exercise' as const,
+        title: exercise.name,
+        description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
+          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
+          }`,
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        details: {
+          type: exercise.type,
+          intensity: exercise.intensity,
+          duration: exercise.duration,
+          note: exercise.note,
+          isTaken: exercise.isTaken ?? undefined,
+        },
+      }))
+      : [];
 
     // Build combined schedules for this week
-    const weekMealItems = weekFiltered.meals.map((meal: any) => ({
+    const weekMealItems = includeWeek ? weekFiltered.meals.map((meal: any) => ({
       id: meal.id,
       type: 'meal' as const,
       title: meal.mealType,
@@ -350,9 +376,9 @@ export class ProfileService {
         fats: meal.fats,
         isTaken: meal.isTaken ?? undefined,
       },
-    }));
+    })) : [];
 
-    const weekMedicationItems = weekFiltered.medications.map((med: any) => ({
+    const weekMedicationItems = includeWeek ? weekFiltered.medications.map((med: any) => ({
       id: med.id,
       type: 'medication' as const,
       title: med.name,
@@ -363,9 +389,9 @@ export class ProfileService {
         doseMg: med.doseMg,
         isTaken: med.isTaken ?? undefined,
       },
-    }));
+    })) : [];
 
-    const weekExerciseItems = weekFiltered.exercises.map((exercise: any) => ({
+    const weekExerciseItems = includeWeek ? weekFiltered.exercises.map((exercise: any) => ({
       id: exercise.id,
       type: 'exercise' as const,
       title: exercise.name,
@@ -380,10 +406,10 @@ export class ProfileService {
         note: exercise.note,
         isTaken: exercise.isTaken ?? undefined,
       },
-    }));
+    })) : [];
 
     // Build combined schedules for this month
-    const monthMealItems = monthFiltered.meals.map((meal: any) => ({
+    const monthMealItems = includeMonth ? monthFiltered.meals.map((meal: any) => ({
       id: meal.id,
       type: 'meal' as const,
       title: meal.mealType,
@@ -399,9 +425,9 @@ export class ProfileService {
         fats: meal.fats,
         isTaken: meal.isTaken ?? undefined,
       },
-    }));
+    })) : [];
 
-    const monthMedicationItems = monthFiltered.medications.map((med: any) => ({
+    const monthMedicationItems = includeMonth ? monthFiltered.medications.map((med: any) => ({
       id: med.id,
       type: 'medication' as const,
       title: med.name,
@@ -412,9 +438,9 @@ export class ProfileService {
         doseMg: med.doseMg,
         isTaken: med.isTaken ?? undefined,
       },
-    }));
+    })) : [];
 
-    const monthExerciseItems = monthFiltered.exercises.map((exercise: any) => ({
+    const monthExerciseItems = includeMonth ? monthFiltered.exercises.map((exercise: any) => ({
       id: exercise.id,
       type: 'exercise' as const,
       title: exercise.name,
@@ -429,26 +455,32 @@ export class ProfileService {
         note: exercise.note,
         isTaken: exercise.isTaken ?? undefined,
       },
-    }));
+    })) : [];
 
     // Build final combined arrays
-    const todayCombined = this.buildCombinedSchedules(
-      todayMealItems,
-      todayMedicationItems,
-      todayExerciseItems,
-    );
+    const todayCombined = includeToday
+      ? this.buildCombinedSchedules(
+        todayMealItems,
+        todayMedicationItems,
+        todayExerciseItems,
+      )
+      : [];
 
-    const weekCombined = this.buildCombinedSchedules(
-      weekMealItems,
-      weekMedicationItems,
-      weekExerciseItems,
-    );
+    const weekCombined = includeWeek
+      ? this.buildCombinedSchedules(
+        weekMealItems,
+        weekMedicationItems,
+        weekExerciseItems,
+      )
+      : [];
 
-    const monthCombined = this.buildCombinedSchedules(
-      monthMealItems,
-      monthMedicationItems,
-      monthExerciseItems,
-    );
+    const monthCombined = includeMonth
+      ? this.buildCombinedSchedules(
+        monthMealItems,
+        monthMedicationItems,
+        monthExerciseItems,
+      )
+      : [];
 
     return {
       ...baseProfile,
@@ -457,15 +489,15 @@ export class ProfileService {
       },
       thisWeek: {
         combined: weekCombined,
-        totalMeals: weekMealItems.length,
-        totalMedications: weekMedicationItems.length,
-        totalExercises: weekExerciseItems.length,
+        totalMeals: includeWeek ? weekMealItems.length : 0,
+        totalMedications: includeWeek ? weekMedicationItems.length : 0,
+        totalExercises: includeWeek ? weekExerciseItems.length : 0,
       },
       thisMonth: {
         combined: monthCombined,
-        totalMeals: monthMealItems.length,
-        totalMedications: monthMedicationItems.length,
-        totalExercises: monthExerciseItems.length,
+        totalMeals: includeMonth ? monthMealItems.length : 0,
+        totalMedications: includeMonth ? monthMedicationItems.length : 0,
+        totalExercises: includeMonth ? monthExerciseItems.length : 0,
       },
     };
   }

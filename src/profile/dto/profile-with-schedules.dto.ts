@@ -7,40 +7,14 @@ export class TodayScheduleItemDto {
     details?: any;
 }
 
-export class TodaySchedulesDto {
-    meals: any[];
-    medications: any[];
-    exercises: ExerciseScheduleDto[];
-    combined: TodayScheduleItemDto[]; // All combined and sorted by time
+export class ScheduleCombinedDto {
+    combined: TodayScheduleItemDto[];
 }
 
-export class MealScheduleDto {
-    id: string;
-    mealType: string;
-    scheduledAt: Date;
-    calories?: number | null;
-    carbs?: number | null;
-    protein?: number | null;
-    fats?: number | null;
-}
-
-export class MedicationScheduleDto {
-    id: string;
-    name: string;
-    type?: string | null;
-    doseMg?: number | null;
-    scheduleTime: Date;
-    dosageDescription?: string; // e.g., "1 injection", "1 tablet", "400mg"
-}
-
-export class ExerciseScheduleDto {
-    id: string;
-    type: string;
-    name: string;
-    intensity?: string | null;
-    duration?: number | null; // in minutes
-    note?: string | null;
-    loggedAt: Date;
+export class RangeScheduleSummaryDto extends ScheduleCombinedDto {
+    totalMeals: number;
+    totalMedications: number;
+    totalExercises: number;
 }
 
 export class ProfileWithSchedulesDto {
@@ -49,8 +23,8 @@ export class ProfileWithSchedulesDto {
     userId: string;
     totalEarnXp: number;
     balanceXp?: number;
-    fitnessGoal?: string;
-    userName?: string;
+    fitnessGoal?: string | null;
+    userName?: string | null;
     level: number;
     levelStatus?: string;
     nextLevel?: {
@@ -60,6 +34,7 @@ export class ProfileWithSchedulesDto {
     activeTheme?: any;
     activecomponion?: any;
 
-    // Today's schedules
-    todaySchedules: TodaySchedulesDto;
+    todaySchedules: ScheduleCombinedDto;
+    thisWeek: RangeScheduleSummaryDto;
+    thisMonth: RangeScheduleSummaryDto;
 }

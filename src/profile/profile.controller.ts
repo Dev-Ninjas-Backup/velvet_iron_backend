@@ -18,6 +18,7 @@ import {
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidAll } from '../common/decorators/validate.decorator';
 import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
+import { ScheduleRange } from './profile.service';
 
 @ApiTags('Profile')
 @Controller('profile')
@@ -27,18 +28,21 @@ export class ProfileController {
   @Get()
   @ValidAll()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get my profile with XP and level, optionally with today\'s schedules' })
-  @ApiQuery({ name: 'withSchedules', required: false, type: Boolean, description: 'Include meal, medication, and exercise schedules for today' })
+  @ApiOperation({ summary: 'Get my profile with XP and level, optionally with scheduled items' })
+  @ApiQuery({ name: 'withSchedules', required: false, type: Boolean, description: 'Deprecated: schedules are returned by default' })
+  @ApiQuery({ name: 'scheduleRange', required: false, enum: ['today', 'week', 'month', 'all'], description: 'Filter schedules by range (defaults to all)' })
   getMyProfile(
     @GetUser('id') userId: string,
     @Query('withSchedules') withSchedules?: string | boolean,
+    @Query('scheduleRange') scheduleRange?: ScheduleRange,
   ) {
-    const includeSchedules = withSchedules === 'true' || withSchedules === true;
+    const includeSchedules = withSchedules === undefined || withSchedules === 'true' || withSchedules === true;
 
-    if (true) {
-      return this.profileService.getProfileWithSchedules(userId);
+    if (!includeSchedules) {
+      return this.profileService.getProfile(userId);
     }
-    return this.profileService.getProfile(userId);
+
+    return this.profileService.getProfileWithSchedules(userId, scheduleRange);
   }
 
   @Post('add-xp')
