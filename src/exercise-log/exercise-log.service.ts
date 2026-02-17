@@ -54,6 +54,36 @@ export class ExerciseLogService {
     return this.mapToResponseDto(exerciseLog);
   }
 
+
+
+   async markExerciseLogAsTaken(
+    userId: string,
+    scheduleId: string,
+    isTakens: boolean,
+  ): Promise<any> {
+    //if onboarded then add xp
+    const earnedXp = 10;
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user && !user.onBoarded) {
+      await this.leveladd.addXpToUser(
+        userId,
+        earnedXp,
+        'Exercise Schedule log entry',
+      );
+    }
+
+    const schedule = await this.prisma.client.exerciseScheduleLog.update({
+      where: { id: scheduleId, userId },
+      data: { isTaken: true },
+    });
+
+    return schedule;
+  }
+
   async getExerciseLogHistory(userId: string): Promise<ExerciseLogHistoryDto> {
     const [exerciseLogs, scheduleLogs] = await Promise.all([
       this.prisma.client.exerciseLog.findMany({ where: { userId } }),

@@ -9,10 +9,11 @@ import {
   MedicationScheduleHistoryWithStatsDto,
   TodaySchedulesDto,
 } from './dto/medication-schedule-response.dto';
+import { LeveladdService } from '@/leveladd/leveladd.service';
 
 @Injectable()
 export class MedicationScheduleService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService,private readonly leveladd: LeveladdService) { }
 
   async createMedicationSchedule(
     userId: string,
@@ -35,6 +36,35 @@ export class MedicationScheduleService {
       doseMg: schedule.doseMg ?? undefined,
     };
   }
+
+ async markMedicationAsTaken(
+    userId: string,
+    scheduleId: string,
+    isTakens: boolean,
+  ): Promise<any> {
+    //if onboarded then add xp
+    const earnedXp = 10;
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user && !user.onBoarded) {
+      await this.leveladd.addXpToUser(
+        userId,
+        earnedXp,
+        'Medication Schedule log entry',
+      );
+    }
+
+    const schedule = await this.prisma.client.medicationSchedule.update({
+      where: { id: scheduleId, userId },
+      data: { isTaken: true },
+    });
+
+    return schedule;
+  }
+
 
   async getMedicationScheduleHistory(
     userId: string,

@@ -9,10 +9,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 export class OnboardingService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async updateOnboardingStatus(
-    userId: string,
-    updateOnboardingDto: any,
-  ) {
+  async updateOnboardingStatus(userId: string, updateOnboardingDto: any) {
     try {
       // Build update object with only provided fields
       const updateData: any = {};
@@ -28,18 +25,17 @@ export class OnboardingService {
         }
       }
 
-      if(updateOnboardingDto.iscomplete == ""){
+      if (updateOnboardingDto.iscomplete == '') {
         const findOnboarding = await this.prisma.client.onboarding.findUnique({
           where: { userId },
         });
         updateOnboardingDto.iscomplete = findOnboarding?.iscomplete;
       }
 
-      if(updateOnboardingDto.iscomplete == "false"){
+      if (updateOnboardingDto.iscomplete == 'false') {
         updateOnboardingDto.iscomplete = false;
       }
       updateData.iscomplete = Boolean(updateOnboardingDto.iscomplete);
-      
 
       // If no fields provided, return current state and iscomplete status update getting value
       if (Object.keys(updateData).length === 0) {
@@ -53,6 +49,23 @@ export class OnboardingService {
         };
       }
       // udpate iscomplete and fitnessGoal if provided, otherwise keep existing values
+      //user isOnboarding complete true instaace
+      const userUpdateOnboarding = await this.prisma.client.user.update({
+        where: { id: userId },
+        data: {
+          onBoarded: updateData.iscomplete === true ? true : undefined,
+        },
+      });
+      //profile isOnboarding complete true instaace
+      const profileUpdateOnboarding =
+        await this.prisma.client.userProfile.updateMany({
+          where: { userId },
+          data: {
+            onBoardingCompleted:
+              updateData.iscomplete === true ? true : undefined,
+          },
+        });
+
       const result = await this.prisma.client.onboarding.upsert({
         where: { userId },
         update: updateData,

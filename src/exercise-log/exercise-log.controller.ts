@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { ExerciseLogService } from './exercise-log.service';
 import {
@@ -22,6 +23,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -144,6 +146,7 @@ export class ExerciseLogController {
   ): Promise<ExerciseScheduleResponseDto[]> {
     return this.exerciseLogService.getExerciseSchedule(userId);
   }
+  
 
   @Get(':id')
   @ValidAll()
@@ -160,6 +163,26 @@ export class ExerciseLogController {
   ): Promise<ExerciseLogResponseDto> {
     return this.exerciseLogService.getExerciseLogById(userId, id);
   }
+
+   //update only isTaken with api true false collect from Query swagger
+    @Patch(':id/taken')
+    @ValidAll()
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Mark exercise log as taken' })
+    @ApiQuery({
+      name: 'isTaken',
+      required: true,
+      type: Boolean,
+      description: 'Whether the exercise was taken',
+      example: true,
+    })
+    async exerciseTaken(
+      @GetUser('id') userId: string,
+      @Param('id') scheduleId: string,
+      @Query('isTaken') isTaken: boolean,
+    ): Promise<any> {
+      return this.exerciseLogService.markExerciseLogAsTaken(userId, scheduleId, isTaken);
+    }
 
   @Patch(':id')
   @ValidAll()

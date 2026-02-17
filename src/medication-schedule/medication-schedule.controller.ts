@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { MedicationScheduleService } from './medication-schedule.service';
 import {
@@ -18,6 +19,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -109,7 +111,26 @@ export class MedicationScheduleController {
   }
 
 
-  //
+  
+   //update only isTaken with api true false collect from Query swagger
+    @Patch(':id/taken')
+    @ValidAll()
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Mark medication schedule as taken' })
+    @ApiQuery({
+      name: 'isTaken',
+      required: true,
+      type: Boolean,
+      description: 'Whether the meal was taken',
+      example: true,
+    })
+    async markMealAsTaken(
+      @GetUser('id') userId: string,
+      @Param('id') scheduleId: string,
+      @Query('isTaken') isTaken: boolean,
+    ): Promise<any> {
+      return this.medicationScheduleService.markMedicationAsTaken(userId, scheduleId, isTaken);
+    }
 
 
   @Get('history')
