@@ -37,4 +37,12 @@ export class ProfileWithSchedulesDto {
     todaySchedules: ScheduleCombinedDto;
     thisWeek: RangeScheduleSummaryDto;
     thisMonth: RangeScheduleSummaryDto;
+    todayMood: {
+        id: string;
+        mood: string;
+        energyLevel?: string | null;
+        hungerLevel?: string | null;
+        note?: string | null;
+        loggedAt: Date;
+    } | null;
 }

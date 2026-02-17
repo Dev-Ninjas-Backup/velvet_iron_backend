@@ -254,6 +254,30 @@ export class ProfileService {
     // Get base profile
     const baseProfile = await this.getProfile(userId);
 
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const todayMoodLog = await this.prisma.client.moodLog.findFirst({
+      where: {
+        userId,
+        loggedAt: {
+          gte: startOfToday,
+          lte: endOfToday,
+        },
+      },
+      orderBy: { loggedAt: 'desc' },
+      select: {
+        id: true,
+        mood: true,
+        energyLevel: true,
+        hungerLevel: true,
+        note: true,
+        loggedAt: true,
+      },
+    });
+
     const selectedRange = this.normalizeScheduleRange(range);
     const includeToday = selectedRange === 'all' || selectedRange === 'today';
     const includeWeek = selectedRange === 'all' || selectedRange === 'week';
@@ -499,6 +523,16 @@ export class ProfileService {
         totalMedications: includeMonth ? monthMedicationItems.length : 0,
         totalExercises: includeMonth ? monthExerciseItems.length : 0,
       },
+      todayMood: todayMoodLog
+        ? {
+          id: todayMoodLog.id,
+          mood: todayMoodLog.mood,
+          energyLevel: todayMoodLog.energyLevel ?? null,
+          hungerLevel: todayMoodLog.hungerLevel ?? null,
+          note: todayMoodLog.note ?? null,
+          loggedAt: todayMoodLog.loggedAt,
+        }
+        : null,
     };
   }
 }

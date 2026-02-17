@@ -147,56 +147,123 @@ export class XpStatsService {
    */
   async getWeeklyChartData(userId: string) {
     const now = new Date();
-    const currentDayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const currentDayOfWeek = now.getDay();
 
-    // Calculate the date of this Sunday
     const sundayDate = new Date(now);
     sundayDate.setDate(now.getDate() - currentDayOfWeek);
     sundayDate.setHours(0, 0, 0, 0);
 
-    const chartData = [];
-    const dayNames = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const saturdayDate = new Date(sundayDate);
+    saturdayDate.setDate(sundayDate.getDate() + 6);
+    saturdayDate.setHours(23, 59, 59, 999);
 
-    // Iterate through each day of the week
+    const logsThisWeek = await this.prisma.client.xpLog.findMany({
+      where: {
+        userId,
+        createdAt: {
+          gte: sundayDate,
+          lte: saturdayDate,
+        },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    const buckets = new Map<string, {
+      dayName: string;
+      displayDate: string;
+      isoDate: string;
+      xp: number;
+      logsCount: number;
+    }>();
+
+    const dayOrder: { key: string; dayName: string; displayDate: string }[] = [];
+
     for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
       const dayStart = new Date(sundayDate);
       dayStart.setDate(sundayDate.getDate() + dayOffset);
-      dayStart.setHours(0, 0, 0, 0);
 
-      const dayEnd = new Date(dayStart);
-      dayEnd.setHours(23, 59, 59, 999);
-
-      // Get the actual day of the week for this specific date
-      const dateDay = dayStart.getDay();
-      const dayName = dayNames[dateDay];
-      const dateString = dayStart.toISOString().split('T')[0];
-
-      console.log(`[Weekly XP] ${dateString} = ${dayName} (dayOfWeek: ${dateDay})`);
-
-      const logs = await this.prisma.client.xpLog.findMany({
-        where: {
-          userId,
-          createdAt: {
-            gte: dayStart,
-            lte: dayEnd,
-          },
-        },
+      const meta = this.getBangladeshDateMeta(dayStart);
+      buckets.set(meta.dateKey, {
+        dayName: meta.dayName,
+        displayDate: meta.formatted,
+        isoDate: meta.dateKey,
+        xp: 0,
+        logsCount: 0,
       });
-
-      const totalXp = logs.reduce((sum: number, log: any) => sum + log.amount, 0);
-
-      chartData.push({
-        day: dayName,
-        date: dateString,
-        xp: totalXp,
-        logsCount: logs.length,
-      });
+      dayOrder.push({ key: meta.dateKey, dayName: meta.dayName, displayDate: meta.formatted });
     }
+
+    for (const log of logsThisWeek) {
+      const meta = this.getBangladeshDateMeta(log.createdAt);
+      const bucket = buckets.get(meta.dateKey);
+      if (!bucket) {
+        buckets.set(meta.dateKey, {
+          dayName: meta.dayName,
+          displayDate: meta.formatted,
+          isoDate: meta.dateKey,
+          xp: log.amount,
+          logsCount: 1,
+        });
+        continue;
+      }
+
+      bucket.xp += log.amount;
+      bucket.logsCount += 1;
+    }
+
+    const chartData = dayOrder.map((day) => {
+      const bucket = buckets.get(day.key)!;
+      return {
+        day: bucket.dayName,
+        dateLabel: bucket.displayDate,
+        isoDate: bucket.isoDate,
+        xp: bucket.xp,
+        logsCount: bucket.logsCount,
+      };
+    });
 
     return {
       period: 'week',
+      timezone: 'Asia/Dhaka',
       data: chartData,
       totalXp: chartData.reduce((sum, day) => sum + day.xp, 0),
+    };
+  }
+
+  private getBangladeshDateMeta(date: Date) {
+    const fullFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Dhaka',
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    });
+
+    const dayFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Dhaka',
+      weekday: 'long',
+    });
+
+    const dateKeyFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Dhaka',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+
+    const formatted = fullFormatter.format(date);
+    const dayName = dayFormatter.format(date);
+    const parts = dateKeyFormatter.formatToParts(date);
+    const year = parts.find((part) => part.type === 'year')?.value ?? '';
+    const month = parts.find((part) => part.type === 'month')?.value ?? '';
+    const day = parts.find((part) => part.type === 'day')?.value ?? '';
+
+    return {
+      formatted,
+      dayName,
+      dateKey: `${year}-${month}-${day}`,
     };
   }
 
