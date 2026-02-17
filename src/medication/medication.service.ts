@@ -9,21 +9,36 @@ import {
   MedicationHistoryWithStatsDto,
   MedicationHistoryLogDto,
 } from './dto/medication-response.dto';
+import { LeveladdService } from '@/leveladd/leveladd.service';
 
 @Injectable()
 export class MedicationService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private leveladd: LeveladdService,
+  ) {}
 
   async createMedication(
     userId: string,
     dto: CreateMedicationDto,
   ): Promise<MedicationResponseDto> {
+    //if onboarded then add xp
+    const earnedXp = 10;
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user && !user.onBoarded) {
+      await this.leveladd.addXpToUser(userId, earnedXp, 'Medication log entry');
+    }
     const medication = await this.prisma.client.medication.create({
       data: {
         userId,
         name: dto.name,
         type: dto.type,
         doseMg: dto.doseMg,
+        earnedXp,
       },
     });
 
@@ -31,6 +46,7 @@ export class MedicationService {
       ...medication,
       type: medication.type ?? undefined,
       doseMg: medication.doseMg ?? undefined,
+      earnedXp: medication.earnedXp ?? 0,
     };
   }
 

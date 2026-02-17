@@ -6,10 +6,14 @@ import {
   MoodLogResponseDto,
   MoodLogHistoryDto,
 } from './dto/mood-log-response.dto';
+import { LeveladdService } from '@/leveladd/leveladd.service';
 
 @Injectable()
 export class MoodLogService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private leveladdService: LeveladdService,
+  ) {}
 
   async createMoodLog(
     userId: string,
@@ -22,9 +26,15 @@ export class MoodLogService {
       return value.trim().length === 0 ? undefined : value;
     };
 
-    const mood = normalize(dto.mood as unknown as string) as CreateMoodLogDto['mood'] | undefined;
-    const energyLevel = normalize(dto.energyLevel as unknown as string) as CreateMoodLogDto['energyLevel'] | undefined;
-    const hungerLevel = normalize(dto.hungerLevel as unknown as string) as CreateMoodLogDto['hungerLevel'] | undefined;
+    const mood = normalize(dto.mood as unknown as string) as
+      | CreateMoodLogDto['mood']
+      | undefined;
+    const energyLevel = normalize(dto.energyLevel as unknown as string) as
+      | CreateMoodLogDto['energyLevel']
+      | undefined;
+    const hungerLevel = normalize(dto.hungerLevel as unknown as string) as
+      | CreateMoodLogDto['hungerLevel']
+      | undefined;
     const note = normalize(dto.note);
     const loggedAt = normalize(dto.loggedAt);
 
@@ -57,6 +67,19 @@ export class MoodLogService {
     if (mood === undefined) {
       throw new BadRequestException('Mood is required to create a new log');
     }
+    const earnedXp = 10;
+    //check onboarding status
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user && !user.onBoarded) {
+      const xpUpdate = await this.leveladdService.addXpToUser(
+        userId,
+        earnedXp,
+        'Mood log entry',
+      );
+    }
 
     return this.prisma.client.moodLog.create({
       data: {
@@ -65,6 +88,7 @@ export class MoodLogService {
         energyLevel,
         hungerLevel,
         note,
+        earnedXp,
         loggedAt: loggedAt ? new Date(loggedAt) : new Date(),
       },
     });
@@ -109,7 +133,7 @@ export class MoodLogService {
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
-    const todayValue=await this.prisma.client.moodLog.findFirst({
+    const todayValue = await this.prisma.client.moodLog.findFirst({
       where: {
         userId,
         loggedAt: { gte: startOfToday, lte: endOfToday },
@@ -117,10 +141,10 @@ export class MoodLogService {
       orderBy: { loggedAt: 'desc' },
     });
 
-    console.log("asdfasdfasdfasdfaaaaaaaaaaaaaaaaaa"+todayValue);
-    
+    console.log('asdfasdfasdfasdfaaaaaaaaaaaaaaaaaa' + todayValue);
+
     if (!todayValue) {
-     throw new BadRequestException('No mood log found for today');
+      throw new BadRequestException('No mood log found for today');
     }
     return todayValue;
   }
@@ -137,9 +161,15 @@ export class MoodLogService {
       return value.trim().length === 0 ? undefined : value;
     };
 
-    const mood = normalize(dto.mood as unknown as string) as UpdateMoodLogDto['mood'] | undefined;
-    const energyLevel = normalize(dto.energyLevel as unknown as string) as UpdateMoodLogDto['energyLevel'] | undefined;
-    const hungerLevel = normalize(dto.hungerLevel as unknown as string) as UpdateMoodLogDto['hungerLevel'] | undefined;
+    const mood = normalize(dto.mood as unknown as string) as
+      | UpdateMoodLogDto['mood']
+      | undefined;
+    const energyLevel = normalize(dto.energyLevel as unknown as string) as
+      | UpdateMoodLogDto['energyLevel']
+      | undefined;
+    const hungerLevel = normalize(dto.hungerLevel as unknown as string) as
+      | UpdateMoodLogDto['hungerLevel']
+      | undefined;
     const note = normalize(dto.note);
     const loggedAt = normalize(dto.loggedAt);
 

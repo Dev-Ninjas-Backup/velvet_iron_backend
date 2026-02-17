@@ -47,6 +47,16 @@ export class WeightLogService {
     if (existingLog) {
       throw new BadRequestException('Already claimed xp');
     }
+    //if onboarded then add xp
+    const earnedXp = 10;
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user && !user.onBoarded) {
+      await this.leveladd.addXpToUser(userId, earnedXp, 'Weight log entry');
+    }
 
     const weightLog = await this.prisma.client.weightLog.create({
       data: {
@@ -56,7 +66,7 @@ export class WeightLogService {
       },
     });
 
-    const claimedXP = await this.leveladd.addXpToUser(userId, 10);
+    // const claimedXP = await this.leveladd.addXpToUser(userId, 10);
 
     return {
       ...weightLog,

@@ -16,15 +16,30 @@ import {
   ExerciseScheduleDetailResponseDto,
   ExerciseScheduleHistoryDto,
 } from './dto/exercise-log-response.dto';
+import { LeveladdService } from '@/leveladd/leveladd.service';
 
 @Injectable()
 export class ExerciseLogService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private leveladd: LeveladdService,
+  ) {}
 
   async createExerciseLog(
     userId: string,
     dto: CreateExerciseLogDto,
   ): Promise<ExerciseLogResponseDto> {
+    //if onboarded then add xp
+    const earnedXp = 10;
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (user && !user.onBoarded) {
+      await this.leveladd.addXpToUser(userId, earnedXp, 'Exercise log entry');
+    }
+
     const exerciseLog = await this.prisma.client.exerciseLog.create({
       data: {
         userId,
@@ -33,6 +48,7 @@ export class ExerciseLogService {
         intensity: dto.intensity as any,
         duration: dto.duration,
         note: dto.note,
+        earnedXp,
       },
     });
     return this.mapToResponseDto(exerciseLog);
@@ -119,7 +135,7 @@ export class ExerciseLogService {
       duration: log.duration || undefined,
       note: log.note || undefined,
       loggedAt: log.loggedAt,
-      isTaken: log.isTaken
+      isTaken: log.isTaken,
     }));
   }
 
@@ -315,8 +331,6 @@ export class ExerciseLogService {
       orderBy: { loggedAt: 'asc' },
     });
 
-    return schedules.map((schedule) =>
-      this.mapToScheduleResponseDto(schedule),
-    );
+    return schedules.map((schedule) => this.mapToScheduleResponseDto(schedule));
   }
 }

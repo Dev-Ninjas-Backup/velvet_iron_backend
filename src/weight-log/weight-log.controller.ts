@@ -17,11 +17,12 @@ import {
   WeeklyWeightChartDto,
   WeightHistoryWithStatsDto,
 } from './dto/weight-log-response.dto';
+import { LeveladdService } from '@/leveladd/leveladd.service';
 
 @ApiTags('Weight Log')
 @Controller('weight-log')
 export class WeightLogController {
-  constructor(private readonly weightLogService: WeightLogService) {}
+  constructor(private readonly weightLogService: WeightLogService, private leveladdService: LeveladdService,) {}
 
   @Post()
   @ValidAll()
