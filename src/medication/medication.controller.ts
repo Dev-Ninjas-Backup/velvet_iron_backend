@@ -33,7 +33,7 @@ import { MedicationType } from '../../prisma/generated/enums';
 @ApiTags('Medication')
 @Controller('medication')
 export class MedicationController {
-  constructor(private readonly medicationService: MedicationService) {}
+  constructor(private readonly medicationService: MedicationService) { }
 
   @Post()
   @ValidAll()
@@ -113,6 +113,32 @@ export class MedicationController {
   @ValidAll()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a medication' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(AnyFilesInterceptor())
+  @ApiBody({
+    description: 'Updated medication data (all fields optional)',
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          description: 'Name of the medication',
+          example: 'Updated Aspirin',
+        },
+        type: {
+          type: 'string',
+          enum: Object.values(MedicationType),
+          description: 'Type of medication',
+          example: MedicationType.CAPSULE,
+        },
+        doseMg: {
+          type: 'integer',
+          description: 'Dose in mg',
+          example: 250,
+        },
+      },
+    },
+  })
   @ApiResponse({
     status: 200,
     description: 'Medication updated successfully',
