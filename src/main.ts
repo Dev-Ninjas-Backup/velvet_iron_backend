@@ -61,6 +61,8 @@ async function bootstrap() {
     .addTag('uploads', 'File upload endpoints')
     .addTag('onboarding', 'Onboarding endpoints')
     .addTag('Macro Goal', 'Macro goal endpoints')
+    .addTag('Mood Log', 'Mood log endpoints')
+    .addTag('Weight Log', 'Weight log endpoints')
     .addTag('Meal Log', 'Meal log endpoints')
     .addTag('Meal Schedule', 'Meal schedule endpoints')
     .addTag('Medication', 'Medication endpoints')

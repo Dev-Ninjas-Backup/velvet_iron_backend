@@ -5,6 +5,7 @@ model WeightLog {
     user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     weight   String
     note     String?
+    earnedXp Int      @default(10)
     loggedAt DateTime @default(now())
 
     @@index([userId])
@@ -21,6 +22,7 @@ model MoodLog {
     energyLevel EnergyLevel?
     hungerLevel HungerLevel?
     note        String?
+    earnedXp    Int      @default(10)
     loggedAt    DateTime     @default(now())
 
     @@index([userId])
@@ -81,6 +83,7 @@ model MealLog {
     userId      String
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK
+    earnedXp    Int      @default(10)
     description String?
     calories    Int?
     carbs       Int?
@@ -100,6 +103,7 @@ model Medication {
     userId    String
     user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     name      String
+    earnedXp  Int             @default(10)
     type      MedicationType?
     isTaken   Boolean         @default(true)
     doseMg    Int? // e.g., 500 mg
@@ -122,6 +126,7 @@ model MedicationSchedule {
     userId       String
     user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     name         String
+    earnedXp     Int             @default(10)
     type         MedicationType?
     doseMg       Int? // e.g., 500 mg
     scheduleTime DateTime
@@ -142,6 +147,7 @@ model ExerciseLog {
     intensity exercise_intensity? // LOW, MEDIUM, HIGH
     duration  Int? // in minutes
     isTaken   Boolean             @default(true)
+    earnedXp  Int                 @default(10)
     note      String?
     loggedAt  DateTime            @default(now())
 
@@ -161,6 +167,7 @@ model ExerciseScheduleLog {
     note      String?
     loggedAt  DateTime            @default(now())
     isTaken   Boolean             @default(false)
+    earnedXp  Int                 @default(10)
 
     @@index([userId])
     @@index([loggedAt])

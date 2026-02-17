@@ -74,6 +74,7 @@ CREATE TABLE "weight_logs" (
     "userId" TEXT NOT NULL,
     "weight" TEXT NOT NULL,
     "note" TEXT,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "weight_logs_pkey" PRIMARY KEY ("id")
@@ -87,6 +88,7 @@ CREATE TABLE "mood_logs" (
     "energyLevel" "EnergyLevel",
     "hungerLevel" "HungerLevel",
     "note" TEXT,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "mood_logs_pkey" PRIMARY KEY ("id")
@@ -112,6 +114,7 @@ CREATE TABLE "meal_logs" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "mealType" "MealType" NOT NULL,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "description" TEXT,
     "calories" INTEGER,
     "carbs" INTEGER,
@@ -128,6 +131,7 @@ CREATE TABLE "medications" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "type" "MedicationType",
     "isTaken" BOOLEAN NOT NULL DEFAULT true,
     "doseMg" INTEGER,
@@ -141,6 +145,7 @@ CREATE TABLE "medication_schedules" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "type" "MedicationType",
     "doseMg" INTEGER,
     "scheduleTime" TIMESTAMP(3) NOT NULL,
@@ -158,6 +163,7 @@ CREATE TABLE "exercise_logs" (
     "intensity" "exercise_intensity",
     "duration" INTEGER,
     "isTaken" BOOLEAN NOT NULL DEFAULT true,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -175,6 +181,7 @@ CREATE TABLE "exercise_schedule_logs" (
     "note" TEXT,
     "loggedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "isTaken" BOOLEAN NOT NULL DEFAULT false,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
 
     CONSTRAINT "exercise_schedule_logs_pkey" PRIMARY KEY ("id")
 );

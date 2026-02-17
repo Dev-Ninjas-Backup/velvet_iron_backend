@@ -27,6 +27,7 @@ export type AggregateMealLog = {
 }
 
 export type MealLogAvgAggregateOutputType = {
+  earnedXp: number | null
   calories: number | null
   carbs: number | null
   protein: number | null
@@ -34,6 +35,7 @@ export type MealLogAvgAggregateOutputType = {
 }
 
 export type MealLogSumAggregateOutputType = {
+  earnedXp: number | null
   calories: number | null
   carbs: number | null
   protein: number | null
@@ -44,6 +46,7 @@ export type MealLogMinAggregateOutputType = {
   id: string | null
   userId: string | null
   mealType: $Enums.MealType | null
+  earnedXp: number | null
   description: string | null
   calories: number | null
   carbs: number | null
@@ -57,6 +60,7 @@ export type MealLogMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   mealType: $Enums.MealType | null
+  earnedXp: number | null
   description: string | null
   calories: number | null
   carbs: number | null
@@ -70,6 +74,7 @@ export type MealLogCountAggregateOutputType = {
   id: number
   userId: number
   mealType: number
+  earnedXp: number
   description: number
   calories: number
   carbs: number
@@ -82,6 +87,7 @@ export type MealLogCountAggregateOutputType = {
 
 
 export type MealLogAvgAggregateInputType = {
+  earnedXp?: true
   calories?: true
   carbs?: true
   protein?: true
@@ -89,6 +95,7 @@ export type MealLogAvgAggregateInputType = {
 }
 
 export type MealLogSumAggregateInputType = {
+  earnedXp?: true
   calories?: true
   carbs?: true
   protein?: true
@@ -99,6 +106,7 @@ export type MealLogMinAggregateInputType = {
   id?: true
   userId?: true
   mealType?: true
+  earnedXp?: true
   description?: true
   calories?: true
   carbs?: true
@@ -112,6 +120,7 @@ export type MealLogMaxAggregateInputType = {
   id?: true
   userId?: true
   mealType?: true
+  earnedXp?: true
   description?: true
   calories?: true
   carbs?: true
@@ -125,6 +134,7 @@ export type MealLogCountAggregateInputType = {
   id?: true
   userId?: true
   mealType?: true
+  earnedXp?: true
   description?: true
   calories?: true
   carbs?: true
@@ -225,6 +235,7 @@ export type MealLogGroupByOutputType = {
   id: string
   userId: string
   mealType: $Enums.MealType
+  earnedXp: number
   description: string | null
   calories: number | null
   carbs: number | null
@@ -261,6 +272,7 @@ export type MealLogWhereInput = {
   id?: Prisma.StringFilter<"MealLog"> | string
   userId?: Prisma.StringFilter<"MealLog"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealLog"> | $Enums.MealType
+  earnedXp?: Prisma.IntFilter<"MealLog"> | number
   description?: Prisma.StringNullableFilter<"MealLog"> | string | null
   calories?: Prisma.IntNullableFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealLog"> | number | null
@@ -275,6 +287,7 @@ export type MealLogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   calories?: Prisma.SortOrderInput | Prisma.SortOrder
   carbs?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -292,6 +305,7 @@ export type MealLogWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MealLogWhereInput | Prisma.MealLogWhereInput[]
   userId?: Prisma.StringFilter<"MealLog"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealLog"> | $Enums.MealType
+  earnedXp?: Prisma.IntFilter<"MealLog"> | number
   description?: Prisma.StringNullableFilter<"MealLog"> | string | null
   calories?: Prisma.IntNullableFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealLog"> | number | null
@@ -306,6 +320,7 @@ export type MealLogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   calories?: Prisma.SortOrderInput | Prisma.SortOrder
   carbs?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -327,6 +342,7 @@ export type MealLogScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"MealLog"> | string
   userId?: Prisma.StringWithAggregatesFilter<"MealLog"> | string
   mealType?: Prisma.EnumMealTypeWithAggregatesFilter<"MealLog"> | $Enums.MealType
+  earnedXp?: Prisma.IntWithAggregatesFilter<"MealLog"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"MealLog"> | string | null
   calories?: Prisma.IntNullableWithAggregatesFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableWithAggregatesFilter<"MealLog"> | number | null
@@ -339,6 +355,7 @@ export type MealLogScalarWhereWithAggregatesInput = {
 export type MealLogCreateInput = {
   id?: string
   mealType: $Enums.MealType
+  earnedXp?: number
   description?: string | null
   calories?: number | null
   carbs?: number | null
@@ -353,6 +370,7 @@ export type MealLogUncheckedCreateInput = {
   id?: string
   userId: string
   mealType: $Enums.MealType
+  earnedXp?: number
   description?: string | null
   calories?: number | null
   carbs?: number | null
@@ -365,6 +383,7 @@ export type MealLogUncheckedCreateInput = {
 export type MealLogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -379,6 +398,7 @@ export type MealLogUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -392,6 +412,7 @@ export type MealLogCreateManyInput = {
   id?: string
   userId: string
   mealType: $Enums.MealType
+  earnedXp?: number
   description?: string | null
   calories?: number | null
   carbs?: number | null
@@ -404,6 +425,7 @@ export type MealLogCreateManyInput = {
 export type MealLogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -417,6 +439,7 @@ export type MealLogUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -430,6 +453,7 @@ export type MealLogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   description?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
@@ -440,6 +464,7 @@ export type MealLogCountOrderByAggregateInput = {
 }
 
 export type MealLogAvgOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
@@ -450,6 +475,7 @@ export type MealLogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   description?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
@@ -463,6 +489,7 @@ export type MealLogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   description?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
@@ -473,6 +500,7 @@ export type MealLogMinOrderByAggregateInput = {
 }
 
 export type MealLogSumOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
   protein?: Prisma.SortOrder
@@ -534,6 +562,7 @@ export type MealLogUncheckedUpdateManyWithoutUserNestedInput = {
 export type MealLogCreateWithoutUserInput = {
   id?: string
   mealType: $Enums.MealType
+  earnedXp?: number
   description?: string | null
   calories?: number | null
   carbs?: number | null
@@ -546,6 +575,7 @@ export type MealLogCreateWithoutUserInput = {
 export type MealLogUncheckedCreateWithoutUserInput = {
   id?: string
   mealType: $Enums.MealType
+  earnedXp?: number
   description?: string | null
   calories?: number | null
   carbs?: number | null
@@ -588,6 +618,7 @@ export type MealLogScalarWhereInput = {
   id?: Prisma.StringFilter<"MealLog"> | string
   userId?: Prisma.StringFilter<"MealLog"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealLog"> | $Enums.MealType
+  earnedXp?: Prisma.IntFilter<"MealLog"> | number
   description?: Prisma.StringNullableFilter<"MealLog"> | string | null
   calories?: Prisma.IntNullableFilter<"MealLog"> | number | null
   carbs?: Prisma.IntNullableFilter<"MealLog"> | number | null
@@ -600,6 +631,7 @@ export type MealLogScalarWhereInput = {
 export type MealLogCreateManyUserInput = {
   id?: string
   mealType: $Enums.MealType
+  earnedXp?: number
   description?: string | null
   calories?: number | null
   carbs?: number | null
@@ -612,6 +644,7 @@ export type MealLogCreateManyUserInput = {
 export type MealLogUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -624,6 +657,7 @@ export type MealLogUpdateWithoutUserInput = {
 export type MealLogUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -636,6 +670,7 @@ export type MealLogUncheckedUpdateWithoutUserInput = {
 export type MealLogUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   calories?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carbs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -651,6 +686,7 @@ export type MealLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   userId?: boolean
   mealType?: boolean
+  earnedXp?: boolean
   description?: boolean
   calories?: boolean
   carbs?: boolean
@@ -665,6 +701,7 @@ export type MealLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   mealType?: boolean
+  earnedXp?: boolean
   description?: boolean
   calories?: boolean
   carbs?: boolean
@@ -679,6 +716,7 @@ export type MealLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   mealType?: boolean
+  earnedXp?: boolean
   description?: boolean
   calories?: boolean
   carbs?: boolean
@@ -693,6 +731,7 @@ export type MealLogSelectScalar = {
   id?: boolean
   userId?: boolean
   mealType?: boolean
+  earnedXp?: boolean
   description?: boolean
   calories?: boolean
   carbs?: boolean
@@ -702,7 +741,7 @@ export type MealLogSelectScalar = {
   loggedAt?: boolean
 }
 
-export type MealLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "description" | "calories" | "carbs" | "protein" | "isTaken" | "fats" | "loggedAt", ExtArgs["result"]["mealLog"]>
+export type MealLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "earnedXp" | "description" | "calories" | "carbs" | "protein" | "isTaken" | "fats" | "loggedAt", ExtArgs["result"]["mealLog"]>
 export type MealLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -722,6 +761,7 @@ export type $MealLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     userId: string
     mealType: $Enums.MealType
+    earnedXp: number
     description: string | null
     calories: number | null
     carbs: number | null
@@ -1156,6 +1196,7 @@ export interface MealLogFieldRefs {
   readonly id: Prisma.FieldRef<"MealLog", 'String'>
   readonly userId: Prisma.FieldRef<"MealLog", 'String'>
   readonly mealType: Prisma.FieldRef<"MealLog", 'MealType'>
+  readonly earnedXp: Prisma.FieldRef<"MealLog", 'Int'>
   readonly description: Prisma.FieldRef<"MealLog", 'String'>
   readonly calories: Prisma.FieldRef<"MealLog", 'Int'>
   readonly carbs: Prisma.FieldRef<"MealLog", 'Int'>

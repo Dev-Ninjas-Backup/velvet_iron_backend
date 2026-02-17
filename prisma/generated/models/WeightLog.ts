@@ -20,8 +20,18 @@ export type WeightLogModel = runtime.Types.Result.DefaultSelection<Prisma.$Weigh
 
 export type AggregateWeightLog = {
   _count: WeightLogCountAggregateOutputType | null
+  _avg: WeightLogAvgAggregateOutputType | null
+  _sum: WeightLogSumAggregateOutputType | null
   _min: WeightLogMinAggregateOutputType | null
   _max: WeightLogMaxAggregateOutputType | null
+}
+
+export type WeightLogAvgAggregateOutputType = {
+  earnedXp: number | null
+}
+
+export type WeightLogSumAggregateOutputType = {
+  earnedXp: number | null
 }
 
 export type WeightLogMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type WeightLogMinAggregateOutputType = {
   userId: string | null
   weight: string | null
   note: string | null
+  earnedXp: number | null
   loggedAt: Date | null
 }
 
@@ -37,6 +48,7 @@ export type WeightLogMaxAggregateOutputType = {
   userId: string | null
   weight: string | null
   note: string | null
+  earnedXp: number | null
   loggedAt: Date | null
 }
 
@@ -45,16 +57,26 @@ export type WeightLogCountAggregateOutputType = {
   userId: number
   weight: number
   note: number
+  earnedXp: number
   loggedAt: number
   _all: number
 }
 
+
+export type WeightLogAvgAggregateInputType = {
+  earnedXp?: true
+}
+
+export type WeightLogSumAggregateInputType = {
+  earnedXp?: true
+}
 
 export type WeightLogMinAggregateInputType = {
   id?: true
   userId?: true
   weight?: true
   note?: true
+  earnedXp?: true
   loggedAt?: true
 }
 
@@ -63,6 +85,7 @@ export type WeightLogMaxAggregateInputType = {
   userId?: true
   weight?: true
   note?: true
+  earnedXp?: true
   loggedAt?: true
 }
 
@@ -71,6 +94,7 @@ export type WeightLogCountAggregateInputType = {
   userId?: true
   weight?: true
   note?: true
+  earnedXp?: true
   loggedAt?: true
   _all?: true
 }
@@ -113,6 +137,18 @@ export type WeightLogAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: WeightLogAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: WeightLogSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: WeightLogMinAggregateInputType
@@ -143,6 +179,8 @@ export type WeightLogGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: WeightLogCountAggregateInputType | true
+  _avg?: WeightLogAvgAggregateInputType
+  _sum?: WeightLogSumAggregateInputType
   _min?: WeightLogMinAggregateInputType
   _max?: WeightLogMaxAggregateInputType
 }
@@ -152,8 +190,11 @@ export type WeightLogGroupByOutputType = {
   userId: string
   weight: string
   note: string | null
+  earnedXp: number
   loggedAt: Date
   _count: WeightLogCountAggregateOutputType | null
+  _avg: WeightLogAvgAggregateOutputType | null
+  _sum: WeightLogSumAggregateOutputType | null
   _min: WeightLogMinAggregateOutputType | null
   _max: WeightLogMaxAggregateOutputType | null
 }
@@ -181,6 +222,7 @@ export type WeightLogWhereInput = {
   userId?: Prisma.StringFilter<"WeightLog"> | string
   weight?: Prisma.StringFilter<"WeightLog"> | string
   note?: Prisma.StringNullableFilter<"WeightLog"> | string | null
+  earnedXp?: Prisma.IntFilter<"WeightLog"> | number
   loggedAt?: Prisma.DateTimeFilter<"WeightLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -190,6 +232,7 @@ export type WeightLogOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -202,6 +245,7 @@ export type WeightLogWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"WeightLog"> | string
   weight?: Prisma.StringFilter<"WeightLog"> | string
   note?: Prisma.StringNullableFilter<"WeightLog"> | string | null
+  earnedXp?: Prisma.IntFilter<"WeightLog"> | number
   loggedAt?: Prisma.DateTimeFilter<"WeightLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -211,10 +255,13 @@ export type WeightLogOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   _count?: Prisma.WeightLogCountOrderByAggregateInput
+  _avg?: Prisma.WeightLogAvgOrderByAggregateInput
   _max?: Prisma.WeightLogMaxOrderByAggregateInput
   _min?: Prisma.WeightLogMinOrderByAggregateInput
+  _sum?: Prisma.WeightLogSumOrderByAggregateInput
 }
 
 export type WeightLogScalarWhereWithAggregatesInput = {
@@ -225,6 +272,7 @@ export type WeightLogScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"WeightLog"> | string
   weight?: Prisma.StringWithAggregatesFilter<"WeightLog"> | string
   note?: Prisma.StringNullableWithAggregatesFilter<"WeightLog"> | string | null
+  earnedXp?: Prisma.IntWithAggregatesFilter<"WeightLog"> | number
   loggedAt?: Prisma.DateTimeWithAggregatesFilter<"WeightLog"> | Date | string
 }
 
@@ -232,6 +280,7 @@ export type WeightLogCreateInput = {
   id?: string
   weight: string
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutWeightLogsInput
 }
@@ -241,6 +290,7 @@ export type WeightLogUncheckedCreateInput = {
   userId: string
   weight: string
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -248,6 +298,7 @@ export type WeightLogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutWeightLogsNestedInput
 }
@@ -257,6 +308,7 @@ export type WeightLogUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -265,6 +317,7 @@ export type WeightLogCreateManyInput = {
   userId: string
   weight: string
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -272,6 +325,7 @@ export type WeightLogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -280,6 +334,7 @@ export type WeightLogUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -288,7 +343,12 @@ export type WeightLogCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
+}
+
+export type WeightLogAvgOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
 }
 
 export type WeightLogMaxOrderByAggregateInput = {
@@ -296,6 +356,7 @@ export type WeightLogMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
 
@@ -304,7 +365,12 @@ export type WeightLogMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
+}
+
+export type WeightLogSumOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
 }
 
 export type WeightLogListRelationFilter = {
@@ -363,6 +429,7 @@ export type WeightLogCreateWithoutUserInput = {
   id?: string
   weight: string
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -370,6 +437,7 @@ export type WeightLogUncheckedCreateWithoutUserInput = {
   id?: string
   weight: string
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -407,6 +475,7 @@ export type WeightLogScalarWhereInput = {
   userId?: Prisma.StringFilter<"WeightLog"> | string
   weight?: Prisma.StringFilter<"WeightLog"> | string
   note?: Prisma.StringNullableFilter<"WeightLog"> | string | null
+  earnedXp?: Prisma.IntFilter<"WeightLog"> | number
   loggedAt?: Prisma.DateTimeFilter<"WeightLog"> | Date | string
 }
 
@@ -414,6 +483,7 @@ export type WeightLogCreateManyUserInput = {
   id?: string
   weight: string
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -421,6 +491,7 @@ export type WeightLogUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -428,6 +499,7 @@ export type WeightLogUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -435,6 +507,7 @@ export type WeightLogUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -445,6 +518,7 @@ export type WeightLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   userId?: boolean
   weight?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["weightLog"]>
@@ -454,6 +528,7 @@ export type WeightLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   userId?: boolean
   weight?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["weightLog"]>
@@ -463,6 +538,7 @@ export type WeightLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   userId?: boolean
   weight?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["weightLog"]>
@@ -472,10 +548,11 @@ export type WeightLogSelectScalar = {
   userId?: boolean
   weight?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
 }
 
-export type WeightLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "weight" | "note" | "loggedAt", ExtArgs["result"]["weightLog"]>
+export type WeightLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "weight" | "note" | "earnedXp" | "loggedAt", ExtArgs["result"]["weightLog"]>
 export type WeightLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -496,6 +573,7 @@ export type $WeightLogPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     userId: string
     weight: string
     note: string | null
+    earnedXp: number
     loggedAt: Date
   }, ExtArgs["result"]["weightLog"]>
   composites: {}
@@ -925,6 +1003,7 @@ export interface WeightLogFieldRefs {
   readonly userId: Prisma.FieldRef<"WeightLog", 'String'>
   readonly weight: Prisma.FieldRef<"WeightLog", 'String'>
   readonly note: Prisma.FieldRef<"WeightLog", 'String'>
+  readonly earnedXp: Prisma.FieldRef<"WeightLog", 'Int'>
   readonly loggedAt: Prisma.FieldRef<"WeightLog", 'DateTime'>
 }
     

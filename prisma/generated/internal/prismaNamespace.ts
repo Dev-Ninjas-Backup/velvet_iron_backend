@@ -2143,6 +2143,7 @@ export const WeightLogScalarFieldEnum = {
   userId: 'userId',
   weight: 'weight',
   note: 'note',
+  earnedXp: 'earnedXp',
   loggedAt: 'loggedAt'
 } as const
 
@@ -2156,6 +2157,7 @@ export const MoodLogScalarFieldEnum = {
   energyLevel: 'energyLevel',
   hungerLevel: 'hungerLevel',
   note: 'note',
+  earnedXp: 'earnedXp',
   loggedAt: 'loggedAt'
 } as const
 
@@ -2181,6 +2183,7 @@ export const MealLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   mealType: 'mealType',
+  earnedXp: 'earnedXp',
   description: 'description',
   calories: 'calories',
   carbs: 'carbs',
@@ -2197,6 +2200,7 @@ export const MedicationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   name: 'name',
+  earnedXp: 'earnedXp',
   type: 'type',
   isTaken: 'isTaken',
   doseMg: 'doseMg',
@@ -2210,6 +2214,7 @@ export const MedicationScheduleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   name: 'name',
+  earnedXp: 'earnedXp',
   type: 'type',
   doseMg: 'doseMg',
   scheduleTime: 'scheduleTime',
@@ -2227,6 +2232,7 @@ export const ExerciseLogScalarFieldEnum = {
   intensity: 'intensity',
   duration: 'duration',
   isTaken: 'isTaken',
+  earnedXp: 'earnedXp',
   note: 'note',
   loggedAt: 'loggedAt'
 } as const
@@ -2243,7 +2249,8 @@ export const ExerciseScheduleLogScalarFieldEnum = {
   duration: 'duration',
   note: 'note',
   loggedAt: 'loggedAt',
-  isTaken: 'isTaken'
+  isTaken: 'isTaken',
+  earnedXp: 'earnedXp'
 } as const
 
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]

@@ -27,10 +27,12 @@ export type AggregateMedication = {
 }
 
 export type MedicationAvgAggregateOutputType = {
+  earnedXp: number | null
   doseMg: number | null
 }
 
 export type MedicationSumAggregateOutputType = {
+  earnedXp: number | null
   doseMg: number | null
 }
 
@@ -38,6 +40,7 @@ export type MedicationMinAggregateOutputType = {
   id: string | null
   userId: string | null
   name: string | null
+  earnedXp: number | null
   type: $Enums.MedicationType | null
   isTaken: boolean | null
   doseMg: number | null
@@ -48,6 +51,7 @@ export type MedicationMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   name: string | null
+  earnedXp: number | null
   type: $Enums.MedicationType | null
   isTaken: boolean | null
   doseMg: number | null
@@ -58,6 +62,7 @@ export type MedicationCountAggregateOutputType = {
   id: number
   userId: number
   name: number
+  earnedXp: number
   type: number
   isTaken: number
   doseMg: number
@@ -67,10 +72,12 @@ export type MedicationCountAggregateOutputType = {
 
 
 export type MedicationAvgAggregateInputType = {
+  earnedXp?: true
   doseMg?: true
 }
 
 export type MedicationSumAggregateInputType = {
+  earnedXp?: true
   doseMg?: true
 }
 
@@ -78,6 +85,7 @@ export type MedicationMinAggregateInputType = {
   id?: true
   userId?: true
   name?: true
+  earnedXp?: true
   type?: true
   isTaken?: true
   doseMg?: true
@@ -88,6 +96,7 @@ export type MedicationMaxAggregateInputType = {
   id?: true
   userId?: true
   name?: true
+  earnedXp?: true
   type?: true
   isTaken?: true
   doseMg?: true
@@ -98,6 +107,7 @@ export type MedicationCountAggregateInputType = {
   id?: true
   userId?: true
   name?: true
+  earnedXp?: true
   type?: true
   isTaken?: true
   doseMg?: true
@@ -195,6 +205,7 @@ export type MedicationGroupByOutputType = {
   id: string
   userId: string
   name: string
+  earnedXp: number
   type: $Enums.MedicationType | null
   isTaken: boolean
   doseMg: number | null
@@ -228,6 +239,7 @@ export type MedicationWhereInput = {
   id?: Prisma.StringFilter<"Medication"> | string
   userId?: Prisma.StringFilter<"Medication"> | string
   name?: Prisma.StringFilter<"Medication"> | string
+  earnedXp?: Prisma.IntFilter<"Medication"> | number
   type?: Prisma.EnumMedicationTypeNullableFilter<"Medication"> | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableFilter<"Medication"> | number | null
@@ -239,6 +251,7 @@ export type MedicationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -253,6 +266,7 @@ export type MedicationWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MedicationWhereInput | Prisma.MedicationWhereInput[]
   userId?: Prisma.StringFilter<"Medication"> | string
   name?: Prisma.StringFilter<"Medication"> | string
+  earnedXp?: Prisma.IntFilter<"Medication"> | number
   type?: Prisma.EnumMedicationTypeNullableFilter<"Medication"> | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableFilter<"Medication"> | number | null
@@ -264,6 +278,7 @@ export type MedicationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -282,6 +297,7 @@ export type MedicationScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Medication"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Medication"> | string
   name?: Prisma.StringWithAggregatesFilter<"Medication"> | string
+  earnedXp?: Prisma.IntWithAggregatesFilter<"Medication"> | number
   type?: Prisma.EnumMedicationTypeNullableWithAggregatesFilter<"Medication"> | $Enums.MedicationType | null
   isTaken?: Prisma.BoolWithAggregatesFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableWithAggregatesFilter<"Medication"> | number | null
@@ -291,6 +307,7 @@ export type MedicationScalarWhereWithAggregatesInput = {
 export type MedicationCreateInput = {
   id?: string
   name: string
+  earnedXp?: number
   type?: $Enums.MedicationType | null
   isTaken?: boolean
   doseMg?: number | null
@@ -302,6 +319,7 @@ export type MedicationUncheckedCreateInput = {
   id?: string
   userId: string
   name: string
+  earnedXp?: number
   type?: $Enums.MedicationType | null
   isTaken?: boolean
   doseMg?: number | null
@@ -311,6 +329,7 @@ export type MedicationUncheckedCreateInput = {
 export type MedicationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -322,6 +341,7 @@ export type MedicationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -332,6 +352,7 @@ export type MedicationCreateManyInput = {
   id?: string
   userId: string
   name: string
+  earnedXp?: number
   type?: $Enums.MedicationType | null
   isTaken?: boolean
   doseMg?: number | null
@@ -341,6 +362,7 @@ export type MedicationCreateManyInput = {
 export type MedicationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -351,6 +373,7 @@ export type MedicationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -361,6 +384,7 @@ export type MedicationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   type?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
@@ -368,6 +392,7 @@ export type MedicationCountOrderByAggregateInput = {
 }
 
 export type MedicationAvgOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
 }
 
@@ -375,6 +400,7 @@ export type MedicationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   type?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
@@ -385,6 +411,7 @@ export type MedicationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   type?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
@@ -392,6 +419,7 @@ export type MedicationMinOrderByAggregateInput = {
 }
 
 export type MedicationSumOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
   doseMg?: Prisma.SortOrder
 }
 
@@ -454,6 +482,7 @@ export type MedicationUncheckedUpdateManyWithoutUserNestedInput = {
 export type MedicationCreateWithoutUserInput = {
   id?: string
   name: string
+  earnedXp?: number
   type?: $Enums.MedicationType | null
   isTaken?: boolean
   doseMg?: number | null
@@ -463,6 +492,7 @@ export type MedicationCreateWithoutUserInput = {
 export type MedicationUncheckedCreateWithoutUserInput = {
   id?: string
   name: string
+  earnedXp?: number
   type?: $Enums.MedicationType | null
   isTaken?: boolean
   doseMg?: number | null
@@ -502,6 +532,7 @@ export type MedicationScalarWhereInput = {
   id?: Prisma.StringFilter<"Medication"> | string
   userId?: Prisma.StringFilter<"Medication"> | string
   name?: Prisma.StringFilter<"Medication"> | string
+  earnedXp?: Prisma.IntFilter<"Medication"> | number
   type?: Prisma.EnumMedicationTypeNullableFilter<"Medication"> | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFilter<"Medication"> | boolean
   doseMg?: Prisma.IntNullableFilter<"Medication"> | number | null
@@ -511,6 +542,7 @@ export type MedicationScalarWhereInput = {
 export type MedicationCreateManyUserInput = {
   id?: string
   name: string
+  earnedXp?: number
   type?: $Enums.MedicationType | null
   isTaken?: boolean
   doseMg?: number | null
@@ -520,6 +552,7 @@ export type MedicationCreateManyUserInput = {
 export type MedicationUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -529,6 +562,7 @@ export type MedicationUpdateWithoutUserInput = {
 export type MedicationUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -538,6 +572,7 @@ export type MedicationUncheckedUpdateWithoutUserInput = {
 export type MedicationUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.NullableEnumMedicationTypeFieldUpdateOperationsInput | $Enums.MedicationType | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   doseMg?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -550,6 +585,7 @@ export type MedicationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   userId?: boolean
   name?: boolean
+  earnedXp?: boolean
   type?: boolean
   isTaken?: boolean
   doseMg?: boolean
@@ -561,6 +597,7 @@ export type MedicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   name?: boolean
+  earnedXp?: boolean
   type?: boolean
   isTaken?: boolean
   doseMg?: boolean
@@ -572,6 +609,7 @@ export type MedicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   name?: boolean
+  earnedXp?: boolean
   type?: boolean
   isTaken?: boolean
   doseMg?: boolean
@@ -583,13 +621,14 @@ export type MedicationSelectScalar = {
   id?: boolean
   userId?: boolean
   name?: boolean
+  earnedXp?: boolean
   type?: boolean
   isTaken?: boolean
   doseMg?: boolean
   createdAt?: boolean
 }
 
-export type MedicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "type" | "isTaken" | "doseMg" | "createdAt", ExtArgs["result"]["medication"]>
+export type MedicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "earnedXp" | "type" | "isTaken" | "doseMg" | "createdAt", ExtArgs["result"]["medication"]>
 export type MedicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -609,6 +648,7 @@ export type $MedicationPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     userId: string
     name: string
+    earnedXp: number
     type: $Enums.MedicationType | null
     isTaken: boolean
     doseMg: number | null
@@ -1040,6 +1080,7 @@ export interface MedicationFieldRefs {
   readonly id: Prisma.FieldRef<"Medication", 'String'>
   readonly userId: Prisma.FieldRef<"Medication", 'String'>
   readonly name: Prisma.FieldRef<"Medication", 'String'>
+  readonly earnedXp: Prisma.FieldRef<"Medication", 'Int'>
   readonly type: Prisma.FieldRef<"Medication", 'MedicationType'>
   readonly isTaken: Prisma.FieldRef<"Medication", 'Boolean'>
   readonly doseMg: Prisma.FieldRef<"Medication", 'Int'>

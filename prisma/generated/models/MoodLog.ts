@@ -20,8 +20,18 @@ export type MoodLogModel = runtime.Types.Result.DefaultSelection<Prisma.$MoodLog
 
 export type AggregateMoodLog = {
   _count: MoodLogCountAggregateOutputType | null
+  _avg: MoodLogAvgAggregateOutputType | null
+  _sum: MoodLogSumAggregateOutputType | null
   _min: MoodLogMinAggregateOutputType | null
   _max: MoodLogMaxAggregateOutputType | null
+}
+
+export type MoodLogAvgAggregateOutputType = {
+  earnedXp: number | null
+}
+
+export type MoodLogSumAggregateOutputType = {
+  earnedXp: number | null
 }
 
 export type MoodLogMinAggregateOutputType = {
@@ -31,6 +41,7 @@ export type MoodLogMinAggregateOutputType = {
   energyLevel: $Enums.EnergyLevel | null
   hungerLevel: $Enums.HungerLevel | null
   note: string | null
+  earnedXp: number | null
   loggedAt: Date | null
 }
 
@@ -41,6 +52,7 @@ export type MoodLogMaxAggregateOutputType = {
   energyLevel: $Enums.EnergyLevel | null
   hungerLevel: $Enums.HungerLevel | null
   note: string | null
+  earnedXp: number | null
   loggedAt: Date | null
 }
 
@@ -51,10 +63,19 @@ export type MoodLogCountAggregateOutputType = {
   energyLevel: number
   hungerLevel: number
   note: number
+  earnedXp: number
   loggedAt: number
   _all: number
 }
 
+
+export type MoodLogAvgAggregateInputType = {
+  earnedXp?: true
+}
+
+export type MoodLogSumAggregateInputType = {
+  earnedXp?: true
+}
 
 export type MoodLogMinAggregateInputType = {
   id?: true
@@ -63,6 +84,7 @@ export type MoodLogMinAggregateInputType = {
   energyLevel?: true
   hungerLevel?: true
   note?: true
+  earnedXp?: true
   loggedAt?: true
 }
 
@@ -73,6 +95,7 @@ export type MoodLogMaxAggregateInputType = {
   energyLevel?: true
   hungerLevel?: true
   note?: true
+  earnedXp?: true
   loggedAt?: true
 }
 
@@ -83,6 +106,7 @@ export type MoodLogCountAggregateInputType = {
   energyLevel?: true
   hungerLevel?: true
   note?: true
+  earnedXp?: true
   loggedAt?: true
   _all?: true
 }
@@ -125,6 +149,18 @@ export type MoodLogAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MoodLogAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MoodLogSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MoodLogMinAggregateInputType
@@ -155,6 +191,8 @@ export type MoodLogGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: MoodLogCountAggregateInputType | true
+  _avg?: MoodLogAvgAggregateInputType
+  _sum?: MoodLogSumAggregateInputType
   _min?: MoodLogMinAggregateInputType
   _max?: MoodLogMaxAggregateInputType
 }
@@ -166,8 +204,11 @@ export type MoodLogGroupByOutputType = {
   energyLevel: $Enums.EnergyLevel | null
   hungerLevel: $Enums.HungerLevel | null
   note: string | null
+  earnedXp: number
   loggedAt: Date
   _count: MoodLogCountAggregateOutputType | null
+  _avg: MoodLogAvgAggregateOutputType | null
+  _sum: MoodLogSumAggregateOutputType | null
   _min: MoodLogMinAggregateOutputType | null
   _max: MoodLogMaxAggregateOutputType | null
 }
@@ -197,6 +238,7 @@ export type MoodLogWhereInput = {
   energyLevel?: Prisma.EnumEnergyLevelNullableFilter<"MoodLog"> | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.EnumHungerLevelNullableFilter<"MoodLog"> | $Enums.HungerLevel | null
   note?: Prisma.StringNullableFilter<"MoodLog"> | string | null
+  earnedXp?: Prisma.IntFilter<"MoodLog"> | number
   loggedAt?: Prisma.DateTimeFilter<"MoodLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -208,6 +250,7 @@ export type MoodLogOrderByWithRelationInput = {
   energyLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   hungerLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -222,6 +265,7 @@ export type MoodLogWhereUniqueInput = Prisma.AtLeast<{
   energyLevel?: Prisma.EnumEnergyLevelNullableFilter<"MoodLog"> | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.EnumHungerLevelNullableFilter<"MoodLog"> | $Enums.HungerLevel | null
   note?: Prisma.StringNullableFilter<"MoodLog"> | string | null
+  earnedXp?: Prisma.IntFilter<"MoodLog"> | number
   loggedAt?: Prisma.DateTimeFilter<"MoodLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -233,10 +277,13 @@ export type MoodLogOrderByWithAggregationInput = {
   energyLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   hungerLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   _count?: Prisma.MoodLogCountOrderByAggregateInput
+  _avg?: Prisma.MoodLogAvgOrderByAggregateInput
   _max?: Prisma.MoodLogMaxOrderByAggregateInput
   _min?: Prisma.MoodLogMinOrderByAggregateInput
+  _sum?: Prisma.MoodLogSumOrderByAggregateInput
 }
 
 export type MoodLogScalarWhereWithAggregatesInput = {
@@ -249,6 +296,7 @@ export type MoodLogScalarWhereWithAggregatesInput = {
   energyLevel?: Prisma.EnumEnergyLevelNullableWithAggregatesFilter<"MoodLog"> | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.EnumHungerLevelNullableWithAggregatesFilter<"MoodLog"> | $Enums.HungerLevel | null
   note?: Prisma.StringNullableWithAggregatesFilter<"MoodLog"> | string | null
+  earnedXp?: Prisma.IntWithAggregatesFilter<"MoodLog"> | number
   loggedAt?: Prisma.DateTimeWithAggregatesFilter<"MoodLog"> | Date | string
 }
 
@@ -258,6 +306,7 @@ export type MoodLogCreateInput = {
   energyLevel?: $Enums.EnergyLevel | null
   hungerLevel?: $Enums.HungerLevel | null
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMoodLogsInput
 }
@@ -269,6 +318,7 @@ export type MoodLogUncheckedCreateInput = {
   energyLevel?: $Enums.EnergyLevel | null
   hungerLevel?: $Enums.HungerLevel | null
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -278,6 +328,7 @@ export type MoodLogUpdateInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMoodLogsNestedInput
 }
@@ -289,6 +340,7 @@ export type MoodLogUncheckedUpdateInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -299,6 +351,7 @@ export type MoodLogCreateManyInput = {
   energyLevel?: $Enums.EnergyLevel | null
   hungerLevel?: $Enums.HungerLevel | null
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -308,6 +361,7 @@ export type MoodLogUpdateManyMutationInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -318,6 +372,7 @@ export type MoodLogUncheckedUpdateManyInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -328,7 +383,12 @@ export type MoodLogCountOrderByAggregateInput = {
   energyLevel?: Prisma.SortOrder
   hungerLevel?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
+}
+
+export type MoodLogAvgOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
 }
 
 export type MoodLogMaxOrderByAggregateInput = {
@@ -338,6 +398,7 @@ export type MoodLogMaxOrderByAggregateInput = {
   energyLevel?: Prisma.SortOrder
   hungerLevel?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
 
@@ -348,7 +409,12 @@ export type MoodLogMinOrderByAggregateInput = {
   energyLevel?: Prisma.SortOrder
   hungerLevel?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
+}
+
+export type MoodLogSumOrderByAggregateInput = {
+  earnedXp?: Prisma.SortOrder
 }
 
 export type MoodLogListRelationFilter = {
@@ -421,6 +487,7 @@ export type MoodLogCreateWithoutUserInput = {
   energyLevel?: $Enums.EnergyLevel | null
   hungerLevel?: $Enums.HungerLevel | null
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -430,6 +497,7 @@ export type MoodLogUncheckedCreateWithoutUserInput = {
   energyLevel?: $Enums.EnergyLevel | null
   hungerLevel?: $Enums.HungerLevel | null
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -469,6 +537,7 @@ export type MoodLogScalarWhereInput = {
   energyLevel?: Prisma.EnumEnergyLevelNullableFilter<"MoodLog"> | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.EnumHungerLevelNullableFilter<"MoodLog"> | $Enums.HungerLevel | null
   note?: Prisma.StringNullableFilter<"MoodLog"> | string | null
+  earnedXp?: Prisma.IntFilter<"MoodLog"> | number
   loggedAt?: Prisma.DateTimeFilter<"MoodLog"> | Date | string
 }
 
@@ -478,6 +547,7 @@ export type MoodLogCreateManyUserInput = {
   energyLevel?: $Enums.EnergyLevel | null
   hungerLevel?: $Enums.HungerLevel | null
   note?: string | null
+  earnedXp?: number
   loggedAt?: Date | string
 }
 
@@ -487,6 +557,7 @@ export type MoodLogUpdateWithoutUserInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -496,6 +567,7 @@ export type MoodLogUncheckedUpdateWithoutUserInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -505,6 +577,7 @@ export type MoodLogUncheckedUpdateManyWithoutUserInput = {
   energyLevel?: Prisma.NullableEnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel | null
   hungerLevel?: Prisma.NullableEnumHungerLevelFieldUpdateOperationsInput | $Enums.HungerLevel | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -517,6 +590,7 @@ export type MoodLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   energyLevel?: boolean
   hungerLevel?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["moodLog"]>
@@ -528,6 +602,7 @@ export type MoodLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   energyLevel?: boolean
   hungerLevel?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["moodLog"]>
@@ -539,6 +614,7 @@ export type MoodLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   energyLevel?: boolean
   hungerLevel?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["moodLog"]>
@@ -550,10 +626,11 @@ export type MoodLogSelectScalar = {
   energyLevel?: boolean
   hungerLevel?: boolean
   note?: boolean
+  earnedXp?: boolean
   loggedAt?: boolean
 }
 
-export type MoodLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mood" | "energyLevel" | "hungerLevel" | "note" | "loggedAt", ExtArgs["result"]["moodLog"]>
+export type MoodLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mood" | "energyLevel" | "hungerLevel" | "note" | "earnedXp" | "loggedAt", ExtArgs["result"]["moodLog"]>
 export type MoodLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -576,6 +653,7 @@ export type $MoodLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     energyLevel: $Enums.EnergyLevel | null
     hungerLevel: $Enums.HungerLevel | null
     note: string | null
+    earnedXp: number
     loggedAt: Date
   }, ExtArgs["result"]["moodLog"]>
   composites: {}
@@ -1007,6 +1085,7 @@ export interface MoodLogFieldRefs {
   readonly energyLevel: Prisma.FieldRef<"MoodLog", 'EnergyLevel'>
   readonly hungerLevel: Prisma.FieldRef<"MoodLog", 'HungerLevel'>
   readonly note: Prisma.FieldRef<"MoodLog", 'String'>
+  readonly earnedXp: Prisma.FieldRef<"MoodLog", 'Int'>
   readonly loggedAt: Prisma.FieldRef<"MoodLog", 'DateTime'>
 }
     

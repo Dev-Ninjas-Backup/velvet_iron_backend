@@ -28,10 +28,12 @@ export type AggregateExerciseLog = {
 
 export type ExerciseLogAvgAggregateOutputType = {
   duration: number | null
+  earnedXp: number | null
 }
 
 export type ExerciseLogSumAggregateOutputType = {
   duration: number | null
+  earnedXp: number | null
 }
 
 export type ExerciseLogMinAggregateOutputType = {
@@ -42,6 +44,7 @@ export type ExerciseLogMinAggregateOutputType = {
   intensity: $Enums.exercise_intensity | null
   duration: number | null
   isTaken: boolean | null
+  earnedXp: number | null
   note: string | null
   loggedAt: Date | null
 }
@@ -54,6 +57,7 @@ export type ExerciseLogMaxAggregateOutputType = {
   intensity: $Enums.exercise_intensity | null
   duration: number | null
   isTaken: boolean | null
+  earnedXp: number | null
   note: string | null
   loggedAt: Date | null
 }
@@ -66,6 +70,7 @@ export type ExerciseLogCountAggregateOutputType = {
   intensity: number
   duration: number
   isTaken: number
+  earnedXp: number
   note: number
   loggedAt: number
   _all: number
@@ -74,10 +79,12 @@ export type ExerciseLogCountAggregateOutputType = {
 
 export type ExerciseLogAvgAggregateInputType = {
   duration?: true
+  earnedXp?: true
 }
 
 export type ExerciseLogSumAggregateInputType = {
   duration?: true
+  earnedXp?: true
 }
 
 export type ExerciseLogMinAggregateInputType = {
@@ -88,6 +95,7 @@ export type ExerciseLogMinAggregateInputType = {
   intensity?: true
   duration?: true
   isTaken?: true
+  earnedXp?: true
   note?: true
   loggedAt?: true
 }
@@ -100,6 +108,7 @@ export type ExerciseLogMaxAggregateInputType = {
   intensity?: true
   duration?: true
   isTaken?: true
+  earnedXp?: true
   note?: true
   loggedAt?: true
 }
@@ -112,6 +121,7 @@ export type ExerciseLogCountAggregateInputType = {
   intensity?: true
   duration?: true
   isTaken?: true
+  earnedXp?: true
   note?: true
   loggedAt?: true
   _all?: true
@@ -211,6 +221,7 @@ export type ExerciseLogGroupByOutputType = {
   intensity: $Enums.exercise_intensity | null
   duration: number | null
   isTaken: boolean
+  earnedXp: number
   note: string | null
   loggedAt: Date
   _count: ExerciseLogCountAggregateOutputType | null
@@ -246,6 +257,7 @@ export type ExerciseLogWhereInput = {
   intensity?: Prisma.Enumexercise_intensityNullableFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableFilter<"ExerciseLog"> | number | null
   isTaken?: Prisma.BoolFilter<"ExerciseLog"> | boolean
+  earnedXp?: Prisma.IntFilter<"ExerciseLog"> | number
   note?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -259,6 +271,7 @@ export type ExerciseLogOrderByWithRelationInput = {
   intensity?: Prisma.SortOrderInput | Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -275,6 +288,7 @@ export type ExerciseLogWhereUniqueInput = Prisma.AtLeast<{
   intensity?: Prisma.Enumexercise_intensityNullableFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableFilter<"ExerciseLog"> | number | null
   isTaken?: Prisma.BoolFilter<"ExerciseLog"> | boolean
+  earnedXp?: Prisma.IntFilter<"ExerciseLog"> | number
   note?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -288,6 +302,7 @@ export type ExerciseLogOrderByWithAggregationInput = {
   intensity?: Prisma.SortOrderInput | Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   _count?: Prisma.ExerciseLogCountOrderByAggregateInput
@@ -308,6 +323,7 @@ export type ExerciseLogScalarWhereWithAggregatesInput = {
   intensity?: Prisma.Enumexercise_intensityNullableWithAggregatesFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableWithAggregatesFilter<"ExerciseLog"> | number | null
   isTaken?: Prisma.BoolWithAggregatesFilter<"ExerciseLog"> | boolean
+  earnedXp?: Prisma.IntWithAggregatesFilter<"ExerciseLog"> | number
   note?: Prisma.StringNullableWithAggregatesFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeWithAggregatesFilter<"ExerciseLog"> | Date | string
 }
@@ -319,6 +335,7 @@ export type ExerciseLogCreateInput = {
   intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   isTaken?: boolean
+  earnedXp?: number
   note?: string | null
   loggedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutExerciseLogsInput
@@ -332,6 +349,7 @@ export type ExerciseLogUncheckedCreateInput = {
   intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   isTaken?: boolean
+  earnedXp?: number
   note?: string | null
   loggedAt?: Date | string
 }
@@ -343,6 +361,7 @@ export type ExerciseLogUpdateInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutExerciseLogsNestedInput
@@ -356,6 +375,7 @@ export type ExerciseLogUncheckedUpdateInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -368,6 +388,7 @@ export type ExerciseLogCreateManyInput = {
   intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   isTaken?: boolean
+  earnedXp?: number
   note?: string | null
   loggedAt?: Date | string
 }
@@ -379,6 +400,7 @@ export type ExerciseLogUpdateManyMutationInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -391,6 +413,7 @@ export type ExerciseLogUncheckedUpdateManyInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -403,12 +426,14 @@ export type ExerciseLogCountOrderByAggregateInput = {
   intensity?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   note?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
 
 export type ExerciseLogAvgOrderByAggregateInput = {
   duration?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseLogMaxOrderByAggregateInput = {
@@ -419,6 +444,7 @@ export type ExerciseLogMaxOrderByAggregateInput = {
   intensity?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   note?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
@@ -431,12 +457,14 @@ export type ExerciseLogMinOrderByAggregateInput = {
   intensity?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   note?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
 }
 
 export type ExerciseLogSumOrderByAggregateInput = {
   duration?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseLogListRelationFilter = {
@@ -506,6 +534,7 @@ export type ExerciseLogCreateWithoutUserInput = {
   intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   isTaken?: boolean
+  earnedXp?: number
   note?: string | null
   loggedAt?: Date | string
 }
@@ -517,6 +546,7 @@ export type ExerciseLogUncheckedCreateWithoutUserInput = {
   intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   isTaken?: boolean
+  earnedXp?: number
   note?: string | null
   loggedAt?: Date | string
 }
@@ -558,6 +588,7 @@ export type ExerciseLogScalarWhereInput = {
   intensity?: Prisma.Enumexercise_intensityNullableFilter<"ExerciseLog"> | $Enums.exercise_intensity | null
   duration?: Prisma.IntNullableFilter<"ExerciseLog"> | number | null
   isTaken?: Prisma.BoolFilter<"ExerciseLog"> | boolean
+  earnedXp?: Prisma.IntFilter<"ExerciseLog"> | number
   note?: Prisma.StringNullableFilter<"ExerciseLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseLog"> | Date | string
 }
@@ -569,6 +600,7 @@ export type ExerciseLogCreateManyUserInput = {
   intensity?: $Enums.exercise_intensity | null
   duration?: number | null
   isTaken?: boolean
+  earnedXp?: number
   note?: string | null
   loggedAt?: Date | string
 }
@@ -580,6 +612,7 @@ export type ExerciseLogUpdateWithoutUserInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -591,6 +624,7 @@ export type ExerciseLogUncheckedUpdateWithoutUserInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -602,6 +636,7 @@ export type ExerciseLogUncheckedUpdateManyWithoutUserInput = {
   intensity?: Prisma.NullableEnumexercise_intensityFieldUpdateOperationsInput | $Enums.exercise_intensity | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -616,6 +651,7 @@ export type ExerciseLogSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   intensity?: boolean
   duration?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   note?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -629,6 +665,7 @@ export type ExerciseLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   intensity?: boolean
   duration?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   note?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -642,6 +679,7 @@ export type ExerciseLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   intensity?: boolean
   duration?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   note?: boolean
   loggedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -655,11 +693,12 @@ export type ExerciseLogSelectScalar = {
   intensity?: boolean
   duration?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   note?: boolean
   loggedAt?: boolean
 }
 
-export type ExerciseLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "name" | "intensity" | "duration" | "isTaken" | "note" | "loggedAt", ExtArgs["result"]["exerciseLog"]>
+export type ExerciseLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "name" | "intensity" | "duration" | "isTaken" | "earnedXp" | "note" | "loggedAt", ExtArgs["result"]["exerciseLog"]>
 export type ExerciseLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -683,6 +722,7 @@ export type $ExerciseLogPayload<ExtArgs extends runtime.Types.Extensions.Interna
     intensity: $Enums.exercise_intensity | null
     duration: number | null
     isTaken: boolean
+    earnedXp: number
     note: string | null
     loggedAt: Date
   }, ExtArgs["result"]["exerciseLog"]>
@@ -1116,6 +1156,7 @@ export interface ExerciseLogFieldRefs {
   readonly intensity: Prisma.FieldRef<"ExerciseLog", 'exercise_intensity'>
   readonly duration: Prisma.FieldRef<"ExerciseLog", 'Int'>
   readonly isTaken: Prisma.FieldRef<"ExerciseLog", 'Boolean'>
+  readonly earnedXp: Prisma.FieldRef<"ExerciseLog", 'Int'>
   readonly note: Prisma.FieldRef<"ExerciseLog", 'String'>
   readonly loggedAt: Prisma.FieldRef<"ExerciseLog", 'DateTime'>
 }

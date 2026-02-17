@@ -28,10 +28,12 @@ export type AggregateExerciseScheduleLog = {
 
 export type ExerciseScheduleLogAvgAggregateOutputType = {
   duration: number | null
+  earnedXp: number | null
 }
 
 export type ExerciseScheduleLogSumAggregateOutputType = {
   duration: number | null
+  earnedXp: number | null
 }
 
 export type ExerciseScheduleLogMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type ExerciseScheduleLogMinAggregateOutputType = {
   note: string | null
   loggedAt: Date | null
   isTaken: boolean | null
+  earnedXp: number | null
 }
 
 export type ExerciseScheduleLogMaxAggregateOutputType = {
@@ -56,6 +59,7 @@ export type ExerciseScheduleLogMaxAggregateOutputType = {
   note: string | null
   loggedAt: Date | null
   isTaken: boolean | null
+  earnedXp: number | null
 }
 
 export type ExerciseScheduleLogCountAggregateOutputType = {
@@ -68,16 +72,19 @@ export type ExerciseScheduleLogCountAggregateOutputType = {
   note: number
   loggedAt: number
   isTaken: number
+  earnedXp: number
   _all: number
 }
 
 
 export type ExerciseScheduleLogAvgAggregateInputType = {
   duration?: true
+  earnedXp?: true
 }
 
 export type ExerciseScheduleLogSumAggregateInputType = {
   duration?: true
+  earnedXp?: true
 }
 
 export type ExerciseScheduleLogMinAggregateInputType = {
@@ -90,6 +97,7 @@ export type ExerciseScheduleLogMinAggregateInputType = {
   note?: true
   loggedAt?: true
   isTaken?: true
+  earnedXp?: true
 }
 
 export type ExerciseScheduleLogMaxAggregateInputType = {
@@ -102,6 +110,7 @@ export type ExerciseScheduleLogMaxAggregateInputType = {
   note?: true
   loggedAt?: true
   isTaken?: true
+  earnedXp?: true
 }
 
 export type ExerciseScheduleLogCountAggregateInputType = {
@@ -114,6 +123,7 @@ export type ExerciseScheduleLogCountAggregateInputType = {
   note?: true
   loggedAt?: true
   isTaken?: true
+  earnedXp?: true
   _all?: true
 }
 
@@ -213,6 +223,7 @@ export type ExerciseScheduleLogGroupByOutputType = {
   note: string | null
   loggedAt: Date
   isTaken: boolean
+  earnedXp: number
   _count: ExerciseScheduleLogCountAggregateOutputType | null
   _avg: ExerciseScheduleLogAvgAggregateOutputType | null
   _sum: ExerciseScheduleLogSumAggregateOutputType | null
@@ -248,6 +259,7 @@ export type ExerciseScheduleLogWhereInput = {
   note?: Prisma.StringNullableFilter<"ExerciseScheduleLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseScheduleLog"> | Date | string
   isTaken?: Prisma.BoolFilter<"ExerciseScheduleLog"> | boolean
+  earnedXp?: Prisma.IntFilter<"ExerciseScheduleLog"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -261,6 +273,7 @@ export type ExerciseScheduleLogOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -277,6 +290,7 @@ export type ExerciseScheduleLogWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"ExerciseScheduleLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseScheduleLog"> | Date | string
   isTaken?: Prisma.BoolFilter<"ExerciseScheduleLog"> | boolean
+  earnedXp?: Prisma.IntFilter<"ExerciseScheduleLog"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -290,6 +304,7 @@ export type ExerciseScheduleLogOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
   _count?: Prisma.ExerciseScheduleLogCountOrderByAggregateInput
   _avg?: Prisma.ExerciseScheduleLogAvgOrderByAggregateInput
   _max?: Prisma.ExerciseScheduleLogMaxOrderByAggregateInput
@@ -310,6 +325,7 @@ export type ExerciseScheduleLogScalarWhereWithAggregatesInput = {
   note?: Prisma.StringNullableWithAggregatesFilter<"ExerciseScheduleLog"> | string | null
   loggedAt?: Prisma.DateTimeWithAggregatesFilter<"ExerciseScheduleLog"> | Date | string
   isTaken?: Prisma.BoolWithAggregatesFilter<"ExerciseScheduleLog"> | boolean
+  earnedXp?: Prisma.IntWithAggregatesFilter<"ExerciseScheduleLog"> | number
 }
 
 export type ExerciseScheduleLogCreateInput = {
@@ -321,6 +337,7 @@ export type ExerciseScheduleLogCreateInput = {
   note?: string | null
   loggedAt?: Date | string
   isTaken?: boolean
+  earnedXp?: number
   user: Prisma.UserCreateNestedOneWithoutExerciseScheduleLogsInput
 }
 
@@ -334,6 +351,7 @@ export type ExerciseScheduleLogUncheckedCreateInput = {
   note?: string | null
   loggedAt?: Date | string
   isTaken?: boolean
+  earnedXp?: number
 }
 
 export type ExerciseScheduleLogUpdateInput = {
@@ -345,6 +363,7 @@ export type ExerciseScheduleLogUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutExerciseScheduleLogsNestedInput
 }
 
@@ -358,6 +377,7 @@ export type ExerciseScheduleLogUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExerciseScheduleLogCreateManyInput = {
@@ -370,6 +390,7 @@ export type ExerciseScheduleLogCreateManyInput = {
   note?: string | null
   loggedAt?: Date | string
   isTaken?: boolean
+  earnedXp?: number
 }
 
 export type ExerciseScheduleLogUpdateManyMutationInput = {
@@ -381,6 +402,7 @@ export type ExerciseScheduleLogUpdateManyMutationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExerciseScheduleLogUncheckedUpdateManyInput = {
@@ -393,6 +415,7 @@ export type ExerciseScheduleLogUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExerciseScheduleLogCountOrderByAggregateInput = {
@@ -405,10 +428,12 @@ export type ExerciseScheduleLogCountOrderByAggregateInput = {
   note?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseScheduleLogAvgOrderByAggregateInput = {
   duration?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseScheduleLogMaxOrderByAggregateInput = {
@@ -421,6 +446,7 @@ export type ExerciseScheduleLogMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseScheduleLogMinOrderByAggregateInput = {
@@ -433,10 +459,12 @@ export type ExerciseScheduleLogMinOrderByAggregateInput = {
   note?: Prisma.SortOrder
   loggedAt?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseScheduleLogSumOrderByAggregateInput = {
   duration?: Prisma.SortOrder
+  earnedXp?: Prisma.SortOrder
 }
 
 export type ExerciseScheduleLogListRelationFilter = {
@@ -500,6 +528,7 @@ export type ExerciseScheduleLogCreateWithoutUserInput = {
   note?: string | null
   loggedAt?: Date | string
   isTaken?: boolean
+  earnedXp?: number
 }
 
 export type ExerciseScheduleLogUncheckedCreateWithoutUserInput = {
@@ -511,6 +540,7 @@ export type ExerciseScheduleLogUncheckedCreateWithoutUserInput = {
   note?: string | null
   loggedAt?: Date | string
   isTaken?: boolean
+  earnedXp?: number
 }
 
 export type ExerciseScheduleLogCreateOrConnectWithoutUserInput = {
@@ -552,6 +582,7 @@ export type ExerciseScheduleLogScalarWhereInput = {
   note?: Prisma.StringNullableFilter<"ExerciseScheduleLog"> | string | null
   loggedAt?: Prisma.DateTimeFilter<"ExerciseScheduleLog"> | Date | string
   isTaken?: Prisma.BoolFilter<"ExerciseScheduleLog"> | boolean
+  earnedXp?: Prisma.IntFilter<"ExerciseScheduleLog"> | number
 }
 
 export type ExerciseScheduleLogCreateManyUserInput = {
@@ -563,6 +594,7 @@ export type ExerciseScheduleLogCreateManyUserInput = {
   note?: string | null
   loggedAt?: Date | string
   isTaken?: boolean
+  earnedXp?: number
 }
 
 export type ExerciseScheduleLogUpdateWithoutUserInput = {
@@ -574,6 +606,7 @@ export type ExerciseScheduleLogUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExerciseScheduleLogUncheckedUpdateWithoutUserInput = {
@@ -585,6 +618,7 @@ export type ExerciseScheduleLogUncheckedUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExerciseScheduleLogUncheckedUpdateManyWithoutUserInput = {
@@ -596,6 +630,7 @@ export type ExerciseScheduleLogUncheckedUpdateManyWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   loggedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -610,6 +645,7 @@ export type ExerciseScheduleLogSelect<ExtArgs extends runtime.Types.Extensions.I
   note?: boolean
   loggedAt?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["exerciseScheduleLog"]>
 
@@ -623,6 +659,7 @@ export type ExerciseScheduleLogSelectCreateManyAndReturn<ExtArgs extends runtime
   note?: boolean
   loggedAt?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["exerciseScheduleLog"]>
 
@@ -636,6 +673,7 @@ export type ExerciseScheduleLogSelectUpdateManyAndReturn<ExtArgs extends runtime
   note?: boolean
   loggedAt?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["exerciseScheduleLog"]>
 
@@ -649,9 +687,10 @@ export type ExerciseScheduleLogSelectScalar = {
   note?: boolean
   loggedAt?: boolean
   isTaken?: boolean
+  earnedXp?: boolean
 }
 
-export type ExerciseScheduleLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "name" | "intensity" | "duration" | "note" | "loggedAt" | "isTaken", ExtArgs["result"]["exerciseScheduleLog"]>
+export type ExerciseScheduleLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "name" | "intensity" | "duration" | "note" | "loggedAt" | "isTaken" | "earnedXp", ExtArgs["result"]["exerciseScheduleLog"]>
 export type ExerciseScheduleLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -677,6 +716,7 @@ export type $ExerciseScheduleLogPayload<ExtArgs extends runtime.Types.Extensions
     note: string | null
     loggedAt: Date
     isTaken: boolean
+    earnedXp: number
   }, ExtArgs["result"]["exerciseScheduleLog"]>
   composites: {}
 }
@@ -1110,6 +1150,7 @@ export interface ExerciseScheduleLogFieldRefs {
   readonly note: Prisma.FieldRef<"ExerciseScheduleLog", 'String'>
   readonly loggedAt: Prisma.FieldRef<"ExerciseScheduleLog", 'DateTime'>
   readonly isTaken: Prisma.FieldRef<"ExerciseScheduleLog", 'Boolean'>
+  readonly earnedXp: Prisma.FieldRef<"ExerciseScheduleLog", 'Int'>
 }
     
 
