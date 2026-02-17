@@ -216,7 +216,15 @@ export class XpStatsService {
   async getMonthlyXp(userId: string) {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+    const endOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999,
+    );
 
     return this.getXpForPeriod(userId, startOfMonth, endOfMonth, 'month');
   }
@@ -342,15 +350,19 @@ export class XpStatsService {
       orderBy: { createdAt: 'asc' },
     });
 
-    const buckets = new Map<string, {
-      dayName: string;
-      displayDate: string;
-      isoDate: string;
-      xp: number;
-      logsCount: number;
-    }>();
+    const buckets = new Map<
+      string,
+      {
+        dayName: string;
+        displayDate: string;
+        isoDate: string;
+        xp: number;
+        logsCount: number;
+      }
+    >();
 
-    const dayOrder: { key: string; dayName: string; displayDate: string }[] = [];
+    const dayOrder: { key: string; dayName: string; displayDate: string }[] =
+      [];
 
     for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
       const dayStart = new Date(sundayDate);
@@ -364,7 +376,11 @@ export class XpStatsService {
         xp: 0,
         logsCount: 0,
       });
-      dayOrder.push({ key: meta.dateKey, dayName: meta.dayName, displayDate: meta.formatted });
+      dayOrder.push({
+        key: meta.dateKey,
+        dayName: meta.dayName,
+        displayDate: meta.formatted,
+      });
     }
 
     for (const log of logsThisWeek) {
@@ -473,7 +489,10 @@ export class XpStatsService {
         },
       });
 
-      const totalXp = logs.reduce((sum: number, log: any) => sum + log.amount, 0);
+      const totalXp = logs.reduce(
+        (sum: number, log: any) => sum + log.amount,
+        0,
+      );
 
       chartData.push({
         week: `Week ${weekNumber}`,
@@ -491,7 +510,10 @@ export class XpStatsService {
 
     return {
       period: 'month',
-      month: now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      month: now.toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric',
+      }),
       data: chartData,
       totalXp: chartData.reduce((sum, week) => sum + week.xp, 0),
     };
