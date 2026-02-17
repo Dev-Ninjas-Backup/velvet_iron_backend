@@ -56,6 +56,7 @@ export class ExerciseLogService {
         isTaken: log.isTaken ?? false,
         loggedAt: log.loggedAt,
         scheduledAt: null,
+        earnedXp: log.earnedXp ?? 0,
         entryType: 'LOG' as const,
       })),
       ...scheduleLogs.map((schedule) => ({
@@ -69,6 +70,7 @@ export class ExerciseLogService {
         isTaken: schedule.isTaken ?? false,
         loggedAt: schedule.loggedAt,
         scheduledAt: schedule.loggedAt,
+        earnedXp: schedule.earnedXp ?? 0,
         entryType: 'SCHEDULE' as const,
       })),
     ];
@@ -84,10 +86,18 @@ export class ExerciseLogService {
     });
 
     const pendingCount = logs.filter((log) => !log.isTaken).length;
+    const totalEarnedXp = logs
+      .filter((log) => log.isTaken)
+      .reduce((sum, log) => sum + (log.earnedXp ?? 0), 0);
+
+    const nextSchedule =
+      logs.find((log) => log.entryType === 'SCHEDULE' && !log.isTaken) ?? null;
 
     return {
       totalCount: logs.length,
       pendingCount,
+      totalEarnedXp,
+      nextSchedule,
       logs,
     };
   }
@@ -164,6 +174,7 @@ export class ExerciseLogService {
       note: log.note,
       loggedAt: log.loggedAt,
       isTaken: log.isTaken ?? undefined,
+      earnedXp: log.earnedXp ?? 0,
     };
   }
 

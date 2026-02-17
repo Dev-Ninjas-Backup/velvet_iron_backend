@@ -101,6 +101,7 @@ CREATE TABLE "meal_schedules" (
     "mealType" "MealType" NOT NULL,
     "scheduledAt" TIMESTAMP(3) NOT NULL,
     "isTaken" BOOLEAN NOT NULL DEFAULT false,
+    "earnedXp" INTEGER NOT NULL DEFAULT 10,
     "calories" INTEGER,
     "carbs" INTEGER,
     "protein" INTEGER,

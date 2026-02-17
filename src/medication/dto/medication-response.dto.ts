@@ -23,6 +23,9 @@ export class MedicationResponseDto {
 
   @ApiProperty()
   createdAt: Date;
+
+  @ApiProperty({ description: 'XP earned for completing the dose' })
+  earnedXp: number;
 }
 
 export class MedicationHistoryLogDto {
@@ -47,6 +50,9 @@ export class MedicationHistoryLogDto {
 
   @ApiProperty({ description: 'Whether the dose was taken' })
   isTaken: boolean;
+
+  @ApiProperty({ description: 'XP tied to the medication event' })
+  earnedXp: number;
 
   @ApiProperty({
     description: 'Timestamp representing when the entry was logged',
@@ -77,6 +83,16 @@ export class MedicationHistoryWithStatsDto {
 
   @ApiProperty({ description: 'Number of entries where the dose is still pending' })
   pendingCount: number;
+
+  @ApiProperty({ description: 'Total XP earned from completed doses' })
+  totalEarnedXp: number;
+
+  @ApiProperty({
+    description: 'Upcoming pending schedule entry',
+    type: MedicationHistoryLogDto,
+    nullable: true,
+  })
+  nextSchedule: MedicationHistoryLogDto | null;
 
   @ApiProperty({ type: [MedicationHistoryLogDto] })
   logs: MedicationHistoryLogDto[];

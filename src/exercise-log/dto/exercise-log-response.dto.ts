@@ -50,6 +50,9 @@ export class ExerciseLogResponseDto {
     example: '2026-02-15T10:30:00Z',
   })
   loggedAt: Date;
+
+  @ApiProperty({ description: 'XP earned for completing the exercise', example: 10 })
+  earnedXp: number;
 }
 
 export class ExerciseHistoryLogDto {
@@ -76,6 +79,9 @@ export class ExerciseHistoryLogDto {
 
   @ApiProperty({ description: 'Whether the exercise was completed' })
   isTaken: boolean;
+
+  @ApiProperty({ description: 'XP linked to the entry' })
+  earnedXp: number;
 
   @ApiProperty({
     description: 'Timestamp representing when the entry was logged',
@@ -106,6 +112,16 @@ export class ExerciseLogHistoryDto {
 
   @ApiProperty({ description: 'Entries still awaiting completion', example: 3 })
   pendingCount: number;
+
+  @ApiProperty({ description: 'Total XP earned from completed entries', example: 120 })
+  totalEarnedXp: number;
+
+  @ApiProperty({
+    description: 'Upcoming schedule entry that is still pending',
+    type: ExerciseHistoryLogDto,
+    nullable: true,
+  })
+  nextSchedule: ExerciseHistoryLogDto | null;
 
   @ApiProperty({
     description: 'Combined view of exercise logs and schedules',

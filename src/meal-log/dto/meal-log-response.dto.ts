@@ -77,6 +77,9 @@ export class MealLogResponseDto {
 
     @ApiProperty({ example: true })
     isTaken: boolean;
+
+    @ApiProperty({ example: 10 })
+    earnedXp: number;
 }
 
 export class MealHistoryEntryDto extends MealLogResponseDto {
@@ -105,4 +108,10 @@ export class MealLogHistoryDto {
 
     @ApiProperty({ example: 25 })
     totalCount: number;
+
+    @ApiProperty({ example: 250 })
+    totalEarnedXp: number;
+
+    @ApiProperty({ type: MealHistoryEntryDto, nullable: true })
+    nextSchedule: MealHistoryEntryDto | null;
 }

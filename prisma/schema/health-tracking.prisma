@@ -60,6 +60,7 @@ model MealSchedule {
     mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK
     scheduledAt DateTime
     isTaken     Boolean  @default(false)
+    earnedXp    Int      @default(10)
     calories    Int?
     carbs       Int?
     protein     Int?

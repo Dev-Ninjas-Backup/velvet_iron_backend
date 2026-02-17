@@ -157,6 +157,7 @@ export class MealLogService {
                 fats: log.fats ?? null,
                 loggedAt: log.loggedAt,
                 isTaken: log.isTaken ?? true,
+                earnedXp: log.earnedXp ?? 0,
                 scheduledAt: null,
                 entryType: 'LOG',
             })),
@@ -171,6 +172,7 @@ export class MealLogService {
                 fats: schedule.fats ?? null,
                 loggedAt: schedule.scheduledAt,
                 isTaken: schedule.isTaken ?? false,
+                earnedXp: schedule.earnedXp ?? 0,
                 scheduledAt: schedule.scheduledAt,
                 entryType: 'SCHEDULE',
             })),
@@ -191,6 +193,15 @@ export class MealLogService {
                 normalizedOffset + normalizedLimit,
             );
 
+        const totalEarnedXp = combinedHistory
+            .filter((entry) => entry.isTaken)
+            .reduce((sum, entry) => sum + (entry.earnedXp ?? 0), 0);
+
+        const nextSchedule =
+            combinedHistory.find(
+                (entry) => entry.entryType === 'SCHEDULE' && !entry.isTaken,
+            ) ?? null;
+
         return {
             daily,
             consumed,
@@ -198,6 +209,8 @@ export class MealLogService {
             weeklyPresent,
             logs: paginatedHistory,
             totalCount,
+            totalEarnedXp,
+            nextSchedule,
         };
     }
 

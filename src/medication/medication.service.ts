@@ -50,6 +50,7 @@ export class MedicationService {
         type: med.type ?? undefined,
         doseMg: med.doseMg ?? undefined,
         isTaken: med.isTaken ?? false,
+        earnedXp: med.earnedXp ?? 0,
         loggedAt: med.createdAt,
         scheduledAt: null,
         entryType: 'LOG' as const,
@@ -61,6 +62,7 @@ export class MedicationService {
         type: schedule.type ?? undefined,
         doseMg: schedule.doseMg ?? undefined,
         isTaken: schedule.isTaken ?? false,
+        earnedXp: schedule.earnedXp ?? 0,
         loggedAt: schedule.scheduleTime,
         scheduledAt: schedule.scheduleTime,
         entryType: 'SCHEDULE' as const,
@@ -79,10 +81,18 @@ export class MedicationService {
     });
 
     const pendingCount = logs.filter((log) => !log.isTaken).length;
+    const totalEarnedXp = logs
+      .filter((log) => log.isTaken)
+      .reduce((sum, log) => sum + (log.earnedXp ?? 0), 0);
+
+    const nextSchedule =
+      logs.find((log) => log.entryType === 'SCHEDULE' && !log.isTaken) ?? null;
 
     return {
       totalCount: logs.length,
       pendingCount,
+      totalEarnedXp,
+      nextSchedule,
       logs,
     };
   }

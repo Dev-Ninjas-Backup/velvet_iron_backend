@@ -169,6 +169,7 @@ export const MealScheduleScalarFieldEnum = {
   mealType: 'mealType',
   scheduledAt: 'scheduledAt',
   isTaken: 'isTaken',
+  earnedXp: 'earnedXp',
   calories: 'calories',
   carbs: 'carbs',
   protein: 'protein',
