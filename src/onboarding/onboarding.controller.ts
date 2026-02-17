@@ -49,7 +49,7 @@ export class OnboardingController {
           example: false,
         },
         fitnessGoal: {
-          type: 'string',
+          type: 'string', 
           nullable: true,
           description:
             'Fitness goal of the user (optional, can be null or empty)',
