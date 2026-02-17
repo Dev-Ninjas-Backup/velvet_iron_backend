@@ -1,4 +1,4 @@
-import { IsInt, Min } from 'class-validator';
+import { IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AddXpDto {
@@ -6,4 +6,10 @@ export class AddXpDto {
   @IsInt()
   @Min(1)
   xp: number;
+
+
+  @ApiProperty({ example: 'Completed a workout', description: 'Reason for adding XP' })
+  @IsOptional()
+  @IsString()
+  reason?: string;
 }
