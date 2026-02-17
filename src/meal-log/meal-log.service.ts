@@ -5,6 +5,7 @@ import { UpdateMealLogDto } from './dto/update-meal-log.dto';
 import {
     MealLogResponseDto,
     MealLogHistoryDto,
+    MealHistoryEntryDto,
 } from './dto/meal-log-response.dto';
 
 @Injectable()
@@ -48,32 +49,57 @@ export class MealLogService {
         userId: string,
         limit: number = 30,
         offset: number = 0,
-    ) {
-        const [logs, totalCount] = await Promise.all([
-            this.prisma.client.mealLog.findMany({
-                where: { userId },
-                orderBy: { loggedAt: 'desc' },
-                take: limit,
-                skip: offset,
-            }),
-            this.prisma.client.mealLog.count({ where: { userId } }),
-        ]);
+    ): Promise<MealLogHistoryDto> {
+        const normalizedLimit = Math.max(0, limit ?? 30);
+        const normalizedOffset = Math.max(0, offset ?? 0);
 
-        // Today's consumed macros
         const startOfToday = new Date();
         startOfToday.setHours(0, 0, 0, 0);
         const endOfToday = new Date();
         endOfToday.setHours(23, 59, 59, 999);
 
-        const todayLogs = await this.prisma.client.mealLog.findMany({
-            where: {
-                userId,
-                loggedAt: { gte: startOfToday, lte: endOfToday },
-            },
-        });
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - dayOfWeek);
+        startOfWeek.setHours(0, 0, 0, 0);
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        endOfWeek.setHours(23, 59, 59, 999);
 
-        console.log("9999999999", todayLogs, userId);
-
+        const [
+            mealLogs,
+            mealSchedules,
+            todayLogs,
+            latestMacroGoal,
+            weekLogs,
+        ] = await Promise.all([
+            this.prisma.client.mealLog.findMany({
+                where: { userId },
+                orderBy: { loggedAt: 'desc' },
+            }),
+            this.prisma.client.mealSchedule.findMany({
+                where: { userId },
+                orderBy: { scheduledAt: 'desc' },
+            }),
+            this.prisma.client.mealLog.findMany({
+                where: {
+                    userId,
+                    loggedAt: { gte: startOfToday, lte: endOfToday },
+                },
+            }),
+            this.prisma.client.macroGoal.findFirst({
+                where: { userId },
+                orderBy: { createdAt: 'desc' },
+            }),
+            this.prisma.client.mealLog.findMany({
+                where: {
+                    userId,
+                    loggedAt: { gte: startOfWeek, lte: endOfWeek },
+                },
+                select: { loggedAt: true },
+            }),
+        ]);
 
         const consumed = {
             protein: todayLogs.reduce((sum, l) => sum + (l.protein || 0), 0),
@@ -82,18 +108,7 @@ export class MealLogService {
             calories: todayLogs.reduce((sum, l) => sum + (l.calories || 0), 0),
         };
 
-        // Daily need from latest weight
-        const latestMacroGoal = await this.prisma.client.macroGoal.findFirst({
-            where: { userId },
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-
-        let daily = null;
-        let remaining = null;
-
-        daily = {
+        const daily = {
             calories: latestMacroGoal ? latestMacroGoal.calories : null,
             macroNeed: {
                 protein: latestMacroGoal ? latestMacroGoal.protein : null,
@@ -101,43 +116,20 @@ export class MealLogService {
                 carb: latestMacroGoal ? latestMacroGoal.carbs : null,
             },
         };
-        //remaining dont show minus that is show 0 if user over consume
-        remaining = {
-            protein: Math.max(0, (latestMacroGoal ? latestMacroGoal.protein : 0) - consumed.protein),
-            fat: Math.max(0, (latestMacroGoal ? latestMacroGoal.fat : 0) - consumed.fat),
-            carb: Math.max(0, (latestMacroGoal ? latestMacroGoal.carbs : 0) - consumed.carb), // issue not whoeing
-            calories: Math.max(0, (latestMacroGoal ? latestMacroGoal.calories : 0) - consumed.calories),
+
+        const macroTargets = {
+            protein: latestMacroGoal?.protein ?? 0,
+            fat: latestMacroGoal?.fat ?? 0,
+            carb: latestMacroGoal?.carbs ?? 0,
+            calories: latestMacroGoal?.calories ?? 0,
         };
-        // if (latestMacroGoal) {
-        //     // const weightLbs = parseFloat(latestMacroGoal.weight);
 
-        //     if (!isNaN(weightLbs) && weightLbs > 0) {
-        //         const weight = weightLbs * 0.453592; // lbs to kg
-        //         const calories = Math.round(weight * 35);
-        //         const proteinNeed = Math.round(weight * 1.5);
-        //         const fatNeed = Math.round(weight * 0.8);
-        //         const carbNeed = Math.round((calories - (proteinNeed * 4 + fatNeed * 9)) / 4);
-
-        //     }
-        // }
-
-        // Weekly presence: which days this week user logged meals
-        const now = new Date();
-        const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, ...
-        const startOfWeek = new Date(now);
-        startOfWeek.setDate(now.getDate() - dayOfWeek);
-        startOfWeek.setHours(0, 0, 0, 0);
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
-        endOfWeek.setHours(23, 59, 59, 999);
-
-        const weekLogs = await this.prisma.client.mealLog.findMany({
-            where: {
-                userId,
-                loggedAt: { gte: startOfWeek, lte: endOfWeek },
-            },
-            select: { loggedAt: true },
-        });
+        const remaining = {
+            protein: Math.max(0, macroTargets.protein - consumed.protein),
+            fat: Math.max(0, macroTargets.fat - consumed.fat),
+            carb: Math.max(0, macroTargets.carb - consumed.carb),
+            calories: Math.max(0, macroTargets.calories - consumed.calories),
+        };
 
         const loggedDays = new Set(
             weekLogs.map((l) => l.loggedAt.getDay()),
@@ -153,12 +145,58 @@ export class MealLogService {
             saturday: loggedDays.has(6),
         };
 
+        const combinedHistory: MealHistoryEntryDto[] = [
+            ...mealLogs.map<MealHistoryEntryDto>((log) => ({
+                id: log.id,
+                userId: log.userId,
+                mealType: log.mealType,
+                description: log.description ?? null,
+                calories: log.calories ?? null,
+                carbs: log.carbs ?? null,
+                protein: log.protein ?? null,
+                fats: log.fats ?? null,
+                loggedAt: log.loggedAt,
+                isTaken: log.isTaken ?? true,
+                scheduledAt: null,
+                entryType: 'LOG',
+            })),
+            ...mealSchedules.map<MealHistoryEntryDto>((schedule) => ({
+                id: schedule.id,
+                userId: schedule.userId,
+                mealType: schedule.mealType,
+                description: null,
+                calories: schedule.calories ?? null,
+                carbs: schedule.carbs ?? null,
+                protein: schedule.protein ?? null,
+                fats: schedule.fats ?? null,
+                loggedAt: schedule.scheduledAt,
+                isTaken: schedule.isTaken ?? false,
+                scheduledAt: schedule.scheduledAt,
+                entryType: 'SCHEDULE',
+            })),
+        ];
+
+        combinedHistory.sort((a, b) => {
+            if (a.isTaken === b.isTaken) {
+                return b.loggedAt.getTime() - a.loggedAt.getTime();
+            }
+            return a.isTaken ? 1 : -1;
+        });
+
+        const totalCount = combinedHistory.length;
+        const paginatedHistory = normalizedLimit === 0
+            ? []
+            : combinedHistory.slice(
+                normalizedOffset,
+                normalizedOffset + normalizedLimit,
+            );
+
         return {
             daily,
             consumed,
             remaining,
             weeklyPresent,
-            logs,
+            logs: paginatedHistory,
             totalCount,
         };
     }
@@ -191,8 +229,8 @@ export class MealLogService {
         const protein = dto.protein ?? existingLog.protein;
         const fats = dto.fats ?? existingLog.fats;
 
-        console.log("ddddddddddddddd",dto);
-        
+        console.log("ddddddddddddddd", dto);
+
 
         // 3️⃣ Recalculate calories
         const calories = this.calculateCalories(

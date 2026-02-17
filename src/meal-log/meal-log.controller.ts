@@ -115,12 +115,13 @@ export class MealLogController {
     @ApiResponse({
         status: 200,
         description: 'Meal log history with daily need, consumed, and remaining macros',
+        type: MealLogHistoryDto,
     })
     async getMealLogHistory(
         @GetUser('id') userId: string,
         @Query('limit') limit?: string,
         @Query('offset') offset?: string,
-    ) {
+    ): Promise<MealLogHistoryDto> {
         const parsedLimit = limit ? parseInt(limit, 10) : 30;
         const parsedOffset = offset ? parseInt(offset, 10) : 0;
         return this.mealLogService.getMealLogHistory(

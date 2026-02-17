@@ -1,6 +1,52 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MealType } from './create-meal-log.dto';
 
+export class MacroNeedDto {
+    @ApiProperty({ example: 2200, nullable: true })
+    calories: number | null;
+
+    @ApiProperty({
+        example: { protein: 150, fat: 60, carb: 250 },
+        nullable: true,
+    })
+    macroNeed: {
+        protein: number | null;
+        fat: number | null;
+        carb: number | null;
+    } | null;
+}
+
+export class MacroBreakdownDto {
+    @ApiProperty({ example: 120 })
+    protein: number;
+
+    @ApiProperty({ example: 45 })
+    fat: number;
+
+    @ApiProperty({ example: 180 })
+    carb: number;
+
+    @ApiProperty({ example: 1650 })
+    calories: number;
+}
+
+export class WeeklyPresenceDto {
+    @ApiProperty({ example: true })
+    sunday: boolean;
+    @ApiProperty({ example: true })
+    monday: boolean;
+    @ApiProperty({ example: true })
+    tuesday: boolean;
+    @ApiProperty({ example: true })
+    wednesday: boolean;
+    @ApiProperty({ example: true })
+    thursday: boolean;
+    @ApiProperty({ example: true })
+    friday: boolean;
+    @ApiProperty({ example: true })
+    saturday: boolean;
+}
+
 export class MealLogResponseDto {
     @ApiProperty({ example: 'uuid-string' })
     id: string;
@@ -14,37 +60,49 @@ export class MealLogResponseDto {
     @ApiProperty({ example: 'Oatmeal with banana', nullable: true })
     description: string | null;
 
-    @ApiProperty({ example: 455 })
+    @ApiProperty({ example: 455, nullable: true })
     calories: number | null;
 
-    @ApiProperty({ example: 50 })
+    @ApiProperty({ example: 50, nullable: true })
     carbs: number | null;
 
-    @ApiProperty({ example: 30 })
+    @ApiProperty({ example: 30, nullable: true })
     protein: number | null;
 
-    @ApiProperty({ example: 15 })
+    @ApiProperty({ example: 15, nullable: true })
     fats: number | null;
 
     @ApiProperty({ example: '2026-02-14T10:30:00.000Z' })
     loggedAt: Date;
+
+    @ApiProperty({ example: true })
+    isTaken: boolean;
+}
+
+export class MealHistoryEntryDto extends MealLogResponseDto {
+    @ApiProperty({ example: '2026-02-14T08:00:00.000Z', nullable: true })
+    scheduledAt?: Date | null;
+
+    @ApiProperty({ enum: ['LOG', 'SCHEDULE'], example: 'LOG' })
+    entryType: 'LOG' | 'SCHEDULE';
 }
 
 export class MealLogHistoryDto {
-    @ApiProperty({ type: [MealLogResponseDto] })
-    logs: MealLogResponseDto[];
+    @ApiProperty({ type: MacroNeedDto, nullable: true })
+    daily: MacroNeedDto | null;
+
+    @ApiProperty({ type: MacroBreakdownDto })
+    consumed: MacroBreakdownDto;
+
+    @ApiProperty({ type: MacroBreakdownDto })
+    remaining: MacroBreakdownDto;
+
+    @ApiProperty({ type: WeeklyPresenceDto })
+    weeklyPresent: WeeklyPresenceDto;
+
+    @ApiProperty({ type: [MealHistoryEntryDto] })
+    logs: MealHistoryEntryDto[];
 
     @ApiProperty({ example: 25 })
     totalCount: number;
-
-    @ApiProperty({
-        example: { totalCalories: 2100, totalCarbs: 250, totalProtein: 120, totalFats: 60 },
-        description: 'Totals for today',
-    })
-    todaySummary: {
-        totalCalories: number;
-        totalCarbs: number;
-        totalProtein: number;
-        totalFats: number;
-    };
 }
