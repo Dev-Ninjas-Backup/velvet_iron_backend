@@ -9,6 +9,7 @@ import { AuthModule } from '../auth/auth.module';
 @Module({
   imports: [
     PassportModule,
+    AuthModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -22,4 +23,4 @@ import { AuthModule } from '../auth/auth.module';
   providers: [CompanionService],
   exports: [CompanionService],
 })
-export class CompanionModule {}
+export class CompanionModule { }

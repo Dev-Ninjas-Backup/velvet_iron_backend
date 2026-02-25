@@ -21,7 +21,7 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   MealScheduleResponseDto,
   MealScheduleHistoryDto,
@@ -31,7 +31,7 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 @ApiTags('Meal Schedule')
 @Controller('meal-schedule')
 export class MealScheduleController {
-  constructor(private readonly mealScheduleService: MealScheduleService) {}
+  constructor(private readonly mealScheduleService: MealScheduleService) { }
 
   private normalizeBooleanInput(value: unknown): boolean | undefined {
     if (value === '' || value === undefined || value === null) {
@@ -54,8 +54,9 @@ export class MealScheduleController {
   }
 
   @Post()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Create a meal schedule (calories auto-calculated)',
   })
@@ -112,8 +113,9 @@ export class MealScheduleController {
 
   //update only isTaken with api true false collect from Query swagger
   @Patch(':id/taken')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Mark meal schedule as taken' })
   @ApiQuery({
     name: 'isTaken',
@@ -133,8 +135,9 @@ export class MealScheduleController {
 
 
   @Get('history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get meal schedule history with today's summary" })
   @ApiQuery({
     name: 'limit',
@@ -170,8 +173,9 @@ export class MealScheduleController {
   }
 
   @Get('latest')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get latest meal schedule' })
   @ApiResponse({
     status: 200,
@@ -185,8 +189,9 @@ export class MealScheduleController {
   }
 
   @Patch(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Update meal schedule by ID (calories auto-recalculated)',
   })
@@ -261,8 +266,9 @@ export class MealScheduleController {
   }
 
   @Delete(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Delete meal schedule' })
   @ApiParam({
     name: 'id',

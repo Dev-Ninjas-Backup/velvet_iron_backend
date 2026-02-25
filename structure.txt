@@ -1,0 +1,37 @@
+    const weeklyPresent = {
+      sunday: loggedDays.has(0),
+      monday: loggedDays.has(1),
+      tuesday: loggedDays.has(2),
+      wednesday: loggedDays.has(3),
+      thursday: loggedDays.has(4),
+      friday: loggedDays.has(5),
+      saturday: loggedDays.has(6),
+    };
+
+
+
+could not collect day name this way. you can convert the time with this follow this methode 
+
+const loggedAt = "2026-02-23T18:28:12.926Z";
+
+const date = new Date(loggedAt);
+
+// Bangladesh time format
+const fulltime = date.toLocaleString("en-BD", {
+  timeZone: "Asia/Dhaka",
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+  hour12: true
+});
+
+console.log(bdTime);
+🔥 Output হবে এমন:
+Tuesday, February 24, 2026, 12:28:12 AM
+
+
+then collect day name 

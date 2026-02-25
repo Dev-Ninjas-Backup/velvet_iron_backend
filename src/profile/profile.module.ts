@@ -8,10 +8,12 @@ import { MealScheduleModule } from '../meal-schedule/meal-schedule.module';
 import { MedicationScheduleModule } from '../medication-schedule/medication-schedule.module';
 import { ExerciseLogModule } from '../exercise-log/exercise-log.module';
 import { XpStatsModule } from '../xp-stats/xp-stats.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     PassportModule,
+    AuthModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

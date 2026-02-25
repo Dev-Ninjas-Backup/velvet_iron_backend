@@ -12,12 +12,12 @@ import { CreateCompanionDto } from './dto/create-companion.dto';
 import { UpdateCompanionDto } from './dto/update-companion.dto';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll, ValidAdmin } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidAdmin, ValidUser } from '../common/decorators/validate.decorator';
 
 @ApiTags('Companions')
 @Controller('companions')
 export class CompanionController {
-  constructor(private readonly companionService: CompanionService) {}
+  constructor(private readonly companionService: CompanionService) { }
 
   // @Post()
   // @ValidAdmin()
@@ -34,8 +34,9 @@ export class CompanionController {
   // }
 
   @Get('my-companions')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get my unlocked companions' })
   getMyCompanions(@GetUser('id') userId: string) {
     return this.companionService.getUserCompanions(userId);
@@ -67,8 +68,9 @@ export class CompanionController {
   // }
 
   @Post(':id/unlock')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Unlock a companion with XP' })
   unlockCompanion(
     @Param('id') companionId: string,
@@ -78,8 +80,9 @@ export class CompanionController {
   }
 
   @Post(':id/activate')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Set a companion as active' })
   setActiveCompanion(
     @Param('id') companionId: string,

@@ -9,6 +9,7 @@ import { AuthModule } from '../auth/auth.module';
 @Module({
   imports: [
     PassportModule,
+    AuthModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -22,4 +23,4 @@ import { AuthModule } from '../auth/auth.module';
   providers: [ThemeService],
   exports: [ThemeService],
 })
-export class ThemeModule {}
+export class ThemeModule { }

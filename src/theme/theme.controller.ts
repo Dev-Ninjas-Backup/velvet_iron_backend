@@ -12,12 +12,12 @@ import { CreateThemeDto } from './dto/create-theme.dto';
 import { UpdateThemeDto } from './dto/update-theme.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll, ValidAdmin } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidAdmin, ValidUser } from '../common/decorators/validate.decorator';
 
 @ApiTags('Themes')
 @Controller('themes')
 export class ThemeController {
-  constructor(private readonly themeService: ThemeService) {}
+  constructor(private readonly themeService: ThemeService) { }
 
   // @Post()
   // @ValidAdmin()
@@ -34,8 +34,9 @@ export class ThemeController {
   // }
 
   @Get('my-themes')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get my unlocked themes' })
   getMyThemes(@GetUser('id') userId: string) {
     return this.themeService.getMyThemes(userId);
@@ -64,16 +65,18 @@ export class ThemeController {
   // }
 
   @Post(':id/unlock')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Unlock a theme with XP' })
   unlockTheme(@Param('id') themeId: string, @GetUser('id') userId: string) {
     return this.themeService.unlockTheme(userId, themeId);
   }
 
   @Post(':id/activate')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Set a theme as active' })
   setActiveTheme(@Param('id') themeId: string, @GetUser('id') userId: string) {
     return this.themeService.setActiveTheme(userId, themeId);

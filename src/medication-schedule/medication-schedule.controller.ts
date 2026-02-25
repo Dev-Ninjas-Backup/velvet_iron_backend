@@ -24,7 +24,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   MedicationScheduleResponseDto,
   MedicationScheduleHistoryWithStatsDto,
@@ -61,8 +61,9 @@ export class MedicationScheduleController {
   }
 
   @Post()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Create a new medication schedule' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -111,31 +112,33 @@ export class MedicationScheduleController {
   }
 
 
-  
-   //update only isTaken with api true false collect from Query swagger
-    @Patch(':id/taken')
-    @ValidAll()
-    @ApiBearerAuth()
-    @ApiOperation({ summary: 'Mark medication schedule as taken' })
-    @ApiQuery({
-      name: 'isTaken',
-      required: true,
-      type: Boolean,
-      description: 'Whether the meal was taken',
-      example: true,
-    })
-    async markMealAsTaken(
-      @GetUser('id') userId: string,
-      @Param('id') scheduleId: string,
-      @Query('isTaken') isTaken: boolean,
-    ): Promise<any> {
-      return this.medicationScheduleService.markMedicationAsTaken(userId, scheduleId, isTaken);
-    }
+
+  //update only isTaken with api true false collect from Query swagger
+  @Patch(':id/taken')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Mark medication schedule as taken' })
+  @ApiQuery({
+    name: 'isTaken',
+    required: true,
+    type: Boolean,
+    description: 'Whether the meal was taken',
+    example: true,
+  })
+  async markMealAsTaken(
+    @GetUser('id') userId: string,
+    @Param('id') scheduleId: string,
+    @Query('isTaken') isTaken: boolean,
+  ): Promise<any> {
+    return this.medicationScheduleService.markMedicationAsTaken(userId, scheduleId, isTaken);
+  }
 
 
   @Get('history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Get medication schedule history with total count (dose logs)',
   })
@@ -151,8 +154,9 @@ export class MedicationScheduleController {
   }
 
   @Get('today')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get today medication schedules' })
   @ApiResponse({
     status: 200,
@@ -166,8 +170,9 @@ export class MedicationScheduleController {
   }
 
   @Get(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get a specific medication schedule by ID' })
   @ApiResponse({
     status: 200,
@@ -182,8 +187,9 @@ export class MedicationScheduleController {
   }
 
   @Patch(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update a medication schedule' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())

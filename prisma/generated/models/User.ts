@@ -1000,20 +1000,6 @@ export type UserUpdateOneRequiredWithoutOnboardingNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOnboardingInput, Prisma.UserUpdateWithoutOnboardingInput>, Prisma.UserUncheckedUpdateWithoutOnboardingInput>
 }
 
-export type UserCreateNestedOneWithoutUserQuestsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserQuestsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutUserQuestsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserQuestsInput
-  upsert?: Prisma.UserUpsertWithoutUserQuestsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserQuestsInput, Prisma.UserUpdateWithoutUserQuestsInput>, Prisma.UserUncheckedUpdateWithoutUserQuestsInput>
-}
-
 export type UserCreateNestedOneWithoutSubscriptionInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionInput, Prisma.UserUncheckedCreateWithoutSubscriptionInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionInput
@@ -1026,6 +1012,20 @@ export type UserUpdateOneRequiredWithoutSubscriptionNestedInput = {
   upsert?: Prisma.UserUpsertWithoutSubscriptionInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubscriptionInput, Prisma.UserUpdateWithoutSubscriptionInput>, Prisma.UserUncheckedUpdateWithoutSubscriptionInput>
+}
+
+export type UserCreateNestedOneWithoutUserQuestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserQuestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserQuestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserQuestsInput
+  upsert?: Prisma.UserUpsertWithoutUserQuestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserQuestsInput, Prisma.UserUpdateWithoutUserQuestsInput>, Prisma.UserUncheckedUpdateWithoutUserQuestsInput>
 }
 
 export type EnumUserRoleFieldUpdateOperationsInput = {
@@ -3344,194 +3344,6 @@ export type UserUncheckedUpdateWithoutOnboardingInput = {
   macroGoals?: Prisma.MacroGoalUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutUserQuestsInput = {
-  id?: string
-  email: string
-  username?: string | null
-  password?: string | null
-  name?: string | null
-  avatar?: string
-  profilePhoto?: string | null
-  gender?: string | null
-  dateOfBirth?: Date | string | null
-  emailVerified?: boolean
-  emailVerificationOtp?: string | null
-  emailVerificationExpiry?: Date | string | null
-  resetPasswordOtp?: string | null
-  resetPasswordOtpExpiry?: Date | string | null
-  resetPasswordVerified?: boolean
-  onBoarded?: boolean
-  googleId?: string | null
-  githubId?: string | null
-  discord?: string | null
-  role?: $Enums.UserRole
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  userThemes?: Prisma.UserThemeCreateNestedManyWithoutUserInput
-  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutUserInput
-  weightLogs?: Prisma.WeightLogCreateNestedManyWithoutUserInput
-  moodLogs?: Prisma.MoodLogCreateNestedManyWithoutUserInput
-  mealSchedules?: Prisma.MealScheduleCreateNestedManyWithoutUserInput
-  mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
-  medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
-  medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
-  exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
-  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
-  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
-  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
-  onboarding?: Prisma.onboardingCreateNestedOneWithoutUserInput
-  macroGoals?: Prisma.MacroGoalCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutUserQuestsInput = {
-  id?: string
-  email: string
-  username?: string | null
-  password?: string | null
-  name?: string | null
-  avatar?: string
-  profilePhoto?: string | null
-  gender?: string | null
-  dateOfBirth?: Date | string | null
-  emailVerified?: boolean
-  emailVerificationOtp?: string | null
-  emailVerificationExpiry?: Date | string | null
-  resetPasswordOtp?: string | null
-  resetPasswordOtpExpiry?: Date | string | null
-  resetPasswordVerified?: boolean
-  onBoarded?: boolean
-  googleId?: string | null
-  githubId?: string | null
-  discord?: string | null
-  role?: $Enums.UserRole
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutUserInput
-  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutUserInput
-  weightLogs?: Prisma.WeightLogUncheckedCreateNestedManyWithoutUserInput
-  moodLogs?: Prisma.MoodLogUncheckedCreateNestedManyWithoutUserInput
-  mealSchedules?: Prisma.MealScheduleUncheckedCreateNestedManyWithoutUserInput
-  mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
-  medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
-  medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
-  exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
-  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
-  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
-  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
-  onboarding?: Prisma.onboardingUncheckedCreateNestedOneWithoutUserInput
-  macroGoals?: Prisma.MacroGoalUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutUserQuestsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
-}
-
-export type UserUpsertWithoutUserQuestsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutUserQuestsInput, Prisma.UserUncheckedUpdateWithoutUserQuestsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutUserQuestsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutUserQuestsInput, Prisma.UserUncheckedUpdateWithoutUserQuestsInput>
-}
-
-export type UserUpdateWithoutUserQuestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  userThemes?: Prisma.UserThemeUpdateManyWithoutUserNestedInput
-  userCompanions?: Prisma.UserCompanionUpdateManyWithoutUserNestedInput
-  weightLogs?: Prisma.WeightLogUpdateManyWithoutUserNestedInput
-  moodLogs?: Prisma.MoodLogUpdateManyWithoutUserNestedInput
-  mealSchedules?: Prisma.MealScheduleUpdateManyWithoutUserNestedInput
-  mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
-  medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
-  medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
-  exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
-  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
-  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
-  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
-  onboarding?: Prisma.onboardingUpdateOneWithoutUserNestedInput
-  macroGoals?: Prisma.MacroGoalUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutUserQuestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutUserNestedInput
-  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutUserNestedInput
-  weightLogs?: Prisma.WeightLogUncheckedUpdateManyWithoutUserNestedInput
-  moodLogs?: Prisma.MoodLogUncheckedUpdateManyWithoutUserNestedInput
-  mealSchedules?: Prisma.MealScheduleUncheckedUpdateManyWithoutUserNestedInput
-  mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
-  medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
-  medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
-  exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
-  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
-  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
-  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
-  onboarding?: Prisma.onboardingUncheckedUpdateOneWithoutUserNestedInput
-  macroGoals?: Prisma.MacroGoalUncheckedUpdateManyWithoutUserNestedInput
-}
-
 export type UserCreateWithoutSubscriptionInput = {
   id?: string
   email: string
@@ -3715,6 +3527,194 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
   ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
   userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
+  onboarding?: Prisma.onboardingUncheckedUpdateOneWithoutUserNestedInput
+  macroGoals?: Prisma.MacroGoalUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserQuestsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
+  onboarding?: Prisma.onboardingCreateNestedOneWithoutUserInput
+  macroGoals?: Prisma.MacroGoalCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserQuestsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogUncheckedCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogUncheckedCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleUncheckedCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
+  onboarding?: Prisma.onboardingUncheckedCreateNestedOneWithoutUserInput
+  macroGoals?: Prisma.MacroGoalUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserQuestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
+}
+
+export type UserUpsertWithoutUserQuestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserQuestsInput, Prisma.UserUncheckedUpdateWithoutUserQuestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserQuestsInput, Prisma.UserUncheckedCreateWithoutUserQuestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserQuestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserQuestsInput, Prisma.UserUncheckedUpdateWithoutUserQuestsInput>
+}
+
+export type UserUpdateWithoutUserQuestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
+  onboarding?: Prisma.onboardingUpdateOneWithoutUserNestedInput
+  macroGoals?: Prisma.MacroGoalUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserQuestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUncheckedUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUncheckedUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUncheckedUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.onboardingUncheckedUpdateOneWithoutUserNestedInput
   macroGoals?: Prisma.MacroGoalUncheckedUpdateManyWithoutUserNestedInput

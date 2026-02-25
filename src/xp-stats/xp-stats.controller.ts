@@ -7,57 +7,63 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetUser } from '@/common/decorators/get-user.decorator';
-import { ValidAll } from '@/common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '@/common/decorators/validate.decorator';
 import { XpStatsQueryDto } from './dto/xp-stats-query.dto';
 
 @ApiTags('XP Statistics')
 @Controller('xp-stats')
 export class XpStatsController {
-  constructor(private readonly xpStatsService: XpStatsService) {}
+  constructor(private readonly xpStatsService: XpStatsService) { }
 
   @Get('today')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get today's total XP" })
   async getTodayXp(@GetUser('id') userId: string) {
     return this.xpStatsService.getTodayXp(userId);
   }
 
   @Get('quests')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get quest data from XP today' })
   async getTodayQuestXp(@GetUser('id') userId: string) {
     return this.xpStatsService.getTodayQuestXp(userId);
   }
 
   @Get('weekly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get this week's total XP" })
   async getWeeklyXp(@GetUser('id') userId: string) {
     return this.xpStatsService.getWeeklyXp(userId);
   }
 
   @Get('monthly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get this month's total XP" })
   async getMonthlyXp(@GetUser('id') userId: string) {
     return this.xpStatsService.getMonthlyXp(userId);
   }
 
   @Get('summary')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get XP summary (today, week, month combined)' })
   async getXpSummary(@GetUser('id') userId: string) {
     return this.xpStatsService.getXpSummary(userId);
   }
 
   @Get('logs')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get all XP logs with pagination' })
   @ApiQuery({ name: 'skip', required: false, type: Number, example: 0 })
   @ApiQuery({ name: 'take', required: false, type: Number, example: 50 })
@@ -72,8 +78,9 @@ export class XpStatsController {
   }
 
   @Get('chart/weekly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Get weekly chart data - Daily XP for each day of the week',
   })
@@ -82,8 +89,9 @@ export class XpStatsController {
   }
 
   @Get('chart/monthly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Get monthly chart data - Weekly XP for each week of the month',
   })

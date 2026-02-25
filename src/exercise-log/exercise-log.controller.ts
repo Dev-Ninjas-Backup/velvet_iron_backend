@@ -28,7 +28,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   ExerciseLogResponseDto,
   ExerciseLogHistoryDto,
@@ -64,8 +64,9 @@ export class ExerciseLogController {
   }
 
   @Post()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Create a new exercise log' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -118,8 +119,9 @@ export class ExerciseLogController {
   }
 
   @Get('history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get exercise log history with total count' })
   @ApiResponse({
     status: 200,
@@ -133,8 +135,9 @@ export class ExerciseLogController {
   }
 
   @Get('schedule')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get exercise schedule (latest 30 logs)' })
   @ApiResponse({
     status: 200,
@@ -146,11 +149,12 @@ export class ExerciseLogController {
   ): Promise<ExerciseScheduleResponseDto[]> {
     return this.exerciseLogService.getExerciseSchedule(userId);
   }
-  
+
 
   @Get(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get a specific exercise log by ID' })
   @ApiResponse({
     status: 200,
@@ -164,29 +168,31 @@ export class ExerciseLogController {
     return this.exerciseLogService.getExerciseLogById(userId, id);
   }
 
-   //update only isTaken with api true false collect from Query swagger
-    @Patch(':id/taken')
-    @ValidAll()
-    @ApiBearerAuth()
-    @ApiOperation({ summary: 'Mark exercise log as taken' })
-    @ApiQuery({
-      name: 'isTaken',
-      required: true,
-      type: Boolean,
-      description: 'Whether the exercise was taken',
-      example: true,
-    })
-    async exerciseTaken(
-      @GetUser('id') userId: string,
-      @Param('id') scheduleId: string,
-      @Query('isTaken') isTaken: boolean,
-    ): Promise<any> {
-      return this.exerciseLogService.markExerciseLogAsTaken(userId, scheduleId, isTaken);
-    }
+  //update only isTaken with api true false collect from Query swagger
+  @Patch(':id/taken')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Mark exercise log as taken' })
+  @ApiQuery({
+    name: 'isTaken',
+    required: true,
+    type: Boolean,
+    description: 'Whether the exercise was taken',
+    example: true,
+  })
+  async exerciseTaken(
+    @GetUser('id') userId: string,
+    @Param('id') scheduleId: string,
+    @Query('isTaken') isTaken: boolean,
+  ): Promise<any> {
+    return this.exerciseLogService.markExerciseLogAsTaken(userId, scheduleId, isTaken);
+  }
 
   @Patch(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update an exercise log' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -239,8 +245,9 @@ export class ExerciseLogController {
   }
 
   @Delete(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Delete an exercise log' })
   @ApiResponse({
     status: 200,
@@ -255,8 +262,9 @@ export class ExerciseLogController {
 
   // Exercise Schedule Endpoints
   @Post('schedule')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Create a new exercise schedule' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -299,7 +307,7 @@ export class ExerciseLogController {
           description: 'Scheduled time (ISO 8601)',
           example: '2026-02-15T08:00:00Z',
         },
-       
+
       },
     },
   })
@@ -316,8 +324,9 @@ export class ExerciseLogController {
   }
 
   @Get('scheduled/history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get exercise schedule history with total count' })
   @ApiResponse({
     status: 200,
@@ -331,8 +340,9 @@ export class ExerciseLogController {
   }
 
   @Get('scheduled/:id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get a specific exercise schedule by ID' })
   @ApiResponse({
     status: 200,
@@ -347,8 +357,9 @@ export class ExerciseLogController {
   }
 
   @Patch('scheduled/:id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update an exercise schedule' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -417,8 +428,9 @@ export class ExerciseLogController {
   }
 
   @Delete('scheduled/:id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Delete an exercise schedule' })
   @ApiResponse({
     status: 200,

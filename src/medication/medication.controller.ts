@@ -22,7 +22,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   MedicationResponseDto,
   MedicationHistoryWithStatsDto,
@@ -36,8 +36,9 @@ export class MedicationController {
   constructor(private readonly medicationService: MedicationService) { }
 
   @Post()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Create a new medication' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -79,8 +80,9 @@ export class MedicationController {
   }
 
   @Get('history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get medication history with total count' })
   @ApiResponse({
     status: 200,
@@ -94,8 +96,9 @@ export class MedicationController {
   }
 
   @Get(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get a specific medication by ID' })
   @ApiResponse({
     status: 200,
@@ -110,8 +113,9 @@ export class MedicationController {
   }
 
   @Patch(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update a medication' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor())
@@ -153,8 +157,9 @@ export class MedicationController {
   }
 
   @Delete(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Delete a medication' })
   @ApiResponse({
     status: 200,

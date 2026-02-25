@@ -23,7 +23,7 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   MoodLogResponseDto,
   MoodLogHistoryDto,
@@ -36,8 +36,9 @@ export class MoodLogController {
   constructor(private readonly moodLogService: MoodLogService) { }
 
   @Post()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Log mood entry' })
   @ApiResponse({
     status: 201,
@@ -92,8 +93,9 @@ export class MoodLogController {
   }
 
   @Get('history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get mood log history' })
   @ApiQuery({
     name: 'limit',
@@ -129,8 +131,9 @@ export class MoodLogController {
   }
 
   @Get('latest')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get latest mood log' })
   @ApiResponse({
     status: 200,
@@ -144,8 +147,9 @@ export class MoodLogController {
   }
 
   @Get('today')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get today\'s mood log' })
   async getTodayMoodLog(
     @GetUser('id') userId: string,
@@ -154,8 +158,9 @@ export class MoodLogController {
   }
 
   @Patch(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update mood log by ID' })
   @ApiParam({
     name: 'id',
@@ -215,8 +220,9 @@ export class MoodLogController {
   }
 
   @Delete(':id')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Delete mood log' })
   @ApiParam({
     name: 'id',

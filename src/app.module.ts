@@ -22,6 +22,8 @@ import { MedicationScheduleModule } from './medication-schedule/medication-sched
 import { ExerciseLogModule } from './exercise-log/exercise-log.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
 import { MacroGoalModule } from './macro-goal/macro-goal.module';
+import { PaymentModule } from './payment/payment.module';
+import { GuardsModule } from './common/guards/guards.module';
 
 @Module({
   imports: [
@@ -48,6 +50,8 @@ import { MacroGoalModule } from './macro-goal/macro-goal.module';
     ExerciseLogModule,
     OnboardingModule,
     MacroGoalModule,
+    PaymentModule,
+    GuardsModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

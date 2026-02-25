@@ -20,88 +20,112 @@ export type SubscriptionModel = runtime.Types.Result.DefaultSelection<Prisma.$Su
 
 export type AggregateSubscription = {
   _count: SubscriptionCountAggregateOutputType | null
-  _avg: SubscriptionAvgAggregateOutputType | null
-  _sum: SubscriptionSumAggregateOutputType | null
   _min: SubscriptionMinAggregateOutputType | null
   _max: SubscriptionMaxAggregateOutputType | null
-}
-
-export type SubscriptionAvgAggregateOutputType = {
-  price: runtime.Decimal | null
-}
-
-export type SubscriptionSumAggregateOutputType = {
-  price: runtime.Decimal | null
 }
 
 export type SubscriptionMinAggregateOutputType = {
   id: string | null
   userId: string | null
-  plan: string | null
-  price: runtime.Decimal | null
+  appUserId: string | null
+  productId: string | null
+  store: string | null
+  isTrial: boolean | null
+  trialStart: Date | null
+  trialEnd: Date | null
   status: string | null
-  startedAt: Date | null
-  expiresAt: Date | null
+  originalTransactionId: string | null
+  purchaseDate: Date | null
+  expirationDate: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SubscriptionMaxAggregateOutputType = {
   id: string | null
   userId: string | null
-  plan: string | null
-  price: runtime.Decimal | null
+  appUserId: string | null
+  productId: string | null
+  store: string | null
+  isTrial: boolean | null
+  trialStart: Date | null
+  trialEnd: Date | null
   status: string | null
-  startedAt: Date | null
-  expiresAt: Date | null
+  originalTransactionId: string | null
+  purchaseDate: Date | null
+  expirationDate: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SubscriptionCountAggregateOutputType = {
   id: number
   userId: number
-  plan: number
-  price: number
+  appUserId: number
+  productId: number
+  store: number
+  isTrial: number
+  trialStart: number
+  trialEnd: number
   status: number
-  startedAt: number
-  expiresAt: number
+  originalTransactionId: number
+  purchaseDate: number
+  expirationDate: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
-export type SubscriptionAvgAggregateInputType = {
-  price?: true
-}
-
-export type SubscriptionSumAggregateInputType = {
-  price?: true
-}
-
 export type SubscriptionMinAggregateInputType = {
   id?: true
   userId?: true
-  plan?: true
-  price?: true
+  appUserId?: true
+  productId?: true
+  store?: true
+  isTrial?: true
+  trialStart?: true
+  trialEnd?: true
   status?: true
-  startedAt?: true
-  expiresAt?: true
+  originalTransactionId?: true
+  purchaseDate?: true
+  expirationDate?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SubscriptionMaxAggregateInputType = {
   id?: true
   userId?: true
-  plan?: true
-  price?: true
+  appUserId?: true
+  productId?: true
+  store?: true
+  isTrial?: true
+  trialStart?: true
+  trialEnd?: true
   status?: true
-  startedAt?: true
-  expiresAt?: true
+  originalTransactionId?: true
+  purchaseDate?: true
+  expirationDate?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SubscriptionCountAggregateInputType = {
   id?: true
   userId?: true
-  plan?: true
-  price?: true
+  appUserId?: true
+  productId?: true
+  store?: true
+  isTrial?: true
+  trialStart?: true
+  trialEnd?: true
   status?: true
-  startedAt?: true
-  expiresAt?: true
+  originalTransactionId?: true
+  purchaseDate?: true
+  expirationDate?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -143,18 +167,6 @@ export type SubscriptionAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: SubscriptionAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: SubscriptionSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: SubscriptionMinAggregateInputType
@@ -185,8 +197,6 @@ export type SubscriptionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   _count?: SubscriptionCountAggregateInputType | true
-  _avg?: SubscriptionAvgAggregateInputType
-  _sum?: SubscriptionSumAggregateInputType
   _min?: SubscriptionMinAggregateInputType
   _max?: SubscriptionMaxAggregateInputType
 }
@@ -194,14 +204,19 @@ export type SubscriptionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type SubscriptionGroupByOutputType = {
   id: string
   userId: string
-  plan: string
-  price: runtime.Decimal | null
+  appUserId: string
+  productId: string
+  store: string
+  isTrial: boolean
+  trialStart: Date | null
+  trialEnd: Date | null
   status: string
-  startedAt: Date | null
-  expiresAt: Date | null
+  originalTransactionId: string | null
+  purchaseDate: Date | null
+  expirationDate: Date | null
+  createdAt: Date
+  updatedAt: Date
   _count: SubscriptionCountAggregateOutputType | null
-  _avg: SubscriptionAvgAggregateOutputType | null
-  _sum: SubscriptionSumAggregateOutputType | null
   _min: SubscriptionMinAggregateOutputType | null
   _max: SubscriptionMaxAggregateOutputType | null
 }
@@ -227,52 +242,81 @@ export type SubscriptionWhereInput = {
   NOT?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
   id?: Prisma.StringFilter<"Subscription"> | string
   userId?: Prisma.StringFilter<"Subscription"> | string
-  plan?: Prisma.StringFilter<"Subscription"> | string
-  price?: Prisma.DecimalNullableFilter<"Subscription"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFilter<"Subscription"> | string
+  productId?: Prisma.StringFilter<"Subscription"> | string
+  store?: Prisma.StringFilter<"Subscription"> | string
+  isTrial?: Prisma.BoolFilter<"Subscription"> | boolean
+  trialStart?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  trialEnd?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   status?: Prisma.StringFilter<"Subscription"> | string
-  startedAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
-  expiresAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  originalTransactionId?: Prisma.StringNullableFilter<"Subscription"> | string | null
+  purchaseDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  expirationDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  events?: Prisma.SubscriptionEventListRelationFilter
 }
 
 export type SubscriptionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  plan?: Prisma.SortOrder
-  price?: Prisma.SortOrderInput | Prisma.SortOrder
+  appUserId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
+  store?: Prisma.SortOrder
+  isTrial?: Prisma.SortOrder
+  trialStart?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  originalTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  expirationDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  events?: Prisma.SubscriptionEventOrderByRelationAggregateInput
 }
 
 export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   userId?: string
+  appUserId?: string
   AND?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
   OR?: Prisma.SubscriptionWhereInput[]
   NOT?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
-  plan?: Prisma.StringFilter<"Subscription"> | string
-  price?: Prisma.DecimalNullableFilter<"Subscription"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  productId?: Prisma.StringFilter<"Subscription"> | string
+  store?: Prisma.StringFilter<"Subscription"> | string
+  isTrial?: Prisma.BoolFilter<"Subscription"> | boolean
+  trialStart?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  trialEnd?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   status?: Prisma.StringFilter<"Subscription"> | string
-  startedAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
-  expiresAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  originalTransactionId?: Prisma.StringNullableFilter<"Subscription"> | string | null
+  purchaseDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  expirationDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId">
+  events?: Prisma.SubscriptionEventListRelationFilter
+}, "id" | "userId" | "appUserId">
 
 export type SubscriptionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  plan?: Prisma.SortOrder
-  price?: Prisma.SortOrderInput | Prisma.SortOrder
+  appUserId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
+  store?: Prisma.SortOrder
+  isTrial?: Prisma.SortOrder
+  trialStart?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  originalTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  expirationDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.SubscriptionCountOrderByAggregateInput
-  _avg?: Prisma.SubscriptionAvgOrderByAggregateInput
   _max?: Prisma.SubscriptionMaxOrderByAggregateInput
   _min?: Prisma.SubscriptionMinOrderByAggregateInput
-  _sum?: Prisma.SubscriptionSumOrderByAggregateInput
 }
 
 export type SubscriptionScalarWhereWithAggregatesInput = {
@@ -281,118 +325,196 @@ export type SubscriptionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SubscriptionScalarWhereWithAggregatesInput | Prisma.SubscriptionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
-  plan?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
-  price?: Prisma.DecimalNullableWithAggregatesFilter<"Subscription"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
+  productId?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
+  store?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
+  isTrial?: Prisma.BoolWithAggregatesFilter<"Subscription"> | boolean
+  trialStart?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+  trialEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
   status?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
-  startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
-  expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+  originalTransactionId?: Prisma.StringNullableWithAggregatesFilter<"Subscription"> | string | null
+  purchaseDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+  expirationDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Subscription"> | Date | string
 }
 
 export type SubscriptionCreateInput = {
   id?: string
-  plan: string
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
   status: string
-  startedAt?: Date | string | null
-  expiresAt?: Date | string | null
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSubscriptionInput
+  events?: Prisma.SubscriptionEventCreateNestedManyWithoutSubscriptionInput
 }
 
 export type SubscriptionUncheckedCreateInput = {
   id?: string
   userId: string
-  plan: string
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
   status: string
-  startedAt?: Date | string | null
-  expiresAt?: Date | string | null
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  events?: Prisma.SubscriptionEventUncheckedCreateNestedManyWithoutSubscriptionInput
 }
 
 export type SubscriptionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSubscriptionNestedInput
+  events?: Prisma.SubscriptionEventUpdateManyWithoutSubscriptionNestedInput
 }
 
 export type SubscriptionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  events?: Prisma.SubscriptionEventUncheckedUpdateManyWithoutSubscriptionNestedInput
 }
 
 export type SubscriptionCreateManyInput = {
   id?: string
   userId: string
-  plan: string
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
   status: string
-  startedAt?: Date | string | null
-  expiresAt?: Date | string | null
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SubscriptionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubscriptionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubscriptionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  plan?: Prisma.SortOrder
-  price?: Prisma.SortOrder
+  appUserId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
+  store?: Prisma.SortOrder
+  isTrial?: Prisma.SortOrder
+  trialStart?: Prisma.SortOrder
+  trialEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
-}
-
-export type SubscriptionAvgOrderByAggregateInput = {
-  price?: Prisma.SortOrder
+  originalTransactionId?: Prisma.SortOrder
+  purchaseDate?: Prisma.SortOrder
+  expirationDate?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SubscriptionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  plan?: Prisma.SortOrder
-  price?: Prisma.SortOrder
+  appUserId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
+  store?: Prisma.SortOrder
+  isTrial?: Prisma.SortOrder
+  trialStart?: Prisma.SortOrder
+  trialEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
+  originalTransactionId?: Prisma.SortOrder
+  purchaseDate?: Prisma.SortOrder
+  expirationDate?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SubscriptionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  plan?: Prisma.SortOrder
-  price?: Prisma.SortOrder
+  appUserId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
+  store?: Prisma.SortOrder
+  isTrial?: Prisma.SortOrder
+  trialStart?: Prisma.SortOrder
+  trialEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
+  originalTransactionId?: Prisma.SortOrder
+  purchaseDate?: Prisma.SortOrder
+  expirationDate?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
-export type SubscriptionSumOrderByAggregateInput = {
-  price?: Prisma.SortOrder
+export type SubscriptionScalarRelationFilter = {
+  is?: Prisma.SubscriptionWhereInput
+  isNot?: Prisma.SubscriptionWhereInput
 }
 
 export type SubscriptionNullableScalarRelationFilter = {
@@ -400,16 +522,22 @@ export type SubscriptionNullableScalarRelationFilter = {
   isNot?: Prisma.SubscriptionWhereInput | null
 }
 
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type SubscriptionCreateNestedOneWithoutEventsInput = {
+  create?: Prisma.XOR<Prisma.SubscriptionCreateWithoutEventsInput, Prisma.SubscriptionUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.SubscriptionCreateOrConnectWithoutEventsInput
+  connect?: Prisma.SubscriptionWhereUniqueInput
+}
+
+export type SubscriptionUpdateOneRequiredWithoutEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.SubscriptionCreateWithoutEventsInput, Prisma.SubscriptionUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.SubscriptionCreateOrConnectWithoutEventsInput
+  upsert?: Prisma.SubscriptionUpsertWithoutEventsInput
+  connect?: Prisma.SubscriptionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SubscriptionUpdateToOneWithWhereWithoutEventsInput, Prisma.SubscriptionUpdateWithoutEventsInput>, Prisma.SubscriptionUncheckedUpdateWithoutEventsInput>
 }
 
 export type SubscriptionCreateNestedOneWithoutUserInput = {
@@ -444,22 +572,122 @@ export type SubscriptionUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubscriptionUpdateToOneWithWhereWithoutUserInput, Prisma.SubscriptionUpdateWithoutUserInput>, Prisma.SubscriptionUncheckedUpdateWithoutUserInput>
 }
 
+export type SubscriptionCreateWithoutEventsInput = {
+  id?: string
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
+  status: string
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSubscriptionInput
+}
+
+export type SubscriptionUncheckedCreateWithoutEventsInput = {
+  id?: string
+  userId: string
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
+  status: string
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SubscriptionCreateOrConnectWithoutEventsInput = {
+  where: Prisma.SubscriptionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SubscriptionCreateWithoutEventsInput, Prisma.SubscriptionUncheckedCreateWithoutEventsInput>
+}
+
+export type SubscriptionUpsertWithoutEventsInput = {
+  update: Prisma.XOR<Prisma.SubscriptionUpdateWithoutEventsInput, Prisma.SubscriptionUncheckedUpdateWithoutEventsInput>
+  create: Prisma.XOR<Prisma.SubscriptionCreateWithoutEventsInput, Prisma.SubscriptionUncheckedCreateWithoutEventsInput>
+  where?: Prisma.SubscriptionWhereInput
+}
+
+export type SubscriptionUpdateToOneWithWhereWithoutEventsInput = {
+  where?: Prisma.SubscriptionWhereInput
+  data: Prisma.XOR<Prisma.SubscriptionUpdateWithoutEventsInput, Prisma.SubscriptionUncheckedUpdateWithoutEventsInput>
+}
+
+export type SubscriptionUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSubscriptionNestedInput
+}
+
+export type SubscriptionUncheckedUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type SubscriptionCreateWithoutUserInput = {
   id?: string
-  plan: string
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
   status: string
-  startedAt?: Date | string | null
-  expiresAt?: Date | string | null
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  events?: Prisma.SubscriptionEventCreateNestedManyWithoutSubscriptionInput
 }
 
 export type SubscriptionUncheckedCreateWithoutUserInput = {
   id?: string
-  plan: string
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId: string
+  productId: string
+  store: string
+  isTrial?: boolean
+  trialStart?: Date | string | null
+  trialEnd?: Date | string | null
   status: string
-  startedAt?: Date | string | null
-  expiresAt?: Date | string | null
+  originalTransactionId?: string | null
+  purchaseDate?: Date | string | null
+  expirationDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  events?: Prisma.SubscriptionEventUncheckedCreateNestedManyWithoutSubscriptionInput
 }
 
 export type SubscriptionCreateOrConnectWithoutUserInput = {
@@ -480,70 +708,147 @@ export type SubscriptionUpdateToOneWithWhereWithoutUserInput = {
 
 export type SubscriptionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  events?: Prisma.SubscriptionEventUpdateManyWithoutSubscriptionNestedInput
 }
 
 export type SubscriptionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  appUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  store?: Prisma.StringFieldUpdateOperationsInput | string
+  isTrial?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  originalTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expirationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  events?: Prisma.SubscriptionEventUncheckedUpdateManyWithoutSubscriptionNestedInput
 }
 
+
+/**
+ * Count Type SubscriptionCountOutputType
+ */
+
+export type SubscriptionCountOutputType = {
+  events: number
+}
+
+export type SubscriptionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  events?: boolean | SubscriptionCountOutputTypeCountEventsArgs
+}
+
+/**
+ * SubscriptionCountOutputType without action
+ */
+export type SubscriptionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubscriptionCountOutputType
+   */
+  select?: Prisma.SubscriptionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SubscriptionCountOutputType without action
+ */
+export type SubscriptionCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubscriptionEventWhereInput
+}
 
 
 export type SubscriptionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  plan?: boolean
-  price?: boolean
+  appUserId?: boolean
+  productId?: boolean
+  store?: boolean
+  isTrial?: boolean
+  trialStart?: boolean
+  trialEnd?: boolean
   status?: boolean
-  startedAt?: boolean
-  expiresAt?: boolean
+  originalTransactionId?: boolean
+  purchaseDate?: boolean
+  expirationDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  events?: boolean | Prisma.Subscription$eventsArgs<ExtArgs>
+  _count?: boolean | Prisma.SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscription"]>
 
 export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  plan?: boolean
-  price?: boolean
+  appUserId?: boolean
+  productId?: boolean
+  store?: boolean
+  isTrial?: boolean
+  trialStart?: boolean
+  trialEnd?: boolean
   status?: boolean
-  startedAt?: boolean
-  expiresAt?: boolean
+  originalTransactionId?: boolean
+  purchaseDate?: boolean
+  expirationDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscription"]>
 
 export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  plan?: boolean
-  price?: boolean
+  appUserId?: boolean
+  productId?: boolean
+  store?: boolean
+  isTrial?: boolean
+  trialStart?: boolean
+  trialEnd?: boolean
   status?: boolean
-  startedAt?: boolean
-  expiresAt?: boolean
+  originalTransactionId?: boolean
+  purchaseDate?: boolean
+  expirationDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscription"]>
 
 export type SubscriptionSelectScalar = {
   id?: boolean
   userId?: boolean
-  plan?: boolean
-  price?: boolean
+  appUserId?: boolean
+  productId?: boolean
+  store?: boolean
+  isTrial?: boolean
+  trialStart?: boolean
+  trialEnd?: boolean
   status?: boolean
-  startedAt?: boolean
-  expiresAt?: boolean
+  originalTransactionId?: boolean
+  purchaseDate?: boolean
+  expirationDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "plan" | "price" | "status" | "startedAt" | "expiresAt", ExtArgs["result"]["subscription"]>
+export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "appUserId" | "productId" | "store" | "isTrial" | "trialStart" | "trialEnd" | "status" | "originalTransactionId" | "purchaseDate" | "expirationDate" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
 export type SubscriptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  events?: boolean | Prisma.Subscription$eventsArgs<ExtArgs>
+  _count?: boolean | Prisma.SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubscriptionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -556,15 +861,23 @@ export type $SubscriptionPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "Subscription"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    events: Prisma.$SubscriptionEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    plan: string
-    price: runtime.Decimal | null
+    appUserId: string
+    productId: string
+    store: string
+    isTrial: boolean
+    trialStart: Date | null
+    trialEnd: Date | null
     status: string
-    startedAt: Date | null
-    expiresAt: Date | null
+    originalTransactionId: string | null
+    purchaseDate: Date | null
+    expirationDate: Date | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["subscription"]>
   composites: {}
 }
@@ -960,6 +1273,7 @@ readonly fields: SubscriptionFieldRefs;
 export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  events<T extends Prisma.Subscription$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subscription$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -991,11 +1305,18 @@ export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends run
 export interface SubscriptionFieldRefs {
   readonly id: Prisma.FieldRef<"Subscription", 'String'>
   readonly userId: Prisma.FieldRef<"Subscription", 'String'>
-  readonly plan: Prisma.FieldRef<"Subscription", 'String'>
-  readonly price: Prisma.FieldRef<"Subscription", 'Decimal'>
+  readonly appUserId: Prisma.FieldRef<"Subscription", 'String'>
+  readonly productId: Prisma.FieldRef<"Subscription", 'String'>
+  readonly store: Prisma.FieldRef<"Subscription", 'String'>
+  readonly isTrial: Prisma.FieldRef<"Subscription", 'Boolean'>
+  readonly trialStart: Prisma.FieldRef<"Subscription", 'DateTime'>
+  readonly trialEnd: Prisma.FieldRef<"Subscription", 'DateTime'>
   readonly status: Prisma.FieldRef<"Subscription", 'String'>
-  readonly startedAt: Prisma.FieldRef<"Subscription", 'DateTime'>
-  readonly expiresAt: Prisma.FieldRef<"Subscription", 'DateTime'>
+  readonly originalTransactionId: Prisma.FieldRef<"Subscription", 'String'>
+  readonly purchaseDate: Prisma.FieldRef<"Subscription", 'DateTime'>
+  readonly expirationDate: Prisma.FieldRef<"Subscription", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"Subscription", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Subscription", 'DateTime'>
 }
     
 
@@ -1389,6 +1710,30 @@ export type SubscriptionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Subscriptions to delete.
    */
   limit?: number
+}
+
+/**
+ * Subscription.events
+ */
+export type Subscription$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubscriptionEvent
+   */
+  select?: Prisma.SubscriptionEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubscriptionEvent
+   */
+  omit?: Prisma.SubscriptionEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubscriptionEventInclude<ExtArgs> | null
+  where?: Prisma.SubscriptionEventWhereInput
+  orderBy?: Prisma.SubscriptionEventOrderByWithRelationInput | Prisma.SubscriptionEventOrderByWithRelationInput[]
+  cursor?: Prisma.SubscriptionEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubscriptionEventScalarFieldEnum | Prisma.SubscriptionEventScalarFieldEnum[]
 }
 
 /**

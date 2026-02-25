@@ -23,7 +23,7 @@ import {
     ApiConsumes,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
     MealLogResponseDto,
     MealLogHistoryDto,
@@ -36,8 +36,9 @@ export class MealLogController {
     constructor(private readonly mealLogService: MealLogService) { }
 
     @Post()
-    @ValidAll()
-    @ApiBearerAuth()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Log a meal entry (calories auto-calculated)' })
     @ApiResponse({
         status: 201,
@@ -95,8 +96,9 @@ export class MealLogController {
     }
 
     @Get('history')
-    @ValidAll()
-    @ApiBearerAuth()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Get meal log history with daily nutrition summary' })
     @ApiQuery({
         name: 'limit',
@@ -132,8 +134,9 @@ export class MealLogController {
     }
 
     @Get('latest')
-    @ValidAll()
-    @ApiBearerAuth()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Get latest meal log' })
     @ApiResponse({
         status: 200,
@@ -147,8 +150,9 @@ export class MealLogController {
     }
 
     @Patch(':id')
-    @ValidAll()
-    @ApiBearerAuth()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Update meal log by ID (calories auto-recalculated)' })
     @ApiParam({
         name: 'id',
@@ -216,8 +220,9 @@ export class MealLogController {
     }
 
     @Delete(':id')
-    @ValidAll()
-    @ApiBearerAuth()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Delete meal log' })
     @ApiParam({
         name: 'id',

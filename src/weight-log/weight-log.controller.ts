@@ -11,7 +11,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   WeightLogResponseDto,
   WeeklyWeightChartDto,
@@ -22,11 +22,12 @@ import { LeveladdService } from '@/leveladd/leveladd.service';
 @ApiTags('Weight Log')
 @Controller('weight-log')
 export class WeightLogController {
-  constructor(private readonly weightLogService: WeightLogService, private leveladdService: LeveladdService,) {}
+  constructor(private readonly weightLogService: WeightLogService, private leveladdService: LeveladdService,) { }
 
   @Post()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Log weight entry' })
   @ApiResponse({
     status: 201,
@@ -41,8 +42,9 @@ export class WeightLogController {
   }
 
   @Get('history')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get weight log history with stats' })
   @ApiResponse({
     status: 200,
@@ -56,8 +58,9 @@ export class WeightLogController {
   }
 
   @Get('chart/weekly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get weekly weight chart data' })
   @ApiResponse({
     status: 200,
@@ -71,8 +74,9 @@ export class WeightLogController {
   }
 
   @Get('today')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get today's weight log" })
   @ApiResponse({
     status: 200,
@@ -86,8 +90,9 @@ export class WeightLogController {
   }
 
   @Patch('today')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Update today's weight log" })
   @ApiResponse({
     status: 200,

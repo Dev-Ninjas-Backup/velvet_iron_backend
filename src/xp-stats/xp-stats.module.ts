@@ -11,6 +11,7 @@ import { AuthModule } from '../auth/auth.module';
   imports: [
     PrismaModule,
     PassportModule,
+    AuthModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,4 +25,4 @@ import { AuthModule } from '../auth/auth.module';
   providers: [XpStatsService],
   exports: [XpStatsService],
 })
-export class XpStatsModule {}
+export class XpStatsModule { }

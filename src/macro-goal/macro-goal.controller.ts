@@ -29,8 +29,9 @@ export class MacroGoalController {
     constructor(private readonly macroGoalService: MacroGoalService) { }
 
     @Post()
-    @ValidAll()
-    @ApiBearerAuth()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Create a new macro goal (calories auto-calculated)' })
     @ApiResponse({
         status: 201,
@@ -116,7 +117,9 @@ export class MacroGoalController {
     }
 
     @Patch(':id')
-    @ValidAll()
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
     @ApiOperation({ summary: 'Update a macro goal (calories auto-calculated)' })
     @ApiParam({
         name: 'id',

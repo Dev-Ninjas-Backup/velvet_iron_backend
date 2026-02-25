@@ -16,18 +16,19 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { ValidAll } from '../common/decorators/validate.decorator';
+import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
 import { ScheduleRange } from './profile.service';
 
 @ApiTags('Profile')
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService) { }
 
   @Get()
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary:
       'Get my profile with XP and level, optionally with scheduled items',
@@ -62,8 +63,9 @@ export class ProfileController {
   }
 
   @Post('add-xp')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Add XP to my profile (for testing)' })
   addXp(@GetUser('id') userId: string, @Body() addXpDto: AddXpDto) {
     return this.profileService.addXp(userId, addXpDto.xp);
@@ -71,8 +73,9 @@ export class ProfileController {
 
   //add xp with valid reason and log it in leveladd table
   @Post('add-xp/log')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Add XP to my profile and log it in leveladd table',
   })
@@ -88,8 +91,9 @@ export class ProfileController {
   }
 
   @Patch('fitness-goal')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update my fitness goal' })
   updateFitnessGoal(
     @GetUser('id') userId: string,
@@ -108,8 +112,9 @@ export class ProfileController {
   }
 
   @Get('chart/weekly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Get weekly chart data - Daily XP for each day of the week',
   })
@@ -118,8 +123,9 @@ export class ProfileController {
   }
 
   @Get('chart/monthly')
-  @ValidAll()
-  @ApiBearerAuth()
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary: 'Get monthly chart data - Weekly XP for each week of the month',
   })

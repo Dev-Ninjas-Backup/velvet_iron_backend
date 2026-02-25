@@ -65,9 +65,10 @@ export const ModelName = {
   ExerciseScheduleLog: 'ExerciseScheduleLog',
   MacroGoal: 'MacroGoal',
   onboarding: 'onboarding',
+  Subscription: 'Subscription',
+  SubscriptionEvent: 'SubscriptionEvent',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
-  Subscription: 'Subscription',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
@@ -283,6 +284,37 @@ export const OnboardingScalarFieldEnum = {
 export type OnboardingScalarFieldEnum = (typeof OnboardingScalarFieldEnum)[keyof typeof OnboardingScalarFieldEnum]
 
 
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  appUserId: 'appUserId',
+  productId: 'productId',
+  store: 'store',
+  isTrial: 'isTrial',
+  trialStart: 'trialStart',
+  trialEnd: 'trialEnd',
+  status: 'status',
+  originalTransactionId: 'originalTransactionId',
+  purchaseDate: 'purchaseDate',
+  expirationDate: 'expirationDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const SubscriptionEventScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  eventType: 'eventType',
+  payload: 'payload',
+  receivedAt: 'receivedAt'
+} as const
+
+export type SubscriptionEventScalarFieldEnum = (typeof SubscriptionEventScalarFieldEnum)[keyof typeof SubscriptionEventScalarFieldEnum]
+
+
 export const QuestScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -303,19 +335,6 @@ export const UserQuestScalarFieldEnum = {
 } as const
 
 export type UserQuestScalarFieldEnum = (typeof UserQuestScalarFieldEnum)[keyof typeof UserQuestScalarFieldEnum]
-
-
-export const SubscriptionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  plan: 'plan',
-  price: 'price',
-  status: 'status',
-  startedAt: 'startedAt',
-  expiresAt: 'expiresAt'
-} as const
-
-export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -411,6 +430,13 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -425,4 +451,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

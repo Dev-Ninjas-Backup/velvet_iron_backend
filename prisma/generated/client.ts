@@ -108,6 +108,16 @@ export type MacroGoal = Prisma.MacroGoalModel
  */
 export type onboarding = Prisma.onboardingModel
 /**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model SubscriptionEvent
+ * 
+ */
+export type SubscriptionEvent = Prisma.SubscriptionEventModel
+/**
  * Model Quest
  * 
  */
@@ -117,11 +127,6 @@ export type Quest = Prisma.QuestModel
  * 
  */
 export type UserQuest = Prisma.UserQuestModel
-/**
- * Model Subscription
- * 
- */
-export type Subscription = Prisma.SubscriptionModel
 /**
  * Model User
  * 
