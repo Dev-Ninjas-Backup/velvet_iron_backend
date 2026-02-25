@@ -108,13 +108,17 @@ export class ProfileService {
     });
 
     if (!profile) {
-      throw new NotFoundException('Profile not found');
+      // Create profile if it doesn't exist
+      profile = await this.prisma.client.userProfile.create({
+        data: { userId, fitnessGoal: updateFitnessGoalDto.goal },
+      });
+    } else {
+      // Update existing profile
+      profile = await this.prisma.client.userProfile.update({
+        where: { userId },
+        data: { fitnessGoal: updateFitnessGoalDto.goal },
+      });
     }
-
-    profile = await this.prisma.client.userProfile.update({
-      where: { userId },
-      data: { fitnessGoal: updateFitnessGoalDto.goal },
-    });
 
     return profile;
   }
