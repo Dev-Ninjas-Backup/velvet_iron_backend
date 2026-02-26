@@ -24,7 +24,7 @@ export class ProfileService {
     private medicationScheduleService: MedicationScheduleService,
     private exerciseLogService: ExerciseLogService,
     private xpStatsService: XpStatsService,
-  ) {}
+  ) { }
 
   async getProfile(userId: string) {
     let profile = await this.prisma.client.userProfile.findUnique({
@@ -84,6 +84,8 @@ export class ProfileService {
     let finalProfile = {
       ...profile,
       userName: profile?.user?.name || null,
+      activeTheme: activeTheme,
+      activeCompanion: activecomponion,
       level,
       levelStatus: levelStatus(level),
       // if level 50 or above, show then next level is max and xp required is 0
@@ -441,200 +443,191 @@ export class ProfileService {
     // Build combined schedules for today
     const todayMealItems = includeToday
       ? todayFiltered.meals.map((meal: any) => ({
-          id: meal.id,
-          type: 'meal' as const,
-          title: meal.mealType,
-          description: `${meal.calories || 0} kcal${
-            meal.carbs || meal.protein || meal.fats
-              ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-              : ''
+        id: meal.id,
+        type: 'meal' as const,
+        title: meal.mealType,
+        description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
+            ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+            : ''
           }`,
-          scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
-          details: {
-            calories: meal.calories,
-            carbs: meal.carbs,
-            protein: meal.protein,
-            fats: meal.fats,
-            isTaken: meal.isTaken ?? undefined,
-          },
-        }))
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        details: {
+          calories: meal.calories,
+          carbs: meal.carbs,
+          protein: meal.protein,
+          fats: meal.fats,
+          isTaken: meal.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     const todayMedicationItems = includeToday
       ? todayFiltered.medications.map((med: any) => ({
-          id: med.id,
-          type: 'medication' as const,
-          title: med.name,
-          description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-          scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
-          details: {
-            type: med.type,
-            doseMg: med.doseMg,
-            isTaken: med.isTaken ?? undefined,
-          },
-        }))
+        id: med.id,
+        type: 'medication' as const,
+        title: med.name,
+        description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        details: {
+          type: med.type,
+          doseMg: med.doseMg,
+          isTaken: med.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     const todayExerciseItems = includeToday
       ? todayFiltered.exercises.map((exercise: any) => ({
-          id: exercise.id,
-          type: 'exercise' as const,
-          title: exercise.name,
-          description: `${exercise.type}${
-            exercise.intensity ? ` • ${exercise.intensity}` : ''
-          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${
-            exercise.note ? ` • ${exercise.note}` : ''
+        id: exercise.id,
+        type: 'exercise' as const,
+        title: exercise.name,
+        description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
+          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
-          scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
-          details: {
-            type: exercise.type,
-            intensity: exercise.intensity,
-            duration: exercise.duration,
-            note: exercise.note,
-            isTaken: exercise.isTaken ?? undefined,
-          },
-        }))
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        details: {
+          type: exercise.type,
+          intensity: exercise.intensity,
+          duration: exercise.duration,
+          note: exercise.note,
+          isTaken: exercise.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     // Build combined schedules for this week
     const weekMealItems = includeWeek
       ? weekFiltered.meals.map((meal: any) => ({
-          id: meal.id,
-          type: 'meal' as const,
-          title: meal.mealType,
-          description: `${meal.calories || 0} kcal${
-            meal.carbs || meal.protein || meal.fats
-              ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-              : ''
+        id: meal.id,
+        type: 'meal' as const,
+        title: meal.mealType,
+        description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
+            ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+            : ''
           }`,
-          scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
-          details: {
-            calories: meal.calories,
-            carbs: meal.carbs,
-            protein: meal.protein,
-            fats: meal.fats,
-            isTaken: meal.isTaken ?? undefined,
-          },
-        }))
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        details: {
+          calories: meal.calories,
+          carbs: meal.carbs,
+          protein: meal.protein,
+          fats: meal.fats,
+          isTaken: meal.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     const weekMedicationItems = includeWeek
       ? weekFiltered.medications.map((med: any) => ({
-          id: med.id,
-          type: 'medication' as const,
-          title: med.name,
-          description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-          scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
-          details: {
-            type: med.type,
-            doseMg: med.doseMg,
-            isTaken: med.isTaken ?? undefined,
-          },
-        }))
+        id: med.id,
+        type: 'medication' as const,
+        title: med.name,
+        description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        details: {
+          type: med.type,
+          doseMg: med.doseMg,
+          isTaken: med.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     const weekExerciseItems = includeWeek
       ? weekFiltered.exercises.map((exercise: any) => ({
-          id: exercise.id,
-          type: 'exercise' as const,
-          title: exercise.name,
-          description: `${exercise.type}${
-            exercise.intensity ? ` • ${exercise.intensity}` : ''
-          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${
-            exercise.note ? ` • ${exercise.note}` : ''
+        id: exercise.id,
+        type: 'exercise' as const,
+        title: exercise.name,
+        description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
+          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
-          scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
-          details: {
-            type: exercise.type,
-            intensity: exercise.intensity,
-            duration: exercise.duration,
-            note: exercise.note,
-            isTaken: exercise.isTaken ?? undefined,
-          },
-        }))
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        details: {
+          type: exercise.type,
+          intensity: exercise.intensity,
+          duration: exercise.duration,
+          note: exercise.note,
+          isTaken: exercise.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     // Build combined schedules for this month
     const monthMealItems = includeMonth
       ? monthFiltered.meals.map((meal: any) => ({
-          id: meal.id,
-          type: 'meal' as const,
-          title: meal.mealType,
-          description: `${meal.calories || 0} kcal${
-            meal.carbs || meal.protein || meal.fats
-              ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-              : ''
+        id: meal.id,
+        type: 'meal' as const,
+        title: meal.mealType,
+        description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
+            ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+            : ''
           }`,
-          scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
-          details: {
-            calories: meal.calories,
-            carbs: meal.carbs,
-            protein: meal.protein,
-            fats: meal.fats,
-            isTaken: meal.isTaken ?? undefined,
-          },
-        }))
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        details: {
+          calories: meal.calories,
+          carbs: meal.carbs,
+          protein: meal.protein,
+          fats: meal.fats,
+          isTaken: meal.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     const monthMedicationItems = includeMonth
       ? monthFiltered.medications.map((med: any) => ({
-          id: med.id,
-          type: 'medication' as const,
-          title: med.name,
-          description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-          scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
-          details: {
-            type: med.type,
-            doseMg: med.doseMg,
-            isTaken: med.isTaken ?? undefined,
-          },
-        }))
+        id: med.id,
+        type: 'medication' as const,
+        title: med.name,
+        description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        details: {
+          type: med.type,
+          doseMg: med.doseMg,
+          isTaken: med.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     const monthExerciseItems = includeMonth
       ? monthFiltered.exercises.map((exercise: any) => ({
-          id: exercise.id,
-          type: 'exercise' as const,
-          title: exercise.name,
-          description: `${exercise.type}${
-            exercise.intensity ? ` • ${exercise.intensity}` : ''
-          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${
-            exercise.note ? ` • ${exercise.note}` : ''
+        id: exercise.id,
+        type: 'exercise' as const,
+        title: exercise.name,
+        description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
+          }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
-          scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
-          details: {
-            type: exercise.type,
-            intensity: exercise.intensity,
-            duration: exercise.duration,
-            note: exercise.note,
-            isTaken: exercise.isTaken ?? undefined,
-          },
-        }))
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        details: {
+          type: exercise.type,
+          intensity: exercise.intensity,
+          duration: exercise.duration,
+          note: exercise.note,
+          isTaken: exercise.isTaken ?? undefined,
+        },
+      }))
       : [];
 
     // Build final combined arrays
     const todayCombined = includeToday
       ? this.buildCombinedSchedules(
-          todayMealItems,
-          todayMedicationItems,
-          todayExerciseItems,
-        )
+        todayMealItems,
+        todayMedicationItems,
+        todayExerciseItems,
+      )
       : [];
 
     const weekCombined = includeWeek
       ? this.buildCombinedSchedules(
-          weekMealItems,
-          weekMedicationItems,
-          weekExerciseItems,
-        )
+        weekMealItems,
+        weekMedicationItems,
+        weekExerciseItems,
+      )
       : [];
 
     const monthCombined = includeMonth
       ? this.buildCombinedSchedules(
-          monthMealItems,
-          monthMedicationItems,
-          monthExerciseItems,
-        )
+        monthMealItems,
+        monthMedicationItems,
+        monthExerciseItems,
+      )
       : [];
 
     return {
@@ -656,13 +649,13 @@ export class ProfileService {
       },
       todayMood: todayMoodLog
         ? {
-            id: todayMoodLog.id,
-            mood: todayMoodLog.mood,
-            energyLevel: todayMoodLog.energyLevel ?? null,
-            hungerLevel: todayMoodLog.hungerLevel ?? null,
-            note: todayMoodLog.note ?? null,
-            loggedAt: todayMoodLog.loggedAt,
-          }
+          id: todayMoodLog.id,
+          mood: todayMoodLog.mood,
+          energyLevel: todayMoodLog.energyLevel ?? null,
+          hungerLevel: todayMoodLog.hungerLevel ?? null,
+          note: todayMoodLog.note ?? null,
+          loggedAt: todayMoodLog.loggedAt,
+        }
         : null,
     };
   }
