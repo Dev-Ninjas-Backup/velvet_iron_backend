@@ -68,8 +68,8 @@ export class ProfileService {
       where: { id: userId }
     });
 
-    console.log("user",user);
-    
+    console.log("user", user);
+
     console.log("profile:", profile);
 
     const [activeTheme, activecomponion, charts] = await Promise.all([
@@ -230,6 +230,40 @@ export class ProfileService {
       error.message = 'Failed to add XP: ' + error.message;
       throw error;
     }
+  }
+
+  async claimDailyLoginXp(userId: string, xpAmount: number) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkLog = await this.prisma.client.xpLog.findFirst({
+      where: {
+        userId,
+        source: 'dayliLoggin',
+        createdAt: {
+          gte: today,
+        },
+      },
+    });
+
+    if (checkLog) {
+      return {
+        success: false,
+        message: 'Already XP claimed today',
+      };
+    }
+
+    const logEntry = await this.leveladdService.addXpToUser(
+      userId,
+      xpAmount,
+      'dayliLoggin',
+    );
+
+    return {
+      success: true,
+      message: 'Daily XP claimed successfully',
+      logEntry,
+    };
   }
 
   // Simple level calculation: Level = floor((totalEarnXp - 400) / 150) + 1
@@ -455,8 +489,8 @@ export class ProfileService {
         type: 'meal' as const,
         title: meal.mealType,
         description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
-            ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-            : ''
+          ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+          : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
         details: {
@@ -510,8 +544,8 @@ export class ProfileService {
         type: 'meal' as const,
         title: meal.mealType,
         description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
-            ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-            : ''
+          ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+          : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
         details: {
@@ -565,8 +599,8 @@ export class ProfileService {
         type: 'meal' as const,
         title: meal.mealType,
         description: `${meal.calories || 0} kcal${meal.carbs || meal.protein || meal.fats
-            ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
-            : ''
+          ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
+          : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
         details: {

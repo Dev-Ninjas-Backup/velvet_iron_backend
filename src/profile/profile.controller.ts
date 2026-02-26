@@ -11,6 +11,7 @@ import { ProfileService } from './profile.service';
 import { AddXpDto } from './dto/add-xp.dto';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiQuery,
   ApiTags,
@@ -88,6 +89,23 @@ export class ProfileController {
       addXpDto.xp,
       addXpDto.reason,
     );
+  }
+
+  @Post('daily-login')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Claim daily login XP' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        xp: { type: 'number', example: 15 },
+      },
+    },
+  })
+  async claimDailyXp(@GetUser('id') userId: string, @Body('xp') xp: number) {
+    return await this.profileService.claimDailyLoginXp(userId, xp);
   }
 
   @Patch('fitness-goal')
