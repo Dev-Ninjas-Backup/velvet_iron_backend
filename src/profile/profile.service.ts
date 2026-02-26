@@ -63,7 +63,14 @@ export class ProfileService {
         },
       });
     }
-    console.log(profile);
+
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId }
+    });
+
+    console.log("user",user);
+    
+    console.log("profile:", profile);
 
     const [activeTheme, activecomponion, charts] = await Promise.all([
       this.prisma.client.userTheme.findFirst({
@@ -83,6 +90,7 @@ export class ProfileService {
 
     let finalProfile = {
       ...profile,
+      profilePhoto: user?.profilePhoto || null,
       userName: profile?.user?.name || null,
       activeTheme: activeTheme,
       activeCompanion: activecomponion,
