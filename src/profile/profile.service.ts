@@ -672,6 +672,90 @@ export class ProfileService {
       )
       : [];
 
+    // Find the next upcoming schedule (not completed and scheduled in the future)
+    const now = new Date();
+    const allUpcomingItems = [
+      ...(mealSchedules as any[])
+        .filter((meal: any) => !meal.isTaken && new Date(meal.scheduledAt) > now)
+        .map((meal: any) => ({
+          item: meal,
+          scheduledDate: new Date(meal.scheduledAt),
+          type: 'meal' as const,
+        })),
+      ...(medicationSchedules as any[])
+        .filter((med: any) => !med.isTaken && new Date(med.scheduleTime) > now)
+        .map((med: any) => ({
+          item: med,
+          scheduledDate: new Date(med.scheduleTime),
+          type: 'medication' as const,
+        })),
+      ...(exerciseSchedules as any[])
+        .filter((ex: any) => !ex.isTaken && new Date(ex.loggedAt) > now)
+        .map((ex: any) => ({
+          item: ex,
+          scheduledDate: new Date(ex.loggedAt),
+          type: 'exercise' as const,
+        })),
+    ];
+
+    // Sort by scheduled time and get the nearest one
+    allUpcomingItems.sort((a, b) => a.scheduledDate.getTime() - b.scheduledDate.getTime());
+    const nextUpcoming = allUpcomingItems.length > 0 ? allUpcomingItems[0] : null;
+
+    let upcomingItem: TodayScheduleItemDto | null = null;
+    if (nextUpcoming) {
+      if (nextUpcoming.type === 'meal') {
+        const meal = nextUpcoming.item;
+        upcomingItem = {
+          id: meal.id,
+          type: 'meal',
+          title: meal.mealType,
+          description: `${meal.calories || 0} kCal`,
+          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
+          earnedXp: 10,
+          details: {
+            calories: meal.calories,
+            carbs: meal.carbs,
+            protein: meal.protein,
+            fats: meal.fats,
+            isTaken: meal.isTaken ?? undefined,
+          },
+        };
+      } else if (nextUpcoming.type === 'medication') {
+        const med = nextUpcoming.item;
+        upcomingItem = {
+          id: med.id,
+          type: 'medication',
+          title: med.name,
+          description: `${med.doseMg ? `${med.doseMg}mg` : 'Medication'}`,
+          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
+          earnedXp: 10,
+          details: {
+            type: med.type,
+            doseMg: med.doseMg,
+            isTaken: med.isTaken ?? undefined,
+          },
+        };
+      } else if (nextUpcoming.type === 'exercise') {
+        const exercise = nextUpcoming.item;
+        upcomingItem = {
+          id: exercise.id,
+          type: 'exercise',
+          title: exercise.name,
+          description: `${exercise.duration ? `${exercise.duration} min` : ''}`,
+          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
+          earnedXp: 10,
+          details: {
+            type: exercise.type,
+            intensity: exercise.intensity,
+            duration: exercise.duration,
+            note: exercise.note,
+            isTaken: exercise.isTaken ?? undefined,
+          },
+        };
+      }
+    }
+
     return {
       ...baseProfile,
       todaySchedules: {
@@ -699,6 +783,7 @@ export class ProfileService {
           loggedAt: todayMoodLog.loggedAt,
         }
         : null,
+      upcoming: upcomingItem,
     };
   }
 
