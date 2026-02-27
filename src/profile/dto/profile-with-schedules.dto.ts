@@ -5,6 +5,7 @@ export class TodayScheduleItemDto {
     description?: string;
     scheduledAt: string; // Bangladesh timezone formatted string
     details?: any;
+    earnedXp?: number;
 }
 
 export class ScheduleCombinedDto {
@@ -49,4 +50,5 @@ export class ProfileWithSchedulesDto {
         note?: string | null;
         loggedAt: Date;
     } | null;
+    upcoming?: TodayScheduleItemDto | null;
 }

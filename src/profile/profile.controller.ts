@@ -32,7 +32,7 @@ export class ProfileController {
   @ApiBearerAuth('refresh-token')
   @ApiOperation({
     summary:
-      'Get my profile with XP and level, optionally with scheduled items',
+      'Get my profile with XP and level, optionally with scheduled items and upcoming log',
   })
   @ApiQuery({
     name: 'withSchedules',
@@ -44,7 +44,7 @@ export class ProfileController {
     name: 'scheduleRange',
     required: false,
     enum: ['today', 'week', 'month', 'all'],
-    description: 'Filter schedules by range (defaults to all)',
+    description: 'Filter schedules by range (defaults to all). Also returns next upcoming uncompleted schedule.',
   })
   getMyProfile(
     @GetUser('id') userId: string,

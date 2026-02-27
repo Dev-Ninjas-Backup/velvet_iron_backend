@@ -22,6 +22,12 @@ export class WeightLogResponseDto {
     required: false,
   })
   weightChange?: string;
+
+  @ApiProperty({
+    description: 'Type of weight change compared to previous day with value (e.g., "increase: 5" or "decrease: 10")',
+    required: false,
+  })
+  changeType?: string;
 }
 
 export class WeightChartDataDto {

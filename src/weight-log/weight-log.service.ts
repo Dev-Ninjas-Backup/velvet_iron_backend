@@ -21,7 +21,7 @@ export class WeightLogService {
   constructor(
     private prisma: PrismaService,
     private leveladd: LeveladdService,
-  ) {}
+  ) { }
 
   async createWeightLog(
     userId: string,
@@ -83,6 +83,7 @@ export class WeightLogService {
     // Calculate weight change for each log compared to previous log
     const history = weightLogs.map((log, index) => {
       let weightChange: string | undefined = undefined;
+      let changeType: string | undefined = undefined;
 
       // Calculate change from previous log (next index since descending order)
       if (index < weightLogs.length - 1) {
@@ -90,12 +91,23 @@ export class WeightLogService {
         const previousWeight = parseFloat(weightLogs[index + 1].weight);
         const change = currentWeight - previousWeight;
         weightChange = change > 0 ? `+${change.toFixed(1)}` : change.toFixed(1);
+
+        // Determine change type with value
+        const absChange = Math.abs(change).toFixed(1);
+        if (change > 0) {
+          changeType = `increase: ${absChange}`;
+        } else if (change < 0) {
+          changeType = `decrease: ${absChange}`;
+        } else {
+          changeType = 'stable: 0.0';
+        }
       }
 
       return {
         ...log,
         note: log.note ?? undefined,
         weightChange,
+        changeType,
       };
     });
 
