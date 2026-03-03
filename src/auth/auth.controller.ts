@@ -518,7 +518,7 @@ export class AuthController {
       // Redirect to Flutter app using deep link
       const flutterDeepLink =
         this.configService.get<string>('FLUTTER_DEEP_LINK_URL') ||
-        'myapp://auth/callback';
+        'velvetapp://auth/discordapp';
 
       // Build deep link URL with auth data
       const redirectUrl = `${flutterDeepLink}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&user=${encodeURIComponent(JSON.stringify(result.user))}`;
@@ -528,7 +528,7 @@ export class AuthController {
       console.error('Discord callback error:', error);
       const flutterDeepLink =
         this.configService.get<string>('FLUTTER_DEEP_LINK_URL') ||
-        'myapp://auth/callback';
+        'velvetapp://auth/discordapp';
       return res.redirect(`${flutterDeepLink}?error=discord_auth_failed`);
     }
   }
