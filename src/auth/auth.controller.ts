@@ -56,7 +56,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   //Grobal token expiration settings
 
@@ -476,7 +476,7 @@ export class AuthController {
   @UseGuards(AuthGuard('discord'))
   @ApiOperation({
     summary: 'Discord OAuth callback',
-    description: 'Discord redirects back here after user authenticates',
+    description: 'Discord redirects back here after user authenticates and redirects to Flutter app via deep link',
   })
   async discordCallback(@Req() req: any, @Res() res: any) {
     try {
@@ -515,18 +515,21 @@ export class AuthController {
         maxAge: refreshTokenExpirMs,
       });
 
-      // Redirect to frontend with tokens in query params or return HTML with JS to set tokens
-      const frontendUrl =
-        this.configService.get<string>('FRONTEND_URL') ||
-        'http://localhost:3000'; //
-      const redirectUrl = `${frontendUrl}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&user=${encodeURIComponent(JSON.stringify(result.user))}`;
+      // Redirect to Flutter app using deep link
+      const flutterDeepLink =
+        this.configService.get<string>('FLUTTER_DEEP_LINK_URL') ||
+        'myapp://auth/callback';
+
+      // Build deep link URL with auth data
+      const redirectUrl = `${flutterDeepLink}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&user=${encodeURIComponent(JSON.stringify(result.user))}`;
 
       return res.redirect(redirectUrl);
     } catch (error) {
       console.error('Discord callback error:', error);
-      return res.redirect(
-        `${this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000'}?error=discord_auth_failed`,
-      );
+      const flutterDeepLink =
+        this.configService.get<string>('FLUTTER_DEEP_LINK_URL') ||
+        'myapp://auth/callback';
+      return res.redirect(`${flutterDeepLink}?error=discord_auth_failed`);
     }
   }
 
