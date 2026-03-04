@@ -493,6 +493,7 @@ export class ProfileService {
           : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        earnedXp: 10,
         details: {
           calories: meal.calories,
           carbs: meal.carbs,
@@ -510,6 +511,7 @@ export class ProfileService {
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
         scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        earnedXp: 10,
         details: {
           type: med.type,
           doseMg: med.doseMg,
@@ -527,6 +529,7 @@ export class ProfileService {
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        earnedXp: 10,
         details: {
           type: exercise.type,
           intensity: exercise.intensity,
@@ -548,6 +551,7 @@ export class ProfileService {
           : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        earnedXp: 10,
         details: {
           calories: meal.calories,
           carbs: meal.carbs,
@@ -565,6 +569,7 @@ export class ProfileService {
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
         scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        earnedXp: 10,
         details: {
           type: med.type,
           doseMg: med.doseMg,
@@ -582,6 +587,7 @@ export class ProfileService {
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        earnedXp: 10,
         details: {
           type: exercise.type,
           intensity: exercise.intensity,
@@ -603,6 +609,7 @@ export class ProfileService {
           : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        earnedXp: 10,
         details: {
           calories: meal.calories,
           carbs: meal.carbs,
@@ -620,6 +627,7 @@ export class ProfileService {
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
         scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        earnedXp: 10,
         details: {
           type: med.type,
           doseMg: med.doseMg,
@@ -637,6 +645,7 @@ export class ProfileService {
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        earnedXp: 10,
         details: {
           type: exercise.type,
           intensity: exercise.intensity,
@@ -796,20 +805,20 @@ export class ProfileService {
   }
 
   private async getProfileCharts(userId: string) {
-    const [weeklyChart, monthlyChart] = await Promise.all([
+    const [currentWeekChart, lastWeekChart] = await Promise.all([
       this.xpStatsService.getWeeklyChartData(userId).catch((error) => {
-        console.error('Failed to load weekly chart data', error);
+        console.error('Failed to load current week chart data', error);
         return null;
       }),
-      this.xpStatsService.getMonthlyChartData(userId).catch((error) => {
-        console.error('Failed to load monthly chart data', error);
+      this.xpStatsService.getLastWeekChartData(userId).catch((error) => {
+        console.error('Failed to load last week chart data', error);
         return null;
       }),
     ]);
 
     return {
-      weekly: weeklyChart,
-      monthly: monthlyChart,
+      currentWeek: currentWeekChart,
+      lastWeek: lastWeekChart,
     };
   }
 }

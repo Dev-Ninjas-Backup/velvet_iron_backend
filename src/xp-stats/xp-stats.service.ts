@@ -5,7 +5,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 export class XpStatsService {
   private readonly questTimeZone = 'Asia/Dhaka';
 
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   /**
    * Get today's total XP for a user
@@ -414,6 +414,103 @@ export class XpStatsService {
 
     return {
       period: 'week',
+      timezone: 'Asia/Dhaka',
+      data: chartData,
+      totalXp: chartData.reduce((sum, day) => sum + day.xp, 0),
+    };
+  }
+
+  /**
+   * Get last week's chart data - Daily XP for each day of the previous week (Sunday to Saturday)
+   */
+  async getLastWeekChartData(userId: string) {
+    const now = new Date();
+    const currentDayOfWeek = now.getDay();
+
+    // Calculate last week's Sunday
+    const lastWeekSunday = new Date(now);
+    lastWeekSunday.setDate(now.getDate() - currentDayOfWeek - 7);
+    lastWeekSunday.setHours(0, 0, 0, 0);
+
+    const lastWeekSaturday = new Date(lastWeekSunday);
+    lastWeekSaturday.setDate(lastWeekSunday.getDate() + 6);
+    lastWeekSaturday.setHours(23, 59, 59, 999);
+
+    const logsLastWeek = await this.prisma.client.xpLog.findMany({
+      where: {
+        userId,
+        createdAt: {
+          gte: lastWeekSunday,
+          lte: lastWeekSaturday,
+        },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    const buckets = new Map<
+      string,
+      {
+        dayName: string;
+        displayDate: string;
+        isoDate: string;
+        xp: number;
+        logsCount: number;
+      }
+    >();
+
+    const dayOrder: { key: string; dayName: string; displayDate: string }[] =
+      [];
+
+    for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+      const dayStart = new Date(lastWeekSunday);
+      dayStart.setDate(lastWeekSunday.getDate() + dayOffset);
+
+      const meta = this.getBangladeshDateMeta(dayStart);
+      buckets.set(meta.dateKey, {
+        dayName: meta.dayName,
+        displayDate: meta.formatted,
+        isoDate: meta.dateKey,
+        xp: 0,
+        logsCount: 0,
+      });
+      dayOrder.push({
+        key: meta.dateKey,
+        dayName: meta.dayName,
+        displayDate: meta.formatted,
+      });
+    }
+
+    for (const log of logsLastWeek) {
+      const meta = this.getBangladeshDateMeta(log.createdAt);
+      const bucket = buckets.get(meta.dateKey);
+      if (!bucket) {
+        buckets.set(meta.dateKey, {
+          dayName: meta.dayName,
+          displayDate: meta.formatted,
+          isoDate: meta.dateKey,
+          xp: log.amount,
+          logsCount: 1,
+        });
+        continue;
+      }
+
+      bucket.xp += log.amount;
+      bucket.logsCount += 1;
+    }
+
+    const chartData = dayOrder.map((day) => {
+      const bucket = buckets.get(day.key)!;
+      return {
+        day: bucket.dayName,
+        dateLabel: bucket.displayDate,
+        isoDate: bucket.isoDate,
+        xp: bucket.xp,
+        logsCount: bucket.logsCount,
+      };
+    });
+
+    return {
+      period: 'lastWeek',
       timezone: 'Asia/Dhaka',
       data: chartData,
       totalXp: chartData.reduce((sum, day) => sum + day.xp, 0),

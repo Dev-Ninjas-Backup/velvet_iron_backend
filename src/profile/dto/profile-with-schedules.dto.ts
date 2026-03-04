@@ -35,8 +35,8 @@ export class ProfileWithSchedulesDto {
     activeTheme?: any;
     activecomponion?: any;
     charts?: {
-        weekly: any;
-        monthly: any;
+        currentWeek: any;
+        lastWeek: any;
     };
 
     todaySchedules: ScheduleCombinedDto;
