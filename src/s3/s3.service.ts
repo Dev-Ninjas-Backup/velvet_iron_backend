@@ -72,7 +72,7 @@ export class S3Service {
         return { key, url: publicUrl, public: true };
       }
 
-      // Return a presigned GET URL valid for 1 hour by default
+      // Return a presigned GET URL valid for  by default
       const expires = Number(
         this.config.get<number>('S3_PRESIGNED_EXPIRES') || 3600,
       );
