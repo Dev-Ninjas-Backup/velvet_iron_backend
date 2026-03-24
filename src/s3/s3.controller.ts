@@ -42,7 +42,7 @@ export class S3Controller {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: memoryStorage(),
-      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+      limits: { fileSize: 10 * 1024 * 1024 }, 
     }),
   )
   async upload(@UploadedFile() file: Express.Multer.File) {
