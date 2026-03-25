@@ -25,7 +25,6 @@ jobs:
       - name: Install Express
         run: pnpm add express
 
-
       - name: Run tests
         run: pnpm format
 
@@ -64,7 +63,7 @@ jobs:
               with:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_PASSWORD }}
-                  script : echo "Docker login successful"
+                  
 
             - name: Check VPS SSH connectivity
               uses: appleboy/ssh-action@v1.0.3
