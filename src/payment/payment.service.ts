@@ -78,7 +78,7 @@ export class PaymentService {
             });
         }
 
-        // Log the event
+        // ------------Log the event----------------------
         await this.prisma.client.subscriptionEvent.create({
             data: {
                 subscriptionId: subscription.id,
