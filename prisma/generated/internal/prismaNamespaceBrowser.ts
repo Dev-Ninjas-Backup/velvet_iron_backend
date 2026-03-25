@@ -51,9 +51,29 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Theme: 'Theme',
+  Companion: 'Companion',
+  UserTheme: 'UserTheme',
+  UserCompanion: 'UserCompanion',
+  WeightLog: 'WeightLog',
+  MoodLog: 'MoodLog',
+  MealSchedule: 'MealSchedule',
+  MealLog: 'MealLog',
+  Medication: 'Medication',
+  MedicationSchedule: 'MedicationSchedule',
+  ExerciseLog: 'ExerciseLog',
+  ExerciseScheduleLog: 'ExerciseScheduleLog',
+  MacroGoal: 'MacroGoal',
+  onboarding: 'onboarding',
+  Subscription: 'Subscription',
+  SubscriptionEvent: 'SubscriptionEvent',
+  Quest: 'Quest',
+  UserQuest: 'UserQuest',
   User: 'User',
   RefreshToken: 'RefreshToken',
-  Session: 'Session'
+  Session: 'Session',
+  UserProfile: 'UserProfile',
+  XpLog: 'XpLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -62,14 +82,259 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tagline: 'tagline',
+  description: 'description',
+  unlockXp: 'unlockXp',
+  createdAt: 'createdAt'
+} as const
+
+export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
+
+
+export const CompanionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  title: 'title',
+  quote: 'quote',
+  unlockXp: 'unlockXp',
+  createdAt: 'createdAt'
+} as const
+
+export type CompanionScalarFieldEnum = (typeof CompanionScalarFieldEnum)[keyof typeof CompanionScalarFieldEnum]
+
+
+export const UserThemeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  themeId: 'themeId',
+  unlockedAt: 'unlockedAt',
+  isActive: 'isActive'
+} as const
+
+export type UserThemeScalarFieldEnum = (typeof UserThemeScalarFieldEnum)[keyof typeof UserThemeScalarFieldEnum]
+
+
+export const UserCompanionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companionId: 'companionId',
+  unlockedAt: 'unlockedAt',
+  isActive: 'isActive'
+} as const
+
+export type UserCompanionScalarFieldEnum = (typeof UserCompanionScalarFieldEnum)[keyof typeof UserCompanionScalarFieldEnum]
+
+
+export const WeightLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  weight: 'weight',
+  note: 'note',
+  earnedXp: 'earnedXp',
+  loggedAt: 'loggedAt'
+} as const
+
+export type WeightLogScalarFieldEnum = (typeof WeightLogScalarFieldEnum)[keyof typeof WeightLogScalarFieldEnum]
+
+
+export const MoodLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mood: 'mood',
+  energyLevel: 'energyLevel',
+  hungerLevel: 'hungerLevel',
+  note: 'note',
+  earnedXp: 'earnedXp',
+  loggedAt: 'loggedAt'
+} as const
+
+export type MoodLogScalarFieldEnum = (typeof MoodLogScalarFieldEnum)[keyof typeof MoodLogScalarFieldEnum]
+
+
+export const MealScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mealType: 'mealType',
+  scheduledAt: 'scheduledAt',
+  isTaken: 'isTaken',
+  earnedXp: 'earnedXp',
+  calories: 'calories',
+  carbs: 'carbs',
+  protein: 'protein',
+  fats: 'fats'
+} as const
+
+export type MealScheduleScalarFieldEnum = (typeof MealScheduleScalarFieldEnum)[keyof typeof MealScheduleScalarFieldEnum]
+
+
+export const MealLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mealType: 'mealType',
+  earnedXp: 'earnedXp',
+  description: 'description',
+  calories: 'calories',
+  carbs: 'carbs',
+  protein: 'protein',
+  isTaken: 'isTaken',
+  fats: 'fats',
+  loggedAt: 'loggedAt'
+} as const
+
+export type MealLogScalarFieldEnum = (typeof MealLogScalarFieldEnum)[keyof typeof MealLogScalarFieldEnum]
+
+
+export const MedicationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  earnedXp: 'earnedXp',
+  type: 'type',
+  isTaken: 'isTaken',
+  doseMg: 'doseMg',
+  createdAt: 'createdAt'
+} as const
+
+export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof typeof MedicationScalarFieldEnum]
+
+
+export const MedicationScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  earnedXp: 'earnedXp',
+  type: 'type',
+  doseMg: 'doseMg',
+  scheduleTime: 'scheduleTime',
+  isTaken: 'isTaken'
+} as const
+
+export type MedicationScheduleScalarFieldEnum = (typeof MedicationScheduleScalarFieldEnum)[keyof typeof MedicationScheduleScalarFieldEnum]
+
+
+export const ExerciseLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  name: 'name',
+  intensity: 'intensity',
+  duration: 'duration',
+  isTaken: 'isTaken',
+  earnedXp: 'earnedXp',
+  note: 'note',
+  loggedAt: 'loggedAt'
+} as const
+
+export type ExerciseLogScalarFieldEnum = (typeof ExerciseLogScalarFieldEnum)[keyof typeof ExerciseLogScalarFieldEnum]
+
+
+export const ExerciseScheduleLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  name: 'name',
+  intensity: 'intensity',
+  duration: 'duration',
+  note: 'note',
+  loggedAt: 'loggedAt',
+  isTaken: 'isTaken',
+  earnedXp: 'earnedXp'
+} as const
+
+export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
+
+
+export const MacroGoalScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  carbs: 'carbs',
+  fat: 'fat',
+  protein: 'protein',
+  calories: 'calories',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MacroGoalScalarFieldEnum = (typeof MacroGoalScalarFieldEnum)[keyof typeof MacroGoalScalarFieldEnum]
+
+
+export const OnboardingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  iscomplete: 'iscomplete',
+  fitnessGoal: 'fitnessGoal',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OnboardingScalarFieldEnum = (typeof OnboardingScalarFieldEnum)[keyof typeof OnboardingScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  appUserId: 'appUserId',
+  productId: 'productId',
+  store: 'store',
+  isTrial: 'isTrial',
+  trialStart: 'trialStart',
+  trialEnd: 'trialEnd',
+  status: 'status',
+  originalTransactionId: 'originalTransactionId',
+  purchaseDate: 'purchaseDate',
+  expirationDate: 'expirationDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const SubscriptionEventScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  eventType: 'eventType',
+  payload: 'payload',
+  receivedAt: 'receivedAt'
+} as const
+
+export type SubscriptionEventScalarFieldEnum = (typeof SubscriptionEventScalarFieldEnum)[keyof typeof SubscriptionEventScalarFieldEnum]
+
+
+export const QuestScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  category: 'category',
+  xpReward: 'xpReward',
+  isDaily: 'isDaily'
+} as const
+
+export type QuestScalarFieldEnum = (typeof QuestScalarFieldEnum)[keyof typeof QuestScalarFieldEnum]
+
+
+export const UserQuestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  questId: 'questId',
+  completed: 'completed',
+  date: 'date'
+} as const
+
+export type UserQuestScalarFieldEnum = (typeof UserQuestScalarFieldEnum)[keyof typeof UserQuestScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -79,14 +344,16 @@ export const UserScalarFieldEnum = {
   password: 'password',
   name: 'name',
   avatar: 'avatar',
+  profilePhoto: 'profilePhoto',
+  gender: 'gender',
+  dateOfBirth: 'dateOfBirth',
   emailVerified: 'emailVerified',
   emailVerificationOtp: 'emailVerificationOtp',
   emailVerificationExpiry: 'emailVerificationExpiry',
   resetPasswordOtp: 'resetPasswordOtp',
   resetPasswordOtpExpiry: 'resetPasswordOtpExpiry',
   resetPasswordVerified: 'resetPasswordVerified',
-  dateOfBirth: 'dateOfBirth',
-  gender: 'gender',
+  onBoarded: 'onBoarded',
   googleId: 'googleId',
   githubId: 'githubId',
   discord: 'discord',
@@ -124,12 +391,50 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  activeThemeId: 'activeThemeId',
+  activeCompanionId: 'activeCompanionId',
+  availableCompanions: 'availableCompanions',
+  themeCredits: 'themeCredits',
+  companionCredits: 'companionCredits',
+  totalEarnXp: 'totalEarnXp',
+  balanceXp: 'balanceXp',
+  level: 'level',
+  onBoardingCompleted: 'onBoardingCompleted',
+  fitnessGoal: 'fitnessGoal',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const XpLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type XpLogScalarFieldEnum = (typeof XpLogScalarFieldEnum)[keyof typeof XpLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -146,4 +451,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

@@ -9,19 +9,80 @@
 * 🟢 You can import this file directly.
 */
 
+export const Mood = {
+  TIRED: 'TIRED',
+  GOOD: 'GOOD',
+  PISSED: 'PISSED',
+  GREAT: 'GREAT',
+  POOR: 'POOR'
+} as const
+
+export type Mood = (typeof Mood)[keyof typeof Mood]
+
+
+export const EnergyLevel = {
+  EXHAUSTED: 'EXHAUSTED',
+  LOW: 'LOW',
+  MODERATE: 'MODERATE',
+  ENERGIZED: 'ENERGIZED',
+  HIGH: 'HIGH'
+} as const
+
+export type EnergyLevel = (typeof EnergyLevel)[keyof typeof EnergyLevel]
+
+
+export const HungerLevel = {
+  NOT_HUNGRY: 'NOT_HUNGRY',
+  HUNGRY: 'HUNGRY',
+  VERY_HUNGRY: 'VERY_HUNGRY'
+} as const
+
+export type HungerLevel = (typeof HungerLevel)[keyof typeof HungerLevel]
+
+
+export const MealType = {
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  DINNER: 'DINNER',
+  SNACK: 'SNACK'
+} as const
+
+export type MealType = (typeof MealType)[keyof typeof MealType]
+
+
+export const MedicationType = {
+  CAPSULE: 'CAPSULE',
+  INJECTION: 'INJECTION',
+  LIQUID: 'LIQUID',
+  TABLET: 'TABLET'
+} as const
+
+export type MedicationType = (typeof MedicationType)[keyof typeof MedicationType]
+
+
+export const exercise_type = {
+  CARDIO: 'CARDIO',
+  STRENGTH: 'STRENGTH',
+  FLEXIBILITY: 'FLEXIBILITY',
+  BALANCE: 'BALANCE'
+} as const
+
+export type exercise_type = (typeof exercise_type)[keyof typeof exercise_type]
+
+
+export const exercise_intensity = {
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW',
+  HIGH: 'HIGH'
+} as const
+
+export type exercise_intensity = (typeof exercise_intensity)[keyof typeof exercise_intensity]
+
+
 export const UserRole = {
-  SUPER_ADMIN: 'SUPER_ADMIN',
+  SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
   USER: 'USER'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
-export const Gender = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE',
-  OTHER: 'OTHER'
-} as const
-
-export type Gender = (typeof Gender)[keyof typeof Gender]

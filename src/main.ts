@@ -19,7 +19,8 @@ async function bootstrap() {
   const isTruthyEnv = (value?: string) =>
     ['true', '1', 'yes', 'on'].includes((value ?? '').toLowerCase());
 
-  // app.useStaticAssets(join(__dirname, '..', 'public'));
+  // Serve public folder for swagger-helper.js
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   app.useStaticAssets(join(__dirname, 'auth'), {
     prefix: '/auth',
@@ -54,9 +55,27 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle(`${process.env.SERVER_NAME} API`)
+    .setDescription(`${process.env.SERVER_NAME} Authentication and User Management API`)
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
-    .addTag('uploads', 'File upload endpoints')
+    .addTag('Profile', 'Profile management endpoints')
+    .addTag('Themes', 'Theme customization endpoints')
+    .addTag('Companions', 'Companion endpoints')
+    .addTag('onboarding', 'Onboarding endpoints')
+    .addTag('Macro Goal', 'Macro goal endpoints')
+    .addTag('Mood Log', 'Mood log endpoints')
+    .addTag('Weight Log', 'Weight log endpoints')
+    .addTag('Meal Log', 'Meal log endpoints')
+    .addTag('Meal Schedule', 'Meal schedule endpoints')
+    .addTag('Medication', 'Medication endpoints')
+    .addTag('Medication Schedule', 'Medication schedule endpoints')
+    .addTag('Exercise Log', 'Exercise log endpoints')
+    .addTag('Mood Log', 'Mood log endpoints')
+    .addTag('Profile', 'Profile management endpoints')
+    .addTag('Themes', 'Theme customization endpoints')
+    .addTag('XP Statistics', 'XP statistics endpoints')
+    .addTag('Companions', 'Companion endpoints')
+    .addTag('Weight Log', 'Weight log endpoints')
     .addBearerAuth(
       {
         type: 'http',
@@ -134,6 +153,7 @@ async function bootstrap() {
       persistAuthorization: true,
       withCredentials: true,
     },
+    customJs: '/swagger-helper.js',
   });
   await app.listen(port);
   console.log(`API docs available at http://localhost:${port}/api-docs`);

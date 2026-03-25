@@ -1,0 +1,27 @@
+// Quests (Admin creates these)
+model Quest {
+    id         String      @id @default(uuid())
+    title      String
+    category   String // HEALTH, FITNESS, MINDFULNESS, etc.
+    xpReward   Int         @default(0)
+    isDaily    Boolean     @default(false)
+    userQuests UserQuest[]
+
+    @@map("quests")
+}
+
+// User Quest Progress
+model UserQuest {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    questId   String
+    quest     Quest    @relation(fields: [questId], references: [id], onDelete: Cascade)
+    completed Boolean  @default(false)
+    date      DateTime @default(now()) @db.Date
+
+    @@unique([userId, questId, date]) // A user can complete the same quest once per day
+    @@index([userId])
+    @@index([questId])
+    @@map("user_quests")
+}

@@ -1,0 +1,27 @@
+model Subscription {
+    id                    String              @id @default(cuid())
+    userId                String              @unique
+    user                  User                @relation(fields: [userId], references: [id])
+    appUserId             String              @unique // RevenueCat user ID
+    productId             String // e.g. "monthly_premium"
+    store                 String // "app_store" / "play_store"
+    isTrial               Boolean             @default(false)
+    trialStart            DateTime?
+    trialEnd              DateTime? // custom 6-day trial end
+    status                String // "active" / "cancelled" / "expired"
+    originalTransactionId String?
+    purchaseDate          DateTime?
+    expirationDate        DateTime?
+    events                SubscriptionEvent[]
+    createdAt             DateTime            @default(now())
+    updatedAt             DateTime            @updatedAt
+}
+
+model SubscriptionEvent {
+    id             String       @id @default(cuid())
+    subscriptionId String
+    subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+    eventType      String // "INITIAL_PURCHASE", "CANCELLATION", "RENEWAL", etc.
+    payload        Json
+    receivedAt     DateTime     @default(now())
+}

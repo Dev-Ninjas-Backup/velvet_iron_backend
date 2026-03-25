@@ -1,5 +1,5 @@
 {
-  "name": "velvet_iron_backend",
+  "name": "velvet_iroon_backend",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,11 +22,13 @@
     "mg": "npx prisma migrate dev && npx prisma generate",
     "reset": "npx prisma migrate reset --force && npx prisma generate",
     "mgsdev": "npx prisma migrate dev && npx prisma generate && nest start --watch",
-    "rmgsdev": "rmdir /s /q prisma\\migrations 2>nul & rmdir /s /q prisma\\generated 2>nul & npx prisma migrate reset --force && npx prisma migrate dev && npx prisma generate && nest start --watch",
-    "git": "git add . && git commit -m \"update emergency\" && git push",
+    "rmgsdev": "rm -rf prisma/migrations prisma/generated && npx prisma migrate reset --force && npx prisma migrate dev --name init && npx prisma generate && nest start --watch",
+    "git": "git add . && git -c core.editor=\"code --wait\" commit && git push",
     "prisma:deploy": "npx prisma generate && npx prisma migrate deploy",
     "server:run:under:dockerimage": "npx prisma generate && npx prisma migrate deploy && node dist/src/main",
-    "studio": "npx prisma studio"
+    "studio": "npx prisma studio",
+    "seed": "ts-node prisma/seed.ts",
+    "git:setuser": "git config user.name \"Shamim Rana\" && git config user.email \"shamimranaprofessional@gmail.com\""
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.971.0",
@@ -43,12 +45,14 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@types/bcryptjs": "^3.0.0",
+    "aws-sdk": "^2.1693.0",
     "bcryptjs": "^3.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "dotenv-expand": "^12.0.3",
+    "express": "^5.2.1",
     "firebase-admin": "^13.6.0",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.12",
@@ -82,6 +86,8 @@
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",
     "jest": "^30.0.0",
+    "markdown-pdf": "^11.0.0",
+    "md-to-pdf": "^5.2.5",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
@@ -91,6 +97,9 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "jest": {
     "moduleFileExtensions": [

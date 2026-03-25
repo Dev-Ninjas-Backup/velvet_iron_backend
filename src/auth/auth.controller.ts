@@ -8,10 +8,28 @@ import {
   Get,
   Put,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  UploadedFiles,
+  Patch,
+  BadRequestException,
+  Query,
 } from '@nestjs/common';
+import {
+  FileInterceptor,
+  FileFieldsInterceptor,
+} from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { AuthService } from './auth.service';
 import { registerDto } from './dto/register.dto';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiConsumes,
+  ApiBody,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { loginDto } from './dto/login.dto';
 import { FirebaseAuthDto } from './dto/firebase-auth.dto';
@@ -24,6 +42,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { CheckUsernameDto } from './dto/check-username.dto';
 import { UpdateUsernameDto } from './dto/update-username.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { ConfigService } from '@nestjs/config';
 import {
   ValidUser,
@@ -37,7 +56,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   //Grobal token expiration settings
 
@@ -124,7 +143,7 @@ export class AuthController {
       const accessTokenExpirMs = Math.floor(
         isNaN(accessTokenConfigMs) ? 15 * 60 * 1000 : accessTokenConfigMs,
       );
-      const refreshTokenExpirMs = Math.floor( 
+      const refreshTokenExpirMs = Math.floor(
         isNaN(refreshTokenConfigMs)
           ? 7 * 24 * 60 * 60 * 1000
           : refreshTokenConfigMs,
@@ -319,13 +338,96 @@ export class AuthController {
 
   // ==================== User Profile ====================
 
-  @Put('profile')
+  @Patch('profile')
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Update user profile' })
-  updateProfile(@Body() dto: UpdateProfileDto, @Req() req: any) {
-    return this.authService.updateProfile(req.user.id, dto);
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          description: 'User full name (optional)',
+          example: 'John Doe',
+        },
+        username: {
+          type: 'string',
+          description: 'Unique username (optional)',
+          example: '',
+        },
+        gender: {
+          type: 'string',
+          enum: ['MALE', 'FEMALE', 'OTHER', 'PREFER_NOT_TO_SAY'],
+          description: 'Gender (optional)',
+          example: 'MALE',
+        },
+        dateOfBirth: {
+          type: 'string',
+          format: 'date',
+          description: 'Date of birth (YYYY-MM-DD format, optional)',
+          example: '1990-01-15',
+        },
+        profilePhoto: {
+          type: 'string',
+          format: 'binary',
+          description:
+            'Profile photo (images only: jpeg, jpg, png, gif, webp, svg, optional)',
+        },
+        avatar: {
+          type: 'string',
+          format: 'binary',
+          description:
+            'Avatar (images only: jpeg, jpg, png, gif, webp, svg, optional)',
+        },
+      },
+    },
+  })
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'profilePhoto', maxCount: 1 },
+        { name: 'avatar', maxCount: 1 },
+      ],
+      {
+        storage: memoryStorage(),
+        limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+        fileFilter: (req, file, cb) => {
+          // Only accept image files
+          const allowedMimeTypes = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/gif',
+            'image/webp',
+            'image/svg+xml',
+          ];
+          if (allowedMimeTypes.includes(file.mimetype)) {
+            cb(null, true);
+          } else {
+            cb(
+              new BadRequestException(
+                `Only image files are allowed. Received: ${file.mimetype}`,
+              ),
+              false,
+            );
+          }
+        },
+      },
+    ),
+  )
+  updateProfile(
+    @Body() dto: UpdateProfileDto,
+    @UploadedFiles()
+    files: {
+      profilePhoto?: Express.Multer.File[];
+      avatar?: Express.Multer.File[];
+    },
+    @Req() req: any,
+  ) {
+    return this.authService.updateProfile(req.user.id, dto, files);
   }
 
   // ==================== Discord OAuth ====================
@@ -374,7 +476,7 @@ export class AuthController {
   @UseGuards(AuthGuard('discord'))
   @ApiOperation({
     summary: 'Discord OAuth callback',
-    description: 'Discord redirects back here after user authenticates',
+    description: 'Discord redirects back here after user authenticates and redirects to Flutter app via deep link',
   })
   async discordCallback(@Req() req: any, @Res() res: any) {
     try {
@@ -413,18 +515,21 @@ export class AuthController {
         maxAge: refreshTokenExpirMs,
       });
 
-      // Redirect to frontend with tokens in query params or return HTML with JS to set tokens
-      const frontendUrl =
-        this.configService.get<string>('FRONTEND_URL') ||
-        'http://localhost:3000'; //
-      const redirectUrl = `${frontendUrl}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&user=${encodeURIComponent(JSON.stringify(result.user))}`;
+      // Redirect to Flutter app using deep link
+      const flutterDeepLink =
+        this.configService.get<string>('FLUTTER_DEEP_LINK_URL') ||
+        'velvetapp://auth/discordapp';
+
+      // Build deep link URL with auth data
+      const redirectUrl = `${flutterDeepLink}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&user=${encodeURIComponent(JSON.stringify(result.user))}`;
 
       return res.redirect(redirectUrl);
     } catch (error) {
       console.error('Discord callback error:', error);
-      return res.redirect(
-        `${this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000'}?error=discord_auth_failed`,
-      );
+      const flutterDeepLink =
+        this.configService.get<string>('FLUTTER_DEEP_LINK_URL') ||
+        'velvetapp://auth/discordapp';
+      return res.redirect(`${flutterDeepLink}?error=discord_auth_failed`);
     }
   }
 

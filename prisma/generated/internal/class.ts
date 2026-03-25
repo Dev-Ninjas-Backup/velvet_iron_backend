@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.2.0",
-  "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
+  "clientVersion": "7.3.0",
+  "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n// Simple User Model for Authentication\nmodel User {\n  id       String  @id @default(uuid())\n  email    String  @unique\n  username String? @unique\n  password String? // Hashed password (null for OAuth users)\n\n  // Profile\n  name   String?\n  avatar String  @default(\"https://i.pinimg.com/236x/1a/a8/d7/1aa8d75f3498784bcd2617b3e3d1e0c4.jpg\")\n\n  // Email Verification\n  emailVerified           Boolean   @default(false)\n  emailVerificationOtp    String?\n  emailVerificationExpiry DateTime?\n\n  // Password Reset\n  resetPasswordOtp       String?\n  resetPasswordOtpExpiry DateTime?\n  resetPasswordVerified  Boolean   @default(false)\n\n  dateOfBirth DateTime?\n  gender      Gender?\n\n  // OAuth Providers\n  googleId String? @unique\n  githubId String? @unique\n  discord  String? @unique\n\n  // Role & Status\n  role     UserRole @default(USER)\n  isActive Boolean  @default(true)\n\n  // Timestamps\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  refreshTokens RefreshToken[]\n  sessions      Session[]\n\n  @@index([email])\n  @@map(\"users\")\n}\n\nenum UserRole {\n  SUPER_ADMIN\n  ADMIN\n  USER\n}\n\nenum Gender {\n  MALE\n  FEMALE\n  OTHER\n}\n\n// Refresh Token for JWT\nmodel RefreshToken {\n  id        String   @id @default(uuid())\n  token     String   @unique\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"refresh_tokens\")\n}\n\n// Session tracking for multi-device support\nmodel Session {\n  id           String   @id @default(uuid())\n  userId       String\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  deviceInfo   String?\n  ipAddress    String?\n  refreshToken String   @unique\n  expiresAt    DateTime\n  createdAt    DateTime @default(now())\n  lastActivity DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"sessions\")\n}\n",
+  "inlineSchema": "// User Profile with XP and Level\n\n// Themes (Admin creates these)\nmodel Theme {\n  id           String        @id @default(uuid())\n  name         String        @unique\n  tagline      String?\n  description  String?\n  unlockXp     Int           @default(0) // XP required to unlock\n  createdAt    DateTime      @default(now())\n  userThemes   UserTheme[]\n  activeUsers  UserProfile[] @relation(\"ActiveTheme\")\n  userProfiles UserProfile[] @relation(\"availabalethemes\")\n\n  @@map(\"themes\")\n}\n\n// Companions (Admin creates these)\nmodel Companion {\n  id             String          @id @default(uuid())\n  name           String\n  title          String?\n  quote          String?\n  unlockXp       Int             @default(0) // XP required to unlock\n  createdAt      DateTime        @default(now())\n  userCompanions UserCompanion[]\n  activeUsers    UserProfile[]   @relation(\"ActiveCompanion\")\n  userProfiles   UserProfile[]   @relation(\"availableCompanions\")\n\n  @@map(\"companions\")\n}\n\n// User's unlocked themes\nmodel UserTheme {\n  id         String   @id @default(uuid())\n  userId     String\n  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  themeId    String\n  theme      Theme    @relation(fields: [themeId], references: [id], onDelete: Cascade)\n  unlockedAt DateTime @default(now())\n  isActive   Boolean  @default(false)\n\n  @@unique([userId, themeId]) // A user can only unlock a theme once\n  @@index([userId])\n  @@index([themeId])\n  @@map(\"user_themes\")\n}\n\n// User's unlocked companions\nmodel UserCompanion {\n  id          String    @id @default(uuid())\n  userId      String\n  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  companionId String\n  companion   Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)\n  unlockedAt  DateTime  @default(now())\n  isActive    Boolean   @default(false)\n\n  @@unique([userId, companionId]) // A user can only unlock a companion once\n  @@index([userId])\n  @@index([companionId])\n  @@map(\"user_companions\")\n}\n\n// Weight Logs\nmodel WeightLog {\n  id       String   @id @default(uuid())\n  userId   String\n  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  weight   String\n  note     String?\n  earnedXp Int      @default(10)\n  loggedAt DateTime @default(now())\n\n  @@index([userId])\n  @@index([loggedAt])\n  @@map(\"weight_logs\")\n}\n\n// Mood Logs\nmodel MoodLog {\n  id          String       @id @default(uuid())\n  userId      String\n  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)\n  mood        Mood\n  energyLevel EnergyLevel?\n  hungerLevel HungerLevel?\n  note        String?\n  earnedXp    Int          @default(10)\n  loggedAt    DateTime     @default(now())\n\n  @@index([userId])\n  @@index([loggedAt])\n  @@map(\"mood_logs\")\n}\n\nenum Mood {\n  TIRED\n  GOOD\n  PISSED\n  GREAT\n  POOR\n}\n\nenum EnergyLevel {\n  EXHAUSTED\n  LOW\n  MODERATE\n  ENERGIZED\n  HIGH\n}\n\nenum HungerLevel {\n  NOT_HUNGRY\n  HUNGRY\n  VERY_HUNGRY\n}\n\n// Meal Schedules\nmodel MealSchedule {\n  id          String   @id @default(uuid())\n  userId      String\n  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK\n  scheduledAt DateTime\n  isTaken     Boolean  @default(false)\n  earnedXp    Int      @default(10)\n  calories    Int?\n  carbs       Int?\n  protein     Int?\n  fats        Int?\n\n  @@index([userId])\n  @@index([scheduledAt])\n  @@map(\"meal_schedules\")\n}\n\nenum MealType {\n  BREAKFAST\n  LUNCH\n  DINNER\n  SNACK\n}\n\n// Meal Logs\nmodel MealLog {\n  id          String   @id @default(uuid())\n  userId      String\n  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK\n  earnedXp    Int      @default(10)\n  description String?\n  calories    Int?\n  carbs       Int?\n  protein     Int?\n  isTaken     Boolean  @default(true)\n  fats        Int?\n  loggedAt    DateTime @default(now())\n\n  @@index([userId])\n  @@index([loggedAt])\n  @@map(\"meal_logs\")\n}\n\n// Medications\nmodel Medication {\n  id        String          @id @default(uuid())\n  userId    String\n  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)\n  name      String\n  earnedXp  Int             @default(10)\n  type      MedicationType?\n  isTaken   Boolean         @default(true)\n  doseMg    Int? // e.g., 500 mg\n  createdAt DateTime        @default(now())\n\n  @@index([userId])\n  @@map(\"medications\")\n}\n\nenum MedicationType {\n  CAPSULE\n  INJECTION\n  LIQUID\n  TABLET\n}\n\n// Medication Schedules\nmodel MedicationSchedule {\n  id           String          @id @default(uuid())\n  userId       String\n  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)\n  name         String\n  earnedXp     Int             @default(10)\n  type         MedicationType?\n  doseMg       Int? // e.g., 500 mg\n  scheduleTime DateTime\n  isTaken      Boolean         @default(false)\n\n  @@index([userId])\n  @@index([scheduleTime])\n  @@map(\"medication_schedules\")\n}\n\n// Exercise Logs\nmodel ExerciseLog {\n  id        String              @id @default(uuid())\n  userId    String\n  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n  type      exercise_type // CARDIO, STRENGTH, FLEXIBILITY, etc.\n  name      String // Running, Push-ups, Yoga, etc.\n  intensity exercise_intensity? // LOW, MEDIUM, HIGH\n  duration  Int? // in minutes\n  isTaken   Boolean             @default(true)\n  earnedXp  Int                 @default(10)\n  note      String?\n  loggedAt  DateTime            @default(now())\n\n  @@index([userId])\n  @@index([loggedAt])\n  @@map(\"exercise_logs\")\n}\n\nmodel ExerciseScheduleLog {\n  id        String              @id @default(uuid())\n  userId    String\n  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n  type      exercise_type // CARDIO, STRENGTH, FLEXIBILITY, etc.\n  name      String // Running, Push-ups, Yoga, etc.\n  intensity exercise_intensity? // LOW, MEDIUM, HIGH\n  duration  Int? // in minutes\n  note      String?\n  loggedAt  DateTime            @default(now())\n  isTaken   Boolean             @default(false)\n  earnedXp  Int                 @default(10)\n\n  @@index([userId])\n  @@index([loggedAt])\n  @@map(\"exercise_schedule_logs\")\n}\n\nenum exercise_type {\n  CARDIO\n  STRENGTH\n  FLEXIBILITY\n  BALANCE\n}\n\nenum exercise_intensity {\n  MEDIUM\n  LOW\n  HIGH\n}\n\nmodel MacroGoal {\n  id     String @id @default(uuid())\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  name     String?\n  carbs    Float // in grams\n  fat      Float // in grams\n  protein  Float // in grams\n  calories Float // calculated from macros (4*carbs + 9*fat + 4*protein)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([userId])\n  @@map(\"macro_goals\")\n}\n\nmodel onboarding {\n  id          String   @id @default(uuid())\n  userId      String   @unique\n  iscomplete  Boolean  @default(false)\n  fitnessGoal String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel Subscription {\n  id                    String              @id @default(cuid())\n  userId                String              @unique\n  user                  User                @relation(fields: [userId], references: [id])\n  appUserId             String              @unique // RevenueCat user ID\n  productId             String // e.g. \"monthly_premium\"\n  store                 String // \"app_store\" / \"play_store\"\n  isTrial               Boolean             @default(false)\n  trialStart            DateTime?\n  trialEnd              DateTime? // custom 6-day trial end\n  status                String // \"active\" / \"cancelled\" / \"expired\"\n  originalTransactionId String?\n  purchaseDate          DateTime?\n  expirationDate        DateTime?\n  events                SubscriptionEvent[]\n  createdAt             DateTime            @default(now())\n  updatedAt             DateTime            @updatedAt\n}\n\nmodel SubscriptionEvent {\n  id             String       @id @default(cuid())\n  subscriptionId String\n  subscription   Subscription @relation(fields: [subscriptionId], references: [id])\n  eventType      String // \"INITIAL_PURCHASE\", \"CANCELLATION\", \"RENEWAL\", etc.\n  payload        Json\n  receivedAt     DateTime     @default(now())\n}\n\n// Quests (Admin creates these)\nmodel Quest {\n  id         String      @id @default(uuid())\n  title      String\n  category   String // HEALTH, FITNESS, MINDFULNESS, etc.\n  xpReward   Int         @default(0)\n  isDaily    Boolean     @default(false)\n  userQuests UserQuest[]\n\n  @@map(\"quests\")\n}\n\n// User Quest Progress\nmodel UserQuest {\n  id        String   @id @default(uuid())\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  questId   String\n  quest     Quest    @relation(fields: [questId], references: [id], onDelete: Cascade)\n  completed Boolean  @default(false)\n  date      DateTime @default(now()) @db.Date\n\n  @@unique([userId, questId, date]) // A user can complete the same quest once per day\n  @@index([userId])\n  @@index([questId])\n  @@map(\"user_quests\")\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n// Simple User Model for Authentication\nmodel User {\n  id       String  @id @default(uuid())\n  email    String  @unique\n  username String? @unique\n  password String? // Hashed password (null for OAuth users)\n\n  // Profile\n  name         String?\n  avatar       String    @default(\"https://i.pinimg.com/236x/1a/a8/d7/1aa8d75f3498784bcd2617b3e3d1e0c4.jpg\")\n  profilePhoto String?\n  gender       String? // MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY\n  dateOfBirth  DateTime?\n\n  // Email Verification\n  emailVerified           Boolean   @default(false)\n  emailVerificationOtp    String?\n  emailVerificationExpiry DateTime?\n\n  // Password Reset\n  resetPasswordOtp       String?\n  resetPasswordOtpExpiry DateTime?\n  resetPasswordVerified  Boolean   @default(false)\n\n  onBoarded Boolean @default(false)\n  // OAuth Providers\n  googleId  String? @unique\n  githubId  String? @unique\n  discord   String? @unique\n\n  // Role & Status\n  role     UserRole @default(USER)\n  isActive Boolean  @default(true)\n\n  // Timestamps\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  refreshTokens        RefreshToken[]\n  sessions             Session[]\n  userProfile          UserProfile?\n  userThemes           UserTheme[]\n  userCompanions       UserCompanion[]\n  weightLogs           WeightLog[]\n  moodLogs             MoodLog[]\n  mealSchedules        MealSchedule[]\n  mealLogs             MealLog[]\n  medications          Medication[]\n  medicationSchedules  MedicationSchedule[]\n  exerciseLogs         ExerciseLog[]\n  ExerciseScheduleLogs ExerciseScheduleLog[]\n  userQuests           UserQuest[]\n  subscription         Subscription?\n  xpLogs               XpLog[]\n  onboarding           onboarding?\n  macroGoals           MacroGoal[]\n\n  @@index([email])\n  @@map(\"users\")\n}\n\nenum UserRole {\n  SUPERADMIN\n  ADMIN\n  USER\n}\n\n// Refresh Token for JWT\nmodel RefreshToken {\n  id        String   @id @default(uuid())\n  token     String   @unique\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"refresh_tokens\")\n}\n\n// Session tracking for multi-device support\nmodel Session {\n  id           String   @id @default(uuid())\n  userId       String\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  deviceInfo   String?\n  ipAddress    String?\n  refreshToken String   @unique\n  expiresAt    DateTime\n  createdAt    DateTime @default(now())\n  lastActivity DateTime @default(now())\n\n  @@index([userId])\n  @@map(\"sessions\")\n}\n\nmodel UserProfile {\n  id                  String      @id @default(uuid())\n  userId              String      @unique\n  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)\n  activeThemeId       String?\n  activeTheme         Theme?      @relation(\"ActiveTheme\", fields: [activeThemeId], references: [id])\n  activeCompanionId   String?\n  activeCompanion     Companion?  @relation(\"ActiveCompanion\", fields: [activeCompanionId], references: [id])\n  availableThemes     Theme[]     @relation(\"availabalethemes\")\n  availableCompanions String[]    @default([])\n  themeCredits        Int         @default(0)\n  companionCredits    Int         @default(0)\n  totalEarnXp         Int         @default(0)\n  balanceXp           Int         @default(0)\n  level               Int         @default(1)\n  onBoardingCompleted Boolean?    @default(false)\n  fitnessGoal         String?\n  createdAt           DateTime    @default(now())\n  updatedAt           DateTime    @updatedAt\n  availableComponions Companion[] @relation(\"availableCompanions\")\n\n  @@index([userId])\n  @@map(\"user_profiles\")\n}\n\n// XP Activity Log\nmodel XpLog {\n  id        String   @id @default(uuid())\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  amount    Int // XP amount (can be positive or negative)\n  source    String // e.g., \"DAILY_LOGIN\", \"QUEST_COMPLETE\", \"ACHIEVEMENT\", etc.\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n  @@index([createdAt])\n  @@index([userId, createdAt])\n  @@map(\"xp_logs\")\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailVerificationOtp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerificationExpiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"resetPasswordOtp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resetPasswordOtpExpiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"resetPasswordVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"googleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"githubId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"discord\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"}],\"dbName\":\"users\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"refresh_tokens\"},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"},{\"name\":\"deviceInfo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastActivity\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"sessions\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Theme\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tagline\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"unlockXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userThemes\",\"kind\":\"object\",\"type\":\"UserTheme\",\"relationName\":\"ThemeToUserTheme\"},{\"name\":\"activeUsers\",\"kind\":\"object\",\"type\":\"UserProfile\",\"relationName\":\"ActiveTheme\"},{\"name\":\"userProfiles\",\"kind\":\"object\",\"type\":\"UserProfile\",\"relationName\":\"availabalethemes\"}],\"dbName\":\"themes\"},\"Companion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quote\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"unlockXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userCompanions\",\"kind\":\"object\",\"type\":\"UserCompanion\",\"relationName\":\"CompanionToUserCompanion\"},{\"name\":\"activeUsers\",\"kind\":\"object\",\"type\":\"UserProfile\",\"relationName\":\"ActiveCompanion\"},{\"name\":\"userProfiles\",\"kind\":\"object\",\"type\":\"UserProfile\",\"relationName\":\"availableCompanions\"}],\"dbName\":\"companions\"},\"UserTheme\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserTheme\"},{\"name\":\"themeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"theme\",\"kind\":\"object\",\"type\":\"Theme\",\"relationName\":\"ThemeToUserTheme\"},{\"name\":\"unlockedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":\"user_themes\"},\"UserCompanion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserCompanion\"},{\"name\":\"companionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"companion\",\"kind\":\"object\",\"type\":\"Companion\",\"relationName\":\"CompanionToUserCompanion\"},{\"name\":\"unlockedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":\"user_companions\"},\"WeightLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToWeightLog\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"loggedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"weight_logs\"},\"MoodLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MoodLogToUser\"},{\"name\":\"mood\",\"kind\":\"enum\",\"type\":\"Mood\"},{\"name\":\"energyLevel\",\"kind\":\"enum\",\"type\":\"EnergyLevel\"},{\"name\":\"hungerLevel\",\"kind\":\"enum\",\"type\":\"HungerLevel\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"loggedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"mood_logs\"},\"MealSchedule\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MealScheduleToUser\"},{\"name\":\"mealType\",\"kind\":\"enum\",\"type\":\"MealType\"},{\"name\":\"scheduledAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isTaken\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"calories\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"carbs\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"protein\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fats\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"meal_schedules\"},\"MealLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MealLogToUser\"},{\"name\":\"mealType\",\"kind\":\"enum\",\"type\":\"MealType\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"calories\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"carbs\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"protein\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isTaken\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"fats\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"loggedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"meal_logs\"},\"Medication\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MedicationToUser\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"MedicationType\"},{\"name\":\"isTaken\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"doseMg\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"medications\"},\"MedicationSchedule\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MedicationScheduleToUser\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"MedicationType\"},{\"name\":\"doseMg\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"scheduleTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isTaken\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":\"medication_schedules\"},\"ExerciseLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ExerciseLogToUser\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"exercise_type\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"intensity\",\"kind\":\"enum\",\"type\":\"exercise_intensity\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isTaken\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"loggedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"exercise_logs\"},\"ExerciseScheduleLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ExerciseScheduleLogToUser\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"exercise_type\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"intensity\",\"kind\":\"enum\",\"type\":\"exercise_intensity\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"loggedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isTaken\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"earnedXp\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"exercise_schedule_logs\"},\"MacroGoal\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MacroGoalToUser\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"carbs\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"fat\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"protein\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"calories\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"macro_goals\"},\"onboarding\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"iscomplete\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"fitnessGoal\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToonboarding\"}],\"dbName\":null},\"Subscription\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SubscriptionToUser\"},{\"name\":\"appUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"store\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isTrial\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"trialStart\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"trialEnd\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"originalTransactionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"purchaseDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expirationDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"events\",\"kind\":\"object\",\"type\":\"SubscriptionEvent\",\"relationName\":\"SubscriptionToSubscriptionEvent\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"SubscriptionEvent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subscriptionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subscription\",\"kind\":\"object\",\"type\":\"Subscription\",\"relationName\":\"SubscriptionToSubscriptionEvent\"},{\"name\":\"eventType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"payload\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"receivedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Quest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"xpReward\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isDaily\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"userQuests\",\"kind\":\"object\",\"type\":\"UserQuest\",\"relationName\":\"QuestToUserQuest\"}],\"dbName\":\"quests\"},\"UserQuest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserQuest\"},{\"name\":\"questId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quest\",\"kind\":\"object\",\"type\":\"Quest\",\"relationName\":\"QuestToUserQuest\"},{\"name\":\"completed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"user_quests\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gender\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailVerificationOtp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerificationExpiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"resetPasswordOtp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resetPasswordOtpExpiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"resetPasswordVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"onBoarded\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"googleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"githubId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"discord\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"userProfile\",\"kind\":\"object\",\"type\":\"UserProfile\",\"relationName\":\"UserToUserProfile\"},{\"name\":\"userThemes\",\"kind\":\"object\",\"type\":\"UserTheme\",\"relationName\":\"UserToUserTheme\"},{\"name\":\"userCompanions\",\"kind\":\"object\",\"type\":\"UserCompanion\",\"relationName\":\"UserToUserCompanion\"},{\"name\":\"weightLogs\",\"kind\":\"object\",\"type\":\"WeightLog\",\"relationName\":\"UserToWeightLog\"},{\"name\":\"moodLogs\",\"kind\":\"object\",\"type\":\"MoodLog\",\"relationName\":\"MoodLogToUser\"},{\"name\":\"mealSchedules\",\"kind\":\"object\",\"type\":\"MealSchedule\",\"relationName\":\"MealScheduleToUser\"},{\"name\":\"mealLogs\",\"kind\":\"object\",\"type\":\"MealLog\",\"relationName\":\"MealLogToUser\"},{\"name\":\"medications\",\"kind\":\"object\",\"type\":\"Medication\",\"relationName\":\"MedicationToUser\"},{\"name\":\"medicationSchedules\",\"kind\":\"object\",\"type\":\"MedicationSchedule\",\"relationName\":\"MedicationScheduleToUser\"},{\"name\":\"exerciseLogs\",\"kind\":\"object\",\"type\":\"ExerciseLog\",\"relationName\":\"ExerciseLogToUser\"},{\"name\":\"ExerciseScheduleLogs\",\"kind\":\"object\",\"type\":\"ExerciseScheduleLog\",\"relationName\":\"ExerciseScheduleLogToUser\"},{\"name\":\"userQuests\",\"kind\":\"object\",\"type\":\"UserQuest\",\"relationName\":\"UserToUserQuest\"},{\"name\":\"subscription\",\"kind\":\"object\",\"type\":\"Subscription\",\"relationName\":\"SubscriptionToUser\"},{\"name\":\"xpLogs\",\"kind\":\"object\",\"type\":\"XpLog\",\"relationName\":\"UserToXpLog\"},{\"name\":\"onboarding\",\"kind\":\"object\",\"type\":\"onboarding\",\"relationName\":\"UserToonboarding\"},{\"name\":\"macroGoals\",\"kind\":\"object\",\"type\":\"MacroGoal\",\"relationName\":\"MacroGoalToUser\"}],\"dbName\":\"users\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"refresh_tokens\"},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"},{\"name\":\"deviceInfo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastActivity\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"sessions\"},\"UserProfile\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserProfile\"},{\"name\":\"activeThemeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"activeTheme\",\"kind\":\"object\",\"type\":\"Theme\",\"relationName\":\"ActiveTheme\"},{\"name\":\"activeCompanionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"activeCompanion\",\"kind\":\"object\",\"type\":\"Companion\",\"relationName\":\"ActiveCompanion\"},{\"name\":\"availableThemes\",\"kind\":\"object\",\"type\":\"Theme\",\"relationName\":\"availabalethemes\"},{\"name\":\"availableCompanions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"themeCredits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"companionCredits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalEarnXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"balanceXp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"level\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"onBoardingCompleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"fitnessGoal\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"availableComponions\",\"kind\":\"object\",\"type\":\"Companion\",\"relationName\":\"availableCompanions\"}],\"dbName\":\"user_profiles\"},\"XpLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToXpLog\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"source\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"xp_logs\"}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -37,12 +37,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.js"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.js")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 
@@ -58,8 +60,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Themes
+   * const themes = await prisma.theme.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +82,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Themes
+ * const themes = await prisma.theme.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,6 +177,186 @@ export interface PrismaClient<
   }>>
 
       /**
+   * `prisma.theme`: Exposes CRUD operations for the **Theme** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Themes
+    * const themes = await prisma.theme.findMany()
+    * ```
+    */
+  get theme(): Prisma.ThemeDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.companion`: Exposes CRUD operations for the **Companion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Companions
+    * const companions = await prisma.companion.findMany()
+    * ```
+    */
+  get companion(): Prisma.CompanionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.userTheme`: Exposes CRUD operations for the **UserTheme** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserThemes
+    * const userThemes = await prisma.userTheme.findMany()
+    * ```
+    */
+  get userTheme(): Prisma.UserThemeDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.userCompanion`: Exposes CRUD operations for the **UserCompanion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserCompanions
+    * const userCompanions = await prisma.userCompanion.findMany()
+    * ```
+    */
+  get userCompanion(): Prisma.UserCompanionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.weightLog`: Exposes CRUD operations for the **WeightLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WeightLogs
+    * const weightLogs = await prisma.weightLog.findMany()
+    * ```
+    */
+  get weightLog(): Prisma.WeightLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.moodLog`: Exposes CRUD operations for the **MoodLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MoodLogs
+    * const moodLogs = await prisma.moodLog.findMany()
+    * ```
+    */
+  get moodLog(): Prisma.MoodLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.mealSchedule`: Exposes CRUD operations for the **MealSchedule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MealSchedules
+    * const mealSchedules = await prisma.mealSchedule.findMany()
+    * ```
+    */
+  get mealSchedule(): Prisma.MealScheduleDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.mealLog`: Exposes CRUD operations for the **MealLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MealLogs
+    * const mealLogs = await prisma.mealLog.findMany()
+    * ```
+    */
+  get mealLog(): Prisma.MealLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.medication`: Exposes CRUD operations for the **Medication** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Medications
+    * const medications = await prisma.medication.findMany()
+    * ```
+    */
+  get medication(): Prisma.MedicationDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.medicationSchedule`: Exposes CRUD operations for the **MedicationSchedule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MedicationSchedules
+    * const medicationSchedules = await prisma.medicationSchedule.findMany()
+    * ```
+    */
+  get medicationSchedule(): Prisma.MedicationScheduleDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.exerciseLog`: Exposes CRUD operations for the **ExerciseLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExerciseLogs
+    * const exerciseLogs = await prisma.exerciseLog.findMany()
+    * ```
+    */
+  get exerciseLog(): Prisma.ExerciseLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.exerciseScheduleLog`: Exposes CRUD operations for the **ExerciseScheduleLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExerciseScheduleLogs
+    * const exerciseScheduleLogs = await prisma.exerciseScheduleLog.findMany()
+    * ```
+    */
+  get exerciseScheduleLog(): Prisma.ExerciseScheduleLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.macroGoal`: Exposes CRUD operations for the **MacroGoal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MacroGoals
+    * const macroGoals = await prisma.macroGoal.findMany()
+    * ```
+    */
+  get macroGoal(): Prisma.MacroGoalDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.onboarding`: Exposes CRUD operations for the **onboarding** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Onboardings
+    * const onboardings = await prisma.onboarding.findMany()
+    * ```
+    */
+  get onboarding(): Prisma.onboardingDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.subscription`: Exposes CRUD operations for the **Subscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Subscriptions
+    * const subscriptions = await prisma.subscription.findMany()
+    * ```
+    */
+  get subscription(): Prisma.SubscriptionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.subscriptionEvent`: Exposes CRUD operations for the **SubscriptionEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubscriptionEvents
+    * const subscriptionEvents = await prisma.subscriptionEvent.findMany()
+    * ```
+    */
+  get subscriptionEvent(): Prisma.SubscriptionEventDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.quest`: Exposes CRUD operations for the **Quest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Quests
+    * const quests = await prisma.quest.findMany()
+    * ```
+    */
+  get quest(): Prisma.QuestDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.userQuest`: Exposes CRUD operations for the **UserQuest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserQuests
+    * const userQuests = await prisma.userQuest.findMany()
+    * ```
+    */
+  get userQuest(): Prisma.UserQuestDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -203,6 +385,26 @@ export interface PrismaClient<
     * ```
     */
   get session(): Prisma.SessionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.userProfile`: Exposes CRUD operations for the **UserProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserProfiles
+    * const userProfiles = await prisma.userProfile.findMany()
+    * ```
+    */
+  get userProfile(): Prisma.UserProfileDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.xpLog`: Exposes CRUD operations for the **XpLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more XpLogs
+    * const xpLogs = await prisma.xpLog.findMany()
+    * ```
+    */
+  get xpLog(): Prisma.XpLogDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

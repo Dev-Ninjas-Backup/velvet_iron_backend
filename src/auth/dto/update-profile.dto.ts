@@ -1,26 +1,71 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsUrl } from 'class-validator';
-import { Gender } from 'generated/enums';
+import { IsOptional, IsString, IsEnum, IsDateString, ValidateIf } from 'class-validator';
+
+export enum GenderEnum {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER',
+  PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
+}
 
 export class UpdateProfileDto {
-  @ApiProperty({ example: 'John Doe', required: false })
+  @ApiProperty({
+    example: 'John Doe',
+    required: false,
+    description: 'User full name',
+  })
   @IsOptional()
+  @ValidateIf((o) => o.name !== '' && o.name !== null)
   @IsString()
   name?: string;
 
-  @ApiProperty({ example: 'https://example.com/avatar.jpg', required: false })
+  @ApiProperty({
+    example: '',
+    required: false,
+    description: 'Unique username',
+  })
   @IsOptional()
-  @IsUrl()
-  avatar?: string;
-
-  @ApiProperty({ example: '1990-01-01', required: false })
-  @IsOptional()
+  @ValidateIf((o) => o.username !== '' && o.username !== null)
   @IsString()
-  dateOfBirth?: Date;
+  username?: string;
 
-  //use enum
-  @ApiProperty({ example: 'MALE', required: false, enum: Gender })
+  @ApiProperty({
+    enum: GenderEnum,
+    example: 'MALE',
+    required: false,
+    description: 'Gender (MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY)',
+  })
   @IsOptional()
-  @IsString()
-  gender?: Gender;
+  @ValidateIf((o) => o.gender !== '' && o.gender !== null)
+  @IsEnum(GenderEnum)
+  gender?: GenderEnum;
+
+  @ApiProperty({
+    example: '1990-01-15',
+    required: false,
+    description: 'Date of birth (YYYY-MM-DD format)',
+  })
+  @IsOptional()
+  @ValidateIf((o) => o.dateOfBirth !== '' && o.dateOfBirth !== null)
+  @IsDateString()
+  dateOfBirth?: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description:
+      'Profile photo file (images only: jpeg, jpg, png, gif, webp, svg)',
+    required: false,
+  })
+  @IsOptional()
+  profilePhoto?: Express.Multer.File;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'Avatar file (images only: jpeg, jpg, png, gif, webp, svg)',
+    required: false,
+  })
+  @IsOptional()
+  avatar?: Express.Multer.File;
 }

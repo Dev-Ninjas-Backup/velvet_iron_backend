@@ -27,8 +27,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Themes
+ * const themes = await prisma.theme.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -37,6 +37,96 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model Theme
+ * 
+ */
+export type Theme = Prisma.ThemeModel
+/**
+ * Model Companion
+ * 
+ */
+export type Companion = Prisma.CompanionModel
+/**
+ * Model UserTheme
+ * 
+ */
+export type UserTheme = Prisma.UserThemeModel
+/**
+ * Model UserCompanion
+ * 
+ */
+export type UserCompanion = Prisma.UserCompanionModel
+/**
+ * Model WeightLog
+ * 
+ */
+export type WeightLog = Prisma.WeightLogModel
+/**
+ * Model MoodLog
+ * 
+ */
+export type MoodLog = Prisma.MoodLogModel
+/**
+ * Model MealSchedule
+ * 
+ */
+export type MealSchedule = Prisma.MealScheduleModel
+/**
+ * Model MealLog
+ * 
+ */
+export type MealLog = Prisma.MealLogModel
+/**
+ * Model Medication
+ * 
+ */
+export type Medication = Prisma.MedicationModel
+/**
+ * Model MedicationSchedule
+ * 
+ */
+export type MedicationSchedule = Prisma.MedicationScheduleModel
+/**
+ * Model ExerciseLog
+ * 
+ */
+export type ExerciseLog = Prisma.ExerciseLogModel
+/**
+ * Model ExerciseScheduleLog
+ * 
+ */
+export type ExerciseScheduleLog = Prisma.ExerciseScheduleLogModel
+/**
+ * Model MacroGoal
+ * 
+ */
+export type MacroGoal = Prisma.MacroGoalModel
+/**
+ * Model onboarding
+ * 
+ */
+export type onboarding = Prisma.onboardingModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model SubscriptionEvent
+ * 
+ */
+export type SubscriptionEvent = Prisma.SubscriptionEventModel
+/**
+ * Model Quest
+ * 
+ */
+export type Quest = Prisma.QuestModel
+/**
+ * Model UserQuest
+ * 
+ */
+export type UserQuest = Prisma.UserQuestModel
 /**
  * Model User
  * 
@@ -52,3 +142,13 @@ export type RefreshToken = Prisma.RefreshTokenModel
  * 
  */
 export type Session = Prisma.SessionModel
+/**
+ * Model UserProfile
+ * 
+ */
+export type UserProfile = Prisma.UserProfileModel
+/**
+ * Model XpLog
+ * 
+ */
+export type XpLog = Prisma.XpLogModel

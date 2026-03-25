@@ -19,5 +19,3 @@
     }
     reverse_proxy velvet_backend_postgres:7896
 }
-
-
