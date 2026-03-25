@@ -24,6 +24,7 @@ import { OnboardingModule } from './onboarding/onboarding.module';
 import { MacroGoalModule } from './macro-goal/macro-goal.module';
 import { PaymentModule } from './payment/payment.module';
 import { GuardsModule } from './common/guards/guards.module';
+import { XpTimeoutModule } from './main/xp-timeout/xp-timeout.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { GuardsModule } from './common/guards/guards.module';
     MacroGoalModule,
     PaymentModule,
     GuardsModule,
+    XpTimeoutModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

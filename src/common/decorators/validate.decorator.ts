@@ -17,7 +17,7 @@ export const ValidAll = () => {
 export const ValidUser = () => {
   return applyDecorators(
     UseGuards(OptionalJwtGuard, RoleGuard),
-    Roles('USER', 'ADMIN',"SUPERADMIN"),
+    Roles('USER', 'ADMIN', 'SUPERADMIN'),
   );
 };
 
@@ -34,6 +34,13 @@ export const ValidSuperAdmin = () => {
   return applyDecorators(
     UseGuards(OptionalJwtGuard, RoleGuard),
     Roles('SUPERADMIN'),
+  );
+};
+
+export const ValidateUser = () => {
+  return applyDecorators(
+    UseGuards(OptionalJwtGuard, RoleGuard),
+    Roles('USER', 'ADMIN', 'SUPERADMIN'),
   );
 };
 
