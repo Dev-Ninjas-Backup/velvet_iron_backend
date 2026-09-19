@@ -16,4 +16,8 @@ export class UpdateMacroGoalDto {
     @IsNumber()
     @IsOptional()
     protein?: number;
+
+    @IsNumber()
+    @IsOptional()
+    calories?: number;
 }

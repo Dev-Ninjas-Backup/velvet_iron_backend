@@ -51,6 +51,7 @@ model User {
     exerciseLogs         ExerciseLog[]
     ExerciseScheduleLogs ExerciseScheduleLog[]
     userQuests           UserQuest[]
+    customQuests         CustomQuest[]
     subscription         Subscription?
     xpLogs               XpLog[]
     onboarding           onboarding?

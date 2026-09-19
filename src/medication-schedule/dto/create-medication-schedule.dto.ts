@@ -55,6 +55,51 @@ export class CreateMedicationScheduleDto {
   @IsOptional()
   @IsBoolean()
   isTaken?: boolean;
+
+  @ApiProperty({
+    description: 'Recurrence rule: ONCE, DAILY, WEEKLY, SPECIFIC_DAYS, CUSTOM',
+    required: false,
+    example: 'DAILY',
+  })
+  @IsOptional()
+  @IsString()
+  recurrence?: string;
+
+  @ApiProperty({
+    description: 'Days of week (1=Monday ... 7=Sunday) for weekly recurrence',
+    required: false,
+    example: [1, 3, 5],
+    type: [Number],
+  })
+  @IsOptional()
+  daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Start date (ISO 8601 string)',
+    required: false,
+    example: '2026-09-18',
+  })
+  @IsOptional()
+  @IsDateString()
+  startDate?: string;
+
+  @ApiProperty({
+    description: 'End date (ISO 8601 string)',
+    required: false,
+    example: '2026-12-31',
+  })
+  @IsOptional()
+  @IsDateString()
+  endDate?: string;
+
+  @ApiProperty({
+    description: 'Whether push reminder is enabled',
+    required: false,
+    example: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  reminderEnabled?: boolean;
 }
 
 export class UpdateMedicationScheduleDto {
@@ -126,4 +171,62 @@ export class UpdateMedicationScheduleDto {
   @IsOptional()
   @IsBoolean()
   isTaken?: boolean;
+
+  @ApiProperty({
+    description: 'Recurrence rule: ONCE, DAILY, WEEKLY, SPECIFIC_DAYS, CUSTOM',
+    required: false,
+    example: 'DAILY',
+  })
+  @IsOptional()
+  @IsString()
+  recurrence?: string;
+
+  @ApiProperty({
+    description: 'Days of week (1=Monday ... 7=Sunday)',
+    required: false,
+    type: [Number],
+  })
+  @IsOptional()
+  daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Start date (ISO 8601 string)',
+    required: false,
+  })
+  @IsOptional()
+  @IsDateString()
+  startDate?: string;
+
+  @ApiProperty({
+    description: 'End date (ISO 8601 string)',
+    required: false,
+  })
+  @IsOptional()
+  @IsDateString()
+  endDate?: string;
+
+  @ApiProperty({
+    description: 'Whether push reminder is enabled',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  reminderEnabled?: boolean;
+
+  @ApiProperty({
+    description: 'Whether schedule is paused',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isPaused?: boolean;
+}
+
+export class PauseMedicationScheduleDto {
+  @ApiProperty({
+    example: true,
+    description: 'Pause or unpause the medication schedule',
+  })
+  @IsBoolean()
+  isPaused: boolean;
 }

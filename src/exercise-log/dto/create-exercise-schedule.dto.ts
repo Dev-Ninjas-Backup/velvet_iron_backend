@@ -71,6 +71,42 @@ export class CreateExerciseScheduleDto {
   @IsOptional()
   @IsBoolean()
   isTaken?: boolean;
+
+  @ApiProperty({
+    description: 'Recurrence rule: NEVER, DAILY, WEEKLY, SPECIFIC_DAYS, CUSTOM',
+    required: false,
+    example: 'DAILY',
+  })
+  @IsOptional()
+  @IsString()
+  recurrence?: string;
+
+  @ApiProperty({
+    description: 'Days of week (1=Monday ... 7=Sunday)',
+    required: false,
+    type: [Number],
+    example: [1, 2, 3, 4, 5],
+  })
+  @IsOptional()
+  daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Time of day (HH:mm)',
+    required: false,
+    example: '08:00',
+  })
+  @IsOptional()
+  @IsString()
+  timeOfDay?: string;
+
+  @ApiProperty({
+    description: 'Whether reminder is enabled',
+    required: false,
+    example: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  reminderEnabled?: boolean;
 }
 
 export class UpdateExerciseScheduleDto {
@@ -163,4 +199,55 @@ export class UpdateExerciseScheduleDto {
   @IsOptional()
   @IsBoolean()
   isTaken?: boolean;
+
+  @ApiProperty({
+    description: 'Recurrence rule: NEVER, DAILY, WEEKLY, SPECIFIC_DAYS, CUSTOM',
+    required: false,
+    example: 'DAILY',
+  })
+  @IsOptional()
+  @IsString()
+  recurrence?: string;
+
+  @ApiProperty({
+    description: 'Days of week (1=Monday ... 7=Sunday)',
+    required: false,
+    type: [Number],
+  })
+  @IsOptional()
+  daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Time of day (HH:mm)',
+    required: false,
+    example: '08:00',
+  })
+  @IsOptional()
+  @IsString()
+  timeOfDay?: string;
+
+  @ApiProperty({
+    description: 'Whether reminder is enabled',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  reminderEnabled?: boolean;
+
+  @ApiProperty({
+    description: 'Whether schedule is paused',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isPaused?: boolean;
+}
+
+export class PauseExerciseScheduleDto {
+  @ApiProperty({
+    example: true,
+    description: 'Pause or unpause the exercise schedule',
+  })
+  @IsBoolean()
+  isPaused: boolean;
 }

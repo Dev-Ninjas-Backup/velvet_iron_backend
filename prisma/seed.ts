@@ -31,7 +31,7 @@ async function main() {
       unlockXp: 250, // Free starter theme
     },
     {
-      name: 'Reader',
+      name: 'Scribe',
       tagline: 'Knowledge is Power',
       description: 'For those who find wisdom in books and stories',
       unlockXp: 250,
@@ -43,12 +43,35 @@ async function main() {
       unlockXp: 250,
     },
     {
-      name: 'Gamer',
+      name: 'Realmwalker',
       tagline: 'Level Up Your Life',
       description: 'For those who turn every challenge into a game',
       unlockXp: 250,
     },
   ];
+
+  // Check and migrate legacy themes if present
+  const readerTheme = await prisma.theme.findUnique({
+    where: { name: 'Reader' },
+  });
+  if (readerTheme) {
+    await prisma.theme.update({
+      where: { id: readerTheme.id },
+      data: { name: 'Scribe' },
+    });
+    console.log('  ✓ Migrated theme: Reader -> Scribe');
+  }
+
+  const gamerTheme = await prisma.theme.findUnique({
+    where: { name: 'Gamer' },
+  });
+  if (gamerTheme) {
+    await prisma.theme.update({
+      where: { id: gamerTheme.id },
+      data: { name: 'Realmwalker' },
+    });
+    console.log('  ✓ Migrated theme: Gamer -> Realmwalker');
+  }
 
   console.log('📦 Creating themes...');
   for (const theme of themes) {
@@ -65,42 +88,66 @@ async function main() {
   // =====================
   const companions = [
     {
-      name: 'Ser Kael Thornwatch',
-      title: 'The Unbroken',
-      quote: 'Stand tall. We finish what we start — together.',
-      unlockXp: 250, // Free starter companion
+      name: 'Riven',
+      title: 'High Lord of the Forsaken Court',
+      quote: 'Come now. We have things to accomplish.',
+      unlockXp: 0, // Free starter companion
     },
     {
-      name: 'Riven Ashcroft',
-      title: 'High Lord of the Veil',
+      name: 'Thyra',
+      title: 'Shield of the Realm',
       quote:
-        'Try not to disappoint me… I was just starting to enjoy your potential.',
+        'A shield is only as strong as the one who holds it. Take care of yourself.',
       unlockXp: 250,
     },
     {
-      name: 'Pyraxis',
-      title: 'The Emberbound',
+      name: 'General Leon',
+      title: 'Commander of the Legions',
       quote:
-        "Rise, little warrior. I don't guard the weak — I forge the strong.",
+        'Discipline is choosing what you want most over what you want now.',
       unlockXp: 250,
     },
     {
-      name: 'Bram Ironledger',
-      title: 'Keeper of the Codex',
-      quote: 'Every hero stumbles, child. What matters is that you rise wiser.',
+      name: 'Visepheron',
+      title: 'Ancient Dragon',
+      quote: 'Come, little flame. Burn steadily today.',
       unlockXp: 250,
     },
   ];
 
-  console.log('🐉 Creating companions...');
+  // Check and migrate legacy companions if present
+  const legacyMigrations = [
+    { from: 'Riven Ashcroft', to: 'Riven' },
+    { from: 'Ser Kael Thornwatch', to: 'Thyra' },
+    { from: 'Bram Ironledger', to: 'General Leon' },
+    { from: 'Pyraxis', to: 'Visepheron' },
+  ];
+
+  for (const mig of legacyMigrations) {
+    const legacyComp = await prisma.companion.findFirst({
+      where: { name: mig.from },
+    });
+    if (legacyComp) {
+      const destComp = await prisma.companion.findFirst({
+        where: { name: mig.to },
+      });
+      if (!destComp) {
+        await prisma.companion.update({
+          where: { id: legacyComp.id },
+          data: { name: mig.to },
+        });
+        console.log(`  ✓ Migrated companion: ${mig.from} -> ${mig.to}`);
+      }
+    }
+  }
+
+  console.log('🐉 Creating / syncing companions...');
   for (const companion of companions) {
-    // Check if companion exists by name
     const existing = await prisma.companion.findFirst({
       where: { name: companion.name },
     });
 
     if (existing) {
-      // Update existing companion
       await prisma.companion.update({
         where: { id: existing.id },
         data: companion,
@@ -109,7 +156,6 @@ async function main() {
         `  ✓ Companion updated: ${companion.name} - ${companion.title}`,
       );
     } else {
-      // Create new companion
       await prisma.companion.create({
         data: companion,
       });

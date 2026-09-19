@@ -253,6 +253,12 @@ export class OnboardingService {
         },
       });
 
+      // Keep userProfile.activeCompanionId in sync
+      await this.prisma.client.userProfile.updateMany({
+        where: { userId },
+        data: { activeCompanionId: companionId },
+      });
+
       return {
         success: true,
         message:

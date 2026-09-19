@@ -6,10 +6,20 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
   constructor(private configService: ConfigService) {
+    const clientID =
+      configService.get<string>('DISCORD_CLIENT_ID') ||
+      'dummy_discord_client_id';
+    const clientSecret =
+      configService.get<string>('DISCORD_CLIENT_SECRET') ||
+      'dummy_discord_client_secret';
+    const callbackURL =
+      configService.get<string>('DISCORD_CALLBACK_URL') ||
+      'http://localhost:3200/auth/discord/callback';
+
     super({
-      clientID: configService.get<string>('DISCORD_CLIENT_ID'),
-      clientSecret: configService.get<string>('DISCORD_CLIENT_SECRET'),
-      callbackURL: configService.get<string>('DISCORD_CALLBACK_URL'),
+      clientID,
+      clientSecret,
+      callbackURL,
       scope: ['identify', 'email'],
     } as any);
   }

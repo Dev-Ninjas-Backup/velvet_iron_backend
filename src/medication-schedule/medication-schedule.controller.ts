@@ -13,6 +13,7 @@ import { MedicationScheduleService } from './medication-schedule.service';
 import {
   CreateMedicationScheduleDto,
   UpdateMedicationScheduleDto,
+  PauseMedicationScheduleDto,
 } from './dto/create-medication-schedule.dto';
 import {
   ApiBearerAuth,
@@ -132,6 +133,23 @@ export class MedicationScheduleController {
     @Query('isTaken') isTaken: boolean,
   ): Promise<any> {
     return this.medicationScheduleService.markMedicationAsTaken(userId, scheduleId, isTaken);
+  }
+
+  @Patch(':id/pause')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Pause or resume medication schedule' })
+  @ApiResponse({
+    status: 200,
+    description: 'Medication schedule pause state toggled successfully',
+  })
+  async pauseMedicationSchedule(
+    @GetUser('id') userId: string,
+    @Param('id') id: string,
+    @Body() dto: PauseMedicationScheduleDto,
+  ): Promise<any> {
+    return this.medicationScheduleService.pauseMedicationSchedule(userId, id, dto.isPaused);
   }
 
 
