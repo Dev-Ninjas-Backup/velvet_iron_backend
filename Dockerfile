@@ -1,8 +1,8 @@
-FROM node:20 AS build
+FROM node:24 AS build
 WORKDIR /software
 
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* .npmrc* ./
+RUN npm install -g pnpm@10
 RUN pnpm install
 RUN npm install -g prisma
 run pnpm add express
@@ -15,7 +15,7 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-FROM node:20-alpine
+FROM node:24-alpine
 WORKDIR /software
 
 COPY --from=build /software/package.json .

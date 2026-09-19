@@ -1,12 +1,12 @@
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
 # Install pnpm package manager
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10
 
 # Install dependencies
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* .npmrc* ./
 RUN pnpm install
 
 # Copy Prisma schema and configuration to generate client
