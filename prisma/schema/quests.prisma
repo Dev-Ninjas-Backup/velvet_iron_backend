@@ -25,3 +25,28 @@ model UserQuest {
     @@index([questId])
     @@map("user_quests")
 }
+
+// User Custom Quests
+model CustomQuest {
+    id              String    @id @default(uuid())
+    userId          String
+    user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name            String
+    category        String    // FITNESS, NUTRITION, MINDFULNESS, GENERAL
+    description     String?
+    scheduledDate   DateTime?
+    scheduledTime   String?   // HH:mm
+    recurrence      String    @default("NONE") // NONE, DAILY, WEEKLY, SPECIFIC_DAYS, CUSTOM
+    daysOfWeek      Int[]     @default([])
+    reminderEnabled Boolean   @default(false)
+    reminderTime    String?
+    isPaused        Boolean   @default(false)
+    lastCompletedAt DateTime?
+    xp              Int       @default(10)
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+
+    @@index([userId])
+    @@map("custom_quests")
+}
+

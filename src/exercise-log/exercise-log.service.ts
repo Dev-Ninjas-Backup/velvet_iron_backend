@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
 import {
   CreateExerciseLogDto,
@@ -36,7 +36,7 @@ export class ExerciseLogService {
       where: { id: userId },
     });
 
-    if (user && !user.onBoarded) {
+    if (user && user.onBoarded) {
       await this.leveladd.addXpToUser(userId, earnedXp, 'Exercise log entry');
     }
 
@@ -61,14 +61,32 @@ export class ExerciseLogService {
     scheduleId: string,
     isTakens: boolean,
   ): Promise<any> {
-    //if onboarded then add xp
-    const earnedXp = 10;
+    const schedule = await this.prisma.client.exerciseScheduleLog.findFirst({
+      where: { id: scheduleId, userId },
+    });
 
+    if (!schedule) {
+      throw new NotFoundException('Exercise schedule not found');
+    }
+
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const alreadyTakenToday = Boolean(
+      (schedule as any).lastTakenDate &&
+        new Date((schedule as any).lastTakenDate) >= todayStart &&
+        new Date((schedule as any).lastTakenDate) <= todayEnd,
+    );
+
+    const earnedXp = 10;
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
     });
 
-    if (user && !user.onBoarded) {
+    // Award XP strictly once per day when marked taken and user is onboarded
+    if (!alreadyTakenToday && isTakens && user && user.onBoarded) {
       await this.leveladd.addXpToUser(
         userId,
         earnedXp,
@@ -76,12 +94,15 @@ export class ExerciseLogService {
       );
     }
 
-    const schedule = await this.prisma.client.exerciseScheduleLog.update({
-      where: { id: scheduleId, userId },
-      data: { isTaken: true },
+    const updated = await this.prisma.client.exerciseScheduleLog.update({
+      where: { id: scheduleId },
+      data: {
+        isTaken: isTakens,
+        ...(isTakens && { lastTakenDate: new Date() }),
+      } as any,
     });
 
-    return schedule;
+    return updated;
   }
 
   async getExerciseLogHistory(userId: string): Promise<ExerciseLogHistoryDto> {
@@ -238,10 +259,32 @@ export class ExerciseLogService {
         duration: dto.duration,
         note: dto.note,
         loggedAt: new Date(dto.scheduledAt),
+        recurrence: dto.recurrence || 'NEVER',
+        daysOfWeek: dto.daysOfWeek || [],
+        timeOfDay: dto.timeOfDay,
+        reminderEnabled: dto.reminderEnabled ?? false,
+        isPaused: false,
         isTaken: false,
-      },
+      } as any,
     });
     return this.mapToScheduleResponseDto(schedule);
+  }
+
+  async pauseExerciseSchedule(
+    userId: string,
+    id: string,
+    isPaused: boolean,
+  ): Promise<any> {
+    const schedule = await this.prisma.client.exerciseScheduleLog.findFirst({
+      where: { id, userId },
+    });
+    if (!schedule) {
+      throw new NotFoundException('Exercise schedule not found');
+    }
+    return this.prisma.client.exerciseScheduleLog.update({
+      where: { id },
+      data: { isPaused } as any,
+    });
   }
 
   async getExerciseScheduleHistory(
@@ -270,7 +313,7 @@ export class ExerciseLogService {
       where: { id, userId },
     });
     if (!schedule) {
-      throw new Error('Exercise schedule not found');
+      throw new NotFoundException('Exercise schedule not found');
     }
     return this.mapToScheduleResponseDto(schedule);
   }
@@ -280,6 +323,13 @@ export class ExerciseLogService {
     id: string,
     dto: UpdateExerciseScheduleDto,
   ): Promise<ExerciseScheduleDetailResponseDto> {
+    const existing = await this.prisma.client.exerciseScheduleLog.findFirst({
+      where: { id, userId },
+    });
+    if (!existing) {
+      throw new NotFoundException('Exercise schedule not found');
+    }
+
     const normalizeBooleanValue = (value: unknown): boolean | undefined => {
       if (value === '' || value === undefined || value === null) {
         return undefined;
@@ -310,8 +360,13 @@ export class ExerciseLogService {
         duration: dto.duration,
         note: dto.note,
         loggedAt: dto.scheduledAt ? new Date(dto.scheduledAt) : undefined,
+        recurrence: dto.recurrence,
+        daysOfWeek: dto.daysOfWeek,
+        timeOfDay: dto.timeOfDay,
+        reminderEnabled: dto.reminderEnabled,
+        isPaused: dto.isPaused,
         ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
-      },
+      } as any,
     });
     return this.mapToScheduleResponseDto(schedule);
   }
@@ -320,6 +375,13 @@ export class ExerciseLogService {
     userId: string,
     id: string,
   ): Promise<{ message: string }> {
+    const existing = await this.prisma.client.exerciseScheduleLog.findFirst({
+      where: { id, userId },
+    });
+    if (!existing) {
+      throw new NotFoundException('Exercise schedule not found');
+    }
+
     await this.prisma.client.exerciseScheduleLog.delete({
       where: { id },
     });
@@ -350,17 +412,35 @@ export class ExerciseLogService {
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
-    const schedules = await this.prisma.client.exerciseScheduleLog.findMany({
-      where: {
-        userId,
-        loggedAt: {
-          gte: startOfToday,
-          lte: endOfToday,
-        },
-      },
+    const dayOfWeek = startOfToday.getDay() === 0 ? 7 : startOfToday.getDay();
+
+    const allSchedules = await this.prisma.client.exerciseScheduleLog.findMany({
+      where: { userId },
       orderBy: { loggedAt: 'asc' },
     });
 
-    return schedules.map((schedule) => this.mapToScheduleResponseDto(schedule));
+    const activeToday = allSchedules.filter((schedule: any) => {
+      if (schedule.isPaused) return false;
+
+      if (schedule.recurrence === 'DAILY') return true;
+      if (schedule.recurrence === 'WEEKLY' || schedule.recurrence === 'SPECIFIC_DAYS') {
+        return Array.isArray(schedule.daysOfWeek) && schedule.daysOfWeek.includes(dayOfWeek);
+      }
+      // NEVER / default
+      const schedTime = new Date(schedule.loggedAt);
+      return schedTime >= startOfToday && schedTime <= endOfToday;
+    });
+
+    return activeToday.map((schedule: any) => {
+      const isTakenToday = Boolean(
+        schedule.lastTakenDate &&
+          new Date(schedule.lastTakenDate) >= startOfToday &&
+          new Date(schedule.lastTakenDate) <= endOfToday,
+      );
+      return {
+        ...this.mapToScheduleResponseDto(schedule),
+        isTaken: isTakenToday,
+      };
+    });
   }
 }

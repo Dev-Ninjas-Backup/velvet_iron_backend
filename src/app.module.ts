@@ -25,6 +25,7 @@ import { MacroGoalModule } from './macro-goal/macro-goal.module';
 import { PaymentModule } from './payment/payment.module';
 import { GuardsModule } from './common/guards/guards.module';
 import { XpTimeoutModule } from './main/xp-timeout/xp-timeout.module';
+import { CustomQuestModule } from './custom-quest/custom-quest.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { XpTimeoutModule } from './main/xp-timeout/xp-timeout.module';
     PaymentModule,
     GuardsModule,
     XpTimeoutModule,
+    CustomQuestModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

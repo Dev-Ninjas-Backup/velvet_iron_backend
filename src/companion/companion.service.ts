@@ -317,21 +317,51 @@ export class CompanionService {
                     ? 1
                     : 0) - length;
 
+      const activeUserCompanion = unlockedCompanions.find((uc) => uc.isActive);
+      let activeCompanion: any = null;
+      if (activeUserCompanion) {
+        const matchedComp = companions.find(
+          (c) => c.id === activeUserCompanion.companionId,
+        );
+        activeCompanion = {
+          id: activeUserCompanion.id,
+          companionId: activeUserCompanion.companionId,
+          companion: matchedComp || null,
+        };
+      } else {
+        const activeCompId = user?.userProfile?.activeCompanionId;
+        if (activeCompId) {
+          const matchedComp = companions.find((c) => c.id === activeCompId);
+          const userComp = unlockedCompanions.find(
+            (uc) => uc.companionId === activeCompId,
+          );
+          if (matchedComp) {
+            activeCompanion = {
+              id: userComp?.id || null,
+              companionId: matchedComp.id,
+              companion: matchedComp,
+            };
+          }
+        }
+      }
+
       let companionsWithUnlockStatus = companions.map((companion) => {
         const isUnlocked = unlockedCompanions.some(
           (uc) => uc.companionId === companion.id,
         );
-        const isAcitve = unlockedCompanions.some(
+        const isActive = unlockedCompanions.some(
           (uc) => uc.companionId === companion.id && uc.isActive,
         );
         return {
           ...companion,
-          isAcitve,
+          isActive,
+          isAcitve: isActive,
           isUnlocked,
         };
       });
 
       return {
+        activeCompanion,
         companions: companionsWithUnlockStatus,
         Unlockable: availableCompanionForUnlock,
         level,

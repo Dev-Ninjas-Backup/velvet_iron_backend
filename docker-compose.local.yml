@@ -1,0 +1,73 @@
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:16-alpine
+    container_name: velvet_iron_postgres_local
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-velvet_iron_dev}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - velvet_postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - velvet-dev-network
+
+  # NestJS Backend API (Local Container with Live Reloading)
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: velvet_iron_api_local
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-velvet_iron_dev}?schema=public
+      PORT: 3200
+      NODE_ENV: development
+    ports:
+      - '${PORT:-3200}:3200'
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - /app/node_modules
+    networks:
+      - velvet-dev-network
+
+  # Prisma Studio Web GUI
+  prisma-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: velvet_iron_studio_local
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-velvet_iron_dev}?schema=public
+    command: npx prisma studio --port 5555 --browser none
+    ports:
+      - '5555:5555'
+    networks:
+      - velvet-dev-network
+
+networks:
+  velvet-dev-network:
+    driver: bridge
+
+volumes:
+  velvet_postgres_dev_data:

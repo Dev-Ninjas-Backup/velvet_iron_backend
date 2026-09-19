@@ -1,12 +1,19 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { S3 } from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class AwsService {
-  private readonly s3 = new S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_BUCKET_REGION,
+  private readonly region =
+    process.env.AWS_BUCKET_REGION || process.env.AWS_REGION || 'us-east-1';
+  private readonly s3 = new S3Client({
+    region: this.region,
+    credentials:
+      process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
+        ? {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          }
+        : undefined,
   });
   private readonly bucketName = process.env.AWS_S3_BUCKET_NAME!;
 
@@ -27,6 +34,10 @@ export class AwsService {
     return this.allowedImageTypes.includes(file.mimetype);
   }
 
+  private getFileUrl(key: string): string {
+    return `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${key}`;
+  }
+
   /**
    * Upload a single file to S3
    */
@@ -37,20 +48,20 @@ export class AwsService {
 
     const fileKey = `uploads/${file.originalname}-${Date.now()}`;
 
-    const uploadResult = await this.s3
-      .upload({
+    await this.s3.send(
+      new PutObjectCommand({
         Bucket: this.bucketName,
         Key: fileKey,
         Body: file.buffer,
         ContentDisposition: 'inline',
         ContentType: file.mimetype,
-      })
-      .promise();
+      }),
+    );
 
     return {
       status: 'success',
       message: 'File uploaded successfully',
-      url: uploadResult.Location,
+      url: this.getFileUrl(fileKey),
       filename: file.originalname,
       mimetype: file.mimetype,
       size: file.size,
@@ -68,18 +79,18 @@ export class AwsService {
     const uploadPromises = files.map(async (file) => {
       const fileKey = `uploads/${file.originalname}-${Date.now()}`;
 
-      const uploadResult = await this.s3
-        .upload({
+      await this.s3.send(
+        new PutObjectCommand({
           Bucket: this.bucketName,
           Key: fileKey,
           Body: file.buffer,
           ContentDisposition: 'inline',
           ContentType: file.mimetype,
-        })
-        .promise();
+        }),
+      );
 
       return {
-        url: uploadResult.Location,
+        url: this.getFileUrl(fileKey),
         filename: file.originalname,
         mimetype: file.mimetype,
         size: file.size,
@@ -116,20 +127,20 @@ export class AwsService {
 
     const fileKey = `profiles/${userId}/avatar-${Date.now()}`;
 
-    const uploadResult = await this.s3
-      .upload({
+    await this.s3.send(
+      new PutObjectCommand({
         Bucket: this.bucketName,
         Key: fileKey,
         Body: file.buffer,
         ContentDisposition: 'inline',
         ContentType: file.mimetype,
-      })
-      .promise();
+      }),
+    );
 
     return {
       status: 'success',
       message: 'Profile photo uploaded successfully',
-      url: uploadResult.Location,
+      url: this.getFileUrl(fileKey),
     };
   }
 }

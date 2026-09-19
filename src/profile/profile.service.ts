@@ -82,18 +82,40 @@ export class ProfileService {
       this.prisma.client.userCompanion.findFirst({
         where: { userId, isActive: true },
         select: {
+          id: true,
+          companionId: true,
           companion: true,
         },
       }),
       this.getProfileCharts(userId),
     ]);
 
+    let resolvedActiveCompanion = activecomponion;
+    if (!resolvedActiveCompanion && profile?.activeCompanionId) {
+      const userComp = await this.prisma.client.userCompanion.findUnique({
+        where: {
+          userId_companionId: {
+            userId,
+            companionId: profile.activeCompanionId,
+          },
+        },
+        select: {
+          id: true,
+          companionId: true,
+          companion: true,
+        },
+      });
+      if (userComp) {
+        resolvedActiveCompanion = userComp;
+      }
+    }
+
     let finalProfile = {
       ...profile,
       profilePhoto: user?.profilePhoto || null,
       userName: profile?.user?.name || null,
       activeTheme: activeTheme,
-      activeCompanion: activecomponion,
+      activeCompanion: resolvedActiveCompanion,
       level,
       levelStatus: levelStatus(level),
       // if level 50 or above, show then next level is max and xp required is 0
@@ -145,7 +167,28 @@ export class ProfileService {
       'This is foreplay for your villain era.',
       'Be strong enough to worry fictional men.',
     ],
+    Scribe: [
+      "Train as if you've just fallen through a portal and need to outrun a dragon.",
+      "Because when the Dark Lord rises, you can't be winded after three steps.",
+      "One day you may wake up in your favorite fantasy world. Don't be the side character who dies in chapter one.",
+      'Do the squats. Future-you is climbing castle stairs in full armor.',
+      'Every rep is one less reason the mercenary laughs at you in training camp.',
+      "Your favorite heroine didn't quit halfway through the blood rite — neither will you.",
+      "The librarian closes the book and whispers: 'It's your turn now.' Become the version that survives the enemies-to-lovers phase.",
+      'This is foreplay for your villain era.',
+      'Be strong enough to worry fictional men.',
+    ],
     Gamer: [
+      'Level up your stats one rep at a time.',
+      "This is real life — there's no cheat code for endurance.",
+      "Grind XP in the gym so you don't get one-shotted in battle.",
+      "Your stamina bar isn't going to refill itself.",
+      'Skill is built through repetition.',
+      'Every attempt is XP.',
+      "You don't grind for nothing.",
+      "Level up happens when you don't quit.",
+    ],
+    Realmwalker: [
       'Level up your stats one rep at a time.',
       "This is real life — there's no cheat code for endurance.",
       "Grind XP in the gym so you don't get one-shotted in battle.",
@@ -493,7 +536,7 @@ export class ProfileService {
           : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
-        earnedXp: 10,
+        earnedXp: meal.isTaken ? 10 : 0,
         details: {
           calories: meal.calories,
           carbs: meal.carbs,
@@ -511,7 +554,7 @@ export class ProfileService {
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
         scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
-        earnedXp: 10,
+        earnedXp: med.isTaken ? 10 : 0,
         details: {
           type: med.type,
           doseMg: med.doseMg,
@@ -529,7 +572,7 @@ export class ProfileService {
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
         scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
-        earnedXp: 10,
+        earnedXp: exercise.isTaken ? 10 : 0,
         details: {
           type: exercise.type,
           intensity: exercise.intensity,
@@ -721,7 +764,7 @@ export class ProfileService {
           title: meal.mealType,
           description: `${meal.calories || 0} kCal`,
           scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
-          earnedXp: 10,
+          earnedXp: 0,
           details: {
             calories: meal.calories,
             carbs: meal.carbs,
@@ -738,7 +781,7 @@ export class ProfileService {
           title: med.name,
           description: `${med.doseMg ? `${med.doseMg}mg` : 'Medication'}`,
           scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
-          earnedXp: 10,
+          earnedXp: 0,
           details: {
             type: med.type,
             doseMg: med.doseMg,
@@ -753,7 +796,7 @@ export class ProfileService {
           title: exercise.name,
           description: `${exercise.duration ? `${exercise.duration} min` : ''}`,
           scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
-          earnedXp: 10,
+          earnedXp: 0,
           details: {
             type: exercise.type,
             intensity: exercise.intensity,

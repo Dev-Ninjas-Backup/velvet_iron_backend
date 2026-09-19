@@ -17,6 +17,7 @@ import {
 import {
   CreateExerciseScheduleDto,
   UpdateExerciseScheduleDto,
+  PauseExerciseScheduleDto,
 } from './dto/create-exercise-schedule.dto';
 import {
   ApiBearerAuth,
@@ -339,7 +340,23 @@ export class ExerciseLogController {
     return this.exerciseLogService.getExerciseScheduleHistory(userId);
   }
 
-  @Get('scheduled/:id')
+  @Get(['schedule/today', 'scheduled/today'])
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Get today exercise schedules' })
+  @ApiResponse({
+    status: 200,
+    description: 'Today exercise schedules retrieved successfully',
+    type: [ExerciseScheduleDetailResponseDto],
+  })
+  async getTodayExerciseSchedules(
+    @GetUser('id') userId: string,
+  ): Promise<ExerciseScheduleDetailResponseDto[]> {
+    return this.exerciseLogService.getTodaySchedules(userId);
+  }
+
+  @Get(['scheduled/:id', 'schedule/:id'])
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
@@ -356,7 +373,24 @@ export class ExerciseLogController {
     return this.exerciseLogService.getExerciseScheduleById(userId, id);
   }
 
-  @Patch('scheduled/:id')
+  @Patch(['scheduled/:id/pause', 'schedule/:id/pause'])
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Pause or resume an exercise schedule' })
+  @ApiResponse({
+    status: 200,
+    description: 'Exercise schedule pause state toggled successfully',
+  })
+  async pauseExerciseSchedule(
+    @GetUser('id') userId: string,
+    @Param('id') id: string,
+    @Body() dto: PauseExerciseScheduleDto,
+  ): Promise<any> {
+    return this.exerciseLogService.pauseExerciseSchedule(userId, id, dto.isPaused);
+  }
+
+  @Patch(['scheduled/:id', 'schedule/:id'])
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
@@ -427,7 +461,7 @@ export class ExerciseLogController {
     return this.exerciseLogService.updateExerciseSchedule(userId, id, updatedDto);
   }
 
-  @Delete('scheduled/:id')
+  @Delete(['scheduled/:id', 'schedule/:id'])
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')

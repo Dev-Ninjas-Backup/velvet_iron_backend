@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install pnpm package manager
+RUN npm install -g pnpm
+
+# Install dependencies
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
+
+# Copy Prisma schema and configuration to generate client
+COPY prisma ./prisma
+COPY prisma.config.ts tsconfig.json tsconfig.build.json nest-cli.json ./
+RUN npx prisma generate
+
+# Copy source code
+COPY . .
+
+EXPOSE 3200 5555
+
+CMD ["pnpm", "run", "start:dev"]

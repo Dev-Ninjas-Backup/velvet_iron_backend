@@ -19,7 +19,11 @@ export class MacroGoalService {
      * Create a new macro goal
      */
     async createMacroGoal(userId: string, dto: CreateMacroGoalDto) {
-        const calories = this.calculateCalories(dto.carbs, dto.fat, dto.protein);
+        const calories =
+            dto.calories !== undefined && dto.calories !== null && dto.calories > 0
+                ? Number(dto.calories)
+                : this.calculateCalories(dto.carbs, dto.fat, dto.protein);
+
         const todayStart = new Date();
         todayStart.setHours(0, 0, 0, 0);
         const todayEnd = new Date();
@@ -102,7 +106,14 @@ export class MacroGoalService {
         const fat = dto.fat !== undefined ? dto.fat : macroGoal.fat;
         const protein = dto.protein !== undefined ? dto.protein : macroGoal.protein;
 
-        const calories = this.calculateCalories(carbs, fat, protein);
+        let calories: number;
+        if (dto.calories !== undefined && dto.calories !== null && dto.calories > 0) {
+            calories = Number(dto.calories);
+        } else if (dto.carbs !== undefined || dto.fat !== undefined || dto.protein !== undefined) {
+            calories = this.calculateCalories(carbs, fat, protein);
+        } else {
+            calories = macroGoal.calories;
+        }
 
         const updatedMacroGoal = await this.prisma.client.macroGoal.update({
             where: { id },

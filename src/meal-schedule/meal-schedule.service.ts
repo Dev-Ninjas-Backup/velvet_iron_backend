@@ -57,27 +57,48 @@ export class MealScheduleService {
     scheduleId: string,
     isTakens: boolean,
   ): Promise<any> {
-    //if onboarded then add xp
-    const earnedXp = 10;
+    const schedule = await this.prisma.client.mealSchedule.findFirst({
+      where: { id: scheduleId, userId },
+    });
 
+    if (!schedule) {
+      throw new NotFoundException('Meal schedule not found');
+    }
+
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const alreadyTakenToday = Boolean(
+      (schedule as any).lastTakenDate &&
+        new Date((schedule as any).lastTakenDate) >= todayStart &&
+        new Date((schedule as any).lastTakenDate) <= todayEnd,
+    );
+
+    const earnedXp = 10;
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
     });
 
-    if (user && !user.onBoarded) {
+    // Award XP strictly once per day when marked taken and user is onboarded
+    if (!alreadyTakenToday && isTakens && user && user.onBoarded) {
       await this.leveladd.addXpToUser(
         userId,
         earnedXp,
-        'mealScedule log entry',
+        'mealSchedule log entry',
       );
     }
 
-    const schedule = await this.prisma.client.mealSchedule.update({
-      where: { id: scheduleId, userId },
-      data: { isTaken: true },
+    const updated = await this.prisma.client.mealSchedule.update({
+      where: { id: scheduleId },
+      data: {
+        isTaken: isTakens,
+        ...(isTakens && { lastTakenDate: new Date() }),
+      } as any,
     });
 
-    return schedule;
+    return updated;
   }
 
   async getMealScheduleHistory(
