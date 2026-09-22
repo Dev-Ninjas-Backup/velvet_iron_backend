@@ -165,7 +165,7 @@ export type OnboardingGroupByOutputType = {
   _max: OnboardingMaxAggregateOutputType | null
 }
 
-type GetOnboardingGroupByPayload<T extends onboardingGroupByArgs> = Prisma.PrismaPromise<
+export type GetOnboardingGroupByPayload<T extends onboardingGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OnboardingGroupByOutputType, T['by']> &
       {
@@ -1104,6 +1104,11 @@ export type onboardingFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Skip the first `n` onboardings.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of onboardings.
+   */
   distinct?: Prisma.OnboardingScalarFieldEnum | Prisma.OnboardingScalarFieldEnum[]
 }
 

@@ -231,7 +231,7 @@ export type ExerciseLogGroupByOutputType = {
   _max: ExerciseLogMaxAggregateOutputType | null
 }
 
-type GetExerciseLogGroupByPayload<T extends ExerciseLogGroupByArgs> = Prisma.PrismaPromise<
+export type GetExerciseLogGroupByPayload<T extends ExerciseLogGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ExerciseLogGroupByOutputType, T['by']> &
       {
@@ -1355,6 +1355,11 @@ export type ExerciseLogFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` ExerciseLogs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ExerciseLogs.
+   */
   distinct?: Prisma.ExerciseLogScalarFieldEnum | Prisma.ExerciseLogScalarFieldEnum[]
 }
 

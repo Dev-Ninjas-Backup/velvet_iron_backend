@@ -213,7 +213,7 @@ export type MoodLogGroupByOutputType = {
   _max: MoodLogMaxAggregateOutputType | null
 }
 
-type GetMoodLogGroupByPayload<T extends MoodLogGroupByArgs> = Prisma.PrismaPromise<
+export type GetMoodLogGroupByPayload<T extends MoodLogGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MoodLogGroupByOutputType, T['by']> &
       {
@@ -1283,6 +1283,11 @@ export type MoodLogFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Skip the first `n` MoodLogs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of MoodLogs.
+   */
   distinct?: Prisma.MoodLogScalarFieldEnum | Prisma.MoodLogScalarFieldEnum[]
 }
 

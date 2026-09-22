@@ -26,7 +26,9 @@ export * from "./enums"
  * Type-safe database client for TypeScript
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Themes
  * const themes = await prisma.theme.findMany()
  * ```
@@ -127,6 +129,11 @@ export type Quest = Prisma.QuestModel
  * 
  */
 export type UserQuest = Prisma.UserQuestModel
+/**
+ * Model CustomQuest
+ * 
+ */
+export type CustomQuest = Prisma.CustomQuestModel
 /**
  * Model User
  * 

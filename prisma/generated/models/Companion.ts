@@ -199,7 +199,7 @@ export type CompanionGroupByOutputType = {
   _max: CompanionMaxAggregateOutputType | null
 }
 
-type GetCompanionGroupByPayload<T extends CompanionGroupByArgs> = Prisma.PrismaPromise<
+export type GetCompanionGroupByPayload<T extends CompanionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CompanionGroupByOutputType, T['by']> &
       {
@@ -1427,6 +1427,11 @@ export type CompanionFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` Companions.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Companions.
+   */
   distinct?: Prisma.CompanionScalarFieldEnum | Prisma.CompanionScalarFieldEnum[]
 }
 

@@ -192,7 +192,7 @@ export type XpLogGroupByOutputType = {
   _max: XpLogMaxAggregateOutputType | null
 }
 
-type GetXpLogGroupByPayload<T extends XpLogGroupByArgs> = Prisma.PrismaPromise<
+export type GetXpLogGroupByPayload<T extends XpLogGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<XpLogGroupByOutputType, T['by']> &
       {
@@ -1166,6 +1166,11 @@ export type XpLogFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Skip the first `n` XpLogs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of XpLogs.
+   */
   distinct?: Prisma.XpLogScalarFieldEnum | Prisma.XpLogScalarFieldEnum[]
 }
 

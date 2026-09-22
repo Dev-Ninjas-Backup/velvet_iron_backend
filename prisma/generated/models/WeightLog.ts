@@ -199,7 +199,7 @@ export type WeightLogGroupByOutputType = {
   _max: WeightLogMaxAggregateOutputType | null
 }
 
-type GetWeightLogGroupByPayload<T extends WeightLogGroupByArgs> = Prisma.PrismaPromise<
+export type GetWeightLogGroupByPayload<T extends WeightLogGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<WeightLogGroupByOutputType, T['by']> &
       {
@@ -1201,6 +1201,11 @@ export type WeightLogFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` WeightLogs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of WeightLogs.
+   */
   distinct?: Prisma.WeightLogScalarFieldEnum | Prisma.WeightLogScalarFieldEnum[]
 }
 

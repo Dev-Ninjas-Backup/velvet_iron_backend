@@ -232,7 +232,7 @@ export type MacroGoalGroupByOutputType = {
   _max: MacroGoalMaxAggregateOutputType | null
 }
 
-type GetMacroGoalGroupByPayload<T extends MacroGoalGroupByArgs> = Prisma.PrismaPromise<
+export type GetMacroGoalGroupByPayload<T extends MacroGoalGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MacroGoalGroupByOutputType, T['by']> &
       {
@@ -1332,6 +1332,11 @@ export type MacroGoalFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` MacroGoals.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of MacroGoals.
+   */
   distinct?: Prisma.MacroGoalScalarFieldEnum | Prisma.MacroGoalScalarFieldEnum[]
 }
 

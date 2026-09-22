@@ -69,6 +69,7 @@ export const ModelName = {
   SubscriptionEvent: 'SubscriptionEvent',
   Quest: 'Quest',
   UserQuest: 'UserQuest',
+  CustomQuest: 'CustomQuest',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
@@ -170,6 +171,7 @@ export const MealScheduleScalarFieldEnum = {
   mealType: 'mealType',
   scheduledAt: 'scheduledAt',
   isTaken: 'isTaken',
+  lastTakenDate: 'lastTakenDate',
   earnedXp: 'earnedXp',
   calories: 'calories',
   carbs: 'carbs',
@@ -219,6 +221,13 @@ export const MedicationScheduleScalarFieldEnum = {
   type: 'type',
   doseMg: 'doseMg',
   scheduleTime: 'scheduleTime',
+  recurrence: 'recurrence',
+  daysOfWeek: 'daysOfWeek',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  reminderEnabled: 'reminderEnabled',
+  isPaused: 'isPaused',
+  lastTakenDate: 'lastTakenDate',
   isTaken: 'isTaken'
 } as const
 
@@ -250,6 +259,12 @@ export const ExerciseScheduleLogScalarFieldEnum = {
   duration: 'duration',
   note: 'note',
   loggedAt: 'loggedAt',
+  recurrence: 'recurrence',
+  daysOfWeek: 'daysOfWeek',
+  timeOfDay: 'timeOfDay',
+  reminderEnabled: 'reminderEnabled',
+  isPaused: 'isPaused',
+  lastTakenDate: 'lastTakenDate',
   isTaken: 'isTaken',
   earnedXp: 'earnedXp'
 } as const
@@ -335,6 +350,28 @@ export const UserQuestScalarFieldEnum = {
 } as const
 
 export type UserQuestScalarFieldEnum = (typeof UserQuestScalarFieldEnum)[keyof typeof UserQuestScalarFieldEnum]
+
+
+export const CustomQuestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  category: 'category',
+  description: 'description',
+  scheduledDate: 'scheduledDate',
+  scheduledTime: 'scheduledTime',
+  recurrence: 'recurrence',
+  daysOfWeek: 'daysOfWeek',
+  reminderEnabled: 'reminderEnabled',
+  reminderTime: 'reminderTime',
+  isPaused: 'isPaused',
+  lastCompletedAt: 'lastCompletedAt',
+  xp: 'xp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomQuestScalarFieldEnum = (typeof CustomQuestScalarFieldEnum)[keyof typeof CustomQuestScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

@@ -108,6 +108,11 @@ export type Quest = Prisma.QuestModel
  */
 export type UserQuest = Prisma.UserQuestModel
 /**
+ * Model CustomQuest
+ * 
+ */
+export type CustomQuest = Prisma.CustomQuestModel
+/**
  * Model User
  * 
  */
