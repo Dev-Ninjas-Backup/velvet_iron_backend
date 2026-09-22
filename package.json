@@ -55,6 +55,7 @@
     "express": "^5.2.1",
     "firebase-admin": "^13.6.0",
     "multer": "^2.4.0",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^10.0.10",
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
