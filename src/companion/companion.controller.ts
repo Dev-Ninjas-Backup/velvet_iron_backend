@@ -8,16 +8,21 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CompanionService } from './companion.service';
+import { CompanionDialogueService } from './companion-dialogue.service';
 import { CreateCompanionDto } from './dto/create-companion.dto';
 import { UpdateCompanionDto } from './dto/update-companion.dto';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { CompanionDialogueResponseDto } from './dto/companion-dialogue.dto';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidAll, ValidAdmin, ValidUser } from '../common/decorators/validate.decorator';
 
 @ApiTags('Companions')
 @Controller('companions')
 export class CompanionController {
-  constructor(private readonly companionService: CompanionService) { }
+  constructor(
+    private readonly companionService: CompanionService,
+    private readonly dialogueService: CompanionDialogueService,
+  ) { }
 
   // @Post()
   // @ValidAdmin()
@@ -40,6 +45,20 @@ export class CompanionController {
   @ApiOperation({ summary: 'Get my unlocked companions' })
   getMyCompanions(@GetUser('id') userId: string) {
     return this.companionService.getUserCompanions(userId);
+  }
+
+  @Get('current/dialogue')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Get situational dialogue from active companion' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns contextual dialogue lines and companion info',
+    type: CompanionDialogueResponseDto,
+  })
+  getSituationalDialogue(@GetUser('id') userId: string): Promise<CompanionDialogueResponseDto> {
+    return this.dialogueService.getSituationalDialogue(userId);
   }
 
   @Get(':id')

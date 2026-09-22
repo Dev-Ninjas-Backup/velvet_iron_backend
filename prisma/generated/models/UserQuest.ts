@@ -158,7 +158,7 @@ export type UserQuestGroupByOutputType = {
   _max: UserQuestMaxAggregateOutputType | null
 }
 
-type GetUserQuestGroupByPayload<T extends UserQuestGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserQuestGroupByPayload<T extends UserQuestGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserQuestGroupByOutputType, T['by']> &
       {
@@ -1249,6 +1249,11 @@ export type UserQuestFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` UserQuests.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of UserQuests.
+   */
   distinct?: Prisma.UserQuestScalarFieldEnum | Prisma.UserQuestScalarFieldEnum[]
 }
 

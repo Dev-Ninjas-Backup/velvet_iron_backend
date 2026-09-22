@@ -6,6 +6,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 
+import { CompanionDialogueService } from './companion-dialogue.service';
+
 @Module({
   imports: [
     PassportModule,
@@ -20,7 +22,7 @@ import { AuthModule } from '../auth/auth.module';
     }),
   ],
   controllers: [CompanionController],
-  providers: [CompanionService],
-  exports: [CompanionService],
+  providers: [CompanionService, CompanionDialogueService],
+  exports: [CompanionService, CompanionDialogueService],
 })
 export class CompanionModule { }
