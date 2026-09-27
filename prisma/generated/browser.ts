@@ -78,6 +78,16 @@ export type ExerciseLog = Prisma.ExerciseLogModel
  */
 export type ExerciseScheduleLog = Prisma.ExerciseScheduleLogModel
 /**
+ * Model WaterLog
+ * 
+ */
+export type WaterLog = Prisma.WaterLogModel
+/**
+ * Model StepLog
+ * 
+ */
+export type StepLog = Prisma.StepLogModel
+/**
  * Model MacroGoal
  * 
  */
@@ -112,6 +122,11 @@ export type UserQuest = Prisma.UserQuestModel
  * 
  */
 export type CustomQuest = Prisma.CustomQuestModel
+/**
+ * Model ScheduleItem
+ * 
+ */
+export type ScheduleItem = Prisma.ScheduleItemModel
 /**
  * Model User
  * 
