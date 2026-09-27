@@ -63,6 +63,8 @@ export const ModelName = {
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
   ExerciseScheduleLog: 'ExerciseScheduleLog',
+  WaterLog: 'WaterLog',
+  StepLog: 'StepLog',
   MacroGoal: 'MacroGoal',
   onboarding: 'onboarding',
   Subscription: 'Subscription',
@@ -70,6 +72,7 @@ export const ModelName = {
   Quest: 'Quest',
   UserQuest: 'UserQuest',
   CustomQuest: 'CustomQuest',
+  ScheduleItem: 'ScheduleItem',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
@@ -272,6 +275,36 @@ export const ExerciseScheduleLogScalarFieldEnum = {
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
 
 
+export const WaterLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  unit: 'unit',
+  amountMl: 'amountMl',
+  amountOz: 'amountOz',
+  earnedXp: 'earnedXp',
+  loggedAt: 'loggedAt'
+} as const
+
+export type WaterLogScalarFieldEnum = (typeof WaterLogScalarFieldEnum)[keyof typeof WaterLogScalarFieldEnum]
+
+
+export const StepLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  steps: 'steps',
+  goal: 'goal',
+  date: 'date',
+  isCampSet: 'isCampSet',
+  campSetAt: 'campSetAt',
+  earnedXp: 'earnedXp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StepLogScalarFieldEnum = (typeof StepLogScalarFieldEnum)[keyof typeof StepLogScalarFieldEnum]
+
+
 export const MacroGoalScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -280,6 +313,7 @@ export const MacroGoalScalarFieldEnum = {
   fat: 'fat',
   protein: 'protein',
   calories: 'calories',
+  calorieGoalMode: 'calorieGoalMode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -374,6 +408,26 @@ export const CustomQuestScalarFieldEnum = {
 export type CustomQuestScalarFieldEnum = (typeof CustomQuestScalarFieldEnum)[keyof typeof CustomQuestScalarFieldEnum]
 
 
+export const ScheduleItemScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  itemType: 'itemType',
+  title: 'title',
+  description: 'description',
+  recurrenceType: 'recurrenceType',
+  daysOfWeek: 'daysOfWeek',
+  timeOfDay: 'timeOfDay',
+  isPaused: 'isPaused',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleItemScalarFieldEnum = (typeof ScheduleItemScalarFieldEnum)[keyof typeof ScheduleItemScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -441,6 +495,13 @@ export const UserProfileScalarFieldEnum = {
   level: 'level',
   onBoardingCompleted: 'onBoardingCompleted',
   fitnessGoal: 'fitnessGoal',
+  dailyWaterGoal: 'dailyWaterGoal',
+  waterUnit: 'waterUnit',
+  dailyStepGoal: 'dailyStepGoal',
+  calorieGoal: 'calorieGoal',
+  calorieGoalMode: 'calorieGoalMode',
+  lifetimeSteps: 'lifetimeSteps',
+  totalCampsites: 'totalCampsites',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -472,6 +533,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
