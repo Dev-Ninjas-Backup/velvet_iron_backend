@@ -56,6 +56,9 @@ model User {
     xpLogs               XpLog[]
     onboarding           onboarding?
     macroGoals           MacroGoal[]
+    waterLogs            WaterLog[]
+    stepLogs             StepLog[]
+    scheduledItems       ScheduleItem[]
 
     @@index([email])
     @@map("users")
