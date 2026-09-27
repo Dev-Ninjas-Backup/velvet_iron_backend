@@ -281,6 +281,7 @@ export type ScheduleItemWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ScheduleItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ScheduleItem"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogListRelationFilter
 }
 
 export type ScheduleItemOrderByWithRelationInput = {
@@ -299,6 +300,7 @@ export type ScheduleItemOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogOrderByRelationAggregateInput
 }
 
 export type ScheduleItemWhereUniqueInput = Prisma.AtLeast<{
@@ -320,6 +322,7 @@ export type ScheduleItemWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ScheduleItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ScheduleItem"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogListRelationFilter
 }, "id">
 
 export type ScheduleItemOrderByWithAggregationInput = {
@@ -379,6 +382,7 @@ export type ScheduleItemCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutScheduledItemsInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutScheduleItemInput
 }
 
 export type ScheduleItemUncheckedCreateInput = {
@@ -396,6 +400,7 @@ export type ScheduleItemUncheckedCreateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutScheduleItemInput
 }
 
 export type ScheduleItemUpdateInput = {
@@ -413,6 +418,7 @@ export type ScheduleItemUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutScheduledItemsNestedInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutScheduleItemNestedInput
 }
 
 export type ScheduleItemUncheckedUpdateInput = {
@@ -430,6 +436,7 @@ export type ScheduleItemUncheckedUpdateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutScheduleItemNestedInput
 }
 
 export type ScheduleItemCreateManyInput = {
@@ -537,6 +544,11 @@ export type ScheduleItemSumOrderByAggregateInput = {
   daysOfWeek?: Prisma.SortOrder
 }
 
+export type ScheduleItemScalarRelationFilter = {
+  is?: Prisma.ScheduleItemWhereInput
+  isNot?: Prisma.ScheduleItemWhereInput
+}
+
 export type ScheduleItemListRelationFilter = {
   every?: Prisma.ScheduleItemWhereInput
   some?: Prisma.ScheduleItemWhereInput
@@ -562,6 +574,20 @@ export type EnumScheduleRecurrenceTypeFieldUpdateOperationsInput = {
 export type ScheduleItemUpdatedaysOfWeekInput = {
   set?: number[]
   push?: number | number[]
+}
+
+export type ScheduleItemCreateNestedOneWithoutScheduleCompletionLogsInput = {
+  create?: Prisma.XOR<Prisma.ScheduleItemCreateWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUncheckedCreateWithoutScheduleCompletionLogsInput>
+  connectOrCreate?: Prisma.ScheduleItemCreateOrConnectWithoutScheduleCompletionLogsInput
+  connect?: Prisma.ScheduleItemWhereUniqueInput
+}
+
+export type ScheduleItemUpdateOneRequiredWithoutScheduleCompletionLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.ScheduleItemCreateWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUncheckedCreateWithoutScheduleCompletionLogsInput>
+  connectOrCreate?: Prisma.ScheduleItemCreateOrConnectWithoutScheduleCompletionLogsInput
+  upsert?: Prisma.ScheduleItemUpsertWithoutScheduleCompletionLogsInput
+  connect?: Prisma.ScheduleItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ScheduleItemUpdateToOneWithWhereWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUpdateWithoutScheduleCompletionLogsInput>, Prisma.ScheduleItemUncheckedUpdateWithoutScheduleCompletionLogsInput>
 }
 
 export type ScheduleItemCreateNestedManyWithoutUserInput = {
@@ -606,6 +632,90 @@ export type ScheduleItemUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ScheduleItemScalarWhereInput | Prisma.ScheduleItemScalarWhereInput[]
 }
 
+export type ScheduleItemCreateWithoutScheduleCompletionLogsInput = {
+  id?: string
+  itemType?: $Enums.ScheduleItemType
+  title: string
+  description?: string | null
+  recurrenceType?: $Enums.ScheduleRecurrenceType
+  daysOfWeek?: Prisma.ScheduleItemCreatedaysOfWeekInput | number[]
+  timeOfDay?: string | null
+  isPaused?: boolean
+  startDate?: Date | string
+  endDate?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutScheduledItemsInput
+}
+
+export type ScheduleItemUncheckedCreateWithoutScheduleCompletionLogsInput = {
+  id?: string
+  userId: string
+  itemType?: $Enums.ScheduleItemType
+  title: string
+  description?: string | null
+  recurrenceType?: $Enums.ScheduleRecurrenceType
+  daysOfWeek?: Prisma.ScheduleItemCreatedaysOfWeekInput | number[]
+  timeOfDay?: string | null
+  isPaused?: boolean
+  startDate?: Date | string
+  endDate?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ScheduleItemCreateOrConnectWithoutScheduleCompletionLogsInput = {
+  where: Prisma.ScheduleItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.ScheduleItemCreateWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUncheckedCreateWithoutScheduleCompletionLogsInput>
+}
+
+export type ScheduleItemUpsertWithoutScheduleCompletionLogsInput = {
+  update: Prisma.XOR<Prisma.ScheduleItemUpdateWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUncheckedUpdateWithoutScheduleCompletionLogsInput>
+  create: Prisma.XOR<Prisma.ScheduleItemCreateWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUncheckedCreateWithoutScheduleCompletionLogsInput>
+  where?: Prisma.ScheduleItemWhereInput
+}
+
+export type ScheduleItemUpdateToOneWithWhereWithoutScheduleCompletionLogsInput = {
+  where?: Prisma.ScheduleItemWhereInput
+  data: Prisma.XOR<Prisma.ScheduleItemUpdateWithoutScheduleCompletionLogsInput, Prisma.ScheduleItemUncheckedUpdateWithoutScheduleCompletionLogsInput>
+}
+
+export type ScheduleItemUpdateWithoutScheduleCompletionLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumScheduleItemTypeFieldUpdateOperationsInput | $Enums.ScheduleItemType
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recurrenceType?: Prisma.EnumScheduleRecurrenceTypeFieldUpdateOperationsInput | $Enums.ScheduleRecurrenceType
+  daysOfWeek?: Prisma.ScheduleItemUpdatedaysOfWeekInput | number[]
+  timeOfDay?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutScheduledItemsNestedInput
+}
+
+export type ScheduleItemUncheckedUpdateWithoutScheduleCompletionLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumScheduleItemTypeFieldUpdateOperationsInput | $Enums.ScheduleItemType
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recurrenceType?: Prisma.EnumScheduleRecurrenceTypeFieldUpdateOperationsInput | $Enums.ScheduleRecurrenceType
+  daysOfWeek?: Prisma.ScheduleItemUpdatedaysOfWeekInput | number[]
+  timeOfDay?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ScheduleItemCreateWithoutUserInput = {
   id?: string
   itemType?: $Enums.ScheduleItemType
@@ -620,6 +730,7 @@ export type ScheduleItemCreateWithoutUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutScheduleItemInput
 }
 
 export type ScheduleItemUncheckedCreateWithoutUserInput = {
@@ -636,6 +747,7 @@ export type ScheduleItemUncheckedCreateWithoutUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutScheduleItemInput
 }
 
 export type ScheduleItemCreateOrConnectWithoutUserInput = {
@@ -714,6 +826,7 @@ export type ScheduleItemUpdateWithoutUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutScheduleItemNestedInput
 }
 
 export type ScheduleItemUncheckedUpdateWithoutUserInput = {
@@ -730,6 +843,7 @@ export type ScheduleItemUncheckedUpdateWithoutUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutScheduleItemNestedInput
 }
 
 export type ScheduleItemUncheckedUpdateManyWithoutUserInput = {
@@ -749,6 +863,35 @@ export type ScheduleItemUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type ScheduleItemCountOutputType
+ */
+
+export type ScheduleItemCountOutputType = {
+  scheduleCompletionLogs: number
+}
+
+export type ScheduleItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  scheduleCompletionLogs?: boolean | ScheduleItemCountOutputTypeCountScheduleCompletionLogsArgs
+}
+
+/**
+ * ScheduleItemCountOutputType without action
+ */
+export type ScheduleItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleItemCountOutputType
+   */
+  select?: Prisma.ScheduleItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ScheduleItemCountOutputType without action
+ */
+export type ScheduleItemCountOutputTypeCountScheduleCompletionLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleCompletionLogWhereInput
+}
+
 
 export type ScheduleItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -766,6 +909,8 @@ export type ScheduleItemSelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  scheduleCompletionLogs?: boolean | Prisma.ScheduleItem$scheduleCompletionLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.ScheduleItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["scheduleItem"]>
 
 export type ScheduleItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -824,6 +969,8 @@ export type ScheduleItemSelectScalar = {
 export type ScheduleItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "itemType" | "title" | "description" | "recurrenceType" | "daysOfWeek" | "timeOfDay" | "isPaused" | "startDate" | "endDate" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["scheduleItem"]>
 export type ScheduleItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  scheduleCompletionLogs?: boolean | Prisma.ScheduleItem$scheduleCompletionLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.ScheduleItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ScheduleItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -836,6 +983,7 @@ export type $ScheduleItemPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "ScheduleItem"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    scheduleCompletionLogs: Prisma.$ScheduleCompletionLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1247,6 +1395,7 @@ readonly fields: ScheduleItemFieldRefs;
 export interface Prisma__ScheduleItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  scheduleCompletionLogs<T extends Prisma.ScheduleItem$scheduleCompletionLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ScheduleItem$scheduleCompletionLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleCompletionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1688,6 +1837,30 @@ export type ScheduleItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many ScheduleItems to delete.
    */
   limit?: number
+}
+
+/**
+ * ScheduleItem.scheduleCompletionLogs
+ */
+export type ScheduleItem$scheduleCompletionLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleCompletionLog
+   */
+  select?: Prisma.ScheduleCompletionLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ScheduleCompletionLog
+   */
+  omit?: Prisma.ScheduleCompletionLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleCompletionLogInclude<ExtArgs> | null
+  where?: Prisma.ScheduleCompletionLogWhereInput
+  orderBy?: Prisma.ScheduleCompletionLogOrderByWithRelationInput | Prisma.ScheduleCompletionLogOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleCompletionLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ScheduleCompletionLogScalarFieldEnum | Prisma.ScheduleCompletionLogScalarFieldEnum[]
 }
 
 /**

@@ -419,6 +419,7 @@ export const ModelName = {
   UserQuest: 'UserQuest',
   CustomQuest: 'CustomQuest',
   ScheduleItem: 'ScheduleItem',
+  ScheduleCompletionLog: 'ScheduleCompletionLog',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
@@ -439,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "waterLog" | "stepLog" | "macroGoal" | "onboarding" | "subscription" | "subscriptionEvent" | "quest" | "userQuest" | "customQuest" | "scheduleItem" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
+    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "waterLog" | "stepLog" | "macroGoal" | "onboarding" | "subscription" | "subscriptionEvent" | "quest" | "userQuest" | "customQuest" | "scheduleItem" | "scheduleCompletionLog" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2071,6 +2072,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ScheduleCompletionLog: {
+      payload: Prisma.$ScheduleCompletionLogPayload<ExtArgs>
+      fields: Prisma.ScheduleCompletionLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ScheduleCompletionLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ScheduleCompletionLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ScheduleCompletionLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ScheduleCompletionLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>
+        }
+        findMany: {
+          args: Prisma.ScheduleCompletionLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>[]
+        }
+        create: {
+          args: Prisma.ScheduleCompletionLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>
+        }
+        createMany: {
+          args: Prisma.ScheduleCompletionLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ScheduleCompletionLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>[]
+        }
+        delete: {
+          args: Prisma.ScheduleCompletionLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>
+        }
+        update: {
+          args: Prisma.ScheduleCompletionLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ScheduleCompletionLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ScheduleCompletionLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ScheduleCompletionLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.ScheduleCompletionLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleCompletionLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ScheduleCompletionLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateScheduleCompletionLog>
+        }
+        groupBy: {
+          args: Prisma.ScheduleCompletionLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleCompletionLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ScheduleCompletionLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleCompletionLogCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -2812,6 +2887,16 @@ export const ScheduleItemScalarFieldEnum = {
 export type ScheduleItemScalarFieldEnum = (typeof ScheduleItemScalarFieldEnum)[keyof typeof ScheduleItemScalarFieldEnum]
 
 
+export const ScheduleCompletionLogScalarFieldEnum = {
+  id: 'id',
+  scheduleItemId: 'scheduleItemId',
+  userId: 'userId',
+  completedAt: 'completedAt'
+} as const
+
+export type ScheduleCompletionLogScalarFieldEnum = (typeof ScheduleCompletionLogScalarFieldEnum)[keyof typeof ScheduleCompletionLogScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -3375,6 +3460,7 @@ export type GlobalOmitConfig = {
   userQuest?: Prisma.UserQuestOmit
   customQuest?: Prisma.CustomQuestOmit
   scheduleItem?: Prisma.ScheduleItemOmit
+  scheduleCompletionLog?: Prisma.ScheduleCompletionLogOmit
   user?: Prisma.UserOmit
   refreshToken?: Prisma.RefreshTokenOmit
   session?: Prisma.SessionOmit

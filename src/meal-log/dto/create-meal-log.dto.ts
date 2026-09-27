@@ -65,4 +65,16 @@ export class CreateMealLogDto {
     @IsDateString()
     @IsOptional()
     loggedAt?: string;
+
+    @ApiProperty({
+        description: 'Calories in kcal (Optional override)',
+        example: 300,
+        required: false,
+    })
+    @IsInt()
+    @Min(0)
+    @IsOptional()
+    @Type(() => Number)
+    calories?: number;
+
 }

@@ -35,11 +35,13 @@ export class MealLogService {
     userId: string,
     dto: CreateMealLogDto,
   ): Promise<MealLogResponseDto> {
-    const calories = this.calculateCalories(
-      Number(dto.carbs),
-      Number(dto.protein),
-      Number(dto.fats),
-    );
+    const calories = dto.calories !== undefined && dto.calories > 0
+      ? Number(dto.calories)
+      : this.calculateCalories(
+          Number(dto.carbs),
+          Number(dto.protein),
+          Number(dto.fats),
+        );
 
     //if onboarded then add xp
     const earnedXp = 10;
@@ -267,12 +269,18 @@ export class MealLogService {
 
     console.log('ddddddddddddddd', dto);
 
-    // 3️⃣ Recalculate calories
-    const calories = this.calculateCalories(
-      carbs ?? 0,
-      protein ?? 0,
-      fats ?? 0,
-    );
+    // 3️⃣ Recalculate or override calories
+    let calories: number;
+    if (dto.calories !== undefined && dto.calories > 0) {
+      calories = Number(dto.calories);
+    } else if (dto.calories === 0) {
+      calories = this.calculateCalories(carbs ?? 0, protein ?? 0, fats ?? 0);
+    } else if (existingLog.calories !== null && existingLog.calories > 0 && dto.carbs === undefined && dto.protein === undefined && dto.fats === undefined) {
+      // Keep existing override if macros weren't changed
+      calories = existingLog.calories;
+    } else {
+      calories = this.calculateCalories(carbs ?? 0, protein ?? 0, fats ?? 0);
+    }
 
     // 4️⃣ Update the log
     const updatedLog = await this.prisma.client.mealLog.update({

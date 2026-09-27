@@ -29,8 +29,23 @@ model ScheduleItem {
     metadata       Json?                  // Extra payload (e.g. doseMg, medicationType, exerciseType, intensity, duration)
     createdAt      DateTime               @default(now())
     updatedAt      DateTime               @updatedAt
+    scheduleCompletionLogs ScheduleCompletionLog[]
 
     @@index([userId])
     @@index([userId, startDate])
     @@map("scheduled_items")
+}
+
+// Tracks daily completions for recurring scheduled items
+model ScheduleCompletionLog {
+    id             String       @id @default(uuid())
+    scheduleItemId String
+    scheduleItem   ScheduleItem @relation(fields: [scheduleItemId], references: [id], onDelete: Cascade)
+    userId         String
+    user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    completedAt    DateTime     @default(now())
+
+    @@index([userId])
+    @@index([scheduleItemId])
+    @@map("schedule_completion_logs")
 }

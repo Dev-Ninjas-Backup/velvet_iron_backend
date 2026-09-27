@@ -128,6 +128,11 @@ export type CustomQuest = Prisma.CustomQuestModel
  */
 export type ScheduleItem = Prisma.ScheduleItemModel
 /**
+ * Model ScheduleCompletionLog
+ * 
+ */
+export type ScheduleCompletionLog = Prisma.ScheduleCompletionLogModel
+/**
  * Model User
  * 
  */

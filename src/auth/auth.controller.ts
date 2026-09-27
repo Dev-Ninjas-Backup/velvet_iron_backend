@@ -1,3 +1,4 @@
+import { UnauthorizedException } from "@nestjs/common";
 import {
   Controller,
   Post,
@@ -99,14 +100,14 @@ export class AuthController {
 
     // Set cookies for automatic token management
     res.cookie('access_token', result.access_token, {
-      httpOnly: false, // Allow JavaScript access in dev for Swagger
+      httpOnly: true, // Allow JavaScript access in dev for Swagger
       secure: isProduction,
       sameSite: 'lax',
       maxAge: accessTokenExpirMs, // 15 seconds
     });
 
     res.cookie('refresh_token', result.refresh_token, {
-      httpOnly: false, // Allow JavaScript access in dev for Swagger
+      httpOnly: true, // Allow JavaScript access in dev for Swagger
       secure: isProduction,
       sameSite: 'lax',
       maxAge: refreshTokenExpirMs, // 20 seconds
@@ -151,14 +152,14 @@ export class AuthController {
 
       // Set cookies
       res.cookie('access_token', result.access_token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: isProduction,
         sameSite: 'lax',
         maxAge: accessTokenExpirMs,
       });
 
       res.cookie('refresh_token', result.refresh_token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: isProduction,
         sameSite: 'lax',
         maxAge: refreshTokenExpirMs,
@@ -218,54 +219,52 @@ export class AuthController {
     return result;
   }
 
-  // @Post('refresh-token')
-  // @ApiOperation({
-  //   summary:
-  //     'Refresh access token using refresh token (returns new tokens + sets cookies)',
-  // })
-  // async refreshToken(
-  //   @Body() body: RefreshTokenDto,
-  //   @Res({ passthrough: true }) res: any,
-  // ) {
-  //   const result = await this.authService.refreshToken(body.refreshToken);
+  @Post('refresh-token')
+  @ApiOperation({
+    summary: 'Refresh access token using refresh token (returns new tokens + sets cookies)',
+  })
+  async refreshToken(
+    @Body() body: RefreshTokenDto,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: any,
+  ) {
+    const token = body.refreshToken || req.headers['x-refresh-token'] || req.cookies?.refresh_token;
+    if (!token) throw new UnauthorizedException('Refresh token is required');
+    
+    const result = await this.authService.refreshToken(token);
 
-  //   const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = process.env.NODE_ENV === 'production';
 
-  //   // Update cookies with new tokens - use config values for expiration
-  //   const accessTokenExpirMs =
-  //     this.configService.get<number>('ACCESS_TOKEN_EXPIRATION_MS') ||
-  //     15 * 60 * 1000;
-  //   const refreshTokenExpirMs =
-  //     this.configService.get<number>('REFRESH_TOKEN_EXPIRATION_MS') ||
-  //     7 * 24 * 60 * 60 * 1000;
+    const accessTokenConfigMs = Number(this.configService.get('ACCESS_TOKEN_EXPIRATION_MS'));
+    const refreshTokenConfigMs = Number(this.configService.get('REFRESH_TOKEN_EXPIRATION_MS'));
+    const accessTokenMs = isNaN(accessTokenConfigMs) || accessTokenConfigMs === 0 ? 15 * 60 * 1000 : accessTokenConfigMs;
+    const refreshTokenMs = isNaN(refreshTokenConfigMs) || refreshTokenConfigMs === 0 ? 7 * 24 * 60 * 60 * 1000 : refreshTokenConfigMs;
 
-  //   res.cookie('access_token', result.access_token, {
-  //     httpOnly: false,
-  //     secure: isProduction,
-  //     sameSite: 'lax',
-  //     maxAge: accessTokenExpirMs,
-  //   });
+    res.cookie('access_token', result.access_token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax',
+      maxAge: accessTokenMs,
+    });
 
-  //   res.cookie('refresh_token', result.refresh_token, {
-  //     httpOnly: false,
-  //     secure: isProduction,
-  //     sameSite: 'lax',
-  //     maxAge: refreshTokenExpirMs,
-  //   });
+    res.cookie('refresh_token', result.refresh_token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax',
+      maxAge: refreshTokenMs,
+    });
 
-  //   // Send in headers for easy access
-  //   res.setHeader('X-Access-Token', result.access_token);
-  //   res.setHeader('X-Refresh-Token', result.refresh_token);
+    res.setHeader('X-Access-Token', result.access_token);
+    res.setHeader('X-Refresh-Token', result.refresh_token);
 
-  //   // Return tokens explicitly in response body for Swagger visibility
-  //   return {
-  //     access_token: result?.access_token,
-  //     refresh_token: result?.refresh_token,
-  //     user: result?.user,
-  //     message: 'Tokens refreshed successfully',
-  //     success: true,
-  //   };
-  // }
+    return {
+      access_token: result.access_token,
+      refresh_token: result.refresh_token,
+      user: result.user,
+      message: 'Tokens refreshed successfully',
+      success: true,
+    };
+  }
 
   // ==================== Email Verification ====================
 
@@ -502,14 +501,14 @@ export class AuthController {
 
       // Set cookies
       res.cookie('access_token', result.access_token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: isProduction,
         sameSite: 'lax',
         maxAge: accessTokenExpirMs,
       });
 
       res.cookie('refresh_token', result.refresh_token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: isProduction,
         sameSite: 'lax',
         maxAge: refreshTokenExpirMs,

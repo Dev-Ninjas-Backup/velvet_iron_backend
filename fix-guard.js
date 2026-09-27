@@ -1,4 +1,6 @@
-import {
+const fs = require('fs');
+
+const content = `import {
   Injectable,
   ExecutionContext,
   UnauthorizedException,
@@ -42,3 +44,6 @@ export class OptionalJwtGuard extends AuthGuard('jwt') {
     throw new UnauthorizedException('Access token is invalid');
   }
 }
+`;
+
+fs.writeFileSync('src/common/optional-auth.guard.ts', content);

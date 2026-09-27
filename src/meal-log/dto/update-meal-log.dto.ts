@@ -48,4 +48,12 @@ export class UpdateMealLogDto {
     @IsOptional()
     @Transform(({ value }) => (value === '' ? undefined : value))
     loggedAt?: string;
+
+    @IsInt()
+    @Min(0)
+    @IsOptional()
+    @Transform(({ value }) => (value === '' ? undefined : value))
+    @Type(() => Number)
+    calories?: number;
+
 }

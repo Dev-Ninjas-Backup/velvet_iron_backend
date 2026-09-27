@@ -59,6 +59,7 @@ model User {
     waterLogs            WaterLog[]
     stepLogs             StepLog[]
     scheduledItems       ScheduleItem[]
+    scheduleCompletionLogs ScheduleCompletionLog[]
 
     @@index([email])
     @@map("users")
