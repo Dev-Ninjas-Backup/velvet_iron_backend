@@ -31,6 +31,9 @@ export class XpStatsService {
       exerciseLogAggregate,
       exerciseScheduleAggregate,
       todayXpAggregate,
+      todayWaterLogs,
+      todayStepLog,
+      userProfile,
     ] = await Promise.all([
       this.prisma.client.medication.count({
         where: {
@@ -124,6 +127,24 @@ export class XpStatsService {
         _sum: { amount: true },
         _count: true,
       }),
+      this.prisma.client.waterLog.findMany({
+        where: {
+          userId,
+          loggedAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+        },
+      }),
+      this.prisma.client.stepLog.findFirst({
+        where: {
+          userId,
+          date: startOfDay,
+        },
+      }),
+      this.prisma.client.userProfile.findUnique({
+        where: { userId },
+      }),
     ]);
 
     const takenMainMeals = [...mealLogs, ...mealSchedules].filter((meal) =>
@@ -144,6 +165,12 @@ export class XpStatsService {
 
     const totalExerciseDuration =
       exerciseLogDuration + exerciseScheduleDuration;
+
+    const waterUnit = userProfile?.waterUnit ?? 'OZ';
+    const waterGoal = userProfile?.dailyWaterGoal ?? (waterUnit === 'OZ' ? 64 : 2000);
+    const todayWaterIntake = todayWaterLogs.reduce((sum, log) => {
+      return sum + (waterUnit === 'OZ' ? (log.amountOz || 0) : (log.amountMl || 0));
+    }, 0);
 
     const todayTotalXp = Number(todayXpAggregate._sum?.amount ?? 0);
     const todayLogCount = Number(todayXpAggregate._count ?? 0);
@@ -173,8 +200,11 @@ export class XpStatsService {
         id: 'step-master',
         title: 'Step Master',
         xp: 20,
-        description: 'Do 30 minutes of workout',
-        isDone: totalExerciseDuration >= 30,
+        description: 'Complete your daily step goal or walk at least 8,000 steps',
+        isDone:
+          (todayStepLog && todayStepLog.steps >= todayStepLog.goal) ||
+          (todayStepLog && todayStepLog.steps >= 8000) ||
+          totalExerciseDuration >= 30,
       },
       {
         id: 'protein-power',
@@ -182,6 +212,13 @@ export class XpStatsService {
         xp: 30,
         description: 'Log a meal with 120g+ protein',
         isDone: totalProtein >= 120,
+      },
+      {
+        id: 'mana-infusion',
+        title: 'Mana Infusion',
+        xp: 20,
+        description: 'Drink at least 80% of your daily water potion goal',
+        isDone: waterGoal > 0 && todayWaterIntake >= waterGoal * 0.8,
       },
     ];
 
