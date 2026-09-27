@@ -22,7 +22,7 @@ import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
 import { ScheduleRange } from './profile.service';
 
 @ApiTags('Profile')
-@Controller('profile')
+@Controller(['profile', 'user/profile'])
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) { }
 

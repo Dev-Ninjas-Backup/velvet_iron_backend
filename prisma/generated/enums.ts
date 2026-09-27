@@ -79,6 +79,34 @@ export const exercise_intensity = {
 export type exercise_intensity = (typeof exercise_intensity)[keyof typeof exercise_intensity]
 
 
+export const WaterUnit = {
+  OZ: 'OZ',
+  ML: 'ML'
+} as const
+
+export type WaterUnit = (typeof WaterUnit)[keyof typeof WaterUnit]
+
+
+export const ScheduleItemType = {
+  MEDICATION: 'MEDICATION',
+  WORKOUT: 'WORKOUT',
+  MEAL: 'MEAL',
+  GENERAL: 'GENERAL'
+} as const
+
+export type ScheduleItemType = (typeof ScheduleItemType)[keyof typeof ScheduleItemType]
+
+
+export const ScheduleRecurrenceType = {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  SPECIFIC_DAYS: 'SPECIFIC_DAYS'
+} as const
+
+export type ScheduleRecurrenceType = (typeof ScheduleRecurrenceType)[keyof typeof ScheduleRecurrenceType]
+
+
 export const UserRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
@@ -86,3 +114,11 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const CalorieGoalMode = {
+  AUTO: 'AUTO',
+  MANUAL: 'MANUAL'
+} as const
+
+export type CalorieGoalMode = (typeof CalorieGoalMode)[keyof typeof CalorieGoalMode]
