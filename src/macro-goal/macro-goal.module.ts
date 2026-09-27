@@ -7,6 +7,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 
+import { NutritionGoalController } from './nutrition-goal.controller';
+
 @Module({
     imports: [
         PrismaModule,
@@ -21,7 +23,7 @@ import { AuthModule } from '../auth/auth.module';
         }),
         AuthModule,
     ],
-    controllers: [MacroGoalController],
+    controllers: [MacroGoalController, NutritionGoalController],
     providers: [MacroGoalService],
 })
 export class MacroGoalModule { }

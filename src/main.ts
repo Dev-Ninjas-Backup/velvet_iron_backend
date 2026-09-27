@@ -130,6 +130,7 @@ async function bootstrap() {
     .addTag('Weight Log', 'Weight log endpoints')
 
     .addTag('Meal Log', 'Meal log endpoints')
+    .addTag('Water Log', 'Water intake and potion flask hydration endpoints')
 
     .addTag('Meal Schedule', 'Meal schedule endpoints')
 
@@ -138,6 +139,7 @@ async function bootstrap() {
     .addTag('Medication Schedule', 'Medication schedule endpoints')
 
     .addTag('Exercise Log', 'Exercise log endpoints')
+    .addTag('Step Journey', 'Manual step tracking, fantasy map journey, and Set Up Camp endpoints')
 
     .addTag('Mood Log', 'Mood log endpoints')
 
