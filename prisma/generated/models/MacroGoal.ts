@@ -48,6 +48,7 @@ export type MacroGoalMinAggregateOutputType = {
   fat: number | null
   protein: number | null
   calories: number | null
+  calorieGoalMode: $Enums.CalorieGoalMode | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,6 +61,7 @@ export type MacroGoalMaxAggregateOutputType = {
   fat: number | null
   protein: number | null
   calories: number | null
+  calorieGoalMode: $Enums.CalorieGoalMode | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +74,7 @@ export type MacroGoalCountAggregateOutputType = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -100,6 +103,7 @@ export type MacroGoalMinAggregateInputType = {
   fat?: true
   protein?: true
   calories?: true
+  calorieGoalMode?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +116,7 @@ export type MacroGoalMaxAggregateInputType = {
   fat?: true
   protein?: true
   calories?: true
+  calorieGoalMode?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +129,7 @@ export type MacroGoalCountAggregateInputType = {
   fat?: true
   protein?: true
   calories?: true
+  calorieGoalMode?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -223,6 +229,7 @@ export type MacroGoalGroupByOutputType = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode: $Enums.CalorieGoalMode
   createdAt: Date
   updatedAt: Date
   _count: MacroGoalCountAggregateOutputType | null
@@ -258,6 +265,7 @@ export type MacroGoalWhereInput = {
   fat?: Prisma.FloatFilter<"MacroGoal"> | number
   protein?: Prisma.FloatFilter<"MacroGoal"> | number
   calories?: Prisma.FloatFilter<"MacroGoal"> | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFilter<"MacroGoal"> | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFilter<"MacroGoal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MacroGoal"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -271,6 +279,7 @@ export type MacroGoalOrderByWithRelationInput = {
   fat?: Prisma.SortOrder
   protein?: Prisma.SortOrder
   calories?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -287,6 +296,7 @@ export type MacroGoalWhereUniqueInput = Prisma.AtLeast<{
   fat?: Prisma.FloatFilter<"MacroGoal"> | number
   protein?: Prisma.FloatFilter<"MacroGoal"> | number
   calories?: Prisma.FloatFilter<"MacroGoal"> | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFilter<"MacroGoal"> | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFilter<"MacroGoal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MacroGoal"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -300,6 +310,7 @@ export type MacroGoalOrderByWithAggregationInput = {
   fat?: Prisma.SortOrder
   protein?: Prisma.SortOrder
   calories?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.MacroGoalCountOrderByAggregateInput
@@ -320,6 +331,7 @@ export type MacroGoalScalarWhereWithAggregatesInput = {
   fat?: Prisma.FloatWithAggregatesFilter<"MacroGoal"> | number
   protein?: Prisma.FloatWithAggregatesFilter<"MacroGoal"> | number
   calories?: Prisma.FloatWithAggregatesFilter<"MacroGoal"> | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeWithAggregatesFilter<"MacroGoal"> | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MacroGoal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MacroGoal"> | Date | string
 }
@@ -331,6 +343,7 @@ export type MacroGoalCreateInput = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode?: $Enums.CalorieGoalMode
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMacroGoalsInput
@@ -344,6 +357,7 @@ export type MacroGoalUncheckedCreateInput = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode?: $Enums.CalorieGoalMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -355,6 +369,7 @@ export type MacroGoalUpdateInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMacroGoalsNestedInput
@@ -368,6 +383,7 @@ export type MacroGoalUncheckedUpdateInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,6 +396,7 @@ export type MacroGoalCreateManyInput = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode?: $Enums.CalorieGoalMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -391,6 +408,7 @@ export type MacroGoalUpdateManyMutationInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -403,6 +421,7 @@ export type MacroGoalUncheckedUpdateManyInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -415,6 +434,7 @@ export type MacroGoalCountOrderByAggregateInput = {
   fat?: Prisma.SortOrder
   protein?: Prisma.SortOrder
   calories?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -434,6 +454,7 @@ export type MacroGoalMaxOrderByAggregateInput = {
   fat?: Prisma.SortOrder
   protein?: Prisma.SortOrder
   calories?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -446,6 +467,7 @@ export type MacroGoalMinOrderByAggregateInput = {
   fat?: Prisma.SortOrder
   protein?: Prisma.SortOrder
   calories?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -467,12 +489,8 @@ export type MacroGoalOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type EnumCalorieGoalModeFieldUpdateOperationsInput = {
+  set?: $Enums.CalorieGoalMode
 }
 
 export type MacroGoalCreateNestedManyWithoutUserInput = {
@@ -524,6 +542,7 @@ export type MacroGoalCreateWithoutUserInput = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode?: $Enums.CalorieGoalMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -535,6 +554,7 @@ export type MacroGoalUncheckedCreateWithoutUserInput = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode?: $Enums.CalorieGoalMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -576,6 +596,7 @@ export type MacroGoalScalarWhereInput = {
   fat?: Prisma.FloatFilter<"MacroGoal"> | number
   protein?: Prisma.FloatFilter<"MacroGoal"> | number
   calories?: Prisma.FloatFilter<"MacroGoal"> | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFilter<"MacroGoal"> | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFilter<"MacroGoal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MacroGoal"> | Date | string
 }
@@ -587,6 +608,7 @@ export type MacroGoalCreateManyUserInput = {
   fat: number
   protein: number
   calories: number
+  calorieGoalMode?: $Enums.CalorieGoalMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -598,6 +620,7 @@ export type MacroGoalUpdateWithoutUserInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -609,6 +632,7 @@ export type MacroGoalUncheckedUpdateWithoutUserInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -620,6 +644,7 @@ export type MacroGoalUncheckedUpdateManyWithoutUserInput = {
   fat?: Prisma.FloatFieldUpdateOperationsInput | number
   protein?: Prisma.FloatFieldUpdateOperationsInput | number
   calories?: Prisma.FloatFieldUpdateOperationsInput | number
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -634,6 +659,7 @@ export type MacroGoalSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   fat?: boolean
   protein?: boolean
   calories?: boolean
+  calorieGoalMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -647,6 +673,7 @@ export type MacroGoalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   fat?: boolean
   protein?: boolean
   calories?: boolean
+  calorieGoalMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -660,6 +687,7 @@ export type MacroGoalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   fat?: boolean
   protein?: boolean
   calories?: boolean
+  calorieGoalMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -673,11 +701,12 @@ export type MacroGoalSelectScalar = {
   fat?: boolean
   protein?: boolean
   calories?: boolean
+  calorieGoalMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MacroGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "carbs" | "fat" | "protein" | "calories" | "createdAt" | "updatedAt", ExtArgs["result"]["macroGoal"]>
+export type MacroGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "carbs" | "fat" | "protein" | "calories" | "calorieGoalMode" | "createdAt" | "updatedAt", ExtArgs["result"]["macroGoal"]>
 export type MacroGoalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -701,6 +730,7 @@ export type $MacroGoalPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     fat: number
     protein: number
     calories: number
+    calorieGoalMode: $Enums.CalorieGoalMode
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["macroGoal"]>
@@ -1134,6 +1164,7 @@ export interface MacroGoalFieldRefs {
   readonly fat: Prisma.FieldRef<"MacroGoal", 'Float'>
   readonly protein: Prisma.FieldRef<"MacroGoal", 'Float'>
   readonly calories: Prisma.FieldRef<"MacroGoal", 'Float'>
+  readonly calorieGoalMode: Prisma.FieldRef<"MacroGoal", 'CalorieGoalMode'>
   readonly createdAt: Prisma.FieldRef<"MacroGoal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MacroGoal", 'DateTime'>
 }
