@@ -23,6 +23,7 @@ import {
 } from './dto/update-custom-quest.dto';
 import {
   CustomQuestResponseDto,
+  CustomQuestCreateResponseDto,
   CustomQuestListResponseDto,
   CompleteCustomQuestResponseDto,
 } from './dto/custom-quest-response.dto';
@@ -42,12 +43,12 @@ export class CustomQuestController {
   @ApiResponse({
     status: 201,
     description: 'Custom quest created successfully',
-    type: CustomQuestResponseDto,
+    type: CustomQuestCreateResponseDto,
   })
   async create(
     @GetUser('id') userId: string,
     @Body() dto: CreateCustomQuestDto,
-  ): Promise<CustomQuestResponseDto> {
+  ): Promise<CustomQuestCreateResponseDto> {
     return this.customQuestService.create(userId, dto);
   }
 
@@ -55,13 +56,13 @@ export class CustomQuestController {
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
-  @ApiOperation({ summary: "Fetch user's custom quests" })
+  @ApiOperation({ summary: "Fetch user's custom quests for requested date" })
   @ApiQuery({
     name: 'date',
     required: false,
     type: String,
     description: 'Target date (YYYY-MM-DD)',
-    example: '2026-09-18',
+    example: '2026-09-24',
   })
   @ApiResponse({
     status: 200,
@@ -71,7 +72,7 @@ export class CustomQuestController {
   async findAll(
     @GetUser('id') userId: string,
     @Query('date') date?: string,
-  ): Promise<{ success: boolean; quests: CustomQuestResponseDto[] }> {
+  ): Promise<CustomQuestListResponseDto> {
     return this.customQuestService.findAll(userId, date);
   }
 
@@ -109,17 +110,35 @@ export class CustomQuestController {
     return this.customQuestService.pause(userId, id, dto.isPaused);
   }
 
-  @Patch(':id/complete')
+  @Post(':id/complete')
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
-  @ApiOperation({ summary: 'Complete a custom quest and award capped XP' })
+  @ApiOperation({ summary: 'Mark a custom quest as complete and award XP (subject to daily 50 XP cap)' })
   @ApiResponse({
     status: 200,
     description: 'Custom quest completed successfully',
     type: CompleteCustomQuestResponseDto,
   })
   async complete(
+    @GetUser('id') userId: string,
+    @Param('id') id: string,
+  ): Promise<CompleteCustomQuestResponseDto> {
+    return this.customQuestService.complete(userId, id);
+  }
+
+  // Dual-support: Keep PATCH /quests/custom/:id/complete for existing frontend builds
+  @Patch(':id/complete')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Legacy alias: Complete a custom quest and award capped XP' })
+  @ApiResponse({
+    status: 200,
+    description: 'Custom quest completed successfully',
+    type: CompleteCustomQuestResponseDto,
+  })
+  async completePatch(
     @GetUser('id') userId: string,
     @Param('id') id: string,
   ): Promise<CompleteCustomQuestResponseDto> {
@@ -160,4 +179,3 @@ export class CustomQuestController {
     return this.customQuestService.remove(userId, id);
   }
 }
-
