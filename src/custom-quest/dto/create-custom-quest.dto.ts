@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsString,
-  IsNotEmpty,
   IsOptional,
   IsEnum,
   IsArray,
@@ -21,29 +20,72 @@ export enum QuestRecurrenceEnum {
 }
 
 export class CreateCustomQuestDto {
-  @ApiProperty({
-    example: 'Morning Walk & Sunlight',
-    description: 'Name/title of the custom quest',
+  @ApiPropertyOptional({
+    example: 'Evening Stretch',
+    description: 'Title of the custom quest (min 3, max 60 chars)',
   })
   @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty({
-    example: 'FITNESS',
-    description: 'Category: FITNESS, NUTRITION, MINDFULNESS, GENERAL, etc.',
-  })
-  @IsString()
-  @IsNotEmpty()
-  category: string;
+  @IsOptional()
+  title?: string;
 
   @ApiPropertyOptional({
-    example: '15 minute walk outside after waking up',
+    example: 'Morning Walk & Sunlight',
+    description: 'Legacy name/title alias of the custom quest',
+  })
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @ApiPropertyOptional({
+    example: '10 minutes of hip and back mobility',
     description: 'Optional notes or instructions',
   })
   @IsString()
   @IsOptional()
   description?: string;
+
+  @ApiPropertyOptional({
+    example: 'FITNESS',
+    description: 'Category: FITNESS, NUTRITION, MINDFULNESS, GENERAL, etc.',
+    default: 'GENERAL',
+  })
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @ApiPropertyOptional({
+    example: 15,
+    description: 'XP reward (between 5 and 15, auto-clamped)',
+  })
+  @IsInt()
+  @IsOptional()
+  xpReward?: number;
+
+  @ApiPropertyOptional({
+    example: 10,
+    description: 'Legacy XP field (capped at max 15 XP)',
+  })
+  @IsInt()
+  @IsOptional()
+  xp?: number;
+
+  @ApiPropertyOptional({
+    enum: QuestRecurrenceEnum,
+    example: QuestRecurrenceEnum.DAILY,
+    description: 'Frequency of the quest: DAILY or WEEKLY',
+    default: 'DAILY',
+  })
+  @IsOptional()
+  frequency?: string;
+
+  @ApiPropertyOptional({
+    enum: QuestRecurrenceEnum,
+    example: QuestRecurrenceEnum.DAILY,
+    description: 'Legacy recurrence rule for the quest',
+  })
+  @IsEnum(QuestRecurrenceEnum)
+  @IsOptional()
+  recurrence?: QuestRecurrenceEnum;
 
   @ApiPropertyOptional({
     example: '2026-09-18',
@@ -60,15 +102,6 @@ export class CreateCustomQuestDto {
   @IsString()
   @IsOptional()
   scheduledTime?: string;
-
-  @ApiProperty({
-    enum: QuestRecurrenceEnum,
-    example: QuestRecurrenceEnum.DAILY,
-    description: 'Recurrence rule for the quest',
-  })
-  @IsEnum(QuestRecurrenceEnum)
-  @IsNotEmpty()
-  recurrence: QuestRecurrenceEnum;
 
   @ApiPropertyOptional({
     example: [1, 2, 3, 4, 5],
@@ -95,15 +128,4 @@ export class CreateCustomQuestDto {
   @IsString()
   @IsOptional()
   reminderTime?: string;
-
-  @ApiPropertyOptional({
-    example: 10,
-    description: 'XP reward (capped at max 15 XP)',
-  })
-  @IsInt()
-  @Min(0)
-  @Max(15)
-  @IsOptional()
-  xp?: number;
 }
-
