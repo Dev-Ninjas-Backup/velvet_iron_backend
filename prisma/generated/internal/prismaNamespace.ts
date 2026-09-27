@@ -409,6 +409,8 @@ export const ModelName = {
   MedicationSchedule: 'MedicationSchedule',
   ExerciseLog: 'ExerciseLog',
   ExerciseScheduleLog: 'ExerciseScheduleLog',
+  WaterLog: 'WaterLog',
+  StepLog: 'StepLog',
   MacroGoal: 'MacroGoal',
   onboarding: 'onboarding',
   Subscription: 'Subscription',
@@ -416,6 +418,7 @@ export const ModelName = {
   Quest: 'Quest',
   UserQuest: 'UserQuest',
   CustomQuest: 'CustomQuest',
+  ScheduleItem: 'ScheduleItem',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
@@ -436,7 +439,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "macroGoal" | "onboarding" | "subscription" | "subscriptionEvent" | "quest" | "userQuest" | "customQuest" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
+    modelProps: "theme" | "companion" | "userTheme" | "userCompanion" | "weightLog" | "moodLog" | "mealSchedule" | "mealLog" | "medication" | "medicationSchedule" | "exerciseLog" | "exerciseScheduleLog" | "waterLog" | "stepLog" | "macroGoal" | "onboarding" | "subscription" | "subscriptionEvent" | "quest" | "userQuest" | "customQuest" | "scheduleItem" | "user" | "refreshToken" | "session" | "userProfile" | "xpLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1328,6 +1331,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    WaterLog: {
+      payload: Prisma.$WaterLogPayload<ExtArgs>
+      fields: Prisma.WaterLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WaterLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WaterLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>
+        }
+        findFirst: {
+          args: Prisma.WaterLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WaterLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>
+        }
+        findMany: {
+          args: Prisma.WaterLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>[]
+        }
+        create: {
+          args: Prisma.WaterLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>
+        }
+        createMany: {
+          args: Prisma.WaterLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WaterLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>[]
+        }
+        delete: {
+          args: Prisma.WaterLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>
+        }
+        update: {
+          args: Prisma.WaterLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.WaterLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WaterLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WaterLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.WaterLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WaterLogPayload>
+        }
+        aggregate: {
+          args: Prisma.WaterLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWaterLog>
+        }
+        groupBy: {
+          args: Prisma.WaterLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WaterLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WaterLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WaterLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    StepLog: {
+      payload: Prisma.$StepLogPayload<ExtArgs>
+      fields: Prisma.StepLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StepLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StepLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>
+        }
+        findFirst: {
+          args: Prisma.StepLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StepLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>
+        }
+        findMany: {
+          args: Prisma.StepLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>[]
+        }
+        create: {
+          args: Prisma.StepLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>
+        }
+        createMany: {
+          args: Prisma.StepLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StepLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>[]
+        }
+        delete: {
+          args: Prisma.StepLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>
+        }
+        update: {
+          args: Prisma.StepLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.StepLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StepLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StepLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.StepLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StepLogPayload>
+        }
+        aggregate: {
+          args: Prisma.StepLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStepLog>
+        }
+        groupBy: {
+          args: Prisma.StepLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StepLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StepLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StepLogCountAggregateOutputType> | number
+        }
+      }
+    }
     MacroGoal: {
       payload: Prisma.$MacroGoalPayload<ExtArgs>
       fields: Prisma.MacroGoalFieldRefs
@@ -1843,6 +1994,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CustomQuestCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CustomQuestCountAggregateOutputType> | number
+        }
+      }
+    }
+    ScheduleItem: {
+      payload: Prisma.$ScheduleItemPayload<ExtArgs>
+      fields: Prisma.ScheduleItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ScheduleItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ScheduleItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+        }
+        findFirst: {
+          args: Prisma.ScheduleItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ScheduleItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+        }
+        findMany: {
+          args: Prisma.ScheduleItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>[]
+        }
+        create: {
+          args: Prisma.ScheduleItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+        }
+        createMany: {
+          args: Prisma.ScheduleItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ScheduleItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>[]
+        }
+        delete: {
+          args: Prisma.ScheduleItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+        }
+        update: {
+          args: Prisma.ScheduleItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.ScheduleItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ScheduleItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ScheduleItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.ScheduleItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+        }
+        aggregate: {
+          args: Prisma.ScheduleItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateScheduleItem>
+        }
+        groupBy: {
+          args: Prisma.ScheduleItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ScheduleItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleItemCountAggregateOutputType> | number
         }
       }
     }
@@ -2434,6 +2659,36 @@ export const ExerciseScheduleLogScalarFieldEnum = {
 export type ExerciseScheduleLogScalarFieldEnum = (typeof ExerciseScheduleLogScalarFieldEnum)[keyof typeof ExerciseScheduleLogScalarFieldEnum]
 
 
+export const WaterLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  unit: 'unit',
+  amountMl: 'amountMl',
+  amountOz: 'amountOz',
+  earnedXp: 'earnedXp',
+  loggedAt: 'loggedAt'
+} as const
+
+export type WaterLogScalarFieldEnum = (typeof WaterLogScalarFieldEnum)[keyof typeof WaterLogScalarFieldEnum]
+
+
+export const StepLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  steps: 'steps',
+  goal: 'goal',
+  date: 'date',
+  isCampSet: 'isCampSet',
+  campSetAt: 'campSetAt',
+  earnedXp: 'earnedXp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StepLogScalarFieldEnum = (typeof StepLogScalarFieldEnum)[keyof typeof StepLogScalarFieldEnum]
+
+
 export const MacroGoalScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2442,6 +2697,7 @@ export const MacroGoalScalarFieldEnum = {
   fat: 'fat',
   protein: 'protein',
   calories: 'calories',
+  calorieGoalMode: 'calorieGoalMode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2536,6 +2792,26 @@ export const CustomQuestScalarFieldEnum = {
 export type CustomQuestScalarFieldEnum = (typeof CustomQuestScalarFieldEnum)[keyof typeof CustomQuestScalarFieldEnum]
 
 
+export const ScheduleItemScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  itemType: 'itemType',
+  title: 'title',
+  description: 'description',
+  recurrenceType: 'recurrenceType',
+  daysOfWeek: 'daysOfWeek',
+  timeOfDay: 'timeOfDay',
+  isPaused: 'isPaused',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleItemScalarFieldEnum = (typeof ScheduleItemScalarFieldEnum)[keyof typeof ScheduleItemScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -2603,6 +2879,13 @@ export const UserProfileScalarFieldEnum = {
   level: 'level',
   onBoardingCompleted: 'onBoardingCompleted',
   fitnessGoal: 'fitnessGoal',
+  dailyWaterGoal: 'dailyWaterGoal',
+  waterUnit: 'waterUnit',
+  dailyStepGoal: 'dailyStepGoal',
+  calorieGoal: 'calorieGoal',
+  calorieGoalMode: 'calorieGoalMode',
+  lifetimeSteps: 'lifetimeSteps',
+  totalCampsites: 'totalCampsites',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2634,6 +2917,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2829,6 +3120,34 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'WaterUnit'
+ */
+export type EnumWaterUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WaterUnit'>
+    
+
+
+/**
+ * Reference to a field of type 'WaterUnit[]'
+ */
+export type ListEnumWaterUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WaterUnit[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CalorieGoalMode'
+ */
+export type EnumCalorieGoalModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CalorieGoalMode'>
+    
+
+
+/**
+ * Reference to a field of type 'CalorieGoalMode[]'
+ */
+export type ListEnumCalorieGoalModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CalorieGoalMode[]'>
+    
+
+
+/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -2839,6 +3158,34 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'ScheduleItemType'
+ */
+export type EnumScheduleItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleItemType'>
+    
+
+
+/**
+ * Reference to a field of type 'ScheduleItemType[]'
+ */
+export type ListEnumScheduleItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleItemType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ScheduleRecurrenceType'
+ */
+export type EnumScheduleRecurrenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleRecurrenceType'>
+    
+
+
+/**
+ * Reference to a field of type 'ScheduleRecurrenceType[]'
+ */
+export type ListEnumScheduleRecurrenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleRecurrenceType[]'>
     
 
 
@@ -3018,6 +3365,8 @@ export type GlobalOmitConfig = {
   medicationSchedule?: Prisma.MedicationScheduleOmit
   exerciseLog?: Prisma.ExerciseLogOmit
   exerciseScheduleLog?: Prisma.ExerciseScheduleLogOmit
+  waterLog?: Prisma.WaterLogOmit
+  stepLog?: Prisma.StepLogOmit
   macroGoal?: Prisma.MacroGoalOmit
   onboarding?: Prisma.onboardingOmit
   subscription?: Prisma.SubscriptionOmit
@@ -3025,6 +3374,7 @@ export type GlobalOmitConfig = {
   quest?: Prisma.QuestOmit
   userQuest?: Prisma.UserQuestOmit
   customQuest?: Prisma.CustomQuestOmit
+  scheduleItem?: Prisma.ScheduleItemOmit
   user?: Prisma.UserOmit
   refreshToken?: Prisma.RefreshTokenOmit
   session?: Prisma.SessionOmit
