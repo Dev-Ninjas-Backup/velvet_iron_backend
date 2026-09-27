@@ -32,6 +32,11 @@ export type UserProfileAvgAggregateOutputType = {
   totalEarnXp: number | null
   balanceXp: number | null
   level: number | null
+  dailyWaterGoal: number | null
+  dailyStepGoal: number | null
+  calorieGoal: number | null
+  lifetimeSteps: number | null
+  totalCampsites: number | null
 }
 
 export type UserProfileSumAggregateOutputType = {
@@ -40,6 +45,11 @@ export type UserProfileSumAggregateOutputType = {
   totalEarnXp: number | null
   balanceXp: number | null
   level: number | null
+  dailyWaterGoal: number | null
+  dailyStepGoal: number | null
+  calorieGoal: number | null
+  lifetimeSteps: number | null
+  totalCampsites: number | null
 }
 
 export type UserProfileMinAggregateOutputType = {
@@ -54,6 +64,13 @@ export type UserProfileMinAggregateOutputType = {
   level: number | null
   onBoardingCompleted: boolean | null
   fitnessGoal: string | null
+  dailyWaterGoal: number | null
+  waterUnit: $Enums.WaterUnit | null
+  dailyStepGoal: number | null
+  calorieGoal: number | null
+  calorieGoalMode: $Enums.CalorieGoalMode | null
+  lifetimeSteps: number | null
+  totalCampsites: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,6 +87,13 @@ export type UserProfileMaxAggregateOutputType = {
   level: number | null
   onBoardingCompleted: boolean | null
   fitnessGoal: string | null
+  dailyWaterGoal: number | null
+  waterUnit: $Enums.WaterUnit | null
+  dailyStepGoal: number | null
+  calorieGoal: number | null
+  calorieGoalMode: $Enums.CalorieGoalMode | null
+  lifetimeSteps: number | null
+  totalCampsites: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -87,6 +111,13 @@ export type UserProfileCountAggregateOutputType = {
   level: number
   onBoardingCompleted: number
   fitnessGoal: number
+  dailyWaterGoal: number
+  waterUnit: number
+  dailyStepGoal: number
+  calorieGoal: number
+  calorieGoalMode: number
+  lifetimeSteps: number
+  totalCampsites: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -99,6 +130,11 @@ export type UserProfileAvgAggregateInputType = {
   totalEarnXp?: true
   balanceXp?: true
   level?: true
+  dailyWaterGoal?: true
+  dailyStepGoal?: true
+  calorieGoal?: true
+  lifetimeSteps?: true
+  totalCampsites?: true
 }
 
 export type UserProfileSumAggregateInputType = {
@@ -107,6 +143,11 @@ export type UserProfileSumAggregateInputType = {
   totalEarnXp?: true
   balanceXp?: true
   level?: true
+  dailyWaterGoal?: true
+  dailyStepGoal?: true
+  calorieGoal?: true
+  lifetimeSteps?: true
+  totalCampsites?: true
 }
 
 export type UserProfileMinAggregateInputType = {
@@ -121,6 +162,13 @@ export type UserProfileMinAggregateInputType = {
   level?: true
   onBoardingCompleted?: true
   fitnessGoal?: true
+  dailyWaterGoal?: true
+  waterUnit?: true
+  dailyStepGoal?: true
+  calorieGoal?: true
+  calorieGoalMode?: true
+  lifetimeSteps?: true
+  totalCampsites?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -137,6 +185,13 @@ export type UserProfileMaxAggregateInputType = {
   level?: true
   onBoardingCompleted?: true
   fitnessGoal?: true
+  dailyWaterGoal?: true
+  waterUnit?: true
+  dailyStepGoal?: true
+  calorieGoal?: true
+  calorieGoalMode?: true
+  lifetimeSteps?: true
+  totalCampsites?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -154,6 +209,13 @@ export type UserProfileCountAggregateInputType = {
   level?: true
   onBoardingCompleted?: true
   fitnessGoal?: true
+  dailyWaterGoal?: true
+  waterUnit?: true
+  dailyStepGoal?: true
+  calorieGoal?: true
+  calorieGoalMode?: true
+  lifetimeSteps?: true
+  totalCampsites?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -258,6 +320,13 @@ export type UserProfileGroupByOutputType = {
   level: number
   onBoardingCompleted: boolean | null
   fitnessGoal: string | null
+  dailyWaterGoal: number
+  waterUnit: $Enums.WaterUnit
+  dailyStepGoal: number
+  calorieGoal: number | null
+  calorieGoalMode: $Enums.CalorieGoalMode
+  lifetimeSteps: number
+  totalCampsites: number
   createdAt: Date
   updatedAt: Date
   _count: UserProfileCountAggregateOutputType | null
@@ -298,6 +367,13 @@ export type UserProfileWhereInput = {
   level?: Prisma.IntFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
   fitnessGoal?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  dailyWaterGoal?: Prisma.FloatFilter<"UserProfile"> | number
+  waterUnit?: Prisma.EnumWaterUnitFilter<"UserProfile"> | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFilter<"UserProfile"> | number
+  calorieGoal?: Prisma.FloatNullableFilter<"UserProfile"> | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFilter<"UserProfile"> | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFilter<"UserProfile"> | number
+  totalCampsites?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -320,6 +396,13 @@ export type UserProfileOrderByWithRelationInput = {
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrderInput | Prisma.SortOrder
   fitnessGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  waterUnit?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -345,6 +428,13 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   level?: Prisma.IntFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
   fitnessGoal?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  dailyWaterGoal?: Prisma.FloatFilter<"UserProfile"> | number
+  waterUnit?: Prisma.EnumWaterUnitFilter<"UserProfile"> | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFilter<"UserProfile"> | number
+  calorieGoal?: Prisma.FloatNullableFilter<"UserProfile"> | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFilter<"UserProfile"> | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFilter<"UserProfile"> | number
+  totalCampsites?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -367,6 +457,13 @@ export type UserProfileOrderByWithAggregationInput = {
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrderInput | Prisma.SortOrder
   fitnessGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  waterUnit?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
@@ -392,6 +489,13 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   level?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableWithAggregatesFilter<"UserProfile"> | boolean | null
   fitnessGoal?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  dailyWaterGoal?: Prisma.FloatWithAggregatesFilter<"UserProfile"> | number
+  waterUnit?: Prisma.EnumWaterUnitWithAggregatesFilter<"UserProfile"> | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  calorieGoal?: Prisma.FloatNullableWithAggregatesFilter<"UserProfile"> | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeWithAggregatesFilter<"UserProfile"> | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  totalCampsites?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
 }
@@ -406,6 +510,13 @@ export type UserProfileCreateInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -428,6 +539,13 @@ export type UserProfileUncheckedCreateInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -444,6 +562,13 @@ export type UserProfileUpdateInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -466,6 +591,13 @@ export type UserProfileUncheckedUpdateInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -485,6 +617,13 @@ export type UserProfileCreateManyInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -499,6 +638,13 @@ export type UserProfileUpdateManyMutationInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -516,6 +662,13 @@ export type UserProfileUncheckedUpdateManyInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -556,6 +709,13 @@ export type UserProfileCountOrderByAggregateInput = {
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrder
   fitnessGoal?: Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  waterUnit?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -566,6 +726,11 @@ export type UserProfileAvgOrderByAggregateInput = {
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
 }
 
 export type UserProfileMaxOrderByAggregateInput = {
@@ -580,6 +745,13 @@ export type UserProfileMaxOrderByAggregateInput = {
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrder
   fitnessGoal?: Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  waterUnit?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -596,6 +768,13 @@ export type UserProfileMinOrderByAggregateInput = {
   level?: Prisma.SortOrder
   onBoardingCompleted?: Prisma.SortOrder
   fitnessGoal?: Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  waterUnit?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrder
+  calorieGoalMode?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -606,6 +785,11 @@ export type UserProfileSumOrderByAggregateInput = {
   totalEarnXp?: Prisma.SortOrder
   balanceXp?: Prisma.SortOrder
   level?: Prisma.SortOrder
+  dailyWaterGoal?: Prisma.SortOrder
+  dailyStepGoal?: Prisma.SortOrder
+  calorieGoal?: Prisma.SortOrder
+  lifetimeSteps?: Prisma.SortOrder
+  totalCampsites?: Prisma.SortOrder
 }
 
 export type UserProfileCreateNestedManyWithoutActiveThemeInput = {
@@ -813,6 +997,14 @@ export type NullableBoolFieldUpdateOperationsInput = {
   set?: boolean | null
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type UserProfileCreateWithoutActiveThemeInput = {
   id?: string
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
@@ -823,6 +1015,13 @@ export type UserProfileCreateWithoutActiveThemeInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -843,6 +1042,13 @@ export type UserProfileUncheckedCreateWithoutActiveThemeInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -869,6 +1075,13 @@ export type UserProfileCreateWithoutAvailableThemesInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -890,6 +1103,13 @@ export type UserProfileUncheckedCreateWithoutAvailableThemesInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availableComponions?: Prisma.CompanionUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -932,6 +1152,13 @@ export type UserProfileScalarWhereInput = {
   level?: Prisma.IntFilter<"UserProfile"> | number
   onBoardingCompleted?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
   fitnessGoal?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  dailyWaterGoal?: Prisma.FloatFilter<"UserProfile"> | number
+  waterUnit?: Prisma.EnumWaterUnitFilter<"UserProfile"> | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFilter<"UserProfile"> | number
+  calorieGoal?: Prisma.FloatNullableFilter<"UserProfile"> | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFilter<"UserProfile"> | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFilter<"UserProfile"> | number
+  totalCampsites?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
 }
@@ -962,6 +1189,13 @@ export type UserProfileCreateWithoutActiveCompanionInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -982,6 +1216,13 @@ export type UserProfileUncheckedCreateWithoutActiveCompanionInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -1008,6 +1249,13 @@ export type UserProfileCreateWithoutAvailableComponionsInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
@@ -1029,6 +1277,13 @@ export type UserProfileUncheckedCreateWithoutAvailableComponionsInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -1081,6 +1336,13 @@ export type UserProfileCreateWithoutUserInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   activeTheme?: Prisma.ThemeCreateNestedOneWithoutActiveUsersInput
@@ -1101,6 +1363,13 @@ export type UserProfileUncheckedCreateWithoutUserInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   availableThemes?: Prisma.ThemeUncheckedCreateNestedManyWithoutUserProfilesInput
@@ -1133,6 +1402,13 @@ export type UserProfileUpdateWithoutUserInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activeTheme?: Prisma.ThemeUpdateOneWithoutActiveUsersNestedInput
@@ -1153,6 +1429,13 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1171,6 +1454,13 @@ export type UserProfileCreateManyActiveThemeInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1185,6 +1475,13 @@ export type UserProfileUpdateWithoutActiveThemeInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1205,6 +1502,13 @@ export type UserProfileUncheckedUpdateWithoutActiveThemeInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1223,6 +1527,13 @@ export type UserProfileUncheckedUpdateManyWithoutActiveThemeInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1237,6 +1548,13 @@ export type UserProfileUpdateWithoutAvailableThemesInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1258,6 +1576,13 @@ export type UserProfileUncheckedUpdateWithoutAvailableThemesInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableComponions?: Prisma.CompanionUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1276,6 +1601,13 @@ export type UserProfileUncheckedUpdateManyWithoutAvailableThemesInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1292,6 +1624,13 @@ export type UserProfileCreateManyActiveCompanionInput = {
   level?: number
   onBoardingCompleted?: boolean | null
   fitnessGoal?: string | null
+  dailyWaterGoal?: number
+  waterUnit?: $Enums.WaterUnit
+  dailyStepGoal?: number
+  calorieGoal?: number | null
+  calorieGoalMode?: $Enums.CalorieGoalMode
+  lifetimeSteps?: number
+  totalCampsites?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1306,6 +1645,13 @@ export type UserProfileUpdateWithoutActiveCompanionInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1326,6 +1672,13 @@ export type UserProfileUncheckedUpdateWithoutActiveCompanionInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1344,6 +1697,13 @@ export type UserProfileUncheckedUpdateManyWithoutActiveCompanionInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1358,6 +1718,13 @@ export type UserProfileUpdateWithoutAvailableComponionsInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
@@ -1379,6 +1746,13 @@ export type UserProfileUncheckedUpdateWithoutAvailableComponionsInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableThemes?: Prisma.ThemeUncheckedUpdateManyWithoutUserProfilesNestedInput
@@ -1397,6 +1771,13 @@ export type UserProfileUncheckedUpdateManyWithoutAvailableComponionsInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   onBoardingCompleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fitnessGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyWaterGoal?: Prisma.FloatFieldUpdateOperationsInput | number
+  waterUnit?: Prisma.EnumWaterUnitFieldUpdateOperationsInput | $Enums.WaterUnit
+  dailyStepGoal?: Prisma.IntFieldUpdateOperationsInput | number
+  calorieGoal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  calorieGoalMode?: Prisma.EnumCalorieGoalModeFieldUpdateOperationsInput | $Enums.CalorieGoalMode
+  lifetimeSteps?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCampsites?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1454,6 +1835,13 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   level?: boolean
   onBoardingCompleted?: boolean
   fitnessGoal?: boolean
+  dailyWaterGoal?: boolean
+  waterUnit?: boolean
+  dailyStepGoal?: boolean
+  calorieGoal?: boolean
+  calorieGoalMode?: boolean
+  lifetimeSteps?: boolean
+  totalCampsites?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1477,6 +1865,13 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   level?: boolean
   onBoardingCompleted?: boolean
   fitnessGoal?: boolean
+  dailyWaterGoal?: boolean
+  waterUnit?: boolean
+  dailyStepGoal?: boolean
+  calorieGoal?: boolean
+  calorieGoalMode?: boolean
+  lifetimeSteps?: boolean
+  totalCampsites?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1497,6 +1892,13 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   level?: boolean
   onBoardingCompleted?: boolean
   fitnessGoal?: boolean
+  dailyWaterGoal?: boolean
+  waterUnit?: boolean
+  dailyStepGoal?: boolean
+  calorieGoal?: boolean
+  calorieGoalMode?: boolean
+  lifetimeSteps?: boolean
+  totalCampsites?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1517,11 +1919,18 @@ export type UserProfileSelectScalar = {
   level?: boolean
   onBoardingCompleted?: boolean
   fitnessGoal?: boolean
+  dailyWaterGoal?: boolean
+  waterUnit?: boolean
+  dailyStepGoal?: boolean
+  calorieGoal?: boolean
+  calorieGoalMode?: boolean
+  lifetimeSteps?: boolean
+  totalCampsites?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "fitnessGoal" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "fitnessGoal" | "dailyWaterGoal" | "waterUnit" | "dailyStepGoal" | "calorieGoal" | "calorieGoalMode" | "lifetimeSteps" | "totalCampsites" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activeTheme?: boolean | Prisma.UserProfile$activeThemeArgs<ExtArgs>
@@ -1563,6 +1972,13 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     level: number
     onBoardingCompleted: boolean | null
     fitnessGoal: string | null
+    dailyWaterGoal: number
+    waterUnit: $Enums.WaterUnit
+    dailyStepGoal: number
+    calorieGoal: number | null
+    calorieGoalMode: $Enums.CalorieGoalMode
+    lifetimeSteps: number
+    totalCampsites: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["userProfile"]>
@@ -2005,6 +2421,13 @@ export interface UserProfileFieldRefs {
   readonly level: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly onBoardingCompleted: Prisma.FieldRef<"UserProfile", 'Boolean'>
   readonly fitnessGoal: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly dailyWaterGoal: Prisma.FieldRef<"UserProfile", 'Float'>
+  readonly waterUnit: Prisma.FieldRef<"UserProfile", 'WaterUnit'>
+  readonly dailyStepGoal: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly calorieGoal: Prisma.FieldRef<"UserProfile", 'Float'>
+  readonly calorieGoalMode: Prisma.FieldRef<"UserProfile", 'CalorieGoalMode'>
+  readonly lifetimeSteps: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly totalCampsites: Prisma.FieldRef<"UserProfile", 'Int'>
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
 }

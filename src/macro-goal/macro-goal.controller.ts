@@ -28,6 +28,15 @@ import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 export class MacroGoalController {
     constructor(private readonly macroGoalService: MacroGoalService) { }
 
+    @Get('goals')
+    @ValidUser()
+    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('refresh-token')
+    @ApiOperation({ summary: 'Get current nutrition goals and independent calorie goal' })
+    async getNutritionGoals(@GetUser('id') userId: string) {
+        return this.macroGoalService.getNutritionGoals(userId);
+    }
+
     @Post()
     @ValidUser()
     @ApiBearerAuth('JWT-auth')

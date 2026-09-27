@@ -48,3 +48,4 @@ export class CompanionDialogueResponseDto {
   })
   timestamp: string;
 }
+

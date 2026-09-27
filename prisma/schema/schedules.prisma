@@ -1,0 +1,36 @@
+// Unified Recurring Schedules (Medications & Workouts)
+enum ScheduleItemType {
+    MEDICATION
+    WORKOUT
+    MEAL
+    GENERAL
+}
+
+enum ScheduleRecurrenceType {
+    NONE
+    DAILY
+    WEEKLY
+    SPECIFIC_DAYS
+}
+
+model ScheduleItem {
+    id             String                 @id @default(uuid())
+    userId         String
+    user           User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    itemType       ScheduleItemType       @default(WORKOUT)
+    title          String
+    description    String?
+    recurrenceType ScheduleRecurrenceType @default(NONE)
+    daysOfWeek     Int[]                  @default([])
+    timeOfDay      String?                // e.g., "08:30"
+    isPaused       Boolean                @default(false)
+    startDate      DateTime               @default(now()) @db.Date
+    endDate        DateTime?              @db.Date
+    metadata       Json?                  // Extra payload (e.g. doseMg, medicationType, exerciseType, intensity, duration)
+    createdAt      DateTime               @default(now())
+    updatedAt      DateTime               @updatedAt
+
+    @@index([userId])
+    @@index([userId, startDate])
+    @@map("scheduled_items")
+}
