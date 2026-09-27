@@ -26,6 +26,10 @@ import { PaymentModule } from './payment/payment.module';
 import { GuardsModule } from './common/guards/guards.module';
 import { XpTimeoutModule } from './main/xp-timeout/xp-timeout.module';
 import { CustomQuestModule } from './custom-quest/custom-quest.module';
+import { WaterLogModule } from './water-log/water-log.module';
+import { StepLogModule } from './step-log/step-log.module';
+import { SchedulesModule } from './schedules/schedules.module';
+import { QuestsFeedModule } from './quests-feed/quests-feed.module';
 
 @Module({
   imports: [
@@ -56,6 +60,10 @@ import { CustomQuestModule } from './custom-quest/custom-quest.module';
     GuardsModule,
     XpTimeoutModule,
     CustomQuestModule,
+    WaterLogModule,
+    StepLogModule,
+    SchedulesModule,
+    QuestsFeedModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

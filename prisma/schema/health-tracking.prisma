@@ -201,3 +201,46 @@ enum exercise_intensity {
     LOW
     HIGH
 }
+
+enum WaterUnit {
+    OZ
+    ML
+}
+
+// Water Intake Logs
+model WaterLog {
+    id       String    @id @default(uuid())
+    userId   String
+    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    amount   Float
+    unit     WaterUnit @default(OZ)
+    amountMl Float
+    amountOz Float
+    earnedXp Int       @default(5)
+    loggedAt DateTime  @default(now())
+
+    @@index([userId])
+    @@index([loggedAt])
+    @@map("water_logs")
+}
+
+// Step Journey & Camp Logs
+model StepLog {
+    id          String    @id @default(uuid())
+    userId      String
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    steps       Int       @default(0)
+    goal        Int       @default(8000)
+    date        DateTime  @db.Date
+    isCampSet   Boolean   @default(false)
+    campSetAt   DateTime?
+    earnedXp    Int       @default(0)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@unique([userId, date])
+    @@index([userId])
+    @@index([date])
+    @@map("step_logs")
+}
+
