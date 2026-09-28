@@ -228,7 +228,10 @@ export class AuthController {
     @Req() req: any,
     @Res({ passthrough: true }) res: any,
   ) {
-    const token = body.refreshToken || req.headers['x-refresh-token'] || req.cookies?.refresh_token;
+    let token = body.refreshToken || req.headers['x-refresh-token'] || req.cookies?.refresh_token;
+    if (token && token.startsWith('Bearer ')) {
+      token = token.replace('Bearer ', '').trim();
+    }
     if (!token) throw new UnauthorizedException('Refresh token is required');
     
     const result = await this.authService.refreshToken(token);
