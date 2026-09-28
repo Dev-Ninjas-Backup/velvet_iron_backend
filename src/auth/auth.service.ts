@@ -156,16 +156,13 @@ export class AuthService {
   }
 
   async generateTokens(user: any) {
-    const accessTokenExpiration =
-      //convert day from milliseconds
-      Number(this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_MS')) /
-        86400000 || 15; // 15 minutes
-    const refreshTokenExpiration =
-      //convert days from milliseconds
-      Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS')) /
-        86400000 || 7;
+    const accessTokenMs =
+      Number(this.configService.get<number>('ACCESS_TOKEN_EXPIRATION_MS')) ||
+      15 * 60 * 1000;
+    const refreshTokenMs =
+      Number(this.configService.get<number>('REFRESH_TOKEN_EXPIRATION_MS')) ||
+      7 * 24 * 60 * 60 * 1000;
 
-    // Minimal token payload - only essential claims
     const tokenPayload = {
       id: user.id,
       email: user.email,
@@ -174,14 +171,20 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(tokenPayload, {
-      expiresIn: `${accessTokenExpiration}d`,
-      // expiresIn: this.configService.get<string>('ACCESS_TOKEN_EXPIRATION_MS'),
-    } as any);
+      expiresIn: Math.floor(accessTokenMs / 1000),
+    });
 
     const refreshToken = this.jwtService.sign(tokenPayload, {
-      expiresIn: `${refreshTokenExpiration}d`,
-      // expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS'),
-    } as any);
+      expiresIn: Math.floor(refreshTokenMs / 1000),
+    });
+
+    await this.Prisma.client.session.create({
+      data: {
+        userId: user.id,
+        refreshToken: refreshToken,
+        expiresAt: new Date(Date.now() + refreshTokenMs),
+      },
+    });
 
     return {
       access_token: accessToken,
@@ -190,11 +193,10 @@ export class AuthService {
   }
 
   async generateRefreshTokenOnly(user: any, oldRefreshToken?: string) {
-    const refreshTokenExpiration =
-      Number(this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS')) /
-        86400000 || 7;
+    const refreshTokenMs =
+      Number(this.configService.get<number>('REFRESH_TOKEN_EXPIRATION_MS')) ||
+      7 * 24 * 60 * 60 * 1000;
 
-    // Minimal token payload - only essential claims
     const tokenPayload = {
       id: user.id,
       email: user.email,
@@ -203,8 +205,8 @@ export class AuthService {
     };
 
     const refreshToken = this.jwtService.sign(tokenPayload, {
-      expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRATION_MS'),
-    } as any);
+      expiresIn: Math.floor(refreshTokenMs / 1000),
+    });
 
     return refreshToken;
   }
