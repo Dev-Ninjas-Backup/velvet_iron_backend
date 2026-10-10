@@ -7,6 +7,7 @@ import {
   MealScheduleHistoryDto,
 } from './dto/meal-schedule-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class MealScheduleService {
@@ -105,6 +106,8 @@ export class MealScheduleService {
     userId: string,
     limit: number = 30,
     offset: number = 0,
+    timezone?: string,
+    targetDate?: string,
   ): Promise<MealScheduleHistoryDto> {
     const [schedules, totalCount] = await Promise.all([
       this.prisma.client.mealSchedule.findMany({
@@ -117,10 +120,8 @@ export class MealScheduleService {
     ]);
 
     // Today's summary
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone, targetDate);
 
     const todaySchedules = await this.prisma.client.mealSchedule.findMany({
       where: {
@@ -230,12 +231,13 @@ export class MealScheduleService {
     });
   }
 
-  async getTodaySchedules(userId: string): Promise<MealScheduleResponseDto[]> {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+  async getTodaySchedules(
+    userId: string,
+    timezone?: string,
+    targetDate?: string,
+  ): Promise<MealScheduleResponseDto[]> {
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone, targetDate);
 
     const schedules = await this.prisma.client.mealSchedule.findMany({
       where: {

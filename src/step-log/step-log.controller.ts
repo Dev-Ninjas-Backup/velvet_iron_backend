@@ -5,6 +5,7 @@ import {
   Put,
   Body,
   Query,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -21,6 +22,7 @@ import {
 } from './dto/step-today-response.dto';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidUser } from '../common/decorators/validate.decorator';
+import { extractTimezone } from '../common/utils/timezone.util';
 
 @ApiTags('Step Journey')
 @Controller('step-log')
@@ -34,6 +36,7 @@ export class StepLogController {
   @ApiOperation({
     summary: 'Get today step progress, fantasy journey map position, and lore milestones',
   })
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
   @ApiResponse({
     status: 200,
     description: 'Current steps vs goal, fantasy map state, and camp status',
@@ -41,8 +44,11 @@ export class StepLogController {
   })
   async getTodaySteps(
     @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
   ): Promise<StepTodayResponseDto> {
-    return this.stepLogService.getTodaySteps(userId);
+    const tz = extractTimezone(req);
+    return this.stepLogService.getTodaySteps(userId, tz, dateStr);
   }
 
   @Post()

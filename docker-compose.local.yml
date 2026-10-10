@@ -20,6 +20,43 @@ services:
     networks:
       - velvet-dev-network
 
+  # MinIO Local S3 Service
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: velvet_iron_minio_local
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY:-minioadmin}
+    ports:
+      - '9000:9000' # S3 API
+      - '9001:9001' # Web Console
+    volumes:
+      - velvet_minio_dev_data:/data
+    networks:
+      - velvet-dev-network
+
+  # MinIO Bucket Auto-Creation & Public Download Policy (from quay.io)
+  minio-create-bucket:
+    image: quay.io/minio/mc:latest
+    container_name: velvet_iron_minio_init
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until /usr/bin/mc alias set local http://minio:9000 ${AWS_ACCESS_KEY_ID:-minioadmin} ${AWS_SECRET_ACCESS_KEY:-minioadmin}; do
+        echo 'Waiting for MinIO to be ready...';
+        sleep 2;
+      done;
+      /usr/bin/mc mb --ignore-existing local/${AWS_S3_BUCKET_NAME:-velvet-iron-dev};
+      /usr/bin/mc anonymous set download local/${AWS_S3_BUCKET_NAME:-velvet-iron-dev};
+      echo 'MinIO bucket initialized successfully.';
+      exit 0;
+      "
+    networks:
+      - velvet-dev-network
+
   # NestJS Backend API (Local Container with Live Reloading)
   server:
     build:
@@ -30,12 +67,19 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    env_file:
-      - .env
+      minio:
+        condition: service_started
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-velvet_iron_dev}?schema=public
       PORT: 3200
       NODE_ENV: development
+      JWT_SECRET: ${JWT_SECRET:-velvet_iron_jwt_dev_secret_key_123456}
+      AWS_ENDPOINT: ${AWS_ENDPOINT:-http://minio:9000}
+      AWS_PUBLIC_ENDPOINT: ${AWS_PUBLIC_ENDPOINT:-http://localhost:9000}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-minioadmin}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-minioadmin}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      AWS_S3_BUCKET_NAME: ${AWS_S3_BUCKET_NAME:-velvet-iron-dev}
     ports:
       - '${PORT:-3200}:3200'
     volumes:
@@ -55,8 +99,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    env_file:
-      - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-velvet_iron_dev}?schema=public
     command: npx prisma studio --port 5555 --browser none
@@ -71,3 +113,4 @@ networks:
 
 volumes:
   velvet_postgres_dev_data:
+  velvet_minio_dev_data:

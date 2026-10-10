@@ -7,6 +7,7 @@ import { PrismaService } from '../lib/prisma/prisma.service';
 import { LeveladdService } from '../leveladd/leveladd.service';
 import { LogWaterDto, UpdateWaterGoalDto, WaterUnit } from './dto/water-log.dto';
 import { WaterTodayResponseDto } from './dto/water-today-response.dto';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 const ML_PER_OZ = 29.5735;
 
@@ -84,7 +85,11 @@ export class WaterLogService {
   /**
    * Get today's total water intake, goal, display format, and potion flask state
    */
-  async getTodayWater(userId: string): Promise<WaterTodayResponseDto> {
+  async getTodayWater(
+    userId: string,
+    timezone?: string,
+    targetDate?: string,
+  ): Promise<WaterTodayResponseDto> {
     const userProfile = await this.prisma.client.userProfile.findUnique({
       where: { userId },
     });
@@ -92,11 +97,8 @@ export class WaterLogService {
     const preferredUnit = userProfile?.waterUnit ?? WaterUnit.OZ;
     const goal = userProfile?.dailyWaterGoal ?? (preferredUnit === WaterUnit.OZ ? 64 : 2000);
 
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone, targetDate);
 
     const todayLogs = await this.prisma.client.waterLog.findMany({
       where: {

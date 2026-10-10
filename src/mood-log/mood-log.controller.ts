@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   Query,
+  Req,
   UseInterceptors,
 } from '@nestjs/common';
 import { MoodLogService } from './mood-log.service';
@@ -23,6 +24,7 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { GetUser } from '../common/decorators/get-user.decorator';
+import { extractTimezone } from '../common/utils/timezone.util';
 import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import {
   MoodLogResponseDto,
@@ -150,11 +152,15 @@ export class MoodLogController {
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
-  @ApiOperation({ summary: 'Get today\'s mood log' })
+  @ApiOperation({ summary: "Get today's mood log" })
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
   async getTodayMoodLog(
     @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
   ): Promise<MoodLogResponseDto | null> {
-    return this.moodLogService.getTodayMoodLog(userId);
+    const tz = extractTimezone(req);
+    return this.moodLogService.getTodayMoodLog(userId, tz, dateStr);
   }
 
   @Patch(':id')

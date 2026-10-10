@@ -12,6 +12,7 @@ import {
   TodayScheduleItemDto,
 } from './dto/profile-with-schedules.dto';
 import { XpStatsService } from '@/xp-stats/xp-stats.service';
+import { getUserDayBoundaries } from '@/common/utils/timezone.util';
 
 export type ScheduleRange = 'today' | 'week' | 'month' | 'all';
 
@@ -275,9 +276,16 @@ export class ProfileService {
     }
   }
 
-  async claimDailyLoginXp(userId: string, xpAmount: number) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  async claimDailyLoginXp(
+    userId: string,
+    xpAmount: number,
+    timezone?: string,
+    targetDate?: string,
+  ) {
+    const { startOfDay: today, endOfDay } = getUserDayBoundaries(
+      timezone,
+      targetDate,
+    );
 
     const checkLog = await this.prisma.client.xpLog.findFirst({
       where: {
@@ -285,6 +293,7 @@ export class ProfileService {
         source: 'dayliLoggin',
         createdAt: {
           gte: today,
+          lte: endOfDay,
         },
       },
     });

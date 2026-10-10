@@ -6,6 +6,7 @@ import { SchedulesService } from '../schedules/schedules.service';
 import { LeveladdService } from '../leveladd/leveladd.service';
 import { UnifiedQuestItemDto, QuestType } from './dto/quests-feed-response.dto';
 import { CompleteQuestDto } from './dto/complete-quest.dto';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class QuestsFeedService {
@@ -17,21 +18,19 @@ export class QuestsFeedService {
     private readonly leveladdService: LeveladdService,
   ) {}
 
-  async getTodaysQuests(userId: string, dateStr?: string) {
-    const todayStr = dateStr || new Date().toISOString().split('T')[0];
-    const targetDate = new Date(todayStr);
-    targetDate.setUTCHours(0, 0, 0, 0);
-    const endOfDay = new Date(targetDate);
-    endOfDay.setUTCHours(23, 59, 59, 999);
+  async getTodaysQuests(userId: string, dateStr?: string, timezone?: string) {
+    const { startOfDay: targetDate, endOfDay, dateStr: resolvedDateStr } =
+      getUserDayBoundaries(timezone, dateStr);
+    const todayStr = resolvedDateStr;
 
     // 1. Fetch Codex Quests (System)
-    const xpStats = await this.xpStatsService.getTodayQuestXp(userId);
+    const xpStats = await this.xpStatsService.getTodayQuestXp(userId, timezone, todayStr);
     const codexQuests: UnifiedQuestItemDto[] = xpStats.quests.map((q) => ({
       id: `codex_${q.id}`,
       title: q.title,
       description: q.description,
       xpReward: q.xp,
-      isCompleted: q.isDone,
+      isCompleted: Boolean(q.isDone),
       questType: QuestType.CODEX,
       originalRefId: q.id,
     }));

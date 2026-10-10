@@ -10,6 +10,7 @@ import {
   TodaySchedulesDto,
 } from './dto/medication-schedule-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class MedicationScheduleService {
@@ -132,12 +133,13 @@ export class MedicationScheduleService {
     };
   }
 
-  async getTodaySchedules(userId: string): Promise<TodaySchedulesDto> {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+  async getTodaySchedules(
+    userId: string,
+    timezone?: string,
+    targetDate?: string,
+  ): Promise<TodaySchedulesDto> {
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone, targetDate);
 
     const dayOfWeek = startOfToday.getDay() === 0 ? 7 : startOfToday.getDay();
 

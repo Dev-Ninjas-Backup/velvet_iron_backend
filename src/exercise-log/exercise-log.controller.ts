@@ -8,8 +8,10 @@ import {
   Delete,
   UseInterceptors,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ExerciseLogService } from './exercise-log.service';
+import { extractTimezone } from '../common/utils/timezone.util';
 import {
   CreateExerciseLogDto,
   UpdateExerciseLogDto,
@@ -345,6 +347,7 @@ export class ExerciseLogController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get today exercise schedules' })
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
   @ApiResponse({
     status: 200,
     description: 'Today exercise schedules retrieved successfully',
@@ -352,8 +355,11 @@ export class ExerciseLogController {
   })
   async getTodayExerciseSchedules(
     @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
   ): Promise<ExerciseScheduleDetailResponseDto[]> {
-    return this.exerciseLogService.getTodaySchedules(userId);
+    const tz = extractTimezone(req);
+    return this.exerciseLogService.getTodaySchedules(userId, tz, dateStr);
   }
 
   @Get(['scheduled/:id', 'schedule/:id'])

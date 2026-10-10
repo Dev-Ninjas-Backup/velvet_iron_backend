@@ -16,6 +16,7 @@ import {
   getUnlockedExpeditionMilestone,
   getNextExpeditionMilestone,
 } from './constants/step-journey.constants';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class StepLogService {
@@ -25,12 +26,12 @@ export class StepLogService {
   ) {}
 
   /**
-   * Helper: Normalizes a JS Date to start of day in UTC (matches @db.Date in Prisma)
+   * Helper: Normalizes a date to start of day in UTC (matches @db.Date in Prisma)
+   * Takes user timezone into account to determine what calendar day it is for the user.
    */
-  private getNormalizedDate(dateStr?: string): Date {
-    const d = dateStr ? new Date(dateStr) : new Date();
-    d.setUTCHours(0, 0, 0, 0);
-    return d;
+  private getNormalizedDate(timezone?: string, dateStr?: string): Date {
+    const { dateStr: resolvedDateStr } = getUserDayBoundaries(timezone, dateStr);
+    return new Date(`${resolvedDateStr}T00:00:00.000Z`);
   }
 
   /**
@@ -47,8 +48,12 @@ export class StepLogService {
   /**
    * Get or create today's StepLog record and construct fantasy map journey state
    */
-  async getTodaySteps(userId: string): Promise<StepTodayResponseDto> {
-    const today = this.getNormalizedDate();
+  async getTodaySteps(
+    userId: string,
+    timezone?: string,
+    targetDate?: string,
+  ): Promise<StepTodayResponseDto> {
+    const today = this.getNormalizedDate(timezone, targetDate);
 
     const [userProfile, stepLog] = await Promise.all([
       this.prisma.client.userProfile.findUnique({

@@ -1,25 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { getUserDayBoundaries } from '@/common/utils/timezone.util';
 
 @Injectable()
 export class XpStatsService {
-  private readonly questTimeZone = 'Asia/Dhaka';
-
   constructor(private prisma: PrismaService) { }
 
   /**
    * Get today's total XP for a user
    */
-  async getTodayXp(userId: string) {
-    const { startOfDay, endOfDay } = this.getTodayDateRange();
+  async getTodayXp(userId: string, timezone?: string, targetDate?: string) {
+    const { startOfDay, endOfDay } = this.getTodayDateRange(timezone, targetDate);
     return this.getXpForPeriod(userId, startOfDay, endOfDay, 'today');
   }
 
   /**
    * Return the daily quest checklist with completion state.
    */
-  async getTodayQuestXp(userId: string) {
-    const { startOfDay, endOfDay } = this.getTodayDateRange();
+  async getTodayQuestXp(userId: string, timezone?: string, targetDate?: string) {
+    const { startOfDay, endOfDay, dateStr } = this.getTodayDateRange(timezone, targetDate);
     const mainMealTypes = new Set(['BREAKFAST', 'LUNCH', 'DINNER']);
 
     const [
@@ -139,7 +138,7 @@ export class XpStatsService {
       this.prisma.client.stepLog.findFirst({
         where: {
           userId,
-          date: startOfDay,
+          date: new Date(`${dateStr}T00:00:00.000Z`),
         },
       }),
       this.prisma.client.userProfile.findUnique({
@@ -203,8 +202,7 @@ export class XpStatsService {
         description: 'Complete your daily step goal or walk at least 8,000 steps',
         isDone:
           (todayStepLog && todayStepLog.steps >= todayStepLog.goal) ||
-          (todayStepLog && todayStepLog.steps >= 8000) ||
-          totalExerciseDuration >= 30,
+          (todayStepLog && todayStepLog.steps >= 8000),
       },
       {
         id: 'protein-power',
@@ -653,67 +651,7 @@ export class XpStatsService {
     };
   }
 
-  private getTodayDateRange() {
-    const now = new Date();
-    const tzParts = this.getTimeZoneDateParts(now, this.questTimeZone);
-    const offsetFromUtc =
-      Date.UTC(
-        tzParts.year,
-        tzParts.month - 1,
-        tzParts.day,
-        tzParts.hour,
-        tzParts.minute,
-        tzParts.second,
-      ) - now.getTime();
-
-    const startTimestamp = Date.UTC(
-      tzParts.year,
-      tzParts.month - 1,
-      tzParts.day,
-      0,
-      0,
-      0,
-      0,
-    );
-    const endTimestamp = Date.UTC(
-      tzParts.year,
-      tzParts.month - 1,
-      tzParts.day,
-      23,
-      59,
-      59,
-      999,
-    );
-
-    return {
-      startOfDay: new Date(startTimestamp - offsetFromUtc),
-      endOfDay: new Date(endTimestamp - offsetFromUtc),
-    } as const;
-  }
-
-  private getTimeZoneDateParts(date: Date, timeZone: string) {
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      timeZone,
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-
-    const parts = formatter.formatToParts(date);
-    const pick = (type: Intl.DateTimeFormatPartTypes) =>
-      Number(parts.find((part) => part.type === type)?.value ?? '0');
-
-    return {
-      year: pick('year'),
-      month: pick('month'),
-      day: pick('day'),
-      hour: pick('hour'),
-      minute: pick('minute'),
-      second: pick('second'),
-    };
+  private getTodayDateRange(timezone?: string, targetDate?: string) {
+    return getUserDayBoundaries(timezone, targetDate);
   }
 }

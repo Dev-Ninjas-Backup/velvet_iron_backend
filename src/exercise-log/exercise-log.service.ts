@@ -17,6 +17,7 @@ import {
   ExerciseScheduleHistoryDto,
 } from './dto/exercise-log-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class ExerciseLogService {
@@ -40,6 +41,8 @@ export class ExerciseLogService {
       await this.leveladd.addXpToUser(userId, earnedXp, 'Exercise log entry');
     }
 
+    const exerciseDate = dto.loggedAt ? new Date(dto.loggedAt) : new Date();
+
     const exerciseLog = await this.prisma.client.exerciseLog.create({
       data: {
         userId,
@@ -49,6 +52,7 @@ export class ExerciseLogService {
         duration: dto.duration,
         note: dto.note,
         earnedXp,
+        loggedAt: isNaN(exerciseDate.getTime()) ? new Date() : exerciseDate,
       },
     });
     return this.mapToResponseDto(exerciseLog);
@@ -405,12 +409,11 @@ export class ExerciseLogService {
 
   async getTodaySchedules(
     userId: string,
+    timezone?: string,
+    targetDate?: string,
   ): Promise<ExerciseScheduleDetailResponseDto[]> {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone, targetDate);
 
     const dayOfWeek = startOfToday.getDay() === 0 ? 7 : startOfToday.getDay();
 
