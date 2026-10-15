@@ -150,9 +150,8 @@ export class XpStatsService {
       mainMealTypes.has(meal.mealType),
     ).length;
 
-    const totalProtein = [...mealLogs, ...mealSchedules].reduce(
-      (sum, meal) => sum + (meal.protein ?? 0),
-      0,
+    const hasSingleMealWith30gProtein = [...mealLogs, ...mealSchedules].some(
+      (meal) => (meal.protein ?? 0) >= 30,
     );
 
     const exerciseLogDuration = Number(
@@ -206,10 +205,10 @@ export class XpStatsService {
       },
       {
         id: 'protein-power',
-        title: 'Protein Power',
+        title: "Titan's Nourishment",
         xp: 30,
-        description: 'Log a meal with 120g+ protein',
-        isDone: totalProtein >= 120,
+        description: 'Log a meal with 30g+ protein',
+        isDone: hasSingleMealWith30gProtein,
       },
       {
         id: 'mana-infusion',

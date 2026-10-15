@@ -6,7 +6,7 @@ import { SchedulesService } from '../schedules/schedules.service';
 import { LeveladdService } from '../leveladd/leveladd.service';
 import { UnifiedQuestItemDto, QuestType } from './dto/quests-feed-response.dto';
 import { CompleteQuestDto } from './dto/complete-quest.dto';
-import { getUserDayBoundaries } from '../common/utils/timezone.util';
+import { getUserDayBoundaries, formatDateInTimezone } from '../common/utils/timezone.util';
 
 @Injectable()
 export class QuestsFeedService {
@@ -65,15 +65,43 @@ export class QuestsFeedService {
     
     const completedScheduleIds = new Set(completions.map((c: any) => c.scheduleItemId));
 
-    const scheduledQuests: UnifiedQuestItemDto[] = schedulesData.data.map((s: any) => ({
-      id: `${s.itemType.toLowerCase()}_${s.id}`,
-      title: s.title || s.name,
-      description: s.description || (s.itemType === 'MEDICATION' ? 'Time for your medication' : 'Scheduled workout'),
-      xpReward: 10, // Standard schedule completion XP
-      isCompleted: completedScheduleIds.has(s.id),
-      questType: s.itemType === 'MEDICATION' ? QuestType.MEDICATION_SCHEDULE : QuestType.WORKOUT_SCHEDULE,
-      originalRefId: s.id,
-    }));
+    const scheduledQuests: UnifiedQuestItemDto[] = schedulesData.data.map((s: any) => {
+      let description = s.description;
+      let scheduledAtIso: string | undefined = undefined;
+
+      if (s.timeOfDay) {
+        // Construct scheduled timestamp using the resolved target date and timeOfDay
+        const [hours, minutes] = s.timeOfDay.split(':').map(Number);
+        if (!isNaN(hours) && !isNaN(minutes)) {
+          // Calculate UTC Date for target local day + timeOfDay
+          const dateWithTime = new Date(targetDate.getTime() + (hours * 60 + minutes) * 60 * 1000);
+          scheduledAtIso = dateWithTime.toISOString();
+
+          if (s.itemType === 'WORKOUT') {
+            const formattedTime = formatDateInTimezone(dateWithTime, timezone);
+            const workoutType = s.metadata?.type || s.metadata?.exerciseType || 'WORKOUT';
+            const duration = s.metadata?.duration || 30;
+            description = `${String(workoutType).toUpperCase()} • ${duration} min • ${formattedTime}`;
+          }
+        }
+      }
+
+      if (!description) {
+        description = s.itemType === 'MEDICATION' ? 'Time for your medication' : 'Scheduled workout';
+      }
+
+      return {
+        id: `${s.itemType.toLowerCase()}_${s.id}`,
+        title: s.title || s.name,
+        description,
+        xpReward: 10, // Standard schedule completion XP
+        isCompleted: completedScheduleIds.has(s.id),
+        questType: s.itemType === 'MEDICATION' ? QuestType.MEDICATION_SCHEDULE : QuestType.WORKOUT_SCHEDULE,
+        originalRefId: s.id,
+        scheduledAt: scheduledAtIso,
+        timeOfDay: s.timeOfDay ?? undefined,
+      };
+    });
 
     // Combine all
     const allQuests = [...codexQuests, ...customQuests, ...scheduledQuests];

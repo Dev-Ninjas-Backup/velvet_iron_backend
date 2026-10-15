@@ -99,3 +99,42 @@ export function extractTimezone(req?: any): string {
   }
   return 'UTC';
 }
+
+/**
+ * Formats a Date object in a specified IANA timezone according to a human-readable format.
+ * e.g. "Tuesday, October 13, 2026 at 6:45 PM"
+ */
+export function formatDateInTimezone(
+  date: Date,
+  timezone: string = 'UTC',
+): string {
+  let tz = timezone.trim();
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: tz });
+  } catch {
+    tz = 'UTC';
+  }
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  // Example output: "Tuesday, October 13, 2026, 6:45 PM" -> change ", 6:45 PM" to " at 6:45 PM"
+  const parts = formatter.formatToParts(date);
+  const weekday = parts.find((p) => p.type === 'weekday')?.value || '';
+  const month = parts.find((p) => p.type === 'month')?.value || '';
+  const day = parts.find((p) => p.type === 'day')?.value || '';
+  const year = parts.find((p) => p.type === 'year')?.value || '';
+  const hour = parts.find((p) => p.type === 'hour')?.value || '';
+  const minute = parts.find((p) => p.type === 'minute')?.value || '';
+  const dayPeriod = parts.find((p) => p.type === 'dayPeriod')?.value || '';
+
+  return `${weekday}, ${month} ${day}, ${year} at ${hour}:${minute} ${dayPeriod}`;
+}

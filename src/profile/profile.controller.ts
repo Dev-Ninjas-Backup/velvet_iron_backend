@@ -50,9 +50,11 @@ export class ProfileController {
   })
   getMyProfile(
     @GetUser('id') userId: string,
+    @Req() req: any,
     @Query('withSchedules') withSchedules?: string | boolean,
     @Query('scheduleRange') scheduleRange?: ScheduleRange,
   ) {
+    const tz = extractTimezone(req);
     const includeSchedules =
       withSchedules === undefined ||
       withSchedules === 'true' ||
@@ -62,7 +64,7 @@ export class ProfileController {
       return this.profileService.getProfile(userId);
     }
 
-    return this.profileService.getProfileWithSchedules(userId, scheduleRange);
+    return this.profileService.getProfileWithSchedules(userId, scheduleRange, tz);
   }
 
   @Post('add-xp')
