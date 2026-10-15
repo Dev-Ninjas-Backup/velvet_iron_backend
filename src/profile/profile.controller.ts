@@ -6,8 +6,10 @@ import {
   Query,
   ParseIntPipe,
   Patch,
+  Req,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
+import { extractTimezone } from '../common/utils/timezone.util';
 import { AddXpDto } from './dto/add-xp.dto';
 import {
   ApiBearerAuth,
@@ -48,9 +50,11 @@ export class ProfileController {
   })
   getMyProfile(
     @GetUser('id') userId: string,
+    @Req() req: any,
     @Query('withSchedules') withSchedules?: string | boolean,
     @Query('scheduleRange') scheduleRange?: ScheduleRange,
   ) {
+    const tz = extractTimezone(req);
     const includeSchedules =
       withSchedules === undefined ||
       withSchedules === 'true' ||
@@ -60,7 +64,7 @@ export class ProfileController {
       return this.profileService.getProfile(userId);
     }
 
-    return this.profileService.getProfileWithSchedules(userId, scheduleRange);
+    return this.profileService.getProfileWithSchedules(userId, scheduleRange, tz);
   }
 
   @Post('add-xp')
@@ -96,6 +100,7 @@ export class ProfileController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Claim daily login XP' })
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
   @ApiBody({
     schema: {
       type: 'object',
@@ -104,8 +109,14 @@ export class ProfileController {
       },
     },
   })
-  async claimDailyXp(@GetUser('id') userId: string, @Body('xp') xp: number) {
-    return await this.profileService.claimDailyLoginXp(userId, xp);
+  async claimDailyXp(
+    @GetUser('id') userId: string,
+    @Body('xp') xp: number,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
+  ) {
+    const tz = extractTimezone(req);
+    return await this.profileService.claimDailyLoginXp(userId, xp, tz, dateStr);
   }
 
   @Patch('fitness-goal')

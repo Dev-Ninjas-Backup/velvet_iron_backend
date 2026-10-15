@@ -7,9 +7,11 @@ import {
   Body,
   Param,
   Query,
+  Req,
   UseInterceptors,
 } from '@nestjs/common';
 import { MealScheduleService } from './meal-schedule.service';
+import { extractTimezone } from '../common/utils/timezone.util';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -147,11 +149,11 @@ export class MealScheduleController {
     example: 30,
   })
   @ApiQuery({
-    name: 'offset',
+    name: 'date',
     required: false,
-    type: Number,
-    description: 'Number of schedules to skip',
-    example: 0,
+    type: String,
+    description: 'Target date (YYYY-MM-DD)',
+    example: '2026-10-14',
   })
   @ApiResponse({
     status: 200,
@@ -160,15 +162,20 @@ export class MealScheduleController {
   })
   async getMealScheduleHistory(
     @GetUser('id') userId: string,
+    @Req() req: any,
     @Query('limit') limit?: string,
     @Query('offset') offset?: string,
+    @Query('date') dateStr?: string,
   ): Promise<MealScheduleHistoryDto> {
     const parsedLimit = limit ? parseInt(limit, 10) : 30;
     const parsedOffset = offset ? parseInt(offset, 10) : 0;
+    const tz = extractTimezone(req);
     return this.mealScheduleService.getMealScheduleHistory(
       userId,
       parsedLimit,
       parsedOffset,
+      tz,
+      dateStr,
     );
   }
 

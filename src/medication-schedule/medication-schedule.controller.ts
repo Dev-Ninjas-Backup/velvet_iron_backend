@@ -8,8 +8,10 @@ import {
   Delete,
   UseInterceptors,
   Query,
+  Req,
 } from '@nestjs/common';
 import { MedicationScheduleService } from './medication-schedule.service';
+import { extractTimezone } from '../common/utils/timezone.util';
 import {
   CreateMedicationScheduleDto,
   UpdateMedicationScheduleDto,
@@ -176,6 +178,7 @@ export class MedicationScheduleController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get today medication schedules' })
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
   @ApiResponse({
     status: 200,
     description: 'Today medication schedules retrieved successfully',
@@ -183,8 +186,11 @@ export class MedicationScheduleController {
   })
   async getTodaySchedules(
     @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
   ): Promise<TodaySchedulesDto> {
-    return this.medicationScheduleService.getTodaySchedules(userId);
+    const tz = extractTimezone(req);
+    return this.medicationScheduleService.getTodaySchedules(userId, tz, dateStr);
   }
 
   @Get(':id')

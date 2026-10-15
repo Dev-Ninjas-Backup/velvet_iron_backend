@@ -50,7 +50,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.IMMAGE_NAME }}
+          tags: ${{ secrets.IMMAGE_NAME || 'softvence/velvet_backend:latest' }}
   deploy:
         name: Deploy
         runs-on: ubuntu-latest

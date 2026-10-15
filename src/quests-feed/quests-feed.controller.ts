@@ -15,7 +15,8 @@ export class QuestsFeedController {
   @ApiOperation({ summary: 'Get unified quests feed for today (Custom, Schedules, Codex)' })
   @ApiQuery({ name: 'date', required: false, description: 'Format YYYY-MM-DD' })
   async getTodaysQuests(@Req() req: any, @Query('date') dateStr?: string) {
-    return this.questsFeedService.getTodaysQuests(req.user.id, dateStr);
+    const tz = req.headers?.['x-timezone'] || req.headers?.['x-time-zone'] || req.query?.timezone;
+    return this.questsFeedService.getTodaysQuests(req.user.id, dateStr, tz);
   }
 
   @Post('today/complete')

@@ -7,6 +7,7 @@ import {
   MoodLogHistoryDto,
 } from './dto/mood-log-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class MoodLogService {
@@ -127,11 +128,13 @@ export class MoodLogService {
     return log;
   }
 
-  async getTodayMoodLog(userId: string): Promise<MoodLogResponseDto | null> {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+  async getTodayMoodLog(
+    userId: string,
+    timezone?: string,
+    targetDate?: string,
+  ): Promise<MoodLogResponseDto | null> {
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone, targetDate);
 
     const todayValue = await this.prisma.client.moodLog.findFirst({
       where: {

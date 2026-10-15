@@ -12,6 +12,7 @@ import {
   TodayScheduleItemDto,
 } from './dto/profile-with-schedules.dto';
 import { XpStatsService } from '@/xp-stats/xp-stats.service';
+import { getUserDayBoundaries } from '@/common/utils/timezone.util';
 
 export type ScheduleRange = 'today' | 'week' | 'month' | 'all';
 
@@ -275,9 +276,16 @@ export class ProfileService {
     }
   }
 
-  async claimDailyLoginXp(userId: string, xpAmount: number) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  async claimDailyLoginXp(
+    userId: string,
+    xpAmount: number,
+    timezone?: string,
+    targetDate?: string,
+  ) {
+    const { startOfDay: today, endOfDay } = getUserDayBoundaries(
+      timezone,
+      targetDate,
+    );
 
     const checkLog = await this.prisma.client.xpLog.findFirst({
       where: {
@@ -285,6 +293,7 @@ export class ProfileService {
         source: 'dayliLoggin',
         createdAt: {
           gte: today,
+          lte: endOfDay,
         },
       },
     });
@@ -333,9 +342,15 @@ export class ProfileService {
     });
   }
 
-  private formatTimeToBasic(date: Date): string {
+  private formatTimeToBasic(date: Date, timezone: string = 'UTC'): string {
+    let tz = timezone.trim();
+    try {
+      Intl.DateTimeFormat(undefined, { timeZone: tz });
+    } catch {
+      tz = 'UTC';
+    }
     const options = {
-      timeZone: 'Asia/Dhaka',
+      timeZone: tz,
       weekday: 'long',
       month: 'long',
       day: 'numeric',
@@ -437,14 +452,13 @@ export class ProfileService {
   async getProfileWithSchedules(
     userId: string,
     range?: string | ScheduleRange,
+    timezone?: string,
   ): Promise<ProfileWithSchedulesDto> {
     // Get base profile
     const baseProfile = await this.getProfile(userId);
 
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+      getUserDayBoundaries(timezone);
 
     const todayMoodLog = await this.prisma.client.moodLog.findFirst({
       where: {
@@ -493,9 +507,7 @@ export class ProfileService {
     const exerciseSchedules = exerciseScheduleHistory.schedules || [];
 
     // Get date ranges
-    const todayRange = this.getDateRange('week');
-    todayRange.start = new Date();
-    todayRange.start.setHours(0, 0, 0, 0);
+    const todayRange = { start: startOfToday, end: endOfToday };
 
     const weekRange = this.getDateRange('week');
     const monthRange = this.getDateRange('month');
@@ -535,7 +547,7 @@ export class ProfileService {
           ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
           : ''
           }`,
-        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt), timezone),
         earnedXp: meal.isTaken ? 10 : 0,
         details: {
           calories: meal.calories,
@@ -553,7 +565,7 @@ export class ProfileService {
         type: 'medication' as const,
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime), timezone),
         earnedXp: med.isTaken ? 10 : 0,
         details: {
           type: med.type,
@@ -571,7 +583,7 @@ export class ProfileService {
         description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
-        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt), timezone),
         earnedXp: exercise.isTaken ? 10 : 0,
         details: {
           type: exercise.type,
@@ -593,7 +605,7 @@ export class ProfileService {
           ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
           : ''
           }`,
-        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt), timezone),
         earnedXp: 10,
         details: {
           calories: meal.calories,
@@ -611,7 +623,7 @@ export class ProfileService {
         type: 'medication' as const,
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime), timezone),
         earnedXp: 10,
         details: {
           type: med.type,
@@ -629,7 +641,7 @@ export class ProfileService {
         description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
-        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt), timezone),
         earnedXp: 10,
         details: {
           type: exercise.type,
@@ -651,7 +663,7 @@ export class ProfileService {
           ? ` • C: ${meal.carbs}g P: ${meal.protein}g F: ${meal.fats}g`
           : ''
           }`,
-        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt)),
+        scheduledAt: this.formatTimeToBasic(new Date(meal.scheduledAt), timezone),
         earnedXp: 10,
         details: {
           calories: meal.calories,
@@ -669,7 +681,7 @@ export class ProfileService {
         type: 'medication' as const,
         title: med.name,
         description: `${med.type || 'Medication'}${med.doseMg ? ` • ${med.doseMg}mg` : ''}`,
-        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime)),
+        scheduledAt: this.formatTimeToBasic(new Date(med.scheduleTime), timezone),
         earnedXp: 10,
         details: {
           type: med.type,
@@ -687,7 +699,7 @@ export class ProfileService {
         description: `${exercise.type}${exercise.intensity ? ` • ${exercise.intensity}` : ''
           }${exercise.duration ? ` • ${exercise.duration} min` : ''}${exercise.note ? ` • ${exercise.note}` : ''
           }`,
-        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt)),
+        scheduledAt: this.formatTimeToBasic(new Date(exercise.loggedAt), timezone),
         earnedXp: 10,
         details: {
           type: exercise.type,
@@ -763,7 +775,7 @@ export class ProfileService {
           type: 'meal',
           title: meal.mealType,
           description: `${meal.calories || 0} kCal`,
-          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
+          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
           earnedXp: 0,
           details: {
             calories: meal.calories,
@@ -780,7 +792,7 @@ export class ProfileService {
           type: 'medication',
           title: med.name,
           description: `${med.doseMg ? `${med.doseMg}mg` : 'Medication'}`,
-          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
+          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
           earnedXp: 0,
           details: {
             type: med.type,
@@ -795,7 +807,7 @@ export class ProfileService {
           type: 'exercise',
           title: exercise.name,
           description: `${exercise.duration ? `${exercise.duration} min` : ''}`,
-          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate),
+          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
           earnedXp: 0,
           details: {
             type: exercise.type,

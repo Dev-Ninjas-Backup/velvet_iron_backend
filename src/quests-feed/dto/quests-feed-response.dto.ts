@@ -28,4 +28,10 @@ export class UnifiedQuestItemDto {
 
   @ApiProperty({ example: '123e4567' })
   originalRefId: string;
+
+  @ApiProperty({ example: '2026-10-13T23:45:00.000Z', required: false })
+  scheduledAt?: string;
+
+  @ApiProperty({ example: '18:45', required: false })
+  timeOfDay?: string;
 }

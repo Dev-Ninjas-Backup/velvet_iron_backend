@@ -3,22 +3,39 @@ import { QuestType } from './dto/quests-feed-response.dto';
 
 describe('QuestsFeedService', () => {
   let service: QuestsFeedService;
-  let customQuestService: any;
-  let medicationScheduleService: any;
-  let exerciseLogService: any;
+  let prisma: any;
   let xpStatsService: any;
+  let customQuestService: any;
+  let schedulesService: any;
+  let leveladdService: any;
 
   beforeEach(() => {
+    prisma = {
+      client: {
+        scheduleCompletionLog: {
+          findMany: jest.fn().mockResolvedValue([]),
+          findFirst: jest.fn().mockResolvedValue(null),
+          create: jest.fn().mockResolvedValue({}),
+        },
+        scheduleItem: {
+          findFirst: jest.fn(),
+        },
+        userProfile: {
+          findUnique: jest.fn().mockResolvedValue({ totalEarnXp: 100, level: 2 }),
+        },
+      },
+    };
     xpStatsService = { getTodayQuestXp: jest.fn() };
     customQuestService = { findAll: jest.fn(), complete: jest.fn() };
-    medicationScheduleService = { getTodaySchedules: jest.fn(), markMedicationAsTaken: jest.fn() };
-    exerciseLogService = { getTodaySchedules: jest.fn(), markExerciseLogAsTaken: jest.fn() };
+    schedulesService = { findAll: jest.fn() };
+    leveladdService = { addXpToUser: jest.fn() };
 
     service = new QuestsFeedService(
+      prisma,
       xpStatsService,
       customQuestService,
-      medicationScheduleService,
-      exerciseLogService
+      schedulesService,
+      leveladdService,
     );
   });
 
@@ -30,12 +47,12 @@ describe('QuestsFeedService', () => {
       data: [{ id: 'cq-1', title: 'Custom', xpReward: 15, isCompleted: false }],
       meta: { todayCustomXpEarned: 0, dailyCustomXpCap: 50 },
     });
-    medicationScheduleService.getTodaySchedules.mockResolvedValue({
-      schedules: [{ id: 'med-1', name: 'Aspirin', doseMg: 50, isTaken: true }],
+    schedulesService.findAll.mockResolvedValue({
+      data: [
+        { id: 'med-1', title: 'Aspirin', itemType: 'MEDICATION' },
+        { id: 'ex-1', title: 'Run', itemType: 'WORKOUT' },
+      ],
     });
-    exerciseLogService.getTodaySchedules.mockResolvedValue([
-      { id: 'ex-1', exerciseName: 'Run', duration: 30, isTaken: false },
-    ]);
 
     const result = await service.getTodaysQuests('user-1');
 
@@ -49,35 +66,37 @@ describe('QuestsFeedService', () => {
 
   describe('completeQuest', () => {
     it('should strip prefixes and route completion correctly (MEDICATION)', async () => {
-      medicationScheduleService.markMedicationAsTaken.mockResolvedValue(true);
-      
+      prisma.client.scheduleItem.findFirst.mockResolvedValue({ id: '123', userId: 'user-1', title: 'Meds' });
+
       const res = await service.completeQuest('user-1', {
-        questId: 'med_123',
-        questType: QuestType.MEDICATION_SCHEDULE
+        questId: 'medication_123',
+        questType: QuestType.MEDICATION_SCHEDULE,
       });
 
       expect(res.success).toBe(true);
-      expect(medicationScheduleService.markMedicationAsTaken).toHaveBeenCalledWith('user-1', '123', true);
+      expect(prisma.client.scheduleCompletionLog.create).toHaveBeenCalled();
+      expect(leveladdService.addXpToUser).toHaveBeenCalledWith('user-1', 10, 'SCHEDULED_ITEM: Meds');
     });
 
     it('should strip prefixes and route completion correctly (WORKOUT)', async () => {
-      exerciseLogService.markExerciseLogAsTaken.mockResolvedValue(true);
-      
+      prisma.client.scheduleItem.findFirst.mockResolvedValue({ id: '456', userId: 'user-1', title: 'Workout' });
+
       const res = await service.completeQuest('user-1', {
         questId: 'workout_456',
-        questType: QuestType.WORKOUT_SCHEDULE
+        questType: QuestType.WORKOUT_SCHEDULE,
       });
 
       expect(res.success).toBe(true);
-      expect(exerciseLogService.markExerciseLogAsTaken).toHaveBeenCalledWith('user-1', '456', true);
+      expect(prisma.client.scheduleCompletionLog.create).toHaveBeenCalled();
+      expect(leveladdService.addXpToUser).toHaveBeenCalledWith('user-1', 10, 'SCHEDULED_ITEM: Workout');
     });
 
     it('should strip prefixes and route completion correctly (CUSTOM)', async () => {
       customQuestService.complete.mockResolvedValue({ success: true, earnedXp: 15 });
-      
+
       const res = await service.completeQuest('user-1', {
         questId: 'custom_789',
-        questType: QuestType.CUSTOM
+        questType: QuestType.CUSTOM,
       });
 
       expect(res.success).toBe(true);
@@ -85,3 +104,4 @@ describe('QuestsFeedService', () => {
     });
   });
 });
+

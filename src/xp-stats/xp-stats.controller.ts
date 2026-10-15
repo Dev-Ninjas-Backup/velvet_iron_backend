@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Req } from '@nestjs/common';
 import { XpStatsService } from './xp-stats.service';
 import {
   ApiBearerAuth,
@@ -9,6 +9,7 @@ import {
 import { GetUser } from '@/common/decorators/get-user.decorator';
 import { ValidAll, ValidUser } from '@/common/decorators/validate.decorator';
 import { XpStatsQueryDto } from './dto/xp-stats-query.dto';
+import { extractTimezone } from '@/common/utils/timezone.util';
 
 @ApiTags('XP Statistics')
 @Controller('xp-stats')
@@ -20,8 +21,14 @@ export class XpStatsController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get today's total XP" })
-  async getTodayXp(@GetUser('id') userId: string) {
-    return this.xpStatsService.getTodayXp(userId);
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
+  async getTodayXp(
+    @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
+  ) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getTodayXp(userId, tz, dateStr);
   }
 
   @Get('quests')
@@ -29,8 +36,14 @@ export class XpStatsController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get quest data from XP today' })
-  async getTodayQuestXp(@GetUser('id') userId: string) {
-    return this.xpStatsService.getTodayQuestXp(userId);
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
+  async getTodayQuestXp(
+    @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
+  ) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getTodayQuestXp(userId, tz, dateStr);
   }
 
   @Get('weekly')
