@@ -6,10 +6,13 @@ import {
   Delete,
   Body,
   Param,
+  Req,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -18,6 +21,7 @@ import { LogWaterDto, UpdateWaterGoalDto } from './dto/water-log.dto';
 import { WaterTodayResponseDto } from './dto/water-today-response.dto';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidUser } from '../common/decorators/validate.decorator';
+import { extractTimezone } from '../common/utils/timezone.util';
 
 @ApiTags('Water Log')
 @Controller('water-log')
@@ -47,6 +51,7 @@ export class WaterLogController {
   @ApiOperation({
     summary: 'Get today water intake vs goal with potion flask visual state',
   })
+  @ApiQuery({ name: 'date', required: false, type: String, example: '2026-10-14' })
   @ApiResponse({
     status: 200,
     description: 'Today water intake with potion flask fill level',
@@ -54,8 +59,11 @@ export class WaterLogController {
   })
   async getTodayWater(
     @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
   ): Promise<WaterTodayResponseDto> {
-    return this.waterLogService.getTodayWater(userId);
+    const tz = extractTimezone(req);
+    return this.waterLogService.getTodayWater(userId, tz, dateStr);
   }
 
   @Put('goal')

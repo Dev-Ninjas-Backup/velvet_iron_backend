@@ -5,8 +5,12 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 export class AwsService {
   private readonly region =
     process.env.AWS_BUCKET_REGION || process.env.AWS_REGION || 'us-east-1';
+  private readonly endpoint =
+    process.env.AWS_ENDPOINT || process.env.S3_ENDPOINT;
   private readonly s3 = new S3Client({
     region: this.region,
+    endpoint: this.endpoint,
+    forcePathStyle: !!this.endpoint,
     credentials:
       process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
         ? {
@@ -35,6 +39,12 @@ export class AwsService {
   }
 
   private getFileUrl(key: string): string {
+    if (this.endpoint) {
+      const publicBase =
+        process.env.AWS_PUBLIC_ENDPOINT ||
+        this.endpoint.replace('minio:9000', 'localhost:9000');
+      return `${publicBase}/${this.bucketName}/${key}`;
+    }
     return `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${key}`;
   }
 

@@ -54,6 +54,16 @@ export class CreateExerciseLogDto {
   @IsOptional()
   @IsString()
   note?: string;
+
+  @ApiProperty({
+    description:
+      'Timestamp when the workout took place (ISO 8601 string, e.g. "2026-10-14T19:15:00.000Z"). Defaults to current time if omitted.',
+    example: '2026-10-14T19:15:00.000Z',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  loggedAt?: string;
 }
 
 export class UpdateExerciseLogDto {
