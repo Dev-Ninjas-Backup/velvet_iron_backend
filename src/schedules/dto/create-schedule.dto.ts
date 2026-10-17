@@ -11,6 +11,8 @@ import {
   Min,
   Max,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { normalizeDaysOfWeek } from '../../common/utils/weekday.util';
 
 export enum ScheduleItemTypeEnum {
   MEDICATION = 'MEDICATION',
@@ -63,16 +65,24 @@ export class CreateScheduleDto {
   recurrenceType: ScheduleRecurrenceTypeEnum;
 
   @ApiPropertyOptional({
-    example: [1, 2, 3, 4, 5],
+    example: [1, 3, 5],
     type: [Number],
-    description: 'ISO 8601 days of week (1 = Monday ... 7 = Sunday)',
+    description: 'ISO 8601 days of week (1 = Monday ... 7 = Sunday, or ["MONDAY", "WEDNESDAY"])',
   })
+  @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
   @IsArray()
   @IsInt({ each: true })
   @Min(1, { each: true })
   @Max(7, { each: true })
   @IsOptional()
   daysOfWeek?: number[];
+
+  @ApiPropertyOptional({
+    example: [1, 3, 5],
+    description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+  })
+  @IsOptional()
+  repeatDays?: any;
 
   @ApiPropertyOptional({
     example: '08:30',

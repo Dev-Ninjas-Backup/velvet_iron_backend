@@ -8,6 +8,7 @@ import {
 } from './dto/mood-log-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { getUserDayBoundaries } from '../common/utils/timezone.util';
+import { XP_REWARDS } from '../common/constants/xp.constants';
 
 @Injectable()
 export class MoodLogService {
@@ -68,13 +69,13 @@ export class MoodLogService {
     if (mood === undefined) {
       throw new BadRequestException('Mood is required to create a new log');
     }
-    const earnedXp = 10;
-    //check onboarding status
+    const earnedXp = XP_REWARDS.MOOD_LOG;
+    //check onboarding status: award XP to active onboarded users
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
     });
 
-    if (user && !user.onBoarded) {
+    if (user && user.onBoarded) {
       const xpUpdate = await this.leveladdService.addXpToUser(
         userId,
         earnedXp,

@@ -28,6 +28,15 @@ export class MealScheduleResponseDto {
 
     @ApiProperty({ example: 15 })
     fats: number | null;
+
+    @ApiProperty({ example: 'DAILY', required: false })
+    recurrence?: string | null;
+
+    @ApiProperty({ example: [1, 2, 3, 4, 5], required: false })
+    daysOfWeek?: number[] | null;
+
+    @ApiProperty({ example: false, required: false })
+    isPaused?: boolean | null;
 }
 
 export class MealScheduleHistoryDto {

@@ -10,6 +10,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { MedicationType } from '../../../prisma/generated/enums';
+import { normalizeDaysOfWeek } from '../../common/utils/weekday.util';
 
 export class CreateMedicationScheduleDto {
   @ApiProperty({
@@ -66,13 +67,22 @@ export class CreateMedicationScheduleDto {
   recurrence?: string;
 
   @ApiProperty({
-    description: 'Days of week (1=Monday ... 7=Sunday) for weekly recurrence',
+    description: 'Days of week (1=Monday ... 7=Sunday, or ["MONDAY", "WEDNESDAY"])',
     required: false,
     example: [1, 3, 5],
     type: [Number],
   })
+  @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
   @IsOptional()
   daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+    required: false,
+    example: [1, 3, 5],
+  })
+  @IsOptional()
+  repeatDays?: any;
 
   @ApiProperty({
     description: 'Start date (ISO 8601 string)',

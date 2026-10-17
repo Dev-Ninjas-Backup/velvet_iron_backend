@@ -133,8 +133,10 @@ export class MedicationScheduleController {
     @GetUser('id') userId: string,
     @Param('id') scheduleId: string,
     @Query('isTaken') isTaken: boolean,
+    @Req() req: any,
   ): Promise<any> {
-    return this.medicationScheduleService.markMedicationAsTaken(userId, scheduleId, isTaken);
+    const tz = extractTimezone(req);
+    return this.medicationScheduleService.markMedicationAsTaken(userId, scheduleId, isTaken, tz);
   }
 
   @Patch(':id/pause')

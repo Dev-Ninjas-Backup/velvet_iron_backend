@@ -8,6 +8,8 @@ import {
     IsBoolean,
 } from 'class-validator';
 import { MealType } from '../../../prisma/generated/enums';
+import { Transform } from 'class-transformer';
+import { normalizeDaysOfWeek } from '../../common/utils/weekday.util';
 
 export { MealType };
 
@@ -59,4 +61,42 @@ export class CreateMealScheduleDto {
     @IsOptional()
     @IsBoolean()
     isTaken?: boolean;
+
+    @ApiProperty({
+        description: 'Recurrence type (DAILY, SPECIFIC_DAYS, ONCE)',
+        required: false,
+        example: 'DAILY',
+        default: 'DAILY',
+    })
+    @IsOptional()
+    recurrence?: string;
+
+    @ApiProperty({
+        description: 'Days of week for SPECIFIC_DAYS recurrence (1=Mon ... 7=Sun, or ["MONDAY", "WEDNESDAY"])',
+        required: false,
+        type: [Number],
+        example: [1, 3, 5],
+    })
+    @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
+    @IsOptional()
+    @IsInt({ each: true })
+    daysOfWeek?: number[];
+
+    @ApiProperty({
+        description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+        required: false,
+        example: [1, 3, 5],
+    })
+    @IsOptional()
+    repeatDays?: any;
+
+    @ApiProperty({
+        description: 'Whether recurrence is paused',
+        required: false,
+        example: false,
+        default: false,
+    })
+    @IsOptional()
+    @IsBoolean()
+    isPaused?: boolean;
 }

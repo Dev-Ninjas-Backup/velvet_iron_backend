@@ -63,8 +63,10 @@ export class StepLogController {
   async updateSteps(
     @GetUser('id') userId: string,
     @Body() dto: UpdateStepsDto,
+    @Req() req: any,
   ) {
-    return this.stepLogService.updateSteps(userId, dto);
+    const tz = extractTimezone(req);
+    return this.stepLogService.updateSteps(userId, dto, tz);
   }
 
   @Post('set-up-camp')
@@ -81,8 +83,10 @@ export class StepLogController {
   })
   async setUpCamp(
     @GetUser('id') userId: string,
+    @Req() req: any,
   ): Promise<SetUpCampResponseDto> {
-    return this.stepLogService.setUpCamp(userId);
+    const tz = extractTimezone(req);
+    return this.stepLogService.setUpCamp(userId, tz);
   }
 
   @Put('goal')

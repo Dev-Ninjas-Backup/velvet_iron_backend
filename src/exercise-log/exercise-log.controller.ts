@@ -188,8 +188,10 @@ export class ExerciseLogController {
     @GetUser('id') userId: string,
     @Param('id') scheduleId: string,
     @Query('isTaken') isTaken: boolean,
+    @Req() req: any,
   ): Promise<any> {
-    return this.exerciseLogService.markExerciseLogAsTaken(userId, scheduleId, isTaken);
+    const tz = extractTimezone(req);
+    return this.exerciseLogService.markExerciseLogAsTaken(userId, scheduleId, isTaken, tz);
   }
 
   @Patch(':id')

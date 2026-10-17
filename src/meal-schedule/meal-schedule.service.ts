@@ -47,6 +47,9 @@ export class MealScheduleService {
         carbs: Number(dto.carbs),
         protein: Number(dto.protein),
         fats: Number(dto.fats),
+        recurrence: dto.recurrence || 'DAILY',
+        daysOfWeek: dto.daysOfWeek || [],
+        isPaused: dto.isPaused ?? false,
       },
     });
 
@@ -57,6 +60,7 @@ export class MealScheduleService {
     userId: string,
     scheduleId: string,
     isTakens: boolean,
+    timezone?: string,
   ): Promise<any> {
     const schedule = await this.prisma.client.mealSchedule.findFirst({
       where: { id: scheduleId, userId },
@@ -66,10 +70,7 @@ export class MealScheduleService {
       throw new NotFoundException('Meal schedule not found');
     }
 
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
-    todayEnd.setHours(23, 59, 59, 999);
+    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
 
     const alreadyTakenToday = Boolean(
       (schedule as any).lastTakenDate &&
@@ -120,15 +121,11 @@ export class MealScheduleService {
     ]);
 
     // Today's summary
-    const { startOfDay: startOfToday, endOfDay: endOfToday } =
-      getUserDayBoundaries(timezone, targetDate);
-
-    const todaySchedules = await this.prisma.client.mealSchedule.findMany({
-      where: {
-        userId,
-        scheduledAt: { gte: startOfToday, lte: endOfToday },
-      },
-    });
+    const todaySchedules = await this.getTodaySchedules(
+      userId,
+      timezone,
+      targetDate,
+    );
 
     const todaySummary = {
       totalCalories: todaySchedules.reduce(
@@ -215,6 +212,9 @@ export class MealScheduleService {
         ...(dto.mealType && { mealType: dto.mealType }),
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
         ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+        ...(dto.recurrence !== undefined && { recurrence: dto.recurrence }),
+        ...(dto.daysOfWeek !== undefined && { daysOfWeek: dto.daysOfWeek }),
+        ...(dto.isPaused !== undefined && { isPaused: dto.isPaused }),
         carbs,
         protein,
         fats,
@@ -236,17 +236,50 @@ export class MealScheduleService {
     timezone?: string,
     targetDate?: string,
   ): Promise<MealScheduleResponseDto[]> {
-    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+    const { startOfDay: startOfToday, endOfDay: endOfToday, dateStr } =
       getUserDayBoundaries(timezone, targetDate);
 
-    const schedules = await this.prisma.client.mealSchedule.findMany({
+    // Day of week: 1 = Monday ... 7 = Sunday
+    // dateStr is 'YYYY-MM-DD'
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const dayOfWeek = new Date(Date.UTC(y, m - 1, d)).getUTCDay() || 7;
+
+    const allSchedules = await this.prisma.client.mealSchedule.findMany({
       where: {
         userId,
-        scheduledAt: { gte: startOfToday, lte: endOfToday },
+        isPaused: false,
       },
       orderBy: { scheduledAt: 'asc' },
     });
 
-    return schedules;
+    const activeToday = allSchedules.filter((schedule) => {
+      const rec = (schedule as any).recurrence || 'DAILY';
+      if (rec === 'DAILY') {
+        return true;
+      }
+      if (rec === 'SPECIFIC_DAYS') {
+        const days: number[] = (schedule as any).daysOfWeek || [];
+        return days.includes(dayOfWeek);
+      }
+      if (rec === 'ONCE') {
+        const schedTime = new Date(schedule.scheduledAt);
+        return schedTime >= startOfToday && schedTime <= endOfToday;
+      }
+      return true;
+    });
+
+    return activeToday.map((schedule) => {
+      const lastTaken = (schedule as any).lastTakenDate
+        ? new Date((schedule as any).lastTakenDate)
+        : null;
+      const isTakenToday = Boolean(
+        lastTaken && lastTaken >= startOfToday && lastTaken <= endOfToday,
+      );
+
+      return {
+        ...schedule,
+        isTaken: isTakenToday,
+      };
+    });
   }
 }

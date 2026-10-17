@@ -7,7 +7,9 @@ import {
   Param,
   Delete,
   Query,
+  Req,
 } from '@nestjs/common';
+import { extractTimezone } from '../common/utils/timezone.util';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -123,8 +125,10 @@ export class CustomQuestController {
   async complete(
     @GetUser('id') userId: string,
     @Param('id') id: string,
+    @Req() req: any,
   ): Promise<CompleteCustomQuestResponseDto> {
-    return this.customQuestService.complete(userId, id);
+    const tz = extractTimezone(req);
+    return this.customQuestService.complete(userId, id, tz);
   }
 
   // Dual-support: Keep PATCH /quests/custom/:id/complete for existing frontend builds
@@ -141,8 +145,10 @@ export class CustomQuestController {
   async completePatch(
     @GetUser('id') userId: string,
     @Param('id') id: string,
+    @Req() req: any,
   ): Promise<CompleteCustomQuestResponseDto> {
-    return this.customQuestService.complete(userId, id);
+    const tz = extractTimezone(req);
+    return this.customQuestService.complete(userId, id, tz);
   }
 
   @Patch(':id')

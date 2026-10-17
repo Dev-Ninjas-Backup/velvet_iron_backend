@@ -64,6 +64,7 @@ export class ExerciseLogService {
     userId: string,
     scheduleId: string,
     isTakens: boolean,
+    timezone?: string,
   ): Promise<any> {
     const schedule = await this.prisma.client.exerciseScheduleLog.findFirst({
       where: { id: scheduleId, userId },
@@ -73,10 +74,7 @@ export class ExerciseLogService {
       throw new NotFoundException('Exercise schedule not found');
     }
 
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
-    todayEnd.setHours(23, 59, 59, 999);
+    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
 
     const alreadyTakenToday = Boolean(
       (schedule as any).lastTakenDate &&
@@ -105,6 +103,44 @@ export class ExerciseLogService {
         ...(isTakens && { lastTakenDate: new Date() }),
       } as any,
     });
+
+    // Bidirectional sync: If matching scheduleItem exists, sync scheduleCompletionLog
+    if (isTakens) {
+      try {
+        const matchingScheduleItem = await (this.prisma.client as any).scheduleItem.findFirst({
+          where: {
+            userId,
+            OR: [
+              { id: scheduleId },
+              { title: schedule.name },
+            ],
+          },
+        });
+
+        if (matchingScheduleItem) {
+          const { startOfDay, endOfDay } = getUserDayBoundaries(timezone);
+          const alreadyLogged = await (this.prisma.client as any).scheduleCompletionLog.findFirst({
+            where: {
+              userId,
+              scheduleItemId: matchingScheduleItem.id,
+              completedAt: { gte: startOfDay, lte: endOfDay },
+            },
+          });
+
+          if (!alreadyLogged) {
+            await (this.prisma.client as any).scheduleCompletionLog.create({
+              data: {
+                userId,
+                scheduleItemId: matchingScheduleItem.id,
+                completedAt: new Date(),
+              },
+            });
+          }
+        }
+      } catch (syncErr) {
+        // Non-blocking sync error handling
+      }
+    }
 
     return updated;
   }

@@ -22,6 +22,7 @@ import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
 import { fitnessGoalDTO } from './dto/fitnessGoal.dto';
 import { ScheduleRange } from './profile.service';
+import { XP_REWARDS } from '../common/constants/xp.constants';
 
 @ApiTags('Profile')
 @Controller(['profile', 'user/profile'])
@@ -61,7 +62,7 @@ export class ProfileController {
       withSchedules === true;
 
     if (!includeSchedules) {
-      return this.profileService.getProfile(userId);
+      return this.profileService.getProfile(userId, tz);
     }
 
     return this.profileService.getProfileWithSchedules(userId, scheduleRange, tz);
@@ -105,7 +106,7 @@ export class ProfileController {
     schema: {
       type: 'object',
       properties: {
-        xp: { type: 'number', example: 15 },
+        xp: { type: 'number', example: 25 },
       },
     },
   })
@@ -116,7 +117,8 @@ export class ProfileController {
     @Query('date') dateStr?: string,
   ) {
     const tz = extractTimezone(req);
-    return await this.profileService.claimDailyLoginXp(userId, xp, tz, dateStr);
+    const awardAmount = typeof xp === 'number' && !isNaN(xp) && xp > 0 ? xp : XP_REWARDS.DAILY_LOGIN;
+    return await this.profileService.claimDailyLoginXp(userId, awardAmount, tz, dateStr);
   }
 
   @Patch('fitness-goal')
@@ -147,8 +149,9 @@ export class ProfileController {
   @ApiOperation({
     summary: 'Get weekly chart data - Daily XP for each day of the week',
   })
-  getWeeklyChart(@GetUser('id') userId: string) {
-    return this.profileService.getWeeklyChartData(userId);
+  getWeeklyChart(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.profileService.getWeeklyChartData(userId, tz);
   }
 
   @Get('chart/monthly')
@@ -158,7 +161,8 @@ export class ProfileController {
   @ApiOperation({
     summary: 'Get monthly chart data - Weekly XP for each week of the month',
   })
-  getMonthlyChart(@GetUser('id') userId: string) {
-    return this.profileService.getMonthlyChartData(userId);
+  getMonthlyChart(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.profileService.getMonthlyChartData(userId, tz);
   }
 }

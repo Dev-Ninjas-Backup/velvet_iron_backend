@@ -118,7 +118,7 @@ export class QuestsFeedService {
     };
   }
 
-  async completeQuest(userId: string, dto: CompleteQuestDto) {
+  async completeQuest(userId: string, dto: CompleteQuestDto, timezone?: string) {
     if (dto.questType === QuestType.CODEX) {
       throw new BadRequestException('Codex quests cannot be completed manually. Log the required activity instead.');
     }
@@ -130,7 +130,7 @@ export class QuestsFeedService {
     }
 
     if (dto.questType === QuestType.CUSTOM) {
-      return this.customQuestService.complete(userId, originalId);
+      return this.customQuestService.complete(userId, originalId, timezone);
     }
 
     // Handle Schedules (MEDICATION or WORKOUT)
@@ -142,12 +142,9 @@ export class QuestsFeedService {
       throw new NotFoundException('Scheduled item not found');
     }
 
-    // Check if already completed today
+    // Check if already completed today in user's timezone
     const now = new Date();
-    const todayStart = new Date(now);
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date(now);
-    todayEnd.setHours(23, 59, 59, 999);
+    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
 
     const existingLog = await (this.prisma.client as any).scheduleCompletionLog.findFirst({
       where: {
@@ -168,7 +165,7 @@ export class QuestsFeedService {
       };
     }
 
-    // Mark as completed
+    // Mark as completed in unified scheduleCompletionLog
     await (this.prisma.client as any).scheduleCompletionLog.create({
       data: {
         userId,
@@ -176,6 +173,41 @@ export class QuestsFeedService {
         completedAt: now,
       }
     });
+
+    // Synchronize underlying legacy schedule tables (ExerciseScheduleLog / MedicationSchedule)
+    if (scheduleItem.itemType === 'WORKOUT') {
+      await (this.prisma.client as any).exerciseScheduleLog.updateMany({
+        where: {
+          userId,
+          OR: [
+            { id: originalId },
+            { name: scheduleItem.title },
+          ],
+        },
+        data: {
+          isTaken: true,
+          lastTakenDate: now,
+        },
+      }).catch((e: any) => {
+        // Non-blocking sync error handling
+      });
+    } else if (scheduleItem.itemType === 'MEDICATION') {
+      await (this.prisma.client as any).medicationSchedule.updateMany({
+        where: {
+          userId,
+          OR: [
+            { id: originalId },
+            { name: scheduleItem.title },
+          ],
+        },
+        data: {
+          isTaken: true,
+          lastTakenDate: now,
+        },
+      }).catch((e: any) => {
+        // Non-blocking sync error handling
+      });
+    }
 
     // Award XP
     const xpAwarded = 10;

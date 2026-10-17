@@ -138,3 +138,121 @@ export function formatDateInTimezone(
 
   return `${weekday}, ${month} ${day}, ${year} at ${hour}:${minute} ${dayPeriod}`;
 }
+
+export interface UserDateMeta {
+  formatted: string;
+  dayName: string;
+  dateKey: string; // YYYY-MM-DD
+}
+
+/**
+ * Returns localized date meta (formatted string, day of week name, and YYYY-MM-DD key)
+ * for any Date in the requested IANA timezone.
+ */
+export function getUserDateMeta(date: Date, timezone: string = 'UTC'): UserDateMeta {
+  let tz = timezone.trim();
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: tz });
+  } catch {
+    tz = 'UTC';
+  }
+
+  const fullFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+
+  const dayFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    weekday: 'long',
+  });
+
+  const dateKeyFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const formatted = fullFormatter.format(date);
+  const dayName = dayFormatter.format(date);
+  const parts = dateKeyFormatter.formatToParts(date);
+  const year = parts.find((part) => part.type === 'year')?.value ?? '';
+  const month = parts.find((part) => part.type === 'month')?.value ?? '';
+  const day = parts.find((part) => part.type === 'day')?.value ?? '';
+
+  return {
+    formatted,
+    dayName,
+    dateKey: `${year}-${month}-${day}`,
+  };
+}
+
+/**
+ * Calculates start and end of week (Sunday 00:00:00 to Saturday 23:59:59)
+ * for a user in their local timezone.
+ */
+export function getUserWeekBoundaries(
+  timezone: string = 'UTC',
+  targetDate?: string,
+  weekOffset: number = 0, // 0 = current week, -1 = last week
+): {
+  startOfWeek: Date;
+  endOfWeek: Date;
+  days: { dateKey: string; dayName: string; displayDate: string; startOfDay: Date; endOfDay: Date }[];
+} {
+  const { dateStr } = getUserDayBoundaries(timezone, targetDate);
+  // Parse year, month, day of local day
+  const [y, m, d] = dateStr.split('-').map(Number);
+  
+  // Find what day of the week this date is in the user's timezone
+  // Sunday = 0 ... Saturday = 6
+  const tempDate = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+  const dayFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    weekday: 'short',
+  });
+  const weekdayShort = dayFormatter.format(tempDate);
+  const weekdayMap: Record<string, number> = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thu: 4,
+    Fri: 5,
+    Sat: 6,
+  };
+  const currentDayOfWeek = weekdayMap[weekdayShort] ?? 0;
+
+  // Calculate Sunday of target week
+  const sundayOffsetDays = -currentDayOfWeek + weekOffset * 7;
+  
+  const days: { dateKey: string; dayName: string; displayDate: string; startOfDay: Date; endOfDay: Date }[] = [];
+
+  for (let i = 0; i < 7; i++) {
+    const dayNumber = d + sundayOffsetDays + i;
+    // Construct local date string via UTC calendar arithmetic
+    const utcRef = new Date(Date.UTC(y, m - 1, dayNumber, 12, 0, 0));
+    const meta = getUserDateMeta(utcRef, timezone);
+    const dayBounds = getUserDayBoundaries(timezone, meta.dateKey);
+    days.push({
+      dateKey: meta.dateKey,
+      dayName: meta.dayName,
+      displayDate: meta.formatted,
+      startOfDay: dayBounds.startOfDay,
+      endOfDay: dayBounds.endOfDay,
+    });
+  }
+
+  return {
+    startOfWeek: days[0].startOfDay,
+    endOfWeek: days[6].endOfDay,
+    days,
+  };
+}
+

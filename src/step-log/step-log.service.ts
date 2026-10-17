@@ -131,8 +131,8 @@ export class StepLogService {
   /**
    * Enter or increment steps for the day
    */
-  async updateSteps(userId: string, dto: UpdateStepsDto) {
-    const targetDate = this.getNormalizedDate(dto.date);
+  async updateSteps(userId: string, dto: UpdateStepsDto, timezone?: string) {
+    const targetDate = this.getNormalizedDate(timezone, dto.date);
 
     const userProfile = await this.prisma.client.userProfile.findUnique({
       where: { userId },
@@ -200,8 +200,8 @@ export class StepLogService {
   /**
    * "Set Up Camp": Finalizes day's walk, commits steps to cumulative lifetime journey, pitches campsite
    */
-  async setUpCamp(userId: string): Promise<SetUpCampResponseDto> {
-    const today = this.getNormalizedDate();
+  async setUpCamp(userId: string, timezone?: string): Promise<SetUpCampResponseDto> {
+    const today = this.getNormalizedDate(timezone);
 
     const [userProfile, stepLog] = await Promise.all([
       this.prisma.client.userProfile.findUnique({

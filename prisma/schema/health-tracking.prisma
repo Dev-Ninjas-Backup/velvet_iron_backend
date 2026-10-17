@@ -59,6 +59,9 @@ model MealSchedule {
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     mealType    MealType // BREAKFAST, LUNCH, DINNER, SNACK
     scheduledAt DateTime
+    recurrence    String    @default("DAILY") // DAILY, SPECIFIC_DAYS, ONCE
+    daysOfWeek    Int[]     @default([])      // 1 = Monday ... 7 = Sunday
+    isPaused      Boolean   @default(false)
     isTaken       Boolean   @default(false)
     lastTakenDate DateTime?
     earnedXp      Int       @default(10)

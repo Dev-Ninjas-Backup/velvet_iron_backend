@@ -27,6 +27,7 @@ export type AggregateMealSchedule = {
 }
 
 export type MealScheduleAvgAggregateOutputType = {
+  daysOfWeek: number | null
   earnedXp: number | null
   calories: number | null
   carbs: number | null
@@ -35,6 +36,7 @@ export type MealScheduleAvgAggregateOutputType = {
 }
 
 export type MealScheduleSumAggregateOutputType = {
+  daysOfWeek: number[]
   earnedXp: number | null
   calories: number | null
   carbs: number | null
@@ -47,6 +49,8 @@ export type MealScheduleMinAggregateOutputType = {
   userId: string | null
   mealType: $Enums.MealType | null
   scheduledAt: Date | null
+  recurrence: string | null
+  isPaused: boolean | null
   isTaken: boolean | null
   lastTakenDate: Date | null
   earnedXp: number | null
@@ -61,6 +65,8 @@ export type MealScheduleMaxAggregateOutputType = {
   userId: string | null
   mealType: $Enums.MealType | null
   scheduledAt: Date | null
+  recurrence: string | null
+  isPaused: boolean | null
   isTaken: boolean | null
   lastTakenDate: Date | null
   earnedXp: number | null
@@ -75,6 +81,9 @@ export type MealScheduleCountAggregateOutputType = {
   userId: number
   mealType: number
   scheduledAt: number
+  recurrence: number
+  daysOfWeek: number
+  isPaused: number
   isTaken: number
   lastTakenDate: number
   earnedXp: number
@@ -87,6 +96,7 @@ export type MealScheduleCountAggregateOutputType = {
 
 
 export type MealScheduleAvgAggregateInputType = {
+  daysOfWeek?: true
   earnedXp?: true
   calories?: true
   carbs?: true
@@ -95,6 +105,7 @@ export type MealScheduleAvgAggregateInputType = {
 }
 
 export type MealScheduleSumAggregateInputType = {
+  daysOfWeek?: true
   earnedXp?: true
   calories?: true
   carbs?: true
@@ -107,6 +118,8 @@ export type MealScheduleMinAggregateInputType = {
   userId?: true
   mealType?: true
   scheduledAt?: true
+  recurrence?: true
+  isPaused?: true
   isTaken?: true
   lastTakenDate?: true
   earnedXp?: true
@@ -121,6 +134,8 @@ export type MealScheduleMaxAggregateInputType = {
   userId?: true
   mealType?: true
   scheduledAt?: true
+  recurrence?: true
+  isPaused?: true
   isTaken?: true
   lastTakenDate?: true
   earnedXp?: true
@@ -135,6 +150,9 @@ export type MealScheduleCountAggregateInputType = {
   userId?: true
   mealType?: true
   scheduledAt?: true
+  recurrence?: true
+  daysOfWeek?: true
+  isPaused?: true
   isTaken?: true
   lastTakenDate?: true
   earnedXp?: true
@@ -236,6 +254,9 @@ export type MealScheduleGroupByOutputType = {
   userId: string
   mealType: $Enums.MealType
   scheduledAt: Date
+  recurrence: string
+  daysOfWeek: number[]
+  isPaused: boolean
   isTaken: boolean
   lastTakenDate: Date | null
   earnedXp: number
@@ -273,6 +294,9 @@ export type MealScheduleWhereInput = {
   userId?: Prisma.StringFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFilter<"MealSchedule"> | Date | string
+  recurrence?: Prisma.StringFilter<"MealSchedule"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"MealSchedule">
+  isPaused?: Prisma.BoolFilter<"MealSchedule"> | boolean
   isTaken?: Prisma.BoolFilter<"MealSchedule"> | boolean
   lastTakenDate?: Prisma.DateTimeNullableFilter<"MealSchedule"> | Date | string | null
   earnedXp?: Prisma.IntFilter<"MealSchedule"> | number
@@ -288,6 +312,9 @@ export type MealScheduleOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
+  isPaused?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   lastTakenDate?: Prisma.SortOrderInput | Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
@@ -306,6 +333,9 @@ export type MealScheduleWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFilter<"MealSchedule"> | Date | string
+  recurrence?: Prisma.StringFilter<"MealSchedule"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"MealSchedule">
+  isPaused?: Prisma.BoolFilter<"MealSchedule"> | boolean
   isTaken?: Prisma.BoolFilter<"MealSchedule"> | boolean
   lastTakenDate?: Prisma.DateTimeNullableFilter<"MealSchedule"> | Date | string | null
   earnedXp?: Prisma.IntFilter<"MealSchedule"> | number
@@ -321,6 +351,9 @@ export type MealScheduleOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
+  isPaused?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   lastTakenDate?: Prisma.SortOrderInput | Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
@@ -343,6 +376,9 @@ export type MealScheduleScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeWithAggregatesFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeWithAggregatesFilter<"MealSchedule"> | Date | string
+  recurrence?: Prisma.StringWithAggregatesFilter<"MealSchedule"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"MealSchedule">
+  isPaused?: Prisma.BoolWithAggregatesFilter<"MealSchedule"> | boolean
   isTaken?: Prisma.BoolWithAggregatesFilter<"MealSchedule"> | boolean
   lastTakenDate?: Prisma.DateTimeNullableWithAggregatesFilter<"MealSchedule"> | Date | string | null
   earnedXp?: Prisma.IntWithAggregatesFilter<"MealSchedule"> | number
@@ -356,6 +392,9 @@ export type MealScheduleCreateInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  recurrence?: string
+  daysOfWeek?: Prisma.MealScheduleCreatedaysOfWeekInput | number[]
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: Date | string | null
   earnedXp?: number
@@ -371,6 +410,9 @@ export type MealScheduleUncheckedCreateInput = {
   userId: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  recurrence?: string
+  daysOfWeek?: Prisma.MealScheduleCreatedaysOfWeekInput | number[]
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: Date | string | null
   earnedXp?: number
@@ -384,6 +426,9 @@ export type MealScheduleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -399,6 +444,9 @@ export type MealScheduleUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -413,6 +461,9 @@ export type MealScheduleCreateManyInput = {
   userId: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  recurrence?: string
+  daysOfWeek?: Prisma.MealScheduleCreatedaysOfWeekInput | number[]
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: Date | string | null
   earnedXp?: number
@@ -426,6 +477,9 @@ export type MealScheduleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -440,6 +494,9 @@ export type MealScheduleUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -449,11 +506,22 @@ export type MealScheduleUncheckedUpdateManyInput = {
   fats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type MealScheduleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
+  isPaused?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   lastTakenDate?: Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
@@ -464,6 +532,7 @@ export type MealScheduleCountOrderByAggregateInput = {
 }
 
 export type MealScheduleAvgOrderByAggregateInput = {
+  daysOfWeek?: Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
@@ -476,6 +545,8 @@ export type MealScheduleMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
+  isPaused?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   lastTakenDate?: Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
@@ -490,6 +561,8 @@ export type MealScheduleMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   mealType?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
+  isPaused?: Prisma.SortOrder
   isTaken?: Prisma.SortOrder
   lastTakenDate?: Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
@@ -500,6 +573,7 @@ export type MealScheduleMinOrderByAggregateInput = {
 }
 
 export type MealScheduleSumOrderByAggregateInput = {
+  daysOfWeek?: Prisma.SortOrder
   earnedXp?: Prisma.SortOrder
   calories?: Prisma.SortOrder
   carbs?: Prisma.SortOrder
@@ -517,8 +591,17 @@ export type MealScheduleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type MealScheduleCreatedaysOfWeekInput = {
+  set: number[]
+}
+
 export type EnumMealTypeFieldUpdateOperationsInput = {
   set?: $Enums.MealType
+}
+
+export type MealScheduleUpdatedaysOfWeekInput = {
+  set?: number[]
+  push?: number | number[]
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -579,6 +662,9 @@ export type MealScheduleCreateWithoutUserInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  recurrence?: string
+  daysOfWeek?: Prisma.MealScheduleCreatedaysOfWeekInput | number[]
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: Date | string | null
   earnedXp?: number
@@ -592,6 +678,9 @@ export type MealScheduleUncheckedCreateWithoutUserInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  recurrence?: string
+  daysOfWeek?: Prisma.MealScheduleCreatedaysOfWeekInput | number[]
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: Date | string | null
   earnedXp?: number
@@ -635,6 +724,9 @@ export type MealScheduleScalarWhereInput = {
   userId?: Prisma.StringFilter<"MealSchedule"> | string
   mealType?: Prisma.EnumMealTypeFilter<"MealSchedule"> | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFilter<"MealSchedule"> | Date | string
+  recurrence?: Prisma.StringFilter<"MealSchedule"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"MealSchedule">
+  isPaused?: Prisma.BoolFilter<"MealSchedule"> | boolean
   isTaken?: Prisma.BoolFilter<"MealSchedule"> | boolean
   lastTakenDate?: Prisma.DateTimeNullableFilter<"MealSchedule"> | Date | string | null
   earnedXp?: Prisma.IntFilter<"MealSchedule"> | number
@@ -648,6 +740,9 @@ export type MealScheduleCreateManyUserInput = {
   id?: string
   mealType: $Enums.MealType
   scheduledAt: Date | string
+  recurrence?: string
+  daysOfWeek?: Prisma.MealScheduleCreatedaysOfWeekInput | number[]
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: Date | string | null
   earnedXp?: number
@@ -661,6 +756,9 @@ export type MealScheduleUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -674,6 +772,9 @@ export type MealScheduleUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -687,6 +788,9 @@ export type MealScheduleUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mealType?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrence?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.MealScheduleUpdatedaysOfWeekInput | number[]
+  isPaused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isTaken?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastTakenDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
@@ -703,6 +807,9 @@ export type MealScheduleSelect<ExtArgs extends runtime.Types.Extensions.Internal
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  recurrence?: boolean
+  daysOfWeek?: boolean
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: boolean
   earnedXp?: boolean
@@ -718,6 +825,9 @@ export type MealScheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  recurrence?: boolean
+  daysOfWeek?: boolean
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: boolean
   earnedXp?: boolean
@@ -733,6 +843,9 @@ export type MealScheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  recurrence?: boolean
+  daysOfWeek?: boolean
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: boolean
   earnedXp?: boolean
@@ -748,6 +861,9 @@ export type MealScheduleSelectScalar = {
   userId?: boolean
   mealType?: boolean
   scheduledAt?: boolean
+  recurrence?: boolean
+  daysOfWeek?: boolean
+  isPaused?: boolean
   isTaken?: boolean
   lastTakenDate?: boolean
   earnedXp?: boolean
@@ -757,7 +873,7 @@ export type MealScheduleSelectScalar = {
   fats?: boolean
 }
 
-export type MealScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "scheduledAt" | "isTaken" | "lastTakenDate" | "earnedXp" | "calories" | "carbs" | "protein" | "fats", ExtArgs["result"]["mealSchedule"]>
+export type MealScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "mealType" | "scheduledAt" | "recurrence" | "daysOfWeek" | "isPaused" | "isTaken" | "lastTakenDate" | "earnedXp" | "calories" | "carbs" | "protein" | "fats", ExtArgs["result"]["mealSchedule"]>
 export type MealScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -778,6 +894,9 @@ export type $MealSchedulePayload<ExtArgs extends runtime.Types.Extensions.Intern
     userId: string
     mealType: $Enums.MealType
     scheduledAt: Date
+    recurrence: string
+    daysOfWeek: number[]
+    isPaused: boolean
     isTaken: boolean
     lastTakenDate: Date | null
     earnedXp: number
@@ -1213,6 +1332,9 @@ export interface MealScheduleFieldRefs {
   readonly userId: Prisma.FieldRef<"MealSchedule", 'String'>
   readonly mealType: Prisma.FieldRef<"MealSchedule", 'MealType'>
   readonly scheduledAt: Prisma.FieldRef<"MealSchedule", 'DateTime'>
+  readonly recurrence: Prisma.FieldRef<"MealSchedule", 'String'>
+  readonly daysOfWeek: Prisma.FieldRef<"MealSchedule", 'Int[]'>
+  readonly isPaused: Prisma.FieldRef<"MealSchedule", 'Boolean'>
   readonly isTaken: Prisma.FieldRef<"MealSchedule", 'Boolean'>
   readonly lastTakenDate: Prisma.FieldRef<"MealSchedule", 'DateTime'>
   readonly earnedXp: Prisma.FieldRef<"MealSchedule", 'Int'>

@@ -51,8 +51,9 @@ export class XpStatsController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get this week's total XP" })
-  async getWeeklyXp(@GetUser('id') userId: string) {
-    return this.xpStatsService.getWeeklyXp(userId);
+  async getWeeklyXp(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getWeeklyXp(userId, tz);
   }
 
   @Get('monthly')
@@ -60,8 +61,9 @@ export class XpStatsController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: "Get this month's total XP" })
-  async getMonthlyXp(@GetUser('id') userId: string) {
-    return this.xpStatsService.getMonthlyXp(userId);
+  async getMonthlyXp(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getMonthlyXp(userId, tz);
   }
 
   @Get('summary')
@@ -69,8 +71,9 @@ export class XpStatsController {
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Get XP summary (today, week, month combined)' })
-  async getXpSummary(@GetUser('id') userId: string) {
-    return this.xpStatsService.getXpSummary(userId);
+  async getXpSummary(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getXpSummary(userId, tz);
   }
 
   @Get('logs')
@@ -97,8 +100,9 @@ export class XpStatsController {
   @ApiOperation({
     summary: 'Get weekly chart data - Daily XP for each day of the week',
   })
-  async getWeeklyChartData(@GetUser('id') userId: string) {
-    return this.xpStatsService.getWeeklyChartData(userId);
+  async getWeeklyChartData(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getWeeklyChartData(userId, tz);
   }
 
   @Get('chart/monthly')
@@ -108,7 +112,8 @@ export class XpStatsController {
   @ApiOperation({
     summary: 'Get monthly chart data - Weekly XP for each week of the month',
   })
-  async getMonthlyChartData(@GetUser('id') userId: string) {
-    return this.xpStatsService.getMonthlyChartData(userId);
+  async getMonthlyChartData(@GetUser('id') userId: string, @Req() req: any) {
+    const tz = extractTimezone(req);
+    return this.xpStatsService.getMonthlyChartData(userId, tz);
   }
 }

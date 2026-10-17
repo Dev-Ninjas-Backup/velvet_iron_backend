@@ -48,6 +48,7 @@ export class MedicationScheduleService {
     userId: string,
     scheduleId: string,
     isTakens: boolean,
+    timezone?: string,
   ): Promise<any> {
     const schedule = await this.prisma.client.medicationSchedule.findFirst({
       where: { id: scheduleId, userId },
@@ -57,10 +58,7 @@ export class MedicationScheduleService {
       throw new NotFoundException('Medication schedule not found');
     }
 
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
-    todayEnd.setHours(23, 59, 59, 999);
+    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
 
     const alreadyTakenToday = Boolean(
       (schedule as any).lastTakenDate &&

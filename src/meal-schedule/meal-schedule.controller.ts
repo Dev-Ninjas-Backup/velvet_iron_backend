@@ -130,8 +130,10 @@ export class MealScheduleController {
     @GetUser('id') userId: string,
     @Param('id') scheduleId: string,
     @Query('isTaken') isTaken: boolean,
+    @Req() req: any,
   ): Promise<any> {
-    return this.mealScheduleService.markMealAsTaken(userId, scheduleId, isTaken);
+    const tz = extractTimezone(req);
+    return this.mealScheduleService.markMealAsTaken(userId, scheduleId, isTaken, tz);
   }
 
 

@@ -61,4 +61,48 @@ export class UpdateMealScheduleDto {
     })
     @IsOptional()
     isTaken?: boolean;
+
+    @ApiProperty({
+        description: 'Recurrence type (DAILY, SPECIFIC_DAYS, ONCE)',
+        required: false,
+        example: 'DAILY',
+    })
+    @Transform(({ value }) => (value === '' ? undefined : value))
+    @IsOptional()
+    recurrence?: string;
+
+    @ApiProperty({
+        description: 'Days of week for SPECIFIC_DAYS recurrence (1=Mon ... 7=Sun)',
+        required: false,
+        type: [Number],
+        example: [1, 2, 3, 4, 5],
+    })
+    @Transform(({ value }) => (value === '' ? undefined : value))
+    @IsOptional()
+    @IsInt({ each: true })
+    daysOfWeek?: number[];
+
+    @ApiProperty({
+        description: 'Whether recurrence is paused',
+        required: false,
+        example: false,
+    })
+    @Transform(({ value }) => {
+        if (value === '' || value === undefined || value === null) return undefined;
+        if (typeof value === 'string') {
+            const normalized = value.trim().toLowerCase();
+            if (['true', '1', 'on'].includes(normalized)) return true;
+            if (['false', '0', 'off'].includes(normalized)) return false;
+            return undefined;
+        }
+        if (typeof value === 'number') {
+            if (value === 1) return true;
+            if (value === 0) return false;
+        }
+        if (value === true || value === false) return value;
+        return undefined;
+    })
+    @IsOptional()
+    @IsBoolean()
+    isPaused?: boolean;
 }

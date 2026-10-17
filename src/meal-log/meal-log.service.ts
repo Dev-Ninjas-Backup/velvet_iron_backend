@@ -12,6 +12,7 @@ import {
   MealHistoryEntryDto,
 } from './dto/meal-log-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
+import { XP_REWARDS } from '../common/constants/xp.constants';
 
 @Injectable()
 export class MealLogService {
@@ -43,13 +44,13 @@ export class MealLogService {
           Number(dto.fats),
         );
 
-    //if onboarded then add xp
-    const earnedXp = 10;
+    //award XP to active onboarded users
+    const earnedXp = XP_REWARDS.MEAL_LOG;
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
     });
 
-    if (user && !user.onBoarded) {
+    if (user && user.onBoarded) {
       await this.leveladdService.addXpToUser(
         userId,
         earnedXp,

@@ -10,6 +10,8 @@ import {
   Min,
   Max,
 } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
+import { normalizeDaysOfWeek } from '../../common/utils/weekday.util';
 
 export enum QuestRecurrenceEnum {
   NONE = 'NONE',
@@ -57,6 +59,7 @@ export class CreateCustomQuestDto {
     example: 15,
     description: 'XP reward (between 5 and 15, auto-clamped)',
   })
+  @Type(() => Number)
   @IsInt()
   @IsOptional()
   xpReward?: number;
@@ -65,6 +68,7 @@ export class CreateCustomQuestDto {
     example: 10,
     description: 'Legacy XP field (capped at max 15 XP)',
   })
+  @Type(() => Number)
   @IsInt()
   @IsOptional()
   xp?: number;
@@ -104,14 +108,22 @@ export class CreateCustomQuestDto {
   scheduledTime?: string;
 
   @ApiPropertyOptional({
-    example: [1, 2, 3, 4, 5],
+    example: [1, 3, 5],
     type: [Number],
-    description: 'Days of week (1 = Monday ... 7 = Sunday) if recurring',
+    description: 'Days of week (1 = Monday ... 7 = Sunday, or ["MONDAY", "WEDNESDAY"]) if recurring',
   })
+  @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
   @IsArray()
   @IsInt({ each: true })
   @IsOptional()
   daysOfWeek?: number[];
+
+  @ApiPropertyOptional({
+    example: [1, 3, 5],
+    description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+  })
+  @IsOptional()
+  repeatDays?: any;
 
   @ApiPropertyOptional({
     example: true,

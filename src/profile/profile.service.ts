@@ -27,7 +27,7 @@ export class ProfileService {
     private xpStatsService: XpStatsService,
   ) { }
 
-  async getProfile(userId: string) {
+  async getProfile(userId: string, timezone: string = 'UTC') {
     let profile = await this.prisma.client.userProfile.findUnique({
       where: { userId },
       include: {
@@ -88,7 +88,7 @@ export class ProfileService {
           companion: true,
         },
       }),
-      this.getProfileCharts(userId),
+      this.getProfileCharts(userId, timezone),
     ]);
 
     let resolvedActiveCompanion = activecomponion;
@@ -486,12 +486,16 @@ export class ProfileService {
 
     // Get all schedules (using larger limit for history)
     const [
+      todayMealSchedules,
       mealHistoryResult,
       medicationHistoryResult,
       exerciseScheduleHistory,
     ] = await Promise.all([
       this.mealScheduleService
-        .getMealScheduleHistory(userId, 100, 0)
+        .getTodaySchedules(userId, timezone)
+        .catch(() => []),
+      this.mealScheduleService
+        .getMealScheduleHistory(userId, 100, 0, timezone)
         .catch(() => ({ schedules: [], totalCount: 0, todaySummary: {} })),
       this.medicationScheduleService
         .getMedicationScheduleHistory(userId)
@@ -520,6 +524,8 @@ export class ProfileService {
       todayRange.start,
       todayRange.end,
     );
+    // Use active recurring/scheduled meals for today
+    todayFiltered.meals = todayMealSchedules;
 
     const weekFiltered = this.filterItemsByDateRange(
       mealSchedules,
@@ -851,21 +857,21 @@ export class ProfileService {
     };
   }
 
-  async getWeeklyChartData(userId: string) {
-    return this.xpStatsService.getWeeklyChartData(userId);
+  async getWeeklyChartData(userId: string, timezone: string = 'UTC') {
+    return this.xpStatsService.getWeeklyChartData(userId, timezone);
   }
 
-  async getMonthlyChartData(userId: string) {
-    return this.xpStatsService.getMonthlyChartData(userId);
+  async getMonthlyChartData(userId: string, timezone: string = 'UTC') {
+    return this.xpStatsService.getMonthlyChartData(userId, timezone);
   }
 
-  private async getProfileCharts(userId: string) {
+  private async getProfileCharts(userId: string, timezone: string = 'UTC') {
     const [currentWeekChart, lastWeekChart] = await Promise.all([
-      this.xpStatsService.getWeeklyChartData(userId).catch((error) => {
+      this.xpStatsService.getWeeklyChartData(userId, timezone).catch((error) => {
         console.error('Failed to load current week chart data', error);
         return null;
       }),
-      this.xpStatsService.getLastWeekChartData(userId).catch((error) => {
+      this.xpStatsService.getLastWeekChartData(userId, timezone).catch((error) => {
         console.error('Failed to load last week chart data', error);
         return null;
       }),

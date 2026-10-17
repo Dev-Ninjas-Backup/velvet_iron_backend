@@ -24,6 +24,7 @@ export class QuestsFeedController {
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Mark a unified quest as complete' })
   async completeQuest(@Req() req: any, @Body() dto: CompleteQuestDto) {
-    return this.questsFeedService.completeQuest(req.user.id, dto);
+    const tz = req.headers?.['x-timezone'] || req.headers?.['x-time-zone'] || req.query?.timezone;
+    return this.questsFeedService.completeQuest(req.user.id, dto, tz);
   }
 }

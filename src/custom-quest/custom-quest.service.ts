@@ -9,8 +9,10 @@ import {
   CustomQuestListResponseDto,
   CompleteCustomQuestResponseDto,
 } from './dto/custom-quest-response.dto';
+import { XP_REWARDS } from '../common/constants/xp.constants';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
-const DAILY_CUSTOM_XP_CAP = 50;
+const DAILY_CUSTOM_XP_CAP = XP_REWARDS.CUSTOM_QUEST.DAILY_TOTAL_CAP;
 
 @Injectable()
 export class CustomQuestService {
@@ -63,14 +65,9 @@ export class CustomQuestService {
   }
 
   /**
-   * Helper to calculate total XP earned from custom quests on a specific date.
+   * Helper to calculate total XP earned from custom quests within a specific date window.
    */
-  private async getCustomXpEarnedOnDate(userId: string, date: Date): Promise<number> {
-    const start = new Date(date);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(date);
-    end.setHours(23, 59, 59, 999);
-
+  private async getCustomXpEarnedOnDate(userId: string, start: Date, end: Date): Promise<number> {
     const logs = await this.prisma.client.xpLog.findMany({
       where: {
         userId,
@@ -100,8 +97,13 @@ export class CustomQuestService {
       throw new BadRequestException('Quest title cannot exceed 60 characters.');
     }
 
-    const rawXp = dto.xpReward ?? dto.xp ?? 15;
-    const cappedXp = Math.min(Math.max(rawXp, 5), 15);
+    const inputXp = dto.xpReward ?? dto.xp ?? XP_REWARDS.CUSTOM_QUEST.DEFAULT_XP;
+    const parsedXp = Number(inputXp);
+    const rawXp = !isNaN(parsedXp) ? parsedXp : XP_REWARDS.CUSTOM_QUEST.DEFAULT_XP;
+    const cappedXp = Math.min(
+      Math.max(rawXp, XP_REWARDS.CUSTOM_QUEST.MIN_XP),
+      XP_REWARDS.CUSTOM_QUEST.MAX_XP,
+    );
     const frequency = (dto.frequency || dto.recurrence || 'DAILY').toUpperCase();
 
     const quest = await (this.prisma.client as any).customQuest.create({
@@ -113,7 +115,7 @@ export class CustomQuestService {
         scheduledDate: dto.scheduledDate ? new Date(dto.scheduledDate) : undefined,
         scheduledTime: dto.scheduledTime,
         recurrence: frequency,
-        daysOfWeek: dto.daysOfWeek || [],
+        daysOfWeek: dto.daysOfWeek || dto.repeatDays || [],
         reminderEnabled: dto.reminderEnabled ?? false,
         reminderTime: dto.reminderTime,
         xp: cappedXp,
@@ -144,7 +146,7 @@ export class CustomQuestService {
         where: { userId },
         orderBy: { createdAt: 'desc' },
       }),
-      this.getCustomXpEarnedOnDate(userId, targetDate),
+      this.getCustomXpEarnedOnDate(userId, targetStart, targetEnd),
     ]);
 
     const filtered = allQuests.filter((quest: any) => {
@@ -198,8 +200,15 @@ export class CustomQuestService {
   async update(userId: string, id: string, dto: UpdateCustomQuestDto): Promise<CustomQuestResponseDto> {
     await this.findOne(userId, id);
 
-    const rawXp = dto.xp !== undefined ? dto.xp : undefined;
-    const cappedXp = rawXp !== undefined ? Math.min(Math.max(rawXp, 0), 15) : undefined;
+    const inputXp = dto.xpReward !== undefined ? dto.xpReward : dto.xp;
+    const rawXp = inputXp !== undefined ? Number(inputXp) : undefined;
+    const cappedXp =
+      rawXp !== undefined && !isNaN(rawXp)
+        ? Math.min(
+            Math.max(rawXp, XP_REWARDS.CUSTOM_QUEST.MIN_XP),
+            XP_REWARDS.CUSTOM_QUEST.MAX_XP,
+          )
+        : undefined;
     const questName = dto.name;
 
     const updated = await (this.prisma.client as any).customQuest.update({
@@ -211,7 +220,9 @@ export class CustomQuestService {
         ...(dto.scheduledDate && { scheduledDate: new Date(dto.scheduledDate) }),
         ...(dto.scheduledTime !== undefined && { scheduledTime: dto.scheduledTime }),
         ...(dto.recurrence && { recurrence: dto.recurrence }),
-        ...(dto.daysOfWeek && { daysOfWeek: dto.daysOfWeek }),
+        ...((dto.daysOfWeek !== undefined || dto.repeatDays !== undefined) && {
+          daysOfWeek: dto.daysOfWeek || dto.repeatDays || [],
+        }),
         ...(dto.reminderEnabled !== undefined && { reminderEnabled: dto.reminderEnabled }),
         ...(dto.reminderTime !== undefined && { reminderTime: dto.reminderTime }),
         ...(dto.isPaused !== undefined && { isPaused: dto.isPaused }),
@@ -248,17 +259,18 @@ export class CustomQuestService {
   /**
    * Complete custom quest and award capped XP (subject to 50 XP/day anti-abuse cap).
    */
-  async complete(userId: string, id: string): Promise<CompleteCustomQuestResponseDto> {
+  async complete(
+    userId: string,
+    id: string,
+    timezone?: string,
+  ): Promise<CompleteCustomQuestResponseDto> {
     const quest = await (this.prisma.client as any).customQuest.findFirst({
       where: { id, userId },
     });
     if (!quest) throw new NotFoundException('Custom quest not found');
 
     const now = new Date();
-    const todayStart = new Date(now);
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date(now);
-    todayEnd.setHours(23, 59, 59, 999);
+    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
 
     const alreadyCompletedToday = Boolean(
       quest.lastCompletedAt &&
@@ -267,7 +279,7 @@ export class CustomQuestService {
     );
 
     // Anti-Abuse: Calculate remaining daily custom XP allowance up to 50 XP
-    const todayCustomXpEarned = await this.getCustomXpEarnedOnDate(userId, now);
+    const todayCustomXpEarned = await this.getCustomXpEarnedOnDate(userId, todayStart, todayEnd);
     const remainingCap = Math.max(0, DAILY_CUSTOM_XP_CAP - todayCustomXpEarned);
 
     let xpAwarded = 0;

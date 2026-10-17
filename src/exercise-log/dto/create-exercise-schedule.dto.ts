@@ -8,6 +8,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { normalizeDaysOfWeek } from '../../common/utils/weekday.util';
 
 export class CreateExerciseScheduleDto {
   @ApiProperty({
@@ -82,13 +83,22 @@ export class CreateExerciseScheduleDto {
   recurrence?: string;
 
   @ApiProperty({
-    description: 'Days of week (1=Monday ... 7=Sunday)',
+    description: 'Days of week (1=Monday ... 7=Sunday, or ["MONDAY", "WEDNESDAY"])',
     required: false,
     type: [Number],
-    example: [1, 2, 3, 4, 5],
+    example: [1, 3, 5],
   })
+  @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
   @IsOptional()
   daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+    required: false,
+    example: [1, 3, 5],
+  })
+  @IsOptional()
+  repeatDays?: any;
 
   @ApiProperty({
     description: 'Time of day (HH:mm)',

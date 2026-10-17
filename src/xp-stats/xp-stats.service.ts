@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { getUserDayBoundaries } from '@/common/utils/timezone.util';
+import {
+  getUserDayBoundaries,
+  getUserWeekBoundaries,
+  getUserDateMeta,
+} from '@/common/utils/timezone.util';
+import { XP_REWARDS } from '@/common/constants/xp.constants';
 
 @Injectable()
 export class XpStatsService {
@@ -176,28 +181,28 @@ export class XpStatsService {
       {
         id: 'track-your-shot',
         title: 'Track Your Shot',
-        xp: 10,
+        xp: XP_REWARDS.QUESTS.TRACK_YOUR_SHOT,
         description: 'Log your GLP-1 medication',
         isDone: medicationCount + medicationScheduleCount > 0,
       },
       {
         id: 'three-meals',
         title: 'Three Meals a Day',
-        xp: 30,
+        xp: XP_REWARDS.QUESTS.THREE_MEALS,
         description: 'Log breakfast, lunch, and dinner',
         isDone: takenMainMeals >= 3,
       },
       {
         id: 'mood-check',
         title: 'Mood Check',
-        xp: 30,
+        xp: XP_REWARDS.QUESTS.MOOD_CHECK,
         description: 'Log your mood and energy levels',
         isDone: moodLogCount > 0,
       },
       {
         id: 'step-master',
         title: 'Step Master',
-        xp: 20,
+        xp: XP_REWARDS.QUESTS.STEP_MASTER,
         description: 'Complete your daily step goal or walk at least 8,000 steps',
         isDone:
           (todayStepLog && todayStepLog.steps >= todayStepLog.goal) ||
@@ -206,14 +211,14 @@ export class XpStatsService {
       {
         id: 'protein-power',
         title: "Titan's Nourishment",
-        xp: 30,
+        xp: XP_REWARDS.QUESTS.TITANS_NOURISHMENT,
         description: 'Log a meal with 30g+ protein',
         isDone: hasSingleMealWith30gProtein,
       },
       {
         id: 'mana-infusion',
         title: 'Mana Infusion',
-        xp: 20,
+        xp: XP_REWARDS.QUESTS.MANA_INFUSION,
         description: 'Drink at least 80% of your daily water potion goal',
         isDone: waterGoal > 0 && todayWaterIntake >= waterGoal * 0.8,
       },
@@ -227,40 +232,30 @@ export class XpStatsService {
   }
 
   /**
-   * Get this week's total XP for a user (Sunday to Saturday)
+   * Get this week's total XP for a user (Sunday to Saturday) based on local timezone
    */
-  async getWeeklyXp(userId: string) {
-    const now = new Date();
-    // Calculate the most recent Sunday
-    const dayOfWeek = now.getDay();
-    const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - dayOfWeek);
-    startOfWeek.setHours(0, 0, 0, 0);
-
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    endOfWeek.setHours(23, 59, 59, 999);
-
+  async getWeeklyXp(userId: string, timezone: string = 'UTC') {
+    const { startOfWeek, endOfWeek } = getUserWeekBoundaries(timezone);
     return this.getXpForPeriod(userId, startOfWeek, endOfWeek, 'week');
   }
 
   /**
-   * Get this month's total XP for a user
+   * Get this month's total XP for a user based on local timezone
    */
-  async getMonthlyXp(userId: string) {
-    const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() + 1,
-      0,
-      23,
-      59,
-      59,
-      999,
-    );
+  async getMonthlyXp(userId: string, timezone: string = 'UTC') {
+    const { dateStr } = getUserDayBoundaries(timezone);
+    const [y, m] = dateStr.split('-').map(Number);
 
-    return this.getXpForPeriod(userId, startOfMonth, endOfMonth, 'month');
+    // Month start: YYYY-MM-01
+    const mm = String(m).padStart(2, '0');
+    const startBounds = getUserDayBoundaries(timezone, `${y}-${mm}-01`);
+
+    // Month end: last day of month
+    const lastDayNum = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const dd = String(lastDayNum).padStart(2, '0');
+    const endBounds = getUserDayBoundaries(timezone, `${y}-${mm}-${dd}`);
+
+    return this.getXpForPeriod(userId, startBounds.startOfDay, endBounds.endOfDay, 'month');
   }
 
   /**
@@ -333,13 +328,13 @@ export class XpStatsService {
   }
 
   /**
-   * Get XP statistics summary (today, week, month combined)
+   * Get XP statistics summary (today, week, month combined) in user timezone
    */
-  async getXpSummary(userId: string) {
+  async getXpSummary(userId: string, timezone: string = 'UTC') {
     const [today, week, month] = await Promise.all([
-      this.getTodayXp(userId),
-      this.getWeeklyXp(userId),
-      this.getMonthlyXp(userId),
+      this.getTodayXp(userId, timezone),
+      this.getWeeklyXp(userId, timezone),
+      this.getMonthlyXp(userId, timezone),
     ]);
 
     return {
@@ -361,24 +356,15 @@ export class XpStatsService {
   /**
    * Get weekly chart data - Daily XP for each day of the current week (Sunday to Saturday)
    */
-  async getWeeklyChartData(userId: string) {
-    const now = new Date();
-    const currentDayOfWeek = now.getDay();
-
-    const sundayDate = new Date(now);
-    sundayDate.setDate(now.getDate() - currentDayOfWeek);
-    sundayDate.setHours(0, 0, 0, 0);
-
-    const saturdayDate = new Date(sundayDate);
-    saturdayDate.setDate(sundayDate.getDate() + 6);
-    saturdayDate.setHours(23, 59, 59, 999);
+  async getWeeklyChartData(userId: string, timezone: string = 'UTC') {
+    const { startOfWeek, endOfWeek, days } = getUserWeekBoundaries(timezone, undefined, 0);
 
     const logsThisWeek = await this.prisma.client.xpLog.findMany({
       where: {
         userId,
         createdAt: {
-          gte: sundayDate,
-          lte: saturdayDate,
+          gte: startOfWeek,
+          lte: endOfWeek,
         },
       },
       orderBy: { createdAt: 'asc' },
@@ -395,30 +381,25 @@ export class XpStatsService {
       }
     >();
 
-    const dayOrder: { key: string; dayName: string; displayDate: string }[] =
-      [];
+    const dayOrder: { key: string; dayName: string; displayDate: string }[] = [];
 
-    for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
-      const dayStart = new Date(sundayDate);
-      dayStart.setDate(sundayDate.getDate() + dayOffset);
-
-      const meta = this.getBangladeshDateMeta(dayStart);
-      buckets.set(meta.dateKey, {
-        dayName: meta.dayName,
-        displayDate: meta.formatted,
-        isoDate: meta.dateKey,
+    for (const day of days) {
+      buckets.set(day.dateKey, {
+        dayName: day.dayName,
+        displayDate: day.displayDate,
+        isoDate: day.dateKey,
         xp: 0,
         logsCount: 0,
       });
       dayOrder.push({
-        key: meta.dateKey,
-        dayName: meta.dayName,
-        displayDate: meta.formatted,
+        key: day.dateKey,
+        dayName: day.dayName,
+        displayDate: day.displayDate,
       });
     }
 
     for (const log of logsThisWeek) {
-      const meta = this.getBangladeshDateMeta(log.createdAt);
+      const meta = getUserDateMeta(log.createdAt, timezone);
       const bucket = buckets.get(meta.dateKey);
       if (!bucket) {
         buckets.set(meta.dateKey, {
@@ -448,7 +429,7 @@ export class XpStatsService {
 
     return {
       period: 'week',
-      timezone: 'Asia/Dhaka',
+      timezone,
       data: chartData,
       totalXp: chartData.reduce((sum, day) => sum + day.xp, 0),
     };
@@ -457,25 +438,15 @@ export class XpStatsService {
   /**
    * Get last week's chart data - Daily XP for each day of the previous week (Sunday to Saturday)
    */
-  async getLastWeekChartData(userId: string) {
-    const now = new Date();
-    const currentDayOfWeek = now.getDay();
-
-    // Calculate last week's Sunday
-    const lastWeekSunday = new Date(now);
-    lastWeekSunday.setDate(now.getDate() - currentDayOfWeek - 7);
-    lastWeekSunday.setHours(0, 0, 0, 0);
-
-    const lastWeekSaturday = new Date(lastWeekSunday);
-    lastWeekSaturday.setDate(lastWeekSunday.getDate() + 6);
-    lastWeekSaturday.setHours(23, 59, 59, 999);
+  async getLastWeekChartData(userId: string, timezone: string = 'UTC') {
+    const { startOfWeek, endOfWeek, days } = getUserWeekBoundaries(timezone, undefined, -1);
 
     const logsLastWeek = await this.prisma.client.xpLog.findMany({
       where: {
         userId,
         createdAt: {
-          gte: lastWeekSunday,
-          lte: lastWeekSaturday,
+          gte: startOfWeek,
+          lte: endOfWeek,
         },
       },
       orderBy: { createdAt: 'asc' },
@@ -492,30 +463,25 @@ export class XpStatsService {
       }
     >();
 
-    const dayOrder: { key: string; dayName: string; displayDate: string }[] =
-      [];
+    const dayOrder: { key: string; dayName: string; displayDate: string }[] = [];
 
-    for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
-      const dayStart = new Date(lastWeekSunday);
-      dayStart.setDate(lastWeekSunday.getDate() + dayOffset);
-
-      const meta = this.getBangladeshDateMeta(dayStart);
-      buckets.set(meta.dateKey, {
-        dayName: meta.dayName,
-        displayDate: meta.formatted,
-        isoDate: meta.dateKey,
+    for (const day of days) {
+      buckets.set(day.dateKey, {
+        dayName: day.dayName,
+        displayDate: day.displayDate,
+        isoDate: day.dateKey,
         xp: 0,
         logsCount: 0,
       });
       dayOrder.push({
-        key: meta.dateKey,
-        dayName: meta.dayName,
-        displayDate: meta.formatted,
+        key: day.dateKey,
+        dayName: day.dayName,
+        displayDate: day.displayDate,
       });
     }
 
     for (const log of logsLastWeek) {
-      const meta = this.getBangladeshDateMeta(log.createdAt);
+      const meta = getUserDateMeta(log.createdAt, timezone);
       const bucket = buckets.get(meta.dateKey);
       if (!bucket) {
         buckets.set(meta.dateKey, {
@@ -545,69 +511,32 @@ export class XpStatsService {
 
     return {
       period: 'lastWeek',
-      timezone: 'Asia/Dhaka',
+      timezone,
       data: chartData,
       totalXp: chartData.reduce((sum, day) => sum + day.xp, 0),
-    };
-  }
-
-  private getBangladeshDateMeta(date: Date) {
-    const fullFormatter = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'Asia/Dhaka',
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-    });
-
-    const dayFormatter = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'Asia/Dhaka',
-      weekday: 'long',
-    });
-
-    const dateKeyFormatter = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'Asia/Dhaka',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-
-    const formatted = fullFormatter.format(date);
-    const dayName = dayFormatter.format(date);
-    const parts = dateKeyFormatter.formatToParts(date);
-    const year = parts.find((part) => part.type === 'year')?.value ?? '';
-    const month = parts.find((part) => part.type === 'month')?.value ?? '';
-    const day = parts.find((part) => part.type === 'day')?.value ?? '';
-
-    return {
-      formatted,
-      dayName,
-      dateKey: `${year}-${month}-${day}`,
     };
   }
 
   /**
    * Get monthly chart data - Weekly XP for each week of the current month
    */
-  async getMonthlyChartData(userId: string) {
-    const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  async getMonthlyChartData(userId: string, timezone: string = 'UTC') {
+    const { dateStr } = getUserDayBoundaries(timezone);
+    const [y, m] = dateStr.split('-').map(Number);
+    const mm = String(m).padStart(2, '0');
+
+    const firstDayBounds = getUserDayBoundaries(timezone, `${y}-${mm}-01`);
+    const lastDayNum = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const lastDayBounds = getUserDayBoundaries(timezone, `${y}-${mm}-${String(lastDayNum).padStart(2, '0')}`);
 
     const chartData = [];
-    let weekStart = new Date(startOfMonth);
-    weekStart.setHours(0, 0, 0, 0);
+    let weekStart = new Date(firstDayBounds.startOfDay);
+    const endOfMonth = new Date(lastDayBounds.endOfDay);
 
     let weekNumber = 1;
 
     while (weekStart <= endOfMonth) {
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekStart.getDate() + 6);
-      weekEnd.setHours(23, 59, 59, 999);
-
-      // Don't exceed the month
+      const weekEnd = new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000 - 1);
       const actualWeekEnd = weekEnd > endOfMonth ? endOfMonth : weekEnd;
 
       const logs = await this.prisma.client.xpLog.findMany({
@@ -625,26 +554,31 @@ export class XpStatsService {
         0,
       );
 
+      const startMeta = getUserDateMeta(weekStart, timezone);
+      const endMeta = getUserDateMeta(actualWeekEnd, timezone);
+
       chartData.push({
         week: `Week ${weekNumber}`,
-        startDate: weekStart.toISOString().split('T')[0],
-        endDate: actualWeekEnd.toISOString().split('T')[0],
+        startDate: startMeta.dateKey,
+        endDate: endMeta.dateKey,
         xp: totalXp,
         logsCount: logs.length,
       });
 
-      weekStart = new Date(weekEnd);
-      weekStart.setDate(weekEnd.getDate() + 1);
-      weekStart.setHours(0, 0, 0, 0);
+      weekStart = new Date(actualWeekEnd.getTime() + 1);
       weekNumber++;
     }
 
+    const monthNameFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      month: 'long',
+      year: 'numeric',
+    });
+
     return {
       period: 'month',
-      month: now.toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric',
-      }),
+      month: monthNameFormatter.format(firstDayBounds.startOfDay),
+      timezone,
       data: chartData,
       totalXp: chartData.reduce((sum, week) => sum + week.xp, 0),
     };
