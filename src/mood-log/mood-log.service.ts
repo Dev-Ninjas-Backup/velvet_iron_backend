@@ -145,10 +145,8 @@ export class MoodLogService {
       orderBy: { loggedAt: 'desc' },
     });
 
-    console.log('asdfasdfasdfasdfaaaaaaaaaaaaaaaaaa' + todayValue);
-
     if (!todayValue) {
-      throw new BadRequestException('No mood log found for today');
+      return null;
     }
     return todayValue;
   }

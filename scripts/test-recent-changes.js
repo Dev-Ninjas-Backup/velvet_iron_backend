@@ -182,8 +182,12 @@ async function runTests() {
     // ==========================================
     console.log(`\n${colors.bold}--- 2. Testing Timezone XP Attribution (Wisconsin vs Dhaka) ---${colors.reset}`);
     
-    // Thursday, Oct 15 at 8:17 PM CDT -> 2026-10-16T01:17:00Z UTC
-    const thursdayCdtTimestamp = new Date('2026-10-16T01:17:00.000Z');
+    // Dynamically calculate Thursday 8:17 PM CDT for the current week being tested
+    const { getUserWeekBoundaries } = require('../dist/src/common/utils/timezone.util');
+    const { days: weekDays } = getUserWeekBoundaries('America/Chicago', undefined, 0);
+    const thursdayDateStr = weekDays.find((d) => d.dayName === 'Thursday')?.dateKey;
+    // 8:17 PM CDT (-05:00) on Thursday -> 7:17 AM Friday (+06:00) in Dhaka
+    const thursdayCdtTimestamp = new Date(`${thursdayDateStr}T20:17:00-05:00`);
     const testLog = await prisma.xpLog.create({
       data: {
         userId,

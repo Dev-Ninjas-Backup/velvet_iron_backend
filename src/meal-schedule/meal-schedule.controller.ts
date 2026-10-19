@@ -31,7 +31,7 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Meal Schedule')
-@Controller('meal-schedule')
+@Controller(['meal-schedule', 'meal-schedules'])
 export class MealScheduleController {
   constructor(private readonly mealScheduleService: MealScheduleService) { }
 
@@ -113,15 +113,41 @@ export class MealScheduleController {
     return this.mealScheduleService.createMealSchedule(userId, dto);
   }
 
-  //update only isTaken with api true false collect from Query swagger
-  @Patch(':id/taken')
+  @Get('today')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: "Get today's active meal schedules" })
+  @ApiQuery({
+    name: 'date',
+    required: false,
+    type: String,
+    description: 'Target date (YYYY-MM-DD)',
+    example: '2026-10-19',
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Today's meal schedules retrieved successfully",
+    type: [MealScheduleResponseDto],
+  })
+  async getTodayMealSchedules(
+    @GetUser('id') userId: string,
+    @Req() req: any,
+    @Query('date') dateStr?: string,
+  ): Promise<MealScheduleResponseDto[]> {
+    const tz = extractTimezone(req);
+    return this.mealScheduleService.getTodaySchedules(userId, tz, dateStr);
+  }
+
+  // update only isTaken with query or body
+  @Patch([':id/taken', ':id/mark-taken'])
   @ValidUser()
   @ApiBearerAuth('JWT-auth')
   @ApiBearerAuth('refresh-token')
   @ApiOperation({ summary: 'Mark meal schedule as taken' })
   @ApiQuery({
     name: 'isTaken',
-    required: true,
+    required: false,
     type: Boolean,
     description: 'Whether the meal was taken',
     example: true,
@@ -129,9 +155,13 @@ export class MealScheduleController {
   async markMealAsTaken(
     @GetUser('id') userId: string,
     @Param('id') scheduleId: string,
-    @Query('isTaken') isTaken: boolean,
     @Req() req: any,
+    @Query('isTaken') isTakenQuery?: boolean | string,
+    @Body() body?: any,
   ): Promise<any> {
+    const queryNormalized = this.normalizeBooleanInput(isTakenQuery);
+    const bodyNormalized = this.normalizeBooleanInput(body?.isTaken);
+    const isTaken = queryNormalized !== undefined ? queryNormalized : (bodyNormalized !== undefined ? bodyNormalized : true);
     const tz = extractTimezone(req);
     return this.mealScheduleService.markMealAsTaken(userId, scheduleId, isTaken, tz);
   }
