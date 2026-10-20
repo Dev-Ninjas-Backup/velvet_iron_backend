@@ -1,13 +1,37 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { QuestType } from './quests-feed-response.dto';
 
 export class CompleteQuestDto {
-  @ApiProperty({ example: 'med_123e4567' })
+  @ApiProperty({ example: 'custom_123e4567', description: 'Quest identifier or original ID' })
   @IsString()
+  @Transform(({ value, obj }) => value || obj?.id)
   questId: string;
 
-  @ApiProperty({ enum: QuestType })
+  @ApiProperty({
+    enum: QuestType,
+    required: false,
+    description: 'Quest type: CODEX, CUSTOM, MEDICATION_SCHEDULE, WORKOUT_SCHEDULE (auto-inferred if omitted)',
+  })
+  @IsOptional()
+  @Transform(({ value, obj }) => {
+    if (typeof value === 'string' && value.trim()) {
+      const upper = value.trim().toUpperCase();
+      if (Object.values(QuestType).includes(upper as QuestType)) {
+        return upper as QuestType;
+      }
+    }
+    const targetId = obj?.questId || obj?.id;
+    if (typeof targetId === 'string') {
+      if (targetId.startsWith('custom_')) return QuestType.CUSTOM;
+      if (targetId.startsWith('med_')) return QuestType.MEDICATION_SCHEDULE;
+      if (targetId.startsWith('workout_')) return QuestType.WORKOUT_SCHEDULE;
+      if (targetId.startsWith('codex_')) return QuestType.CODEX;
+    }
+    return value;
+  })
   @IsEnum(QuestType)
-  questType: QuestType;
+  questType?: QuestType;
 }
+

@@ -36,13 +36,18 @@ export class QuestsFeedService {
     }));
 
     // 2. Fetch Custom Quests
-    const customData = await this.customQuestService.findAll(userId, todayStr);
+    const customData = await this.customQuestService.findAll(userId, todayStr, timezone);
     const customQuests: UnifiedQuestItemDto[] = customData.data.map((q: any) => ({
       id: `custom_${q.id}`,
       title: q.name || q.title,
       description: q.description,
       xpReward: q.xpReward || q.xp,
-      isCompleted: q.isCompleted || (q.lastCompletedAt && new Date(q.lastCompletedAt) >= targetDate && new Date(q.lastCompletedAt) <= endOfDay),
+      isCompleted: Boolean(
+        q.isCompleted ||
+        (q.lastCompletedAt &&
+          new Date(q.lastCompletedAt) >= targetDate &&
+          new Date(q.lastCompletedAt) <= endOfDay)
+      ),
       questType: QuestType.CUSTOM,
       originalRefId: q.id,
     }));
@@ -119,17 +124,35 @@ export class QuestsFeedService {
   }
 
   async completeQuest(userId: string, dto: CompleteQuestDto, timezone?: string) {
-    if (dto.questType === QuestType.CODEX) {
-      throw new BadRequestException('Codex quests cannot be completed manually. Log the required activity instead.');
-    }
-
     // Strip prefix if the client sent the unified ID (e.g. "custom_123" -> "123")
     let originalId = dto.questId;
     if (originalId.includes('_')) {
       originalId = originalId.substring(originalId.indexOf('_') + 1);
     }
 
-    if (dto.questType === QuestType.CUSTOM) {
+    let questType = dto.questType;
+    if (!questType) {
+      if (dto.questId.startsWith('custom_')) {
+        questType = QuestType.CUSTOM;
+      } else if (dto.questId.startsWith('med_')) {
+        questType = QuestType.MEDICATION_SCHEDULE;
+      } else if (dto.questId.startsWith('workout_')) {
+        questType = QuestType.WORKOUT_SCHEDULE;
+      } else if (dto.questId.startsWith('codex_')) {
+        questType = QuestType.CODEX;
+      } else {
+        const isCustom = await (this.prisma.client as any).customQuest.findFirst({
+          where: { id: originalId, userId },
+        });
+        questType = isCustom ? QuestType.CUSTOM : QuestType.MEDICATION_SCHEDULE;
+      }
+    }
+
+    if (questType === QuestType.CODEX) {
+      throw new BadRequestException('Codex quests cannot be completed manually. Log the required activity instead.');
+    }
+
+    if (questType === QuestType.CUSTOM) {
       return this.customQuestService.complete(userId, originalId, timezone);
     }
 

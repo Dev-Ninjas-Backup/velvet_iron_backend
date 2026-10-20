@@ -410,6 +410,63 @@ async function runTests() {
       fail('Daily Meal Resets isTaken Tomorrow', `Expected isTaken: false on tomorrow, got: ${JSON.stringify(tomorrowMeal)}`);
     }
 
+    // ==========================================
+    // 8. Testing Custom Quest Completion Resilience & Feed isCompleted Boolean
+    // ==========================================
+    console.log(`\n${colors.bold}--- 8. Testing Custom Quest Completion & Feed Resilience ---${colors.reset}`);
+    const studyQuest = await customQuestService.create(userId, {
+      name: 'Study Italian',
+      category: 'FITNESS',
+      xpReward: 5,
+      recurrence: 'DAILY',
+    });
+    cleanupIds.customQuests.push(studyQuest.data.id);
+
+    // Verify it appears in getTodaysQuests and isCompleted is strictly boolean false
+    const feed = await feedService.getTodaysQuests(userId, undefined, 'America/Chicago');
+    const feedItem = feed.data.find((q) => q.originalRefId === studyQuest.data.id);
+    if (feedItem && typeof feedItem.isCompleted === 'boolean' && feedItem.isCompleted === false) {
+      pass('Today Quests isCompleted Strict Boolean', `Found ${feedItem.id} with isCompleted: ${feedItem.isCompleted}`);
+    } else {
+      fail('Today Quests isCompleted Strict Boolean', `isCompleted is not strict boolean false: ${feedItem?.isCompleted}`);
+    }
+
+    // Complete using prefixed ID (e.g. "custom_UUID") via customQuestService.complete
+    const completeResult = await customQuestService.complete(userId, `custom_${studyQuest.data.id}`, 'America/Chicago');
+    if (completeResult.success && completeResult.earnedXp === 5) {
+      pass('Complete with Prefixed ID', `Successfully completed custom_${studyQuest.data.id} and awarded 5 XP`);
+    } else {
+      fail('Complete with Prefixed ID', `Failed: ${JSON.stringify(completeResult)}`);
+    }
+
+    // Test completion via unified feed completeQuest with auto-inferred questType
+    const testQuest2 = await customQuestService.create(userId, {
+      name: 'Read Book',
+      category: 'FITNESS',
+      xpReward: 10,
+      recurrence: 'DAILY',
+    });
+    cleanupIds.customQuests.push(testQuest2.data.id);
+    const feedCompleteResult = await feedService.completeQuest(
+      userId,
+      { questId: `custom_${testQuest2.data.id}` },
+      'America/Chicago'
+    );
+    if (feedCompleteResult.success && feedCompleteResult.earnedXp === 10) {
+      pass('Unified Feed Complete Auto-infer QuestType', `Successfully completed without questType payload and awarded 10 XP`);
+    } else {
+      fail('Unified Feed Complete Auto-infer QuestType', `Failed: ${JSON.stringify(feedCompleteResult)}`);
+    }
+
+    // Verify Weekly Chart returns dayShort and reflects the XP
+    const chart = await xpStatsService.getWeeklyChartData(userId, 'America/Chicago');
+    const dayWithShort = chart.data.find((d) => d.dayShort !== undefined);
+    if (chart && dayWithShort && chart.data.length === 7) {
+      pass('Weekly Chart dayShort & 7 Days', `Chart has all 7 days with dayShort (e.g. ${dayWithShort.dayShort}) and totalXp: ${chart.totalXp}`);
+    } else {
+      fail('Weekly Chart dayShort & 7 Days', `Chart missing dayShort or 7 days: ${JSON.stringify(chart)}`);
+    }
+
   } catch (err) {
     fail('Unexpected Test Error', err);
   } finally {

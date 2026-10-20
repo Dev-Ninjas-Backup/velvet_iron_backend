@@ -416,10 +416,21 @@ export class XpStatsService {
       bucket.logsCount += 1;
     }
 
+    const shortMap: Record<string, string> = {
+      Sunday: 'Sun',
+      Monday: 'Mon',
+      Tuesday: 'Tue',
+      Wednesday: 'Wed',
+      Thursday: 'Thu',
+      Friday: 'Fri',
+      Saturday: 'Sat',
+    };
+
     const chartData = dayOrder.map((day) => {
       const bucket = buckets.get(day.key)!;
       return {
         day: bucket.dayName,
+        dayShort: shortMap[bucket.dayName] || bucket.dayName.substring(0, 3),
         dateLabel: bucket.displayDate,
         isoDate: bucket.isoDate,
         xp: bucket.xp,
@@ -498,10 +509,21 @@ export class XpStatsService {
       bucket.logsCount += 1;
     }
 
+    const shortMap: Record<string, string> = {
+      Sunday: 'Sun',
+      Monday: 'Mon',
+      Tuesday: 'Tue',
+      Wednesday: 'Wed',
+      Thursday: 'Thu',
+      Friday: 'Fri',
+      Saturday: 'Sat',
+    };
+
     const chartData = dayOrder.map((day) => {
       const bucket = buckets.get(day.key)!;
       return {
         day: bucket.dayName,
+        dayShort: shortMap[bucket.dayName] || bucket.dayName.substring(0, 3),
         dateLabel: bucket.displayDate,
         isoDate: bucket.isoDate,
         xp: bucket.xp,

@@ -73,9 +73,11 @@ export class CustomQuestController {
   })
   async findAll(
     @GetUser('id') userId: string,
+    @Req() req: any,
     @Query('date') date?: string,
   ): Promise<CustomQuestListResponseDto> {
-    return this.customQuestService.findAll(userId, date);
+    const tz = extractTimezone(req);
+    return this.customQuestService.findAll(userId, date, tz);
   }
 
   @Get(':id')

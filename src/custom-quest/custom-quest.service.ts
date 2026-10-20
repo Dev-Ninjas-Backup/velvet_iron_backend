@@ -130,16 +130,31 @@ export class CustomQuestService {
   }
 
   /**
-   * Fetch user's custom quests, optionally filtered for a specific target date.
+   * Normalizes custom quest ID by stripping any 'custom_' prefix or unified prefix.
    */
-  async findAll(userId: string, dateStr?: string): Promise<CustomQuestListResponseDto> {
-    const targetDate = dateStr ? new Date(dateStr) : new Date();
-    const dayOfWeek = targetDate.getDay() === 0 ? 7 : targetDate.getDay(); // 1 = Monday ... 7 = Sunday
+  normalizeId(id: string): string {
+    if (!id || typeof id !== 'string') return id;
+    const trimmed = id.trim();
+    if (trimmed.startsWith('custom_')) {
+      return trimmed.slice(7);
+    }
+    if (trimmed.includes('_')) {
+      return trimmed.substring(trimmed.indexOf('_') + 1);
+    }
+    return trimmed;
+  }
 
-    const targetStart = new Date(targetDate);
-    targetStart.setHours(0, 0, 0, 0);
-    const targetEnd = new Date(targetDate);
-    targetEnd.setHours(23, 59, 59, 999);
+  /**
+   * Fetch user's custom quests, optionally filtered for a specific target date and user timezone.
+   */
+  async findAll(userId: string, dateStr?: string, timezone?: string): Promise<CustomQuestListResponseDto> {
+    const { startOfDay: targetStart, endOfDay: targetEnd, dateStr: resolvedDateStr } =
+      getUserDayBoundaries(timezone, dateStr);
+    const [y, m, d] = resolvedDateStr.split('-').map(Number);
+    const tempRef = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+    const dayName = new Intl.DateTimeFormat('en-US', { timeZone: timezone || 'UTC', weekday: 'short' }).format(tempRef);
+    const dayMap: Record<string, number> = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 };
+    const dayOfWeek = dayMap[dayName] ?? 1;
 
     const [allQuests, todayCustomXpEarned] = await Promise.all([
       (this.prisma.client as any).customQuest.findMany({
@@ -170,7 +185,7 @@ export class CustomQuestService {
       return true;
     });
 
-    const mapped = filtered.map((q: any) => this.mapToDto(q, targetDate));
+    const mapped = filtered.map((q: any) => this.mapToDto(q, targetStart));
 
     return {
       success: true,
@@ -187,8 +202,9 @@ export class CustomQuestService {
    * Find a specific custom quest by ID.
    */
   async findOne(userId: string, id: string): Promise<CustomQuestResponseDto> {
+    const normalizedId = this.normalizeId(id);
     const quest = await (this.prisma.client as any).customQuest.findFirst({
-      where: { id, userId },
+      where: { id: normalizedId, userId },
     });
     if (!quest) throw new NotFoundException('Custom quest not found');
     return this.mapToDto(quest);
@@ -198,7 +214,8 @@ export class CustomQuestService {
    * Update custom quest fields.
    */
   async update(userId: string, id: string, dto: UpdateCustomQuestDto): Promise<CustomQuestResponseDto> {
-    await this.findOne(userId, id);
+    const normalizedId = this.normalizeId(id);
+    await this.findOne(userId, normalizedId);
 
     const inputXp = dto.xpReward !== undefined ? dto.xpReward : dto.xp;
     const rawXp = inputXp !== undefined ? Number(inputXp) : undefined;
@@ -212,7 +229,7 @@ export class CustomQuestService {
     const questName = dto.name;
 
     const updated = await (this.prisma.client as any).customQuest.update({
-      where: { id },
+      where: { id: normalizedId },
       data: {
         ...(questName && { name: questName }),
         ...(dto.category && { category: dto.category }),
@@ -237,9 +254,10 @@ export class CustomQuestService {
    * Toggle paused state of custom quest.
    */
   async pause(userId: string, id: string, isPaused: boolean): Promise<{ success: boolean; isPaused: boolean }> {
-    await this.findOne(userId, id);
+    const normalizedId = this.normalizeId(id);
+    await this.findOne(userId, normalizedId);
     const updated = await (this.prisma.client as any).customQuest.update({
-      where: { id },
+      where: { id: normalizedId },
       data: { isPaused },
     });
     return { success: true, isPaused: updated.isPaused };
@@ -249,9 +267,10 @@ export class CustomQuestService {
    * Delete custom quest.
    */
   async remove(userId: string, id: string): Promise<{ success: boolean; message: string }> {
-    await this.findOne(userId, id);
+    const normalizedId = this.normalizeId(id);
+    await this.findOne(userId, normalizedId);
     await (this.prisma.client as any).customQuest.delete({
-      where: { id },
+      where: { id: normalizedId },
     });
     return { success: true, message: 'Custom quest deleted successfully.' };
   }
@@ -264,8 +283,9 @@ export class CustomQuestService {
     id: string,
     timezone?: string,
   ): Promise<CompleteCustomQuestResponseDto> {
+    const normalizedId = this.normalizeId(id);
     const quest = await (this.prisma.client as any).customQuest.findFirst({
-      where: { id, userId },
+      where: { id: normalizedId, userId },
     });
     if (!quest) throw new NotFoundException('Custom quest not found');
 
@@ -292,7 +312,7 @@ export class CustomQuestService {
 
     // Always record completion date even if 0 XP was awarded due to cap
     const updated = await (this.prisma.client as any).customQuest.update({
-      where: { id },
+      where: { id: normalizedId },
       data: { lastCompletedAt: now },
     });
 

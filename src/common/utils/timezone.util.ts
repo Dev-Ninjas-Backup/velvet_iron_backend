@@ -81,18 +81,23 @@ export function getUserDayBoundaries(
 }
 
 /**
- * Extracts the user timezone from HTTP request headers or query params
+ * Extracts the user timezone from HTTP request headers, query params, or body
  */
 export function extractTimezone(req?: any): string {
   if (!req) return 'UTC';
-  const tzHeader =
+  const candidate =
     req.headers?.['x-timezone'] ||
     req.headers?.['x-time-zone'] ||
-    req.query?.timezone;
-  if (tzHeader && typeof tzHeader === 'string' && tzHeader.trim()) {
+    req.headers?.['timezone'] ||
+    req.query?.timezone ||
+    req.query?.timeZone ||
+    req.body?.timezone ||
+    req.body?.timeZone;
+
+  if (candidate && typeof candidate === 'string' && candidate.trim()) {
     try {
-      Intl.DateTimeFormat(undefined, { timeZone: tzHeader.trim() });
-      return tzHeader.trim();
+      Intl.DateTimeFormat(undefined, { timeZone: candidate.trim() });
+      return candidate.trim();
     } catch {
       // Fallback to UTC if invalid
     }
