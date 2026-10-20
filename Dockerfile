@@ -4,13 +4,9 @@ WORKDIR /software
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* .npmrc* ./
 RUN npm install -g pnpm@10
 RUN pnpm install
-RUN npm install -g prisma
-run pnpm add express
-RUN pnpm add express
 
 COPY prisma ./prisma
 COPY prisma.config.ts ./
-
 COPY . .
 
 RUN npx prisma generate
