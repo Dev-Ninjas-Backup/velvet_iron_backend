@@ -2,6 +2,7 @@ model UserProfile {
     id                  String          @id @default(uuid())
     userId              String          @unique
     user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    timezone            String?         @default("America/Chicago")
     activeThemeId       String?
     activeTheme         Theme?          @relation("ActiveTheme", fields: [activeThemeId], references: [id])
     activeCompanionId   String?

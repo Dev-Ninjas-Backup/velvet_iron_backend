@@ -133,6 +133,27 @@ export class ProfileController {
     return this.profileService.updateFitnessGoal(userId, updateFitnessGoalDto);
   }
 
+  @Patch('timezone')
+  @ValidUser()
+  @ApiBearerAuth('JWT-auth')
+  @ApiBearerAuth('refresh-token')
+  @ApiOperation({ summary: 'Update my timezone' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        timezone: { type: 'string', example: 'America/Chicago' },
+      },
+      required: ['timezone'],
+    },
+  })
+  updateTimezone(
+    @GetUser('id') userId: string,
+    @Body('timezone') timezone: string,
+  ) {
+    return this.profileService.updateTimezone(userId, timezone);
+  }
+
   @Get('leaderboard')
   @ApiOperation({ summary: 'Get XP leaderboard' })
   @ApiQuery({ name: 'limit', required: false, type: Number })

@@ -51,6 +51,15 @@ export class UpdateProfileDto {
   dateOfBirth?: string;
 
   @ApiProperty({
+    example: 'America/Chicago',
+    required: false,
+    description: 'User IANA timezone (e.g. America/Chicago)',
+  })
+  @IsOptional()
+  @IsString()
+  timezone?: string;
+
+  @ApiProperty({
     type: 'string',
     format: 'binary',
     description:

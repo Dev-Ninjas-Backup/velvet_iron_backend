@@ -709,6 +709,21 @@ export class AuthService {
       updateData.avatar = uploadResult.url;
     }
 
+    // Handle timezone if provided
+    if (dto.timezone && dto.timezone.trim() !== '') {
+      const tz = dto.timezone.trim();
+      try {
+        Intl.DateTimeFormat(undefined, { timeZone: tz });
+        await this.Prisma.client.userProfile.upsert({
+          where: { userId },
+          create: { userId, timezone: tz },
+          update: { timezone: tz },
+        });
+      } catch {
+        // ignore invalid timezone
+      }
+    }
+
     // If no data to update, just return current user
     if (Object.keys(updateData).length === 0) {
       const user = await this.Prisma.client.user.findUnique({

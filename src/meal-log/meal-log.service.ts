@@ -13,6 +13,11 @@ import {
 } from './dto/meal-log-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { XP_REWARDS } from '../common/constants/xp.constants';
+import {
+  getUserDayBoundaries,
+  getUserWeekBoundaries,
+  getUserDateMeta,
+} from '../common/utils/timezone.util';
 
 @Injectable()
 export class MealLogService {
@@ -79,25 +84,32 @@ export class MealLogService {
     userId: string,
     limit: number = 30,
     offset: number = 0,
+    timezone?: string,
+    targetDate?: string,
+    filterLogsByDate: boolean = false,
   ): Promise<MealLogHistoryDto> {
     const normalizedLimit = Math.max(0, limit ?? 30);
     const normalizedOffset = Math.max(0, offset ?? 0);
 
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    let resolvedTz = timezone;
+    if (!resolvedTz || resolvedTz === 'UTC') {
+      const profile = await this.prisma.client.userProfile.findUnique({
+        where: { userId },
+        select: { timezone: true },
+      });
+      resolvedTz = profile?.timezone || 'America/Chicago';
+    }
 
-    const now = new Date();
-    const dayOfWeek = now.getDay();
-    const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - dayOfWeek);
-    startOfWeek.setHours(0, 0, 0, 0);
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    endOfWeek.setHours(23, 59, 59, 999);
+    const { startOfDay, endOfDay, dateStr: resolvedDateStr } =
+      getUserDayBoundaries(resolvedTz, targetDate);
 
-    const [mealLogs, mealSchedules, todayLogs, latestMacroGoal, weekLogs] =
+    const { startOfWeek, endOfWeek } = getUserWeekBoundaries(
+      resolvedTz,
+      resolvedDateStr,
+      0,
+    );
+
+    const [mealLogs, mealSchedules, targetDayLogs, activeMacroGoal, weekLogs] =
       await Promise.all([
         this.prisma.client.mealLog.findMany({
           where: { userId },
@@ -110,12 +122,21 @@ export class MealLogService {
         this.prisma.client.mealLog.findMany({
           where: {
             userId,
-            loggedAt: { gte: startOfToday, lte: endOfToday },
+            loggedAt: { gte: startOfDay, lte: endOfDay },
           },
         }),
         this.prisma.client.macroGoal.findFirst({
-          where: { userId },
+          where: {
+            userId,
+            createdAt: { lte: endOfDay },
+          },
           orderBy: { createdAt: 'desc' },
+        }).then(async (goal) => {
+          if (goal) return goal;
+          return this.prisma.client.macroGoal.findFirst({
+            where: { userId },
+            orderBy: { createdAt: 'desc' },
+          });
         }),
         this.prisma.client.mealLog.findMany({
           where: {
@@ -127,26 +148,26 @@ export class MealLogService {
       ]);
 
     const consumed = {
-      protein: todayLogs.reduce((sum, l) => sum + (l.protein || 0), 0),
-      fat: todayLogs.reduce((sum, l) => sum + (l.fats || 0), 0),
-      carb: todayLogs.reduce((sum, l) => sum + (l.carbs || 0), 0),
-      calories: todayLogs.reduce((sum, l) => sum + (l.calories || 0), 0),
+      protein: targetDayLogs.reduce((sum, l) => sum + (l.protein || 0), 0),
+      fat: targetDayLogs.reduce((sum, l) => sum + (l.fats || 0), 0),
+      carb: targetDayLogs.reduce((sum, l) => sum + (l.carbs || 0), 0),
+      calories: targetDayLogs.reduce((sum, l) => sum + (l.calories || 0), 0),
     };
 
     const daily = {
-      calories: latestMacroGoal ? latestMacroGoal.calories : null,
+      calories: activeMacroGoal ? activeMacroGoal.calories : null,
       macroNeed: {
-        protein: latestMacroGoal ? latestMacroGoal.protein : null,
-        fat: latestMacroGoal ? latestMacroGoal.fat : null,
-        carb: latestMacroGoal ? latestMacroGoal.carbs : null,
+        protein: activeMacroGoal ? activeMacroGoal.protein : null,
+        fat: activeMacroGoal ? activeMacroGoal.fat : null,
+        carb: activeMacroGoal ? activeMacroGoal.carbs : null,
       },
     };
 
     const macroTargets = {
-      protein: latestMacroGoal?.protein ?? 0,
-      fat: latestMacroGoal?.fat ?? 0,
-      carb: latestMacroGoal?.carbs ?? 0,
-      calories: latestMacroGoal?.calories ?? 0,
+      protein: activeMacroGoal?.protein ?? 0,
+      fat: activeMacroGoal?.fat ?? 0,
+      carb: activeMacroGoal?.carbs ?? 0,
+      calories: activeMacroGoal?.calories ?? 0,
     };
 
     const remaining = {
@@ -156,16 +177,20 @@ export class MealLogService {
       calories: Math.max(0, macroTargets.calories - consumed.calories),
     };
 
-    const loggedDays = new Set(weekLogs.map((l) => l.loggedAt.getDay()));
+    const loggedDayNames = new Set(
+      weekLogs.map((l) =>
+        getUserDateMeta(l.loggedAt, resolvedTz).dayName.toLowerCase(),
+      ),
+    );
 
     const weeklyPresent = {
-      sunday: loggedDays.has(0),
-      monday: loggedDays.has(1),
-      tuesday: loggedDays.has(2),
-      wednesday: loggedDays.has(3),
-      thursday: loggedDays.has(4),
-      friday: loggedDays.has(5),
-      saturday: loggedDays.has(6),
+      sunday: loggedDayNames.has('sunday'),
+      monday: loggedDayNames.has('monday'),
+      tuesday: loggedDayNames.has('tuesday'),
+      wednesday: loggedDayNames.has('wednesday'),
+      thursday: loggedDayNames.has('thursday'),
+      friday: loggedDayNames.has('friday'),
+      saturday: loggedDayNames.has('saturday'),
     };
 
     const combinedHistory: MealHistoryEntryDto[] = [
@@ -208,16 +233,25 @@ export class MealLogService {
       return a.isTaken ? 1 : -1;
     });
 
-    const totalCount = combinedHistory.length;
+    const filteredHistory = filterLogsByDate
+      ? combinedHistory.filter((entry) => {
+          const entryTime = entry.loggedAt.getTime();
+          return (
+            entryTime >= startOfDay.getTime() && entryTime <= endOfDay.getTime()
+          );
+        })
+      : combinedHistory;
+
+    const totalCount = filteredHistory.length;
     const paginatedHistory =
       normalizedLimit === 0
         ? []
-        : combinedHistory.slice(
+        : filteredHistory.slice(
             normalizedOffset,
             normalizedOffset + normalizedLimit,
           );
 
-    const totalEarnedXp = combinedHistory
+    const totalEarnedXp = filteredHistory
       .filter((entry) => entry.isTaken)
       .reduce((sum, entry) => sum + (entry.earnedXp ?? 0), 0);
 

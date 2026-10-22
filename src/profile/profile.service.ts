@@ -156,6 +156,32 @@ export class ProfileService {
     return profile;
   }
 
+  async updateTimezone(userId: string, timezone: string) {
+    let tz = (timezone || '').trim();
+    try {
+      Intl.DateTimeFormat(undefined, { timeZone: tz });
+    } catch {
+      tz = 'America/Chicago';
+    }
+
+    let profile = await this.prisma.client.userProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!profile) {
+      profile = await this.prisma.client.userProfile.create({
+        data: { userId, timezone: tz },
+      });
+    } else {
+      profile = await this.prisma.client.userProfile.update({
+        where: { userId },
+        data: { timezone: tz },
+      });
+    }
+
+    return profile;
+  }
+
   quotes: any = {
     'Bookish / Fantasy Reader': [
       "Train as if you've just fallen through a portal and need to outrun a dragon.",

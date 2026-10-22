@@ -55,6 +55,7 @@ export type UserProfileSumAggregateOutputType = {
 export type UserProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  timezone: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
   themeCredits: number | null
@@ -78,6 +79,7 @@ export type UserProfileMinAggregateOutputType = {
 export type UserProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  timezone: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
   themeCredits: number | null
@@ -101,6 +103,7 @@ export type UserProfileMaxAggregateOutputType = {
 export type UserProfileCountAggregateOutputType = {
   id: number
   userId: number
+  timezone: number
   activeThemeId: number
   activeCompanionId: number
   availableCompanions: number
@@ -153,6 +156,7 @@ export type UserProfileSumAggregateInputType = {
 export type UserProfileMinAggregateInputType = {
   id?: true
   userId?: true
+  timezone?: true
   activeThemeId?: true
   activeCompanionId?: true
   themeCredits?: true
@@ -176,6 +180,7 @@ export type UserProfileMinAggregateInputType = {
 export type UserProfileMaxAggregateInputType = {
   id?: true
   userId?: true
+  timezone?: true
   activeThemeId?: true
   activeCompanionId?: true
   themeCredits?: true
@@ -199,6 +204,7 @@ export type UserProfileMaxAggregateInputType = {
 export type UserProfileCountAggregateInputType = {
   id?: true
   userId?: true
+  timezone?: true
   activeThemeId?: true
   activeCompanionId?: true
   availableCompanions?: true
@@ -310,6 +316,7 @@ export type UserProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type UserProfileGroupByOutputType = {
   id: string
   userId: string
+  timezone: string | null
   activeThemeId: string | null
   activeCompanionId: string | null
   availableCompanions: string[]
@@ -357,6 +364,7 @@ export type UserProfileWhereInput = {
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   id?: Prisma.StringFilter<"UserProfile"> | string
   userId?: Prisma.StringFilter<"UserProfile"> | string
+  timezone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
@@ -386,6 +394,7 @@ export type UserProfileWhereInput = {
 export type UserProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   activeThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
   availableCompanions?: Prisma.SortOrder
@@ -418,6 +427,7 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   OR?: Prisma.UserProfileWhereInput[]
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
+  timezone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
@@ -447,6 +457,7 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
 export type UserProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   activeThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
   availableCompanions?: Prisma.SortOrder
@@ -479,6 +490,7 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UserProfileScalarWhereWithAggregatesInput | Prisma.UserProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
+  timezone?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   activeThemeId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
@@ -502,6 +514,7 @@ export type UserProfileScalarWhereWithAggregatesInput = {
 
 export type UserProfileCreateInput = {
   id?: string
+  timezone?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
   companionCredits?: number
@@ -529,6 +542,7 @@ export type UserProfileCreateInput = {
 export type UserProfileUncheckedCreateInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeThemeId?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
@@ -554,6 +568,7 @@ export type UserProfileUncheckedCreateInput = {
 
 export type UserProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -581,6 +596,7 @@ export type UserProfileUpdateInput = {
 export type UserProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -607,6 +623,7 @@ export type UserProfileUncheckedUpdateInput = {
 export type UserProfileCreateManyInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeThemeId?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
@@ -630,6 +647,7 @@ export type UserProfileCreateManyInput = {
 
 export type UserProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -652,6 +670,7 @@ export type UserProfileUpdateManyMutationInput = {
 export type UserProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -699,6 +718,7 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 export type UserProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
   availableCompanions?: Prisma.SortOrder
@@ -736,6 +756,7 @@ export type UserProfileAvgOrderByAggregateInput = {
 export type UserProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
   themeCredits?: Prisma.SortOrder
@@ -759,6 +780,7 @@ export type UserProfileMaxOrderByAggregateInput = {
 export type UserProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   activeThemeId?: Prisma.SortOrder
   activeCompanionId?: Prisma.SortOrder
   themeCredits?: Prisma.SortOrder
@@ -1007,6 +1029,7 @@ export type NullableFloatFieldUpdateOperationsInput = {
 
 export type UserProfileCreateWithoutActiveThemeInput = {
   id?: string
+  timezone?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
   companionCredits?: number
@@ -1033,6 +1056,7 @@ export type UserProfileCreateWithoutActiveThemeInput = {
 export type UserProfileUncheckedCreateWithoutActiveThemeInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
@@ -1067,6 +1091,7 @@ export type UserProfileCreateManyActiveThemeInputEnvelope = {
 
 export type UserProfileCreateWithoutAvailableThemesInput = {
   id?: string
+  timezone?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
   companionCredits?: number
@@ -1093,6 +1118,7 @@ export type UserProfileCreateWithoutAvailableThemesInput = {
 export type UserProfileUncheckedCreateWithoutAvailableThemesInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeThemeId?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
@@ -1142,6 +1168,7 @@ export type UserProfileScalarWhereInput = {
   NOT?: Prisma.UserProfileScalarWhereInput | Prisma.UserProfileScalarWhereInput[]
   id?: Prisma.StringFilter<"UserProfile"> | string
   userId?: Prisma.StringFilter<"UserProfile"> | string
+  timezone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeThemeId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   activeCompanionId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   availableCompanions?: Prisma.StringNullableListFilter<"UserProfile">
@@ -1181,6 +1208,7 @@ export type UserProfileUpdateManyWithWhereWithoutAvailableThemesInput = {
 
 export type UserProfileCreateWithoutActiveCompanionInput = {
   id?: string
+  timezone?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
   companionCredits?: number
@@ -1207,6 +1235,7 @@ export type UserProfileCreateWithoutActiveCompanionInput = {
 export type UserProfileUncheckedCreateWithoutActiveCompanionInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeThemeId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
@@ -1241,6 +1270,7 @@ export type UserProfileCreateManyActiveCompanionInputEnvelope = {
 
 export type UserProfileCreateWithoutAvailableComponionsInput = {
   id?: string
+  timezone?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
   companionCredits?: number
@@ -1267,6 +1297,7 @@ export type UserProfileCreateWithoutAvailableComponionsInput = {
 export type UserProfileUncheckedCreateWithoutAvailableComponionsInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeThemeId?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
@@ -1328,6 +1359,7 @@ export type UserProfileUpdateManyWithWhereWithoutAvailableComponionsInput = {
 
 export type UserProfileCreateWithoutUserInput = {
   id?: string
+  timezone?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
   companionCredits?: number
@@ -1353,6 +1385,7 @@ export type UserProfileCreateWithoutUserInput = {
 
 export type UserProfileUncheckedCreateWithoutUserInput = {
   id?: string
+  timezone?: string | null
   activeThemeId?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
@@ -1394,6 +1427,7 @@ export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type UserProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1419,6 +1453,7 @@ export type UserProfileUpdateWithoutUserInput = {
 
 export type UserProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -1445,6 +1480,7 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
 export type UserProfileCreateManyActiveThemeInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeCompanionId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
@@ -1467,6 +1503,7 @@ export type UserProfileCreateManyActiveThemeInput = {
 
 export type UserProfileUpdateWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1493,6 +1530,7 @@ export type UserProfileUpdateWithoutActiveThemeInput = {
 export type UserProfileUncheckedUpdateWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1518,6 +1556,7 @@ export type UserProfileUncheckedUpdateWithoutActiveThemeInput = {
 export type UserProfileUncheckedUpdateManyWithoutActiveThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1540,6 +1579,7 @@ export type UserProfileUncheckedUpdateManyWithoutActiveThemeInput = {
 
 export type UserProfileUpdateWithoutAvailableThemesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1566,6 +1606,7 @@ export type UserProfileUpdateWithoutAvailableThemesInput = {
 export type UserProfileUncheckedUpdateWithoutAvailableThemesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -1591,6 +1632,7 @@ export type UserProfileUncheckedUpdateWithoutAvailableThemesInput = {
 export type UserProfileUncheckedUpdateManyWithoutAvailableThemesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -1615,6 +1657,7 @@ export type UserProfileUncheckedUpdateManyWithoutAvailableThemesInput = {
 export type UserProfileCreateManyActiveCompanionInput = {
   id?: string
   userId: string
+  timezone?: string | null
   activeThemeId?: string | null
   availableCompanions?: Prisma.UserProfileCreateavailableCompanionsInput | string[]
   themeCredits?: number
@@ -1637,6 +1680,7 @@ export type UserProfileCreateManyActiveCompanionInput = {
 
 export type UserProfileUpdateWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1663,6 +1707,7 @@ export type UserProfileUpdateWithoutActiveCompanionInput = {
 export type UserProfileUncheckedUpdateWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1688,6 +1733,7 @@ export type UserProfileUncheckedUpdateWithoutActiveCompanionInput = {
 export type UserProfileUncheckedUpdateManyWithoutActiveCompanionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1710,6 +1756,7 @@ export type UserProfileUncheckedUpdateManyWithoutActiveCompanionInput = {
 
 export type UserProfileUpdateWithoutAvailableComponionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
   themeCredits?: Prisma.IntFieldUpdateOperationsInput | number
   companionCredits?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1736,6 +1783,7 @@ export type UserProfileUpdateWithoutAvailableComponionsInput = {
 export type UserProfileUncheckedUpdateWithoutAvailableComponionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -1761,6 +1809,7 @@ export type UserProfileUncheckedUpdateWithoutAvailableComponionsInput = {
 export type UserProfileUncheckedUpdateManyWithoutAvailableComponionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeThemeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activeCompanionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableCompanions?: Prisma.UserProfileUpdateavailableCompanionsInput | string[]
@@ -1825,6 +1874,7 @@ export type UserProfileCountOutputTypeCountAvailableComponionsArgs<ExtArgs exten
 export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  timezone?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
   availableCompanions?: boolean
@@ -1855,6 +1905,7 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  timezone?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
   availableCompanions?: boolean
@@ -1882,6 +1933,7 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  timezone?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
   availableCompanions?: boolean
@@ -1909,6 +1961,7 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type UserProfileSelectScalar = {
   id?: boolean
   userId?: boolean
+  timezone?: boolean
   activeThemeId?: boolean
   activeCompanionId?: boolean
   availableCompanions?: boolean
@@ -1930,7 +1983,7 @@ export type UserProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "fitnessGoal" | "dailyWaterGoal" | "waterUnit" | "dailyStepGoal" | "calorieGoal" | "calorieGoalMode" | "lifetimeSteps" | "totalCampsites" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "timezone" | "activeThemeId" | "activeCompanionId" | "availableCompanions" | "themeCredits" | "companionCredits" | "totalEarnXp" | "balanceXp" | "level" | "onBoardingCompleted" | "fitnessGoal" | "dailyWaterGoal" | "waterUnit" | "dailyStepGoal" | "calorieGoal" | "calorieGoalMode" | "lifetimeSteps" | "totalCampsites" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activeTheme?: boolean | Prisma.UserProfile$activeThemeArgs<ExtArgs>
@@ -1962,6 +2015,7 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    timezone: string | null
     activeThemeId: string | null
     activeCompanionId: string | null
     availableCompanions: string[]
@@ -2411,6 +2465,7 @@ export interface Prisma__UserProfileClient<T, Null = never, ExtArgs extends runt
 export interface UserProfileFieldRefs {
   readonly id: Prisma.FieldRef<"UserProfile", 'String'>
   readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly timezone: Prisma.FieldRef<"UserProfile", 'String'>
   readonly activeThemeId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly activeCompanionId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly availableCompanions: Prisma.FieldRef<"UserProfile", 'String[]'>

@@ -2957,6 +2957,7 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 export const UserProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  timezone: 'timezone',
   activeThemeId: 'activeThemeId',
   activeCompanionId: 'activeCompanionId',
   availableCompanions: 'availableCompanions',

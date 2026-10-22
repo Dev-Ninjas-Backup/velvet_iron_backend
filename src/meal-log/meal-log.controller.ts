@@ -7,9 +7,11 @@ import {
     Body,
     Param,
     Query,
+    Req,
     UseInterceptors,
 } from '@nestjs/common';
 import { MealLogService } from './meal-log.service';
+import { extractTimezone } from '../common/utils/timezone.util';
 import { CreateMealLogDto } from './dto/create-meal-log.dto';
 import { UpdateMealLogDto } from './dto/update-meal-log.dto';
 import {
@@ -95,7 +97,7 @@ export class MealLogController {
         return this.mealLogService.createMealLog(userId, dto);
     }
 
-    @Get('history')
+    @Get(['history', 'today', 'daily'])
     @ValidUser()
     @ApiBearerAuth('JWT-auth')
     @ApiBearerAuth('refresh-token')
@@ -114,6 +116,27 @@ export class MealLogController {
         description: 'Number of logs to skip',
         example: 0,
     })
+    @ApiQuery({
+        name: 'date',
+        required: false,
+        type: String,
+        description: 'Local date (YYYY-MM-DD) to calculate daily/consumed/remaining macros for. Defaults to today in user timezone.',
+        example: '2026-10-20',
+    })
+    @ApiQuery({
+        name: 'timezone',
+        required: false,
+        type: String,
+        description: 'User timezone (e.g. America/Chicago). Can also be passed via x-timezone header.',
+        example: 'America/Chicago',
+    })
+    @ApiQuery({
+        name: 'filterLogsByDate',
+        required: false,
+        type: Boolean,
+        description: 'If true, logs array will only include entries for the selected date. Defaults to false (all history paginated).',
+        example: false,
+    })
     @ApiResponse({
         status: 200,
         description: 'Meal log history with daily need, consumed, and remaining macros',
@@ -121,15 +144,24 @@ export class MealLogController {
     })
     async getMealLogHistory(
         @GetUser('id') userId: string,
+        @Req() req: any,
         @Query('limit') limit?: string,
         @Query('offset') offset?: string,
+        @Query('date') dateStr?: string,
+        @Query('timezone') timezone?: string,
+        @Query('filterLogsByDate') filterLogsByDate?: string | boolean,
     ): Promise<MealLogHistoryDto> {
         const parsedLimit = limit ? parseInt(limit, 10) : 30;
         const parsedOffset = offset ? parseInt(offset, 10) : 0;
+        const tz = timezone || extractTimezone(req);
+        const shouldFilter = filterLogsByDate === 'true' || filterLogsByDate === true;
         return this.mealLogService.getMealLogHistory(
             userId,
             parsedLimit,
             parsedOffset,
+            tz,
+            dateStr,
+            shouldFilter,
         );
     }
 

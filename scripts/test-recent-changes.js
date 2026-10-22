@@ -16,6 +16,7 @@ const { MealScheduleService } = require('../dist/src/meal-schedule/meal-schedule
 const { ExerciseLogService } = require('../dist/src/exercise-log/exercise-log.service');
 const { StepLogService } = require('../dist/src/step-log/step-log.service');
 const { QuestsFeedService } = require('../dist/src/quests-feed/quests-feed.service');
+const { MealLogService } = require('../dist/src/meal-log/meal-log.service');
 
 const colors = {
   reset: '\x1b[0m',
@@ -99,6 +100,7 @@ async function runTests() {
   const mealScheduleService = new MealScheduleService(mockPrismaService, mockLeveladd);
   const exerciseService = new ExerciseLogService(mockPrismaService, mockLeveladd);
   const stepLogService = new StepLogService(mockPrismaService, mockLeveladd);
+  const mealLogService = new MealLogService(mockPrismaService, mockLeveladd);
   const mockSchedules = { findAll: async () => ({ success: true, data: [] }) };
   const feedService = new QuestsFeedService(
     mockPrismaService,
@@ -115,6 +117,8 @@ async function runTests() {
     meals: [],
     exercises: [],
     stepLogs: [],
+    mealLogs: [],
+    macroGoals: [],
   };
 
   try {
@@ -467,6 +471,158 @@ async function runTests() {
       fail('Weekly Chart dayShort & 7 Days', `Chart missing dayShort or 7 days: ${JSON.stringify(chart)}`);
     }
 
+    // ==========================================
+    // TEST 9: Meal Log Timezone Attribution & Date Filtering
+    // (Wisconsin Monday Oct 19 Night vs Tuesday Oct 20)
+    // ==========================================
+    console.log(`\n${colors.bold}--- 9. Testing Meal Log Timezone Attribution (Wisconsin Monday vs Tuesday) ---${colors.reset}`);
+
+    // Create a Macro Goal active on Monday Oct 19
+    const testGoal = await prisma.macroGoal.create({
+      data: {
+        userId,
+        name: 'Maintenance',
+        calories: 1740,
+        protein: 150,
+        carbs: 200,
+        fat: 50,
+        calorieGoalMode: 'AUTO',
+        createdAt: new Date('2026-10-19T12:00:00.000Z'),
+      },
+    });
+    cleanupIds.macroGoals.push(testGoal.id);
+
+    // Seed the exact meals logged on Monday Oct 19 at 9:18 - 9:19 PM CDT (stored as 02:18 - 02:19 UTC on Oct 20)
+    const meal1 = await prisma.mealLog.create({
+      data: {
+        userId,
+        mealType: 'BREAKFAST',
+        description: 'Protein Shake',
+        calories: 170,
+        carbs: 8,
+        protein: 30,
+        fats: 4,
+        earnedXp: 10,
+        loggedAt: new Date('2026-10-20T02:18:01.340Z'), // Oct 19 9:18 PM CDT
+      },
+    });
+    cleanupIds.mealLogs.push(meal1.id);
+
+    const meal2 = await prisma.mealLog.create({
+      data: {
+        userId,
+        mealType: 'LUNCH',
+        description: 'Porkchop',
+        calories: 204,
+        carbs: 0,
+        protein: 24,
+        fats: 11,
+        earnedXp: 10,
+        loggedAt: new Date('2026-10-20T02:19:02.895Z'), // Oct 19 9:19 PM CDT
+      },
+    });
+    cleanupIds.mealLogs.push(meal2.id);
+
+    const meal3 = await prisma.mealLog.create({
+      data: {
+        userId,
+        mealType: 'DINNER',
+        description: 'Air',
+        calories: 0,
+        carbs: 0,
+        protein: 0,
+        fats: 0,
+        earnedXp: 10,
+        loggedAt: new Date('2026-10-20T02:19:28.372Z'), // Oct 19 9:19 PM CDT
+      },
+    });
+    cleanupIds.mealLogs.push(meal3.id);
+
+    // 9A: When selecting Tuesday (2026-10-20) in America/Chicago, consumed MUST BE ZERO!
+    const tuesdaySummary = await mealLogService.getMealLogHistory(
+      userId,
+      30,
+      0,
+      'America/Chicago',
+      '2026-10-20',
+      true // filterLogsByDate
+    );
+
+    if (
+      tuesdaySummary.consumed.calories === 0 &&
+      tuesdaySummary.consumed.protein === 0 &&
+      tuesdaySummary.consumed.carb === 0 &&
+      tuesdaySummary.consumed.fat === 0 &&
+      tuesdaySummary.remaining.calories === 1740 &&
+      tuesdaySummary.logs.length === 0
+    ) {
+      pass(
+        'Tuesday Clean Slate (America/Chicago)',
+        `Tuesday has 0 consumed kcal/macros and 0 logs for filtered date; Monday evening meals did NOT leak into Tuesday!`
+      );
+    } else {
+      fail(
+        'Tuesday Clean Slate (America/Chicago)',
+        `Tuesday consumed should be 0, but got: ${JSON.stringify(tuesdaySummary.consumed)}, logsCount: ${tuesdaySummary.logs.length}`
+      );
+    }
+
+    // 9B: When selecting Monday (2026-10-19) in America/Chicago, consumed MUST BE EXACTLY 374 kcal, 54P, 8C, 15F!
+    const mondaySummary = await mealLogService.getMealLogHistory(
+      userId,
+      30,
+      0,
+      'America/Chicago',
+      '2026-10-19',
+      true // filterLogsByDate
+    );
+
+    if (
+      mondaySummary.consumed.calories === 374 &&
+      mondaySummary.consumed.protein === 54 &&
+      mondaySummary.consumed.carb === 8 &&
+      mondaySummary.consumed.fat === 15 &&
+      mondaySummary.remaining.calories === 1740 - 374 &&
+      mondaySummary.remaining.protein === 150 - 54 &&
+      mondaySummary.weeklyPresent.monday === true &&
+      mondaySummary.weeklyPresent.tuesday === false &&
+      mondaySummary.logs.length === 3
+    ) {
+      pass(
+        'Monday Exact Attribution (America/Chicago)',
+        `Monday accurately credited: 374 kcal, 54g protein, 8g carbs, 15g fat, remaining: ${mondaySummary.remaining.calories} kcal, weeklyPresent.monday: true, weeklyPresent.tuesday: false!`
+      );
+    } else {
+      fail(
+        'Monday Exact Attribution (America/Chicago)',
+        `Monday summary mismatch: consumed=${JSON.stringify(mondaySummary.consumed)}, remaining=${JSON.stringify(mondaySummary.remaining)}, weeklyPresent=${JSON.stringify(mondaySummary.weeklyPresent)}`
+      );
+    }
+
+    // 9C: Test UserProfile Fallback Timezone
+    await prisma.userProfile.update({
+      where: { userId },
+      data: { timezone: 'America/Chicago' },
+    });
+    const fallbackSummary = await mealLogService.getMealLogHistory(
+      userId,
+      30,
+      0,
+      undefined, // No timezone provided, must fallback to America/Chicago from profile
+      '2026-10-19'
+    );
+    if (fallbackSummary.consumed.calories === 374) {
+      pass(
+        'UserProfile Timezone Fallback',
+        `Successfully used profile timezone America/Chicago when no timezone passed in query`
+      );
+    } else {
+      fail(
+        'UserProfile Timezone Fallback',
+        `Expected 374 consumed kcal using profile fallback, got ${fallbackSummary.consumed.calories}`
+      );
+    }
+
   } catch (err) {
     fail('Unexpected Test Error', err);
   } finally {
@@ -474,6 +630,12 @@ async function runTests() {
     // CLEANUP & TEARDOWN
     // ==========================================
     console.log(`\n${colors.bold}--- Teardown & Cleanup ---${colors.reset}`);
+    if (cleanupIds.mealLogs && cleanupIds.mealLogs.length > 0) {
+      await prisma.mealLog.deleteMany({ where: { id: { in: cleanupIds.mealLogs } } });
+    }
+    if (cleanupIds.macroGoals && cleanupIds.macroGoals.length > 0) {
+      await prisma.macroGoal.deleteMany({ where: { id: { in: cleanupIds.macroGoals } } });
+    }
     if (cleanupIds.customQuests.length > 0) {
       await prisma.customQuest.deleteMany({ where: { id: { in: cleanupIds.customQuests } } });
     }

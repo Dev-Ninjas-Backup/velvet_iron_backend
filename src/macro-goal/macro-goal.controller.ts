@@ -6,6 +6,7 @@ import {
     Delete,
     Body,
     Param,
+    Req,
     UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,6 +22,7 @@ import { CreateMacroGoalDto } from './dto/create-macro-goal.dto';
 import { UpdateMacroGoalDto } from './dto/update-macro-goal.dto';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import { ValidAll, ValidUser } from '../common/decorators/validate.decorator';
+import { extractTimezone } from '../common/utils/timezone.util';
 
 @ApiTags('Macro Goal')
 @Controller('macro-goal')
@@ -77,9 +79,11 @@ export class MacroGoalController {
     })
     async createMacroGoal(
         @GetUser() user: any,
+        @Req() req: any,
         @Body() dto: CreateMacroGoalDto,
     ) {
-        const macroGoal = await this.macroGoalService.createMacroGoal(user.id, dto);
+        const tz = extractTimezone(req);
+        const macroGoal = await this.macroGoalService.createMacroGoal(user.id, dto, tz);
         return {
             statusCode: 201,
             message: 'Macro goal created successfully',

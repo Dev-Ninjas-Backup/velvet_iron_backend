@@ -81,10 +81,14 @@ export function getUserDayBoundaries(
 }
 
 /**
- * Extracts the user timezone from HTTP request headers, query params, or body
+ * Extracts the user timezone from HTTP request headers, query params, body, or user object,
+ * falling back to fallbackTimezone (defaults to 'America/Chicago').
  */
-export function extractTimezone(req?: any): string {
-  if (!req) return 'UTC';
+export function extractTimezone(
+  req?: any,
+  fallbackTimezone: string = 'America/Chicago',
+): string {
+  if (!req) return fallbackTimezone;
   const candidate =
     req.headers?.['x-timezone'] ||
     req.headers?.['x-time-zone'] ||
@@ -92,17 +96,19 @@ export function extractTimezone(req?: any): string {
     req.query?.timezone ||
     req.query?.timeZone ||
     req.body?.timezone ||
-    req.body?.timeZone;
+    req.body?.timeZone ||
+    req.user?.userProfile?.timezone ||
+    req.user?.timezone;
 
   if (candidate && typeof candidate === 'string' && candidate.trim()) {
     try {
       Intl.DateTimeFormat(undefined, { timeZone: candidate.trim() });
       return candidate.trim();
     } catch {
-      // Fallback to UTC if invalid
+      // Fallback if invalid
     }
   }
-  return 'UTC';
+  return fallbackTimezone;
 }
 
 /**

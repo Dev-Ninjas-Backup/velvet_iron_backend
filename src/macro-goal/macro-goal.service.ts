@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../lib/prisma/prisma.service';
 import { CreateMacroGoalDto } from './dto/create-macro-goal.dto';
 import { UpdateMacroGoalDto } from './dto/update-macro-goal.dto';
+import { getUserDayBoundaries } from '../common/utils/timezone.util';
 
 @Injectable()
 export class MacroGoalService {
@@ -39,7 +40,7 @@ export class MacroGoalService {
   /**
    * Create a new macro goal with independent calorie goal support
    */
-  async createMacroGoal(userId: string, dto: CreateMacroGoalDto) {
+  async createMacroGoal(userId: string, dto: CreateMacroGoalDto, timezone?: string) {
     const rawCalories = dto.calorieGoal ?? dto.calories;
     const mode =
       dto.calorieGoalMode ??
@@ -50,10 +51,17 @@ export class MacroGoalService {
         ? Number(rawCalories)
         : this.calculateCalories(dto.carbs, dto.fat, dto.protein);
 
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
-    todayEnd.setHours(23, 59, 59, 999);
+    let resolvedTz = timezone;
+    if (!resolvedTz || resolvedTz === 'UTC') {
+      const profile = await this.prisma.client.userProfile.findUnique({
+        where: { userId },
+        select: { timezone: true },
+      });
+      resolvedTz = profile?.timezone || 'America/Chicago';
+    }
+
+    const { startOfDay: todayStart, endOfDay: todayEnd } =
+      getUserDayBoundaries(resolvedTz);
 
     const existingToday = await this.prisma.client.macroGoal.findFirst({
       where: {
