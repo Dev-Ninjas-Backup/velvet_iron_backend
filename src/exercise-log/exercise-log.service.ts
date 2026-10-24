@@ -18,12 +18,15 @@ import {
 } from './dto/exercise-log-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { getUserDayBoundaries } from '../common/utils/timezone.util';
+import { getIsoWeekday, normalizeDaysOfWeek } from '../common/utils/weekday.util';
+import { ScheduleCompletionService } from '../schedule-completion/schedule-completion.service';
 
 @Injectable()
 export class ExerciseLogService {
   constructor(
     private prisma: PrismaService,
     private leveladd: LeveladdService,
+    private scheduleCompletionService: ScheduleCompletionService,
   ) {}
 
   async createExerciseLog(
@@ -65,6 +68,7 @@ export class ExerciseLogService {
     scheduleId: string,
     isTakens: boolean,
     timezone?: string,
+    targetDate?: string,
   ): Promise<any> {
     const schedule = await this.prisma.client.exerciseScheduleLog.findFirst({
       where: { id: scheduleId, userId },
@@ -74,25 +78,23 @@ export class ExerciseLogService {
       throw new NotFoundException('Exercise schedule not found');
     }
 
-    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
+    const { startOfDay: todayStart, endOfDay: todayEnd, dateStr } = getUserDayBoundaries(timezone, targetDate);
 
-    const alreadyTakenToday = Boolean(
-      (schedule as any).lastTakenDate &&
-        new Date((schedule as any).lastTakenDate) >= todayStart &&
-        new Date((schedule as any).lastTakenDate) <= todayEnd,
-    );
-
-    const earnedXp = 10;
-    const user = await this.prisma.client.user.findUnique({
-      where: { id: userId },
-    });
-
-    // Award XP strictly once per day when marked taken and user is onboarded
-    if (!alreadyTakenToday && isTakens && user && user.onBoarded) {
-      await this.leveladd.addXpToUser(
+    if (isTakens) {
+      await this.scheduleCompletionService.recordCompletion(
         userId,
-        earnedXp,
-        'Exercise Schedule log entry',
+        scheduleId,
+        'WORKOUT',
+        timezone,
+        dateStr,
+        10,
+      );
+    } else {
+      await this.scheduleCompletionService.removeCompletion(
+        userId,
+        scheduleId,
+        timezone,
+        dateStr,
       );
     }
 
@@ -118,12 +120,11 @@ export class ExerciseLogService {
         });
 
         if (matchingScheduleItem) {
-          const { startOfDay, endOfDay } = getUserDayBoundaries(timezone);
           const alreadyLogged = await (this.prisma.client as any).scheduleCompletionLog.findFirst({
             where: {
               userId,
               scheduleItemId: matchingScheduleItem.id,
-              completedAt: { gte: startOfDay, lte: endOfDay },
+              completedAt: { gte: todayStart, lte: todayEnd },
             },
           });
 
@@ -290,6 +291,15 @@ export class ExerciseLogService {
     userId: string,
     dto: CreateExerciseScheduleDto,
   ): Promise<ExerciseScheduleDetailResponseDto> {
+    const scheduledDate = new Date(dto.scheduledAt);
+    const fallbackDay = scheduledDate.getDay() === 0 ? 7 : scheduledDate.getDay();
+    const daysOfWeek =
+      dto.daysOfWeek && dto.daysOfWeek.length > 0
+        ? dto.daysOfWeek
+        : dto.recurrence === 'SPECIFIC_DAYS' || dto.recurrence === 'WEEKLY'
+        ? [fallbackDay]
+        : [];
+
     const schedule = await this.prisma.client.exerciseScheduleLog.create({
       data: {
         userId,
@@ -298,9 +308,9 @@ export class ExerciseLogService {
         intensity: dto.intensity as any,
         duration: dto.duration,
         note: dto.note,
-        loggedAt: new Date(dto.scheduledAt),
+        loggedAt: scheduledDate,
         recurrence: dto.recurrence || 'NEVER',
-        daysOfWeek: dto.daysOfWeek || [],
+        daysOfWeek,
         timeOfDay: dto.timeOfDay,
         reminderEnabled: dto.reminderEnabled ?? false,
         isPaused: false,
@@ -391,6 +401,20 @@ export class ExerciseLogService {
     };
 
     const normalizedIsTaken = normalizeBooleanValue(dto.isTaken);
+
+    if (normalizedIsTaken === true) {
+      await this.scheduleCompletionService.recordCompletion(
+        userId,
+        id,
+        'WORKOUT',
+      );
+    } else if (normalizedIsTaken === false) {
+      await this.scheduleCompletionService.removeCompletion(
+        userId,
+        id,
+      );
+    }
+
     const schedule = await this.prisma.client.exerciseScheduleLog.update({
       where: { id },
       data: {
@@ -405,7 +429,10 @@ export class ExerciseLogService {
         timeOfDay: dto.timeOfDay,
         reminderEnabled: dto.reminderEnabled,
         isPaused: dto.isPaused,
-        ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+        ...(normalizedIsTaken !== undefined && {
+          isTaken: normalizedIsTaken,
+          ...(normalizedIsTaken && { lastTakenDate: new Date() }),
+        }),
       } as any,
     });
     return this.mapToScheduleResponseDto(schedule);
@@ -448,10 +475,10 @@ export class ExerciseLogService {
     timezone?: string,
     targetDate?: string,
   ): Promise<ExerciseScheduleDetailResponseDto[]> {
-    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+    const { startOfDay: startOfToday, endOfDay: endOfToday, dateStr } =
       getUserDayBoundaries(timezone, targetDate);
 
-    const dayOfWeek = startOfToday.getDay() === 0 ? 7 : startOfToday.getDay();
+    const dayOfWeek = getIsoWeekday(timezone, targetDate);
 
     const allSchedules = await this.prisma.client.exerciseScheduleLog.findMany({
       where: { userId },
@@ -470,12 +497,14 @@ export class ExerciseLogService {
       return schedTime >= startOfToday && schedTime <= endOfToday;
     });
 
+    const completedIds = await this.scheduleCompletionService.getCompletedScheduleIds(
+      userId,
+      dateStr,
+      'WORKOUT',
+    );
+
     return activeToday.map((schedule: any) => {
-      const isTakenToday = Boolean(
-        schedule.lastTakenDate &&
-          new Date(schedule.lastTakenDate) >= startOfToday &&
-          new Date(schedule.lastTakenDate) <= endOfToday,
-      );
+      const isTakenToday = completedIds.has(schedule.id);
       return {
         ...this.mapToScheduleResponseDto(schedule),
         isTaken: isTakenToday,

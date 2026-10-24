@@ -49,3 +49,23 @@ model ScheduleCompletionLog {
     @@index([scheduleItemId])
     @@map("schedule_completion_logs")
 }
+
+// Tracks daily completions by local calendar date for recurring scheduled activities (workouts, medications, meals)
+model ScheduleCompletion {
+    id           String   @id @default(uuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    scheduleId   String   // ID of the master schedule (exercise_schedule_logs, medication_schedules, meal_schedules, or scheduled_items)
+    scheduleType String   // 'WORKOUT', 'MEDICATION', 'MEAL', 'GENERAL'
+    date         String   // 'YYYY-MM-DD' representing the user's local calendar date
+    isCompleted  Boolean  @default(true)
+    completedAt  DateTime @default(now())
+    earnedXp     Int      @default(10)
+    createdAt    DateTime @default(now())
+
+    @@unique([userId, scheduleId, date])
+    @@index([userId, date])
+    @@index([scheduleId, date])
+    @@map("schedule_completions")
+}
+

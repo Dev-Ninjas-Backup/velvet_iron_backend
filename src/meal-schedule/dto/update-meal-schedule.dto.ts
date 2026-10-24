@@ -10,6 +10,8 @@ import {
 } from 'class-validator';
 import { MealType } from '../../../prisma/generated/enums';
 
+import { normalizeDaysOfWeek } from '../../common/utils/weekday.util';
+
 export class UpdateMealScheduleDto {
     @IsEnum(MealType)
     @Transform(({ value }) => (value === '' ? undefined : value))
@@ -77,10 +79,17 @@ export class UpdateMealScheduleDto {
         type: [Number],
         example: [1, 2, 3, 4, 5],
     })
-    @Transform(({ value }) => (value === '' ? undefined : value))
+    @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
     @IsOptional()
-    @IsInt({ each: true })
     daysOfWeek?: number[];
+
+    @ApiProperty({
+        description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+        required: false,
+        example: [1, 3, 5],
+    })
+    @IsOptional()
+    repeatDays?: any;
 
     @ApiProperty({
         description: 'Whether recurrence is paused',

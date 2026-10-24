@@ -196,8 +196,17 @@ export class UpdateMedicationScheduleDto {
     required: false,
     type: [Number],
   })
+  @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
   @IsOptional()
   daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+    required: false,
+    example: [1, 3, 5],
+  })
+  @IsOptional()
+  repeatDays?: any;
 
   @ApiProperty({
     description: 'Start date (ISO 8601 string)',

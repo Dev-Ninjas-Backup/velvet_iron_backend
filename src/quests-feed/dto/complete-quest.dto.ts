@@ -33,5 +33,14 @@ export class CompleteQuestDto {
   })
   @IsEnum(QuestType)
   questType?: QuestType;
+
+  @ApiProperty({
+    example: '2026-10-24',
+    required: false,
+    description: 'Target local calendar date (YYYY-MM-DD), defaults to today',
+  })
+  @IsOptional()
+  @IsString()
+  dateStr?: string;
 }
 

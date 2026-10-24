@@ -30,6 +30,7 @@ import { WaterLogModule } from './water-log/water-log.module';
 import { StepLogModule } from './step-log/step-log.module';
 import { SchedulesModule } from './schedules/schedules.module';
 import { QuestsFeedModule } from './quests-feed/quests-feed.module';
+import { ScheduleCompletionModule } from './schedule-completion/schedule-completion.module';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { QuestsFeedModule } from './quests-feed/quests-feed.module';
     StepLogModule,
     SchedulesModule,
     QuestsFeedModule,
+    ScheduleCompletionModule,
   ],
   controllers: [AppController],
   providers: [AppService, LeveladdService, SeedService],

@@ -74,6 +74,7 @@ export const ModelName = {
   CustomQuest: 'CustomQuest',
   ScheduleItem: 'ScheduleItem',
   ScheduleCompletionLog: 'ScheduleCompletionLog',
+  ScheduleCompletion: 'ScheduleCompletion',
   User: 'User',
   RefreshToken: 'RefreshToken',
   Session: 'Session',
@@ -440,6 +441,21 @@ export const ScheduleCompletionLogScalarFieldEnum = {
 } as const
 
 export type ScheduleCompletionLogScalarFieldEnum = (typeof ScheduleCompletionLogScalarFieldEnum)[keyof typeof ScheduleCompletionLogScalarFieldEnum]
+
+
+export const ScheduleCompletionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  scheduleId: 'scheduleId',
+  scheduleType: 'scheduleType',
+  date: 'date',
+  isCompleted: 'isCompleted',
+  completedAt: 'completedAt',
+  earnedXp: 'earnedXp',
+  createdAt: 'createdAt'
+} as const
+
+export type ScheduleCompletionScalarFieldEnum = (typeof ScheduleCompletionScalarFieldEnum)[keyof typeof ScheduleCompletionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

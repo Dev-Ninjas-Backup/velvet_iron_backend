@@ -29,32 +29,73 @@ export const WEEKDAY_MAP: Record<string, number> = {
 };
 
 /**
- * Normalizes daysOfWeek input from integers, numeric strings, or weekday names (e.g. "MONDAY", "WEDNESDAY")
- * and aliases like repeatDays into a sorted unique array of integers [1..7].
+ * Normalizes daysOfWeek input from integers, numeric strings, comma-separated lists, JSON arrays,
+ * or weekday names (e.g. "MONDAY", "WEDNESDAY") and aliases (repeatDays, days, weekdays, selectedDays)
+ * into a sorted unique array of integers [1..7] (1=Monday ... 7=Sunday).
+ * Crucially maps 0 (JavaScript Date Sunday) to 7.
  */
 export function normalizeDaysOfWeek(value: unknown, obj?: any): number[] | undefined {
-  const input =
+  let input =
     value !== undefined && value !== null && value !== ''
       ? value
       : obj?.repeatDays !== undefined && obj?.repeatDays !== null && obj?.repeatDays !== ''
       ? obj?.repeatDays
+      : obj?.days !== undefined && obj?.days !== null && obj?.days !== ''
+      ? obj?.days
+      : obj?.weekdays !== undefined && obj?.weekdays !== null && obj?.weekdays !== ''
+      ? obj?.weekdays
+      : obj?.selectedDays !== undefined && obj?.selectedDays !== null && obj?.selectedDays !== ''
+      ? obj?.selectedDays
       : undefined;
 
   if (input === undefined) return undefined;
-  const arr = Array.isArray(input) ? input : [input];
+
+  // If input is a stringified JSON array, parse it
+  if (typeof input === 'string') {
+    const trimmed = input.trim();
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        input = JSON.parse(trimmed);
+      } catch {
+        // Fall back to delimited string processing below
+      }
+    }
+  }
+
+  // If input is a string containing commas, split it
+  let rawItems: unknown[] = [];
+  if (Array.isArray(input)) {
+    rawItems = input;
+  } else if (typeof input === 'string') {
+    rawItems = input.includes(',') ? input.split(',') : [input];
+  } else {
+    rawItems = [input];
+  }
+
   const result: number[] = [];
 
-  for (const item of arr) {
-    if (typeof item === 'number' && Number.isInteger(item) && item >= 1 && item <= 7) {
-      result.push(item);
-    } else if (typeof item === 'string') {
-      const trimmed = item.trim().toLowerCase();
+  for (const raw of rawItems) {
+    if (typeof raw === 'number' && Number.isInteger(raw)) {
+      if (raw >= 1 && raw <= 7) {
+        result.push(raw);
+      } else if (raw === 0) {
+        // Sunday in JS Date is 0 -> map to ISO 7
+        result.push(7);
+      }
+    } else if (typeof raw === 'string') {
+      const trimmed = raw.trim().toLowerCase();
+      if (trimmed === '') continue;
+
       if (WEEKDAY_MAP[trimmed] !== undefined) {
         result.push(WEEKDAY_MAP[trimmed]);
       } else {
         const num = parseInt(trimmed, 10);
-        if (!isNaN(num) && num >= 1 && num <= 7) {
-          result.push(num);
+        if (!isNaN(num)) {
+          if (num >= 1 && num <= 7) {
+            result.push(num);
+          } else if (num === 0) {
+            result.push(7);
+          }
         }
       }
     }
@@ -63,3 +104,61 @@ export function normalizeDaysOfWeek(value: unknown, obj?: any): number[] | undef
   return result.length > 0 ? Array.from(new Set(result)).sort((a, b) => a - b) : [];
 }
 
+/**
+ * Returns the ISO-8601 day of week (1=Monday ... 7=Sunday) for a given date in the user's timezone.
+ */
+export function getIsoWeekday(timezone: string = 'UTC', targetDate?: string | Date): number {
+  if (typeof targetDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(targetDate.trim())) {
+    const [y, m, d] = targetDate.trim().split('-').map(Number);
+    const day = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+    return day === 0 ? 7 : day;
+  }
+
+  let tz = (timezone || 'UTC').trim();
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: tz });
+  } catch {
+    tz = 'UTC';
+  }
+
+  const d = targetDate instanceof Date ? targetDate : new Date();
+  const dayName = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    weekday: 'long',
+  })
+    .format(d)
+    .toLowerCase();
+
+  return WEEKDAY_MAP[dayName] || 7;
+}
+
+/**
+ * Returns the local date string 'YYYY-MM-DD' for a given date in the user's timezone.
+ */
+export function getUserDateString(timezone: string = 'UTC', targetDate?: string | Date): string {
+  if (typeof targetDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(targetDate.trim())) {
+    return targetDate.trim();
+  }
+
+  let tz = (timezone || 'UTC').trim();
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: tz });
+  } catch {
+    tz = 'UTC';
+  }
+
+  const d = targetDate instanceof Date ? targetDate : new Date();
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const parts = formatter.formatToParts(d);
+  const year = parts.find((p) => p.type === 'year')?.value || '';
+  const month = parts.find((p) => p.type === 'month')?.value || '';
+  const day = parts.find((p) => p.type === 'day')?.value || '';
+
+  return `${year}-${month}-${day}`;
+}

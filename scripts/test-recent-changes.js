@@ -17,6 +17,8 @@ const { ExerciseLogService } = require('../dist/src/exercise-log/exercise-log.se
 const { StepLogService } = require('../dist/src/step-log/step-log.service');
 const { QuestsFeedService } = require('../dist/src/quests-feed/quests-feed.service');
 const { MealLogService } = require('../dist/src/meal-log/meal-log.service');
+const { ScheduleCompletionService } = require('../dist/src/schedule-completion/schedule-completion.service');
+const { ProfileService } = require('../dist/src/profile/profile.service');
 
 const colors = {
   reset: '\x1b[0m',
@@ -94,11 +96,12 @@ async function runTests() {
     },
   };
 
+  const scheduleCompletionService = new ScheduleCompletionService(mockPrismaService, mockLeveladd);
   const customQuestService = new CustomQuestService(mockPrismaService, mockLeveladd);
   const xpStatsService = new XpStatsService(mockPrismaService);
-  const medicationService = new MedicationScheduleService(mockPrismaService, mockLeveladd);
-  const mealScheduleService = new MealScheduleService(mockPrismaService, mockLeveladd);
-  const exerciseService = new ExerciseLogService(mockPrismaService, mockLeveladd);
+  const medicationService = new MedicationScheduleService(mockPrismaService, mockLeveladd, scheduleCompletionService);
+  const mealScheduleService = new MealScheduleService(mockPrismaService, mockLeveladd, scheduleCompletionService);
+  const exerciseService = new ExerciseLogService(mockPrismaService, mockLeveladd, scheduleCompletionService);
   const stepLogService = new StepLogService(mockPrismaService, mockLeveladd);
   const mealLogService = new MealLogService(mockPrismaService, mockLeveladd);
   const mockSchedules = { findAll: async () => ({ success: true, data: [] }) };
@@ -107,6 +110,15 @@ async function runTests() {
     xpStatsService,
     customQuestService,
     mockSchedules,
+    mockLeveladd,
+    exerciseService,
+    medicationService,
+  );
+  const profileService = new ProfileService(
+    mockPrismaService,
+    mealScheduleService,
+    medicationService,
+    exerciseService,
     mockLeveladd,
   );
 
@@ -623,6 +635,138 @@ async function runTests() {
       );
     }
 
+    // ==========================================
+    // TEST 10: Recurring Scheduled Activities Reappearance & Date-Based Completion Isolation
+    // ==========================================
+    console.log(`\n${colors.bold}--- 10. Testing Recurring Scheduled Activities Reappearance & Date Isolation ---${colors.reset}`);
+
+    // 10A: Create master recurring workout scheduled for Mon, Wed, Fri (1, 3, 5)
+    const recurringExercise = await exerciseService.createExerciseSchedule(userId, {
+      name: 'Walk the Realm Recurring',
+      type: 'CARDIO',
+      duration: 30,
+      scheduledAt: '2026-10-26T08:00:00.000Z',
+      recurrence: 'SPECIFIC_DAYS',
+      daysOfWeek: [1, 3, 5],
+    });
+    cleanupIds.exercises.push(recurringExercise.id);
+
+    if (recurringExercise.id && recurringExercise.name === 'Walk the Realm Recurring') {
+      pass('Create Recurring Exercise (Mon, Wed, Fri)', `Created schedule with ID: ${recurringExercise.id}`);
+    } else {
+      fail('Create Recurring Exercise', `Failed to create: ${JSON.stringify(recurringExercise)}`);
+    }
+
+    // 10B: Query Day 1 (Monday, 2026-10-26) - must appear with isTaken: false
+    const mondayExercises = await exerciseService.getTodaySchedules(userId, 'America/Chicago', '2026-10-26');
+    const mondayItem = mondayExercises.find((e) => e.id === recurringExercise.id);
+    if (mondayItem && mondayItem.isTaken === false) {
+      pass('Monday (Day 1) Initial Status', 'Activity correctly appeared on Monday with isTaken: false');
+    } else {
+      fail('Monday (Day 1) Initial Status', `Expected isTaken: false on Monday, got: ${JSON.stringify(mondayItem)}`);
+    }
+
+    // 10C: Complete activity on Monday (2026-10-26)
+    await scheduleCompletionService.recordCompletion(
+      userId,
+      recurringExercise.id,
+      'WORKOUT',
+      'America/Chicago',
+      '2026-10-26'
+    );
+    const mondayAfterCompletion = await exerciseService.getTodaySchedules(userId, 'America/Chicago', '2026-10-26');
+    const mondayCompletedItem = mondayAfterCompletion.find((e) => e.id === recurringExercise.id);
+    if (mondayCompletedItem && mondayCompletedItem.isTaken === true) {
+      pass('Monday (Day 1) Completion', 'Activity correctly marked isTaken: true on Monday');
+    } else {
+      fail('Monday (Day 1) Completion', `Expected isTaken: true on Monday after completion, got: ${JSON.stringify(mondayCompletedItem)}`);
+    }
+
+    // 10D: Query Day 2 (Tuesday, 2026-10-27 - non-scheduled day) - must NOT appear
+    const tuesdayExercises = await exerciseService.getTodaySchedules(userId, 'America/Chicago', '2026-10-27');
+    const tuesdayItem = tuesdayExercises.find((e) => e.id === recurringExercise.id);
+    if (!tuesdayItem) {
+      pass('Tuesday (Day 2) Non-Scheduled Exclusion', 'Activity does NOT appear on Tuesday (non-scheduled day)');
+    } else {
+      fail('Tuesday (Day 2) Non-Scheduled Exclusion', `Activity should NOT appear on Tuesday, but was found: ${JSON.stringify(tuesdayItem)}`);
+    }
+
+    // 10E: Query Day 3 (Wednesday, 2026-10-28) - MUST AUTOMATICALLY REAPPEAR with isTaken: false!
+    const wednesdayExercises = await exerciseService.getTodaySchedules(userId, 'America/Chicago', '2026-10-28');
+    const wednesdayItem = wednesdayExercises.find((e) => e.id === recurringExercise.id);
+    if (wednesdayItem && wednesdayItem.isTaken === false) {
+      pass(
+        'Wednesday (Day 3) Automatic Reappearance',
+        'Activity AUTOMATICALLY reappeared on Wednesday with isTaken: false! (0% leakage from Monday)'
+      );
+    } else {
+      fail(
+        'Wednesday (Day 3) Automatic Reappearance',
+        `Expected activity to reappear on Wednesday with isTaken: false, but got: ${JSON.stringify(wednesdayItem)}`
+      );
+    }
+
+    // 10F: Query Day 5 (Friday, 2026-10-30) - must also appear with isTaken: false
+    const fridayExercises = await exerciseService.getTodaySchedules(userId, 'America/Chicago', '2026-10-30');
+    const fridayItem = fridayExercises.find((e) => e.id === recurringExercise.id);
+    if (fridayItem && fridayItem.isTaken === false) {
+      pass('Friday (Day 5) Occurrence', 'Activity correctly appears on Friday with isTaken: false');
+    } else {
+      fail('Friday (Day 5) Occurrence', `Expected Friday isTaken: false, got: ${JSON.stringify(fridayItem)}`);
+    }
+
+    // 10G: Weekday Normalization (Sunday 0 -> 7, repeatDays string "1, 3, 5")
+    const { normalizeDaysOfWeek } = require('../dist/src/common/utils/weekday.util');
+    const sundayNormalized = normalizeDaysOfWeek(0);
+    const delimitedNormalized = normalizeDaysOfWeek("1, 3, 5");
+    const jsonNormalized = normalizeDaysOfWeek("[1, 3, 5]");
+    const aliasNormalized = normalizeDaysOfWeek(undefined, { repeatDays: [2, 4] });
+
+    if (
+      JSON.stringify(sundayNormalized) === '[7]' &&
+      JSON.stringify(delimitedNormalized) === '[1,3,5]' &&
+      JSON.stringify(jsonNormalized) === '[1,3,5]' &&
+      JSON.stringify(aliasNormalized) === '[2,4]'
+    ) {
+      pass(
+        'Weekday Normalization Robustness',
+        'Correctly handled Sunday 0->7, "1, 3, 5", "[1, 3, 5]", and alias repeatDays [2, 4]'
+      );
+    } else {
+      fail(
+        'Weekday Normalization Robustness',
+        `Mismatch: sunday=${JSON.stringify(sundayNormalized)}, delimited=${JSON.stringify(delimitedNormalized)}, json=${JSON.stringify(jsonNormalized)}, alias=${JSON.stringify(aliasNormalized)}`
+      );
+    }
+
+    // 10H: Quests Feed Integration & Completion
+    const wednesdayQuests = await feedService.getTodaysQuests(userId, '2026-10-28', 'America/Chicago');
+    const workoutQuest = wednesdayQuests.data.find((q) => q.originalRefId === recurringExercise.id);
+    if (workoutQuest && workoutQuest.isCompleted === false) {
+      pass('Quests Feed Integration', 'Recurring workout appeared in GET /quests/today with isCompleted: false');
+    } else {
+      fail('Quests Feed Integration', `Expected quest in /quests/today with isCompleted: false, got: ${JSON.stringify(workoutQuest)}`);
+    }
+
+    // Complete via Quests Feed for Wednesday (2026-10-28)
+    await feedService.completeQuest(userId, { questId: `workout_${recurringExercise.id}`, dateStr: '2026-10-28' }, 'America/Chicago');
+    const wednesdayQuestsAfter = await feedService.getTodaysQuests(userId, '2026-10-28', 'America/Chicago');
+    const workoutQuestAfter = wednesdayQuestsAfter.data.find((q) => q.originalRefId === recurringExercise.id);
+    if (workoutQuestAfter && workoutQuestAfter.isCompleted === true) {
+      pass('Quests Feed Completion', 'Completed workout through Quests Feed, isCompleted: true confirmed');
+    } else {
+      fail('Quests Feed Completion', `Expected isCompleted: true after quest completion, got: ${JSON.stringify(workoutQuestAfter)}`);
+    }
+
+    // Verify Friday is STILL isTaken: false despite Wednesday completion
+    const fridayAfterWedCompletion = await exerciseService.getTodaySchedules(userId, 'America/Chicago', '2026-10-30');
+    const fridayItemAfter = fridayAfterWedCompletion.find((e) => e.id === recurringExercise.id);
+    if (fridayItemAfter && fridayItemAfter.isTaken === false) {
+      pass('Friday Independence', 'Wednesday completion did NOT leak into Friday! Friday is still isTaken: false');
+    } else {
+      fail('Friday Independence', `Friday leaked: ${JSON.stringify(fridayItemAfter)}`);
+    }
+
   } catch (err) {
     fail('Unexpected Test Error', err);
   } finally {
@@ -655,6 +799,8 @@ async function runTests() {
       await prisma.scheduleCompletionLog.deleteMany({ where: { scheduleItemId: { in: cleanupIds.scheduleItems } } });
       await prisma.scheduleItem.deleteMany({ where: { id: { in: cleanupIds.scheduleItems } } });
     }
+    // Delete test schedule completions
+    await prisma.scheduleCompletion.deleteMany({ where: { userId } });
     // Delete test step logs
     await prisma.stepLog.deleteMany({ where: { userId } });
     // Delete any XP logs awarded to test user during test

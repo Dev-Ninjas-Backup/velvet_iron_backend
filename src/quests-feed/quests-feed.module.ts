@@ -5,9 +5,18 @@ import { CustomQuestModule } from '../custom-quest/custom-quest.module';
 import { SchedulesModule } from '../schedules/schedules.module';
 import { XpStatsModule } from '../xp-stats/xp-stats.module';
 import { LeveladdModule } from '../leveladd/leveladd.module';
+import { ExerciseLogModule } from '../exercise-log/exercise-log.module';
+import { MedicationScheduleModule } from '../medication-schedule/medication-schedule.module';
 
 @Module({
-  imports: [CustomQuestModule, SchedulesModule, XpStatsModule, LeveladdModule],
+  imports: [
+    CustomQuestModule,
+    SchedulesModule,
+    XpStatsModule,
+    LeveladdModule,
+    ExerciseLogModule,
+    MedicationScheduleModule,
+  ],
   controllers: [QuestsFeedController],
   providers: [QuestsFeedService],
 })

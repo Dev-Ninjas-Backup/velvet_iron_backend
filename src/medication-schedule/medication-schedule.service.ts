@@ -11,24 +11,39 @@ import {
 } from './dto/medication-schedule-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { getUserDayBoundaries } from '../common/utils/timezone.util';
+import { getIsoWeekday } from '../common/utils/weekday.util';
+import { ScheduleCompletionService } from '../schedule-completion/schedule-completion.service';
 
 @Injectable()
 export class MedicationScheduleService {
-  constructor(private prisma: PrismaService,private readonly leveladd: LeveladdService) { }
+  constructor(
+    private prisma: PrismaService,
+    private readonly leveladd: LeveladdService,
+    private readonly scheduleCompletionService: ScheduleCompletionService,
+  ) {}
 
   async createMedicationSchedule(
     userId: string,
     dto: CreateMedicationScheduleDto,
   ): Promise<MedicationScheduleResponseDto> {
+    const scheduledDate = new Date(dto.scheduleTime);
+    const fallbackDay = scheduledDate.getDay() === 0 ? 7 : scheduledDate.getDay();
+    const daysOfWeek =
+      dto.daysOfWeek && dto.daysOfWeek.length > 0
+        ? dto.daysOfWeek
+        : dto.recurrence === 'SPECIFIC_DAYS' || dto.recurrence === 'WEEKLY'
+        ? [fallbackDay]
+        : [];
+
     const schedule = await this.prisma.client.medicationSchedule.create({
       data: {
         userId,
         name: dto.name,
         type: dto.type,
         doseMg: dto.doseMg,
-        scheduleTime: new Date(dto.scheduleTime),
+        scheduleTime: scheduledDate,
         recurrence: dto.recurrence || 'ONCE',
-        daysOfWeek: dto.daysOfWeek || [],
+        daysOfWeek,
         startDate: dto.startDate ? new Date(dto.startDate) : new Date(),
         endDate: dto.endDate ? new Date(dto.endDate) : undefined,
         reminderEnabled: dto.reminderEnabled ?? false,
@@ -49,6 +64,7 @@ export class MedicationScheduleService {
     scheduleId: string,
     isTakens: boolean,
     timezone?: string,
+    targetDate?: string,
   ): Promise<any> {
     const schedule = await this.prisma.client.medicationSchedule.findFirst({
       where: { id: scheduleId, userId },
@@ -58,25 +74,23 @@ export class MedicationScheduleService {
       throw new NotFoundException('Medication schedule not found');
     }
 
-    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
+    const { dateStr } = getUserDayBoundaries(timezone, targetDate);
 
-    const alreadyTakenToday = Boolean(
-      (schedule as any).lastTakenDate &&
-        new Date((schedule as any).lastTakenDate) >= todayStart &&
-        new Date((schedule as any).lastTakenDate) <= todayEnd,
-    );
-
-    const earnedXp = 10;
-    const user = await this.prisma.client.user.findUnique({
-      where: { id: userId },
-    });
-
-    // Award XP strictly once per day when marked taken and user is onboarded
-    if (!alreadyTakenToday && isTakens && user && user.onBoarded) {
-      await this.leveladd.addXpToUser(
+    if (isTakens) {
+      await this.scheduleCompletionService.recordCompletion(
         userId,
-        earnedXp,
-        'Medication Schedule log entry',
+        scheduleId,
+        'MEDICATION',
+        timezone,
+        dateStr,
+        10,
+      );
+    } else {
+      await this.scheduleCompletionService.removeCompletion(
+        userId,
+        scheduleId,
+        timezone,
+        dateStr,
       );
     }
 
@@ -110,7 +124,6 @@ export class MedicationScheduleService {
     });
   }
 
-
   async getMedicationScheduleHistory(
     userId: string,
   ): Promise<MedicationScheduleHistoryWithStatsDto> {
@@ -136,10 +149,10 @@ export class MedicationScheduleService {
     timezone?: string,
     targetDate?: string,
   ): Promise<TodaySchedulesDto> {
-    const { startOfDay: startOfToday, endOfDay: endOfToday } =
+    const { startOfDay: startOfToday, endOfDay: endOfToday, dateStr } =
       getUserDayBoundaries(timezone, targetDate);
 
-    const dayOfWeek = startOfToday.getDay() === 0 ? 7 : startOfToday.getDay();
+    const dayOfWeek = getIsoWeekday(timezone, targetDate);
 
     const allSchedules = await this.prisma.client.medicationSchedule.findMany({
       where: { userId },
@@ -160,14 +173,16 @@ export class MedicationScheduleService {
       return schedTime >= startOfToday && schedTime <= endOfToday;
     });
 
+    const completedIds = await this.scheduleCompletionService.getCompletedScheduleIds(
+      userId,
+      dateStr,
+      'MEDICATION',
+    );
+
     return {
       totalToday: activeToday.length,
       schedules: activeToday.map((schedule: any) => {
-        const isTakenToday = Boolean(
-          schedule.lastTakenDate &&
-            new Date(schedule.lastTakenDate) >= startOfToday &&
-            new Date(schedule.lastTakenDate) <= endOfToday,
-        );
+        const isTakenToday = completedIds.has(schedule.id);
         return {
           ...schedule,
           isTaken: isTakenToday,
@@ -202,7 +217,6 @@ export class MedicationScheduleService {
     id: string,
     dto: UpdateMedicationScheduleDto,
   ): Promise<MedicationScheduleResponseDto> {
-    // Check if schedule exists and belongs to user
     const existingSchedule =
       await this.prisma.client.medicationSchedule.findFirst({
         where: { id, userId },
@@ -234,6 +248,19 @@ export class MedicationScheduleService {
 
     const normalizedIsTaken = normalizeBooleanValue(dto.isTaken);
 
+    if (normalizedIsTaken === true) {
+      await this.scheduleCompletionService.recordCompletion(
+        userId,
+        id,
+        'MEDICATION',
+      );
+    } else if (normalizedIsTaken === false) {
+      await this.scheduleCompletionService.removeCompletion(
+        userId,
+        id,
+      );
+    }
+
     const schedule = await this.prisma.client.medicationSchedule.update({
       where: { id },
       data: {
@@ -247,7 +274,10 @@ export class MedicationScheduleService {
         endDate: dto.endDate ? new Date(dto.endDate) : undefined,
         reminderEnabled: dto.reminderEnabled,
         isPaused: dto.isPaused,
-        ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+        ...(normalizedIsTaken !== undefined && {
+          isTaken: normalizedIsTaken,
+          ...(normalizedIsTaken && { lastTakenDate: new Date() }),
+        }),
       } as any,
     });
 
@@ -262,7 +292,6 @@ export class MedicationScheduleService {
     userId: string,
     id: string,
   ): Promise<{ message: string }> {
-    // Check if schedule exists and belongs to user
     const schedule = await this.prisma.client.medicationSchedule.findFirst({
       where: { id, userId },
     });

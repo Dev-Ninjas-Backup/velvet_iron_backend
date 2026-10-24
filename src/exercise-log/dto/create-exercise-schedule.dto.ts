@@ -224,8 +224,17 @@ export class UpdateExerciseScheduleDto {
     required: false,
     type: [Number],
   })
+  @Transform(({ value, obj }) => normalizeDaysOfWeek(value, obj))
   @IsOptional()
   daysOfWeek?: number[];
+
+  @ApiProperty({
+    description: 'Alias for daysOfWeek: [1, 3, 5] or ["MONDAY", "WEDNESDAY", "FRIDAY"]',
+    required: false,
+    example: [1, 3, 5],
+  })
+  @IsOptional()
+  repeatDays?: any;
 
   @ApiProperty({
     description: 'Time of day (HH:mm)',

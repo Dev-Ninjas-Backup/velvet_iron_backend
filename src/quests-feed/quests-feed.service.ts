@@ -4,6 +4,8 @@ import { XpStatsService } from '../xp-stats/xp-stats.service';
 import { CustomQuestService } from '../custom-quest/custom-quest.service';
 import { SchedulesService } from '../schedules/schedules.service';
 import { LeveladdService } from '../leveladd/leveladd.service';
+import { ExerciseLogService } from '../exercise-log/exercise-log.service';
+import { MedicationScheduleService } from '../medication-schedule/medication-schedule.service';
 import { UnifiedQuestItemDto, QuestType } from './dto/quests-feed-response.dto';
 import { CompleteQuestDto } from './dto/complete-quest.dto';
 import { getUserDayBoundaries, formatDateInTimezone } from '../common/utils/timezone.util';
@@ -16,6 +18,8 @@ export class QuestsFeedService {
     private readonly customQuestService: CustomQuestService,
     private readonly schedulesService: SchedulesService,
     private readonly leveladdService: LeveladdService,
+    private readonly exerciseLogService: ExerciseLogService,
+    private readonly medicationScheduleService: MedicationScheduleService,
   ) {}
 
   async getTodaysQuests(userId: string, dateStr?: string, timezone?: string) {
@@ -52,61 +56,103 @@ export class QuestsFeedService {
       originalRefId: q.id,
     }));
 
-    // 3. Fetch Scheduled Items (Medications & Workouts)
-    const schedulesData = await this.schedulesService.findAll(userId, todayStr);
-    
-    // For scheduled items, we need to check the ScheduleCompletionLog for today
-    const scheduleIds = schedulesData.data.map((s: any) => s.id);
-    const completions = await (this.prisma.client as any).scheduleCompletionLog.findMany({
-      where: {
-        userId,
-        scheduleItemId: { in: scheduleIds },
-        completedAt: {
-          gte: targetDate,
-          lte: endOfDay,
+    // 3. Fetch Scheduled Exercises & Medications
+    const [todayExercises, todayMedsResult, schedulesData] = await Promise.all([
+      this.exerciseLogService.getTodaySchedules(userId, timezone, todayStr).catch(() => []),
+      this.medicationScheduleService.getTodaySchedules(userId, timezone, todayStr).catch(() => ({ totalToday: 0, schedules: [] })),
+      this.schedulesService.findAll(userId, todayStr).catch(() => ({ success: true, data: [] })),
+    ]);
+
+    const scheduledQuests: UnifiedQuestItemDto[] = [];
+    const addedIds = new Set<string>();
+
+    for (const e of todayExercises) {
+      scheduledQuests.push({
+        id: `workout_${e.id}`,
+        title: e.name,
+        description: `${e.type || 'WORKOUT'}${e.duration ? ` • ${e.duration} min` : ''}`,
+        xpReward: 10,
+        isCompleted: Boolean(e.isTaken),
+        questType: QuestType.WORKOUT_SCHEDULE,
+        originalRefId: e.id,
+        scheduledAt: e.loggedAt ? new Date(e.loggedAt).toISOString() : undefined,
+      });
+      addedIds.add(e.id);
+      addedIds.add(e.name.toLowerCase());
+    }
+
+    for (const m of (todayMedsResult.schedules || [])) {
+      scheduledQuests.push({
+        id: `med_${m.id}`,
+        title: m.name,
+        description: `${m.type || 'Medication'}${m.doseMg ? ` • ${m.doseMg}mg` : ''}`,
+        xpReward: 10,
+        isCompleted: Boolean(m.isTaken),
+        questType: QuestType.MEDICATION_SCHEDULE,
+        originalRefId: m.id,
+        scheduledAt: m.scheduleTime ? new Date(m.scheduleTime).toISOString() : undefined,
+      });
+      addedIds.add(m.id);
+      addedIds.add(m.name.toLowerCase());
+    }
+
+    // For unified schedule items, avoid duplicates
+    const scheduleIds = (schedulesData.data || [])
+      .filter((s: any) => !addedIds.has(s.id) && !addedIds.has(s.title?.toLowerCase()))
+      .map((s: any) => s.id);
+
+    if (scheduleIds.length > 0) {
+      const completions = await (this.prisma.client as any).scheduleCompletionLog.findMany({
+        where: {
+          userId,
+          scheduleItemId: { in: scheduleIds },
+          completedAt: {
+            gte: targetDate,
+            lte: endOfDay,
+          },
         },
-      },
-    });
-    
-    const completedScheduleIds = new Set(completions.map((c: any) => c.scheduleItemId));
+      });
 
-    const scheduledQuests: UnifiedQuestItemDto[] = schedulesData.data.map((s: any) => {
-      let description = s.description;
-      let scheduledAtIso: string | undefined = undefined;
+      const completedScheduleIds = new Set(completions.map((c: any) => c.scheduleItemId));
 
-      if (s.timeOfDay) {
-        // Construct scheduled timestamp using the resolved target date and timeOfDay
-        const [hours, minutes] = s.timeOfDay.split(':').map(Number);
-        if (!isNaN(hours) && !isNaN(minutes)) {
-          // Calculate UTC Date for target local day + timeOfDay
-          const dateWithTime = new Date(targetDate.getTime() + (hours * 60 + minutes) * 60 * 1000);
-          scheduledAtIso = dateWithTime.toISOString();
+      for (const s of (schedulesData.data || [])) {
+        if (addedIds.has(s.id) || addedIds.has(s.title?.toLowerCase())) continue;
 
-          if (s.itemType === 'WORKOUT') {
-            const formattedTime = formatDateInTimezone(dateWithTime, timezone);
-            const workoutType = s.metadata?.type || s.metadata?.exerciseType || 'WORKOUT';
-            const duration = s.metadata?.duration || 30;
-            description = `${String(workoutType).toUpperCase()} • ${duration} min • ${formattedTime}`;
+        let description = s.description;
+        let scheduledAtIso: string | undefined = undefined;
+
+        if (s.timeOfDay) {
+          const [hours, minutes] = s.timeOfDay.split(':').map(Number);
+          if (!isNaN(hours) && !isNaN(minutes)) {
+            const dateWithTime = new Date(targetDate.getTime() + (hours * 60 + minutes) * 60 * 1000);
+            scheduledAtIso = dateWithTime.toISOString();
+
+            if (s.itemType === 'WORKOUT') {
+              const formattedTime = formatDateInTimezone(dateWithTime, timezone);
+              const workoutType = s.metadata?.type || s.metadata?.exerciseType || 'WORKOUT';
+              const duration = s.metadata?.duration || 30;
+              description = `${String(workoutType).toUpperCase()} • ${duration} min • ${formattedTime}`;
+            }
           }
         }
-      }
 
-      if (!description) {
-        description = s.itemType === 'MEDICATION' ? 'Time for your medication' : 'Scheduled workout';
-      }
+        if (!description) {
+          description = s.itemType === 'MEDICATION' ? 'Time for your medication' : 'Scheduled workout';
+        }
 
-      return {
-        id: `${s.itemType.toLowerCase()}_${s.id}`,
-        title: s.title || s.name,
-        description,
-        xpReward: 10, // Standard schedule completion XP
-        isCompleted: completedScheduleIds.has(s.id),
-        questType: s.itemType === 'MEDICATION' ? QuestType.MEDICATION_SCHEDULE : QuestType.WORKOUT_SCHEDULE,
-        originalRefId: s.id,
-        scheduledAt: scheduledAtIso,
-        timeOfDay: s.timeOfDay ?? undefined,
-      };
-    });
+        scheduledQuests.push({
+          id: `${s.itemType.toLowerCase()}_${s.id}`,
+          title: s.title,
+          description,
+          xpReward: 10,
+          isCompleted: completedScheduleIds.has(s.id),
+          questType: s.itemType === 'MEDICATION' ? QuestType.MEDICATION_SCHEDULE : QuestType.WORKOUT_SCHEDULE,
+          originalRefId: s.id,
+          scheduledAt: scheduledAtIso,
+          timeOfDay: s.timeOfDay ?? undefined,
+        });
+      }
+    }
 
     // Combine all
     const allQuests = [...codexQuests, ...customQuests, ...scheduledQuests];
@@ -123,8 +169,8 @@ export class QuestsFeedService {
     };
   }
 
-  async completeQuest(userId: string, dto: CompleteQuestDto, timezone?: string) {
-    // Strip prefix if the client sent the unified ID (e.g. "custom_123" -> "123")
+  async completeQuest(userId: string, dto: CompleteQuestDto, timezone?: string, targetDate?: string) {
+    const targetDateStr = targetDate || dto.dateStr;
     let originalId = dto.questId;
     if (originalId.includes('_')) {
       originalId = originalId.substring(originalId.indexOf('_') + 1);
@@ -156,18 +202,57 @@ export class QuestsFeedService {
       return this.customQuestService.complete(userId, originalId, timezone);
     }
 
-    // Handle Schedules (MEDICATION or WORKOUT)
+    // Check if matching exerciseScheduleLog exists
+    const exerciseSchedule = await this.prisma.client.exerciseScheduleLog.findFirst({
+      where: { id: originalId, userId },
+    });
+
+    if (exerciseSchedule) {
+      await this.exerciseLogService.markExerciseLogAsTaken(userId, originalId, true, timezone, targetDateStr);
+      const userProfile = await this.prisma.client.userProfile.findUnique({ where: { userId } });
+      return {
+        success: true,
+        data: {
+          id: dto.questId,
+          isCompleted: true,
+          xpAwarded: 10,
+          companionTotalXp: userProfile?.totalEarnXp ?? 0,
+          companionLevel: userProfile?.level ?? 1,
+        },
+      };
+    }
+
+    // Check if matching medicationSchedule exists
+    const medSchedule = await this.prisma.client.medicationSchedule.findFirst({
+      where: { id: originalId, userId },
+    });
+
+    if (medSchedule) {
+      await this.medicationScheduleService.markMedicationAsTaken(userId, originalId, true, timezone, targetDateStr);
+      const userProfile = await this.prisma.client.userProfile.findUnique({ where: { userId } });
+      return {
+        success: true,
+        data: {
+          id: dto.questId,
+          isCompleted: true,
+          xpAwarded: 10,
+          companionTotalXp: userProfile?.totalEarnXp ?? 0,
+          companionLevel: userProfile?.level ?? 1,
+        },
+      };
+    }
+
+    // Handle unified scheduleItem
     const scheduleItem = await (this.prisma.client as any).scheduleItem.findFirst({
-      where: { id: originalId, userId }
+      where: { id: originalId, userId },
     });
 
     if (!scheduleItem) {
       throw new NotFoundException('Scheduled item not found');
     }
 
-    // Check if already completed today in user's timezone
     const now = new Date();
-    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
+    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone, targetDateStr);
 
     const existingLog = await (this.prisma.client as any).scheduleCompletionLog.findFirst({
       where: {
@@ -177,24 +262,23 @@ export class QuestsFeedService {
           gte: todayStart,
           lte: todayEnd,
         },
-      }
+      },
     });
 
     if (existingLog) {
       return {
         success: true,
         message: 'Already completed today',
-        xpAwarded: 0
+        xpAwarded: 0,
       };
     }
 
-    // Mark as completed in unified scheduleCompletionLog
     await (this.prisma.client as any).scheduleCompletionLog.create({
       data: {
         userId,
         scheduleItemId: originalId,
         completedAt: now,
-      }
+      },
     });
 
     // Synchronize underlying legacy schedule tables (ExerciseScheduleLog / MedicationSchedule)
@@ -211,9 +295,7 @@ export class QuestsFeedService {
           isTaken: true,
           lastTakenDate: now,
         },
-      }).catch((e: any) => {
-        // Non-blocking sync error handling
-      });
+      }).catch(() => {});
     } else if (scheduleItem.itemType === 'MEDICATION') {
       await (this.prisma.client as any).medicationSchedule.updateMany({
         where: {
@@ -227,12 +309,9 @@ export class QuestsFeedService {
           isTaken: true,
           lastTakenDate: now,
         },
-      }).catch((e: any) => {
-        // Non-blocking sync error handling
-      });
+      }).catch(() => {});
     }
 
-    // Award XP
     const xpAwarded = 10;
     await this.leveladdService.addXpToUser(userId, xpAwarded, `SCHEDULED_ITEM: ${scheduleItem.title}`);
 
@@ -248,7 +327,7 @@ export class QuestsFeedService {
         xpAwarded,
         companionTotalXp: userProfile?.totalEarnXp ?? 0,
         companionLevel: userProfile?.level ?? 1,
-      }
+      },
     };
   }
 }

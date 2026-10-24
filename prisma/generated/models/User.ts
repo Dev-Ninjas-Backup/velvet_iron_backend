@@ -349,6 +349,7 @@ export type UserWhereInput = {
   stepLogs?: Prisma.StepLogListRelationFilter
   scheduledItems?: Prisma.ScheduleItemListRelationFilter
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogListRelationFilter
+  scheduleCompletions?: Prisma.ScheduleCompletionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -398,6 +399,7 @@ export type UserOrderByWithRelationInput = {
   stepLogs?: Prisma.StepLogOrderByRelationAggregateInput
   scheduledItems?: Prisma.ScheduleItemOrderByRelationAggregateInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogOrderByRelationAggregateInput
+  scheduleCompletions?: Prisma.ScheduleCompletionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -450,6 +452,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   stepLogs?: Prisma.StepLogListRelationFilter
   scheduledItems?: Prisma.ScheduleItemListRelationFilter
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogListRelationFilter
+  scheduleCompletions?: Prisma.ScheduleCompletionListRelationFilter
 }, "id" | "email" | "username" | "googleId" | "githubId" | "discord">
 
 export type UserOrderByWithAggregationInput = {
@@ -557,6 +560,7 @@ export type UserCreateInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -606,6 +610,7 @@ export type UserUncheckedCreateInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -655,6 +660,7 @@ export type UserUpdateInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -704,6 +710,7 @@ export type UserUncheckedUpdateInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1133,6 +1140,20 @@ export type UserUpdateOneRequiredWithoutScheduleCompletionLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleCompletionLogsInput, Prisma.UserUpdateWithoutScheduleCompletionLogsInput>, Prisma.UserUncheckedUpdateWithoutScheduleCompletionLogsInput>
 }
 
+export type UserCreateNestedOneWithoutScheduleCompletionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleCompletionsInput, Prisma.UserUncheckedCreateWithoutScheduleCompletionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleCompletionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutScheduleCompletionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleCompletionsInput, Prisma.UserUncheckedCreateWithoutScheduleCompletionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleCompletionsInput
+  upsert?: Prisma.UserUpsertWithoutScheduleCompletionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleCompletionsInput, Prisma.UserUpdateWithoutScheduleCompletionsInput>, Prisma.UserUncheckedUpdateWithoutScheduleCompletionsInput>
+}
+
 export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
 }
@@ -1239,6 +1260,7 @@ export type UserCreateWithoutUserThemesInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserThemesInput = {
@@ -1287,6 +1309,7 @@ export type UserUncheckedCreateWithoutUserThemesInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserThemesInput = {
@@ -1351,6 +1374,7 @@ export type UserUpdateWithoutUserThemesInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserThemesInput = {
@@ -1399,6 +1423,7 @@ export type UserUncheckedUpdateWithoutUserThemesInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserCompanionsInput = {
@@ -1447,6 +1472,7 @@ export type UserCreateWithoutUserCompanionsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserCompanionsInput = {
@@ -1495,6 +1521,7 @@ export type UserUncheckedCreateWithoutUserCompanionsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserCompanionsInput = {
@@ -1559,6 +1586,7 @@ export type UserUpdateWithoutUserCompanionsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCompanionsInput = {
@@ -1607,6 +1635,7 @@ export type UserUncheckedUpdateWithoutUserCompanionsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWeightLogsInput = {
@@ -1655,6 +1684,7 @@ export type UserCreateWithoutWeightLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWeightLogsInput = {
@@ -1703,6 +1733,7 @@ export type UserUncheckedCreateWithoutWeightLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWeightLogsInput = {
@@ -1767,6 +1798,7 @@ export type UserUpdateWithoutWeightLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWeightLogsInput = {
@@ -1815,6 +1847,7 @@ export type UserUncheckedUpdateWithoutWeightLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMoodLogsInput = {
@@ -1863,6 +1896,7 @@ export type UserCreateWithoutMoodLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMoodLogsInput = {
@@ -1911,6 +1945,7 @@ export type UserUncheckedCreateWithoutMoodLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMoodLogsInput = {
@@ -1975,6 +2010,7 @@ export type UserUpdateWithoutMoodLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMoodLogsInput = {
@@ -2023,6 +2059,7 @@ export type UserUncheckedUpdateWithoutMoodLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMealSchedulesInput = {
@@ -2071,6 +2108,7 @@ export type UserCreateWithoutMealSchedulesInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMealSchedulesInput = {
@@ -2119,6 +2157,7 @@ export type UserUncheckedCreateWithoutMealSchedulesInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMealSchedulesInput = {
@@ -2183,6 +2222,7 @@ export type UserUpdateWithoutMealSchedulesInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMealSchedulesInput = {
@@ -2231,6 +2271,7 @@ export type UserUncheckedUpdateWithoutMealSchedulesInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMealLogsInput = {
@@ -2279,6 +2320,7 @@ export type UserCreateWithoutMealLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMealLogsInput = {
@@ -2327,6 +2369,7 @@ export type UserUncheckedCreateWithoutMealLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMealLogsInput = {
@@ -2391,6 +2434,7 @@ export type UserUpdateWithoutMealLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMealLogsInput = {
@@ -2439,6 +2483,7 @@ export type UserUncheckedUpdateWithoutMealLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicationsInput = {
@@ -2487,6 +2532,7 @@ export type UserCreateWithoutMedicationsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicationsInput = {
@@ -2535,6 +2581,7 @@ export type UserUncheckedCreateWithoutMedicationsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicationsInput = {
@@ -2599,6 +2646,7 @@ export type UserUpdateWithoutMedicationsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicationsInput = {
@@ -2647,6 +2695,7 @@ export type UserUncheckedUpdateWithoutMedicationsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicationSchedulesInput = {
@@ -2695,6 +2744,7 @@ export type UserCreateWithoutMedicationSchedulesInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicationSchedulesInput = {
@@ -2743,6 +2793,7 @@ export type UserUncheckedCreateWithoutMedicationSchedulesInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicationSchedulesInput = {
@@ -2807,6 +2858,7 @@ export type UserUpdateWithoutMedicationSchedulesInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicationSchedulesInput = {
@@ -2855,6 +2907,7 @@ export type UserUncheckedUpdateWithoutMedicationSchedulesInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExerciseLogsInput = {
@@ -2903,6 +2956,7 @@ export type UserCreateWithoutExerciseLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExerciseLogsInput = {
@@ -2951,6 +3005,7 @@ export type UserUncheckedCreateWithoutExerciseLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExerciseLogsInput = {
@@ -3015,6 +3070,7 @@ export type UserUpdateWithoutExerciseLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExerciseLogsInput = {
@@ -3063,6 +3119,7 @@ export type UserUncheckedUpdateWithoutExerciseLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExerciseScheduleLogsInput = {
@@ -3111,6 +3168,7 @@ export type UserCreateWithoutExerciseScheduleLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExerciseScheduleLogsInput = {
@@ -3159,6 +3217,7 @@ export type UserUncheckedCreateWithoutExerciseScheduleLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExerciseScheduleLogsInput = {
@@ -3223,6 +3282,7 @@ export type UserUpdateWithoutExerciseScheduleLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExerciseScheduleLogsInput = {
@@ -3271,6 +3331,7 @@ export type UserUncheckedUpdateWithoutExerciseScheduleLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWaterLogsInput = {
@@ -3319,6 +3380,7 @@ export type UserCreateWithoutWaterLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWaterLogsInput = {
@@ -3367,6 +3429,7 @@ export type UserUncheckedCreateWithoutWaterLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWaterLogsInput = {
@@ -3431,6 +3494,7 @@ export type UserUpdateWithoutWaterLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWaterLogsInput = {
@@ -3479,6 +3543,7 @@ export type UserUncheckedUpdateWithoutWaterLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStepLogsInput = {
@@ -3527,6 +3592,7 @@ export type UserCreateWithoutStepLogsInput = {
   waterLogs?: Prisma.WaterLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStepLogsInput = {
@@ -3575,6 +3641,7 @@ export type UserUncheckedCreateWithoutStepLogsInput = {
   waterLogs?: Prisma.WaterLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStepLogsInput = {
@@ -3639,6 +3706,7 @@ export type UserUpdateWithoutStepLogsInput = {
   waterLogs?: Prisma.WaterLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStepLogsInput = {
@@ -3687,6 +3755,7 @@ export type UserUncheckedUpdateWithoutStepLogsInput = {
   waterLogs?: Prisma.WaterLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMacroGoalsInput = {
@@ -3735,6 +3804,7 @@ export type UserCreateWithoutMacroGoalsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMacroGoalsInput = {
@@ -3783,6 +3853,7 @@ export type UserUncheckedCreateWithoutMacroGoalsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMacroGoalsInput = {
@@ -3847,6 +3918,7 @@ export type UserUpdateWithoutMacroGoalsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMacroGoalsInput = {
@@ -3895,6 +3967,7 @@ export type UserUncheckedUpdateWithoutMacroGoalsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOnboardingInput = {
@@ -3943,6 +4016,7 @@ export type UserCreateWithoutOnboardingInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOnboardingInput = {
@@ -3991,6 +4065,7 @@ export type UserUncheckedCreateWithoutOnboardingInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOnboardingInput = {
@@ -4055,6 +4130,7 @@ export type UserUpdateWithoutOnboardingInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOnboardingInput = {
@@ -4103,6 +4179,7 @@ export type UserUncheckedUpdateWithoutOnboardingInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionInput = {
@@ -4151,6 +4228,7 @@ export type UserCreateWithoutSubscriptionInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionInput = {
@@ -4199,6 +4277,7 @@ export type UserUncheckedCreateWithoutSubscriptionInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionInput = {
@@ -4263,6 +4342,7 @@ export type UserUpdateWithoutSubscriptionInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionInput = {
@@ -4311,6 +4391,7 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserQuestsInput = {
@@ -4359,6 +4440,7 @@ export type UserCreateWithoutUserQuestsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserQuestsInput = {
@@ -4407,6 +4489,7 @@ export type UserUncheckedCreateWithoutUserQuestsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserQuestsInput = {
@@ -4471,6 +4554,7 @@ export type UserUpdateWithoutUserQuestsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserQuestsInput = {
@@ -4519,6 +4603,7 @@ export type UserUncheckedUpdateWithoutUserQuestsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCustomQuestsInput = {
@@ -4567,6 +4652,7 @@ export type UserCreateWithoutCustomQuestsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCustomQuestsInput = {
@@ -4615,6 +4701,7 @@ export type UserUncheckedCreateWithoutCustomQuestsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCustomQuestsInput = {
@@ -4679,6 +4766,7 @@ export type UserUpdateWithoutCustomQuestsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCustomQuestsInput = {
@@ -4727,6 +4815,7 @@ export type UserUncheckedUpdateWithoutCustomQuestsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutScheduledItemsInput = {
@@ -4775,6 +4864,7 @@ export type UserCreateWithoutScheduledItemsInput = {
   waterLogs?: Prisma.WaterLogCreateNestedManyWithoutUserInput
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutScheduledItemsInput = {
@@ -4823,6 +4913,7 @@ export type UserUncheckedCreateWithoutScheduledItemsInput = {
   waterLogs?: Prisma.WaterLogUncheckedCreateNestedManyWithoutUserInput
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutScheduledItemsInput = {
@@ -4887,6 +4978,7 @@ export type UserUpdateWithoutScheduledItemsInput = {
   waterLogs?: Prisma.WaterLogUpdateManyWithoutUserNestedInput
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutScheduledItemsInput = {
@@ -4935,6 +5027,7 @@ export type UserUncheckedUpdateWithoutScheduledItemsInput = {
   waterLogs?: Prisma.WaterLogUncheckedUpdateManyWithoutUserNestedInput
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutScheduleCompletionLogsInput = {
@@ -4983,6 +5076,7 @@ export type UserCreateWithoutScheduleCompletionLogsInput = {
   waterLogs?: Prisma.WaterLogCreateNestedManyWithoutUserInput
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutScheduleCompletionLogsInput = {
@@ -5031,6 +5125,7 @@ export type UserUncheckedCreateWithoutScheduleCompletionLogsInput = {
   waterLogs?: Prisma.WaterLogUncheckedCreateNestedManyWithoutUserInput
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutScheduleCompletionLogsInput = {
@@ -5095,6 +5190,7 @@ export type UserUpdateWithoutScheduleCompletionLogsInput = {
   waterLogs?: Prisma.WaterLogUpdateManyWithoutUserNestedInput
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutScheduleCompletionLogsInput = {
@@ -5143,6 +5239,219 @@ export type UserUncheckedUpdateWithoutScheduleCompletionLogsInput = {
   waterLogs?: Prisma.WaterLogUncheckedUpdateManyWithoutUserNestedInput
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutScheduleCompletionsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogCreateNestedManyWithoutUserInput
+  userQuests?: Prisma.UserQuestCreateNestedManyWithoutUserInput
+  customQuests?: Prisma.CustomQuestCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogCreateNestedManyWithoutUserInput
+  onboarding?: Prisma.onboardingCreateNestedOneWithoutUserInput
+  macroGoals?: Prisma.MacroGoalCreateNestedManyWithoutUserInput
+  waterLogs?: Prisma.WaterLogCreateNestedManyWithoutUserInput
+  stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
+  scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutScheduleCompletionsInput = {
+  id?: string
+  email: string
+  username?: string | null
+  password?: string | null
+  name?: string | null
+  avatar?: string
+  profilePhoto?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  emailVerified?: boolean
+  emailVerificationOtp?: string | null
+  emailVerificationExpiry?: Date | string | null
+  resetPasswordOtp?: string | null
+  resetPasswordOtpExpiry?: Date | string | null
+  resetPasswordVerified?: boolean
+  onBoarded?: boolean
+  googleId?: string | null
+  githubId?: string | null
+  discord?: string | null
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  userThemes?: Prisma.UserThemeUncheckedCreateNestedManyWithoutUserInput
+  userCompanions?: Prisma.UserCompanionUncheckedCreateNestedManyWithoutUserInput
+  weightLogs?: Prisma.WeightLogUncheckedCreateNestedManyWithoutUserInput
+  moodLogs?: Prisma.MoodLogUncheckedCreateNestedManyWithoutUserInput
+  mealSchedules?: Prisma.MealScheduleUncheckedCreateNestedManyWithoutUserInput
+  mealLogs?: Prisma.MealLogUncheckedCreateNestedManyWithoutUserInput
+  medications?: Prisma.MedicationUncheckedCreateNestedManyWithoutUserInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedCreateNestedManyWithoutUserInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedCreateNestedManyWithoutUserInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  userQuests?: Prisma.UserQuestUncheckedCreateNestedManyWithoutUserInput
+  customQuests?: Prisma.CustomQuestUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+  xpLogs?: Prisma.XpLogUncheckedCreateNestedManyWithoutUserInput
+  onboarding?: Prisma.onboardingUncheckedCreateNestedOneWithoutUserInput
+  macroGoals?: Prisma.MacroGoalUncheckedCreateNestedManyWithoutUserInput
+  waterLogs?: Prisma.WaterLogUncheckedCreateNestedManyWithoutUserInput
+  stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
+  scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutScheduleCompletionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleCompletionsInput, Prisma.UserUncheckedCreateWithoutScheduleCompletionsInput>
+}
+
+export type UserUpsertWithoutScheduleCompletionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutScheduleCompletionsInput, Prisma.UserUncheckedUpdateWithoutScheduleCompletionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleCompletionsInput, Prisma.UserUncheckedCreateWithoutScheduleCompletionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutScheduleCompletionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutScheduleCompletionsInput, Prisma.UserUncheckedUpdateWithoutScheduleCompletionsInput>
+}
+
+export type UserUpdateWithoutScheduleCompletionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUpdateManyWithoutUserNestedInput
+  userQuests?: Prisma.UserQuestUpdateManyWithoutUserNestedInput
+  customQuests?: Prisma.CustomQuestUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUpdateManyWithoutUserNestedInput
+  onboarding?: Prisma.onboardingUpdateOneWithoutUserNestedInput
+  macroGoals?: Prisma.MacroGoalUpdateManyWithoutUserNestedInput
+  waterLogs?: Prisma.WaterLogUpdateManyWithoutUserNestedInput
+  stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
+  scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutScheduleCompletionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordOtp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordOtpExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onBoarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discord?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  userThemes?: Prisma.UserThemeUncheckedUpdateManyWithoutUserNestedInput
+  userCompanions?: Prisma.UserCompanionUncheckedUpdateManyWithoutUserNestedInput
+  weightLogs?: Prisma.WeightLogUncheckedUpdateManyWithoutUserNestedInput
+  moodLogs?: Prisma.MoodLogUncheckedUpdateManyWithoutUserNestedInput
+  mealSchedules?: Prisma.MealScheduleUncheckedUpdateManyWithoutUserNestedInput
+  mealLogs?: Prisma.MealLogUncheckedUpdateManyWithoutUserNestedInput
+  medications?: Prisma.MedicationUncheckedUpdateManyWithoutUserNestedInput
+  medicationSchedules?: Prisma.MedicationScheduleUncheckedUpdateManyWithoutUserNestedInput
+  exerciseLogs?: Prisma.ExerciseLogUncheckedUpdateManyWithoutUserNestedInput
+  ExerciseScheduleLogs?: Prisma.ExerciseScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  userQuests?: Prisma.UserQuestUncheckedUpdateManyWithoutUserNestedInput
+  customQuests?: Prisma.CustomQuestUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  xpLogs?: Prisma.XpLogUncheckedUpdateManyWithoutUserNestedInput
+  onboarding?: Prisma.onboardingUncheckedUpdateOneWithoutUserNestedInput
+  macroGoals?: Prisma.MacroGoalUncheckedUpdateManyWithoutUserNestedInput
+  waterLogs?: Prisma.WaterLogUncheckedUpdateManyWithoutUserNestedInput
+  stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -5191,6 +5500,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -5239,6 +5549,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -5303,6 +5614,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -5351,6 +5663,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -5399,6 +5712,7 @@ export type UserCreateWithoutSessionsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -5447,6 +5761,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -5511,6 +5826,7 @@ export type UserUpdateWithoutSessionsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -5559,6 +5875,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserProfileInput = {
@@ -5607,6 +5924,7 @@ export type UserCreateWithoutUserProfileInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserProfileInput = {
@@ -5655,6 +5973,7 @@ export type UserUncheckedCreateWithoutUserProfileInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserProfileInput = {
@@ -5719,6 +6038,7 @@ export type UserUpdateWithoutUserProfileInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserProfileInput = {
@@ -5767,6 +6087,7 @@ export type UserUncheckedUpdateWithoutUserProfileInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutXpLogsInput = {
@@ -5815,6 +6136,7 @@ export type UserCreateWithoutXpLogsInput = {
   stepLogs?: Prisma.StepLogCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutXpLogsInput = {
@@ -5863,6 +6185,7 @@ export type UserUncheckedCreateWithoutXpLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedCreateNestedManyWithoutUserInput
   scheduledItems?: Prisma.ScheduleItemUncheckedCreateNestedManyWithoutUserInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutXpLogsInput = {
@@ -5927,6 +6250,7 @@ export type UserUpdateWithoutXpLogsInput = {
   stepLogs?: Prisma.StepLogUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutXpLogsInput = {
@@ -5975,6 +6299,7 @@ export type UserUncheckedUpdateWithoutXpLogsInput = {
   stepLogs?: Prisma.StepLogUncheckedUpdateManyWithoutUserNestedInput
   scheduledItems?: Prisma.ScheduleItemUncheckedUpdateManyWithoutUserNestedInput
   scheduleCompletionLogs?: Prisma.ScheduleCompletionLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleCompletions?: Prisma.ScheduleCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -6003,6 +6328,7 @@ export type UserCountOutputType = {
   stepLogs: number
   scheduledItems: number
   scheduleCompletionLogs: number
+  scheduleCompletions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -6026,6 +6352,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   stepLogs?: boolean | UserCountOutputTypeCountStepLogsArgs
   scheduledItems?: boolean | UserCountOutputTypeCountScheduledItemsArgs
   scheduleCompletionLogs?: boolean | UserCountOutputTypeCountScheduleCompletionLogsArgs
+  scheduleCompletions?: boolean | UserCountOutputTypeCountScheduleCompletionsArgs
 }
 
 /**
@@ -6178,6 +6505,13 @@ export type UserCountOutputTypeCountScheduleCompletionLogsArgs<ExtArgs extends r
   where?: Prisma.ScheduleCompletionLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountScheduleCompletionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleCompletionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -6226,6 +6560,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   stepLogs?: boolean | Prisma.User$stepLogsArgs<ExtArgs>
   scheduledItems?: boolean | Prisma.User$scheduledItemsArgs<ExtArgs>
   scheduleCompletionLogs?: boolean | Prisma.User$scheduleCompletionLogsArgs<ExtArgs>
+  scheduleCompletions?: boolean | Prisma.User$scheduleCompletionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -6332,6 +6667,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   stepLogs?: boolean | Prisma.User$stepLogsArgs<ExtArgs>
   scheduledItems?: boolean | Prisma.User$scheduledItemsArgs<ExtArgs>
   scheduleCompletionLogs?: boolean | Prisma.User$scheduleCompletionLogsArgs<ExtArgs>
+  scheduleCompletions?: boolean | Prisma.User$scheduleCompletionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -6363,6 +6699,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     stepLogs: Prisma.$StepLogPayload<ExtArgs>[]
     scheduledItems: Prisma.$ScheduleItemPayload<ExtArgs>[]
     scheduleCompletionLogs: Prisma.$ScheduleCompletionLogPayload<ExtArgs>[]
+    scheduleCompletions: Prisma.$ScheduleCompletionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -6805,6 +7142,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   stepLogs<T extends Prisma.User$stepLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$stepLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StepLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   scheduledItems<T extends Prisma.User$scheduledItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduledItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   scheduleCompletionLogs<T extends Prisma.User$scheduleCompletionLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleCompletionLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleCompletionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  scheduleCompletions<T extends Prisma.User$scheduleCompletionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7784,6 +8122,30 @@ export type User$scheduleCompletionLogsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.ScheduleCompletionLogScalarFieldEnum | Prisma.ScheduleCompletionLogScalarFieldEnum[]
+}
+
+/**
+ * User.scheduleCompletions
+ */
+export type User$scheduleCompletionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleCompletion
+   */
+  select?: Prisma.ScheduleCompletionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ScheduleCompletion
+   */
+  omit?: Prisma.ScheduleCompletionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleCompletionInclude<ExtArgs> | null
+  where?: Prisma.ScheduleCompletionWhereInput
+  orderBy?: Prisma.ScheduleCompletionOrderByWithRelationInput | Prisma.ScheduleCompletionOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleCompletionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ScheduleCompletionScalarFieldEnum | Prisma.ScheduleCompletionScalarFieldEnum[]
 }
 
 /**

@@ -133,6 +133,11 @@ export type ScheduleItem = Prisma.ScheduleItemModel
  */
 export type ScheduleCompletionLog = Prisma.ScheduleCompletionLogModel
 /**
+ * Model ScheduleCompletion
+ * 
+ */
+export type ScheduleCompletion = Prisma.ScheduleCompletionModel
+/**
  * Model User
  * 
  */

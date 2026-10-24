@@ -60,6 +60,7 @@ model User {
     stepLogs             StepLog[]
     scheduledItems       ScheduleItem[]
     scheduleCompletionLogs ScheduleCompletionLog[]
+    scheduleCompletions  ScheduleCompletion[]
 
     @@index([email])
     @@map("users")

@@ -430,21 +430,35 @@ export class ProfileService {
     medications: any[];
     exercises: any[];
   } {
-    const filteredMeals = mealSchedules.filter(
-      (m) =>
-        new Date(m.scheduledAt) >= startDate &&
-        new Date(m.scheduledAt) <= endDate,
+    const isScheduleInRange = (s: any, timeField: string) => {
+      if (s.isPaused) return false;
+      const rec = s.recurrence || 'NEVER';
+      if (rec === 'DAILY') return true;
+      if (rec === 'WEEKLY' || rec === 'SPECIFIC_DAYS') {
+        const days = Array.isArray(s.daysOfWeek) ? s.daysOfWeek : [];
+        if (days.length === 0) return false;
+        const cur = new Date(startDate);
+        while (cur <= endDate) {
+          const isoDay = cur.getUTCDay() === 0 ? 7 : cur.getUTCDay();
+          if (days.includes(isoDay)) return true;
+          cur.setUTCDate(cur.getUTCDate() + 1);
+        }
+        return false;
+      }
+      const itemTime = new Date(s[timeField]);
+      return itemTime >= startDate && itemTime <= endDate;
+    };
+
+    const filteredMeals = mealSchedules.filter((m) =>
+      isScheduleInRange(m, 'scheduledAt'),
     );
 
-    const filteredMeds = medicationSchedules.filter(
-      (m) =>
-        new Date(m.scheduleTime) >= startDate &&
-        new Date(m.scheduleTime) <= endDate,
+    const filteredMeds = medicationSchedules.filter((m) =>
+      isScheduleInRange(m, 'scheduleTime'),
     );
 
-    const filteredExercises = exerciseSchedules.filter(
-      (e) =>
-        new Date(e.loggedAt) >= startDate && new Date(e.loggedAt) <= endDate,
+    const filteredExercises = exerciseSchedules.filter((e) =>
+      isScheduleInRange(e, 'loggedAt'),
     );
 
     return {
@@ -513,11 +527,19 @@ export class ProfileService {
     // Get all schedules (using larger limit for history)
     const [
       todayMealSchedules,
+      todayMedicationResult,
+      todayExerciseSchedules,
       mealHistoryResult,
       medicationHistoryResult,
       exerciseScheduleHistory,
     ] = await Promise.all([
       this.mealScheduleService
+        .getTodaySchedules(userId, timezone)
+        .catch(() => []),
+      this.medicationScheduleService
+        .getTodaySchedules(userId, timezone)
+        .catch(() => ({ totalToday: 0, schedules: [] })),
+      this.exerciseLogService
         .getTodaySchedules(userId, timezone)
         .catch(() => []),
       this.mealScheduleService
@@ -530,6 +552,8 @@ export class ProfileService {
         .getExerciseScheduleHistory(userId)
         .catch(() => ({ schedules: [], totalCount: 0 })),
     ]);
+
+    const todayMedicationSchedules = todayMedicationResult.schedules || [];
 
     // Extract schedules from responses
     const mealSchedules = mealHistoryResult.schedules || [];
@@ -550,8 +574,10 @@ export class ProfileService {
       todayRange.start,
       todayRange.end,
     );
-    // Use active recurring/scheduled meals for today
+    // Use active recurring/scheduled meals, medications, and exercises for today
     todayFiltered.meals = todayMealSchedules;
+    todayFiltered.medications = todayMedicationSchedules;
+    todayFiltered.exercises = todayExerciseSchedules;
 
     const weekFiltered = this.filterItemsByDateRange(
       mealSchedules,
@@ -768,87 +794,100 @@ export class ProfileService {
       )
       : [];
 
-    // Find the next upcoming schedule (not completed and scheduled in the future)
-    const now = new Date();
-    const allUpcomingItems = [
-      ...(mealSchedules as any[])
-        .filter((meal: any) => !meal.isTaken && new Date(meal.scheduledAt) > now)
-        .map((meal: any) => ({
-          item: meal,
-          scheduledDate: new Date(meal.scheduledAt),
-          type: 'meal' as const,
-        })),
-      ...(medicationSchedules as any[])
-        .filter((med: any) => !med.isTaken && new Date(med.scheduleTime) > now)
-        .map((med: any) => ({
-          item: med,
-          scheduledDate: new Date(med.scheduleTime),
-          type: 'medication' as const,
-        })),
-      ...(exerciseSchedules as any[])
-        .filter((ex: any) => !ex.isTaken && new Date(ex.loggedAt) > now)
-        .map((ex: any) => ({
-          item: ex,
-          scheduledDate: new Date(ex.loggedAt),
-          type: 'exercise' as const,
-        })),
-    ];
-
-    // Sort by scheduled time and get the nearest one
-    allUpcomingItems.sort((a, b) => a.scheduledDate.getTime() - b.scheduledDate.getTime());
-    const nextUpcoming = allUpcomingItems.length > 0 ? allUpcomingItems[0] : null;
-
+    // Determine upcoming item:
+    // 1. If today has pending (uncompleted) items, show the earliest pending item.
+    // 2. If all today's items are completed, keep showing the latest completed item (isTaken: true, earnedXp: 10) until local midnight.
+    // 3. If today has no items at all, advance to the nearest future uncompleted occurrence.
     let upcomingItem: TodayScheduleItemDto | null = null;
-    if (nextUpcoming) {
-      if (nextUpcoming.type === 'meal') {
-        const meal = nextUpcoming.item;
-        upcomingItem = {
-          id: meal.id,
-          type: 'meal',
-          title: meal.mealType,
-          description: `${meal.calories || 0} kCal`,
-          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
-          earnedXp: 0,
-          details: {
-            calories: meal.calories,
-            carbs: meal.carbs,
-            protein: meal.protein,
-            fats: meal.fats,
-            isTaken: meal.isTaken ?? undefined,
-          },
-        };
-      } else if (nextUpcoming.type === 'medication') {
-        const med = nextUpcoming.item;
-        upcomingItem = {
-          id: med.id,
-          type: 'medication',
-          title: med.name,
-          description: `${med.doseMg ? `${med.doseMg}mg` : 'Medication'}`,
-          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
-          earnedXp: 0,
-          details: {
-            type: med.type,
-            doseMg: med.doseMg,
-            isTaken: med.isTaken ?? undefined,
-          },
-        };
-      } else if (nextUpcoming.type === 'exercise') {
-        const exercise = nextUpcoming.item;
-        upcomingItem = {
-          id: exercise.id,
-          type: 'exercise',
-          title: exercise.name,
-          description: `${exercise.duration ? `${exercise.duration} min` : ''}`,
-          scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
-          earnedXp: 0,
-          details: {
-            type: exercise.type,
-            intensity: exercise.intensity,
-            duration: exercise.duration,
-            note: exercise.note,
-            isTaken: exercise.isTaken ?? undefined,
-          },
-        };
+
+    const pendingToday = todayCombined.filter(
+      (item) => !item.details?.isTaken,
+    );
+
+    if (pendingToday.length > 0) {
+      upcomingItem = pendingToday[0];
+    } else if (todayCombined.length > 0) {
+      upcomingItem = todayCombined[todayCombined.length - 1];
+    } else {
+      const now = new Date();
+      const allUpcomingItems = [
+        ...(mealSchedules as any[])
+          .filter((meal: any) => !meal.isTaken && new Date(meal.scheduledAt) > now)
+          .map((meal: any) => ({
+            item: meal,
+            scheduledDate: new Date(meal.scheduledAt),
+            type: 'meal' as const,
+          })),
+        ...(medicationSchedules as any[])
+          .filter((med: any) => !med.isTaken && new Date(med.scheduleTime) > now)
+          .map((med: any) => ({
+            item: med,
+            scheduledDate: new Date(med.scheduleTime),
+            type: 'medication' as const,
+          })),
+        ...(exerciseSchedules as any[])
+          .filter((ex: any) => !ex.isTaken && new Date(ex.loggedAt) > now)
+          .map((ex: any) => ({
+            item: ex,
+            scheduledDate: new Date(ex.loggedAt),
+            type: 'exercise' as const,
+          })),
+      ];
+
+      allUpcomingItems.sort((a, b) => a.scheduledDate.getTime() - b.scheduledDate.getTime());
+      const nextUpcoming = allUpcomingItems.length > 0 ? allUpcomingItems[0] : null;
+
+      if (nextUpcoming) {
+        if (nextUpcoming.type === 'meal') {
+          const meal = nextUpcoming.item;
+          upcomingItem = {
+            id: meal.id,
+            type: 'meal',
+            title: meal.mealType,
+            description: `${meal.calories || 0} kCal`,
+            scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
+            earnedXp: 0,
+            details: {
+              calories: meal.calories,
+              carbs: meal.carbs,
+              protein: meal.protein,
+              fats: meal.fats,
+              isTaken: false,
+            },
+          };
+        } else if (nextUpcoming.type === 'medication') {
+          const med = nextUpcoming.item;
+          upcomingItem = {
+            id: med.id,
+            type: 'medication',
+            title: med.name,
+            description: `${med.doseMg ? `${med.doseMg}mg` : 'Medication'}`,
+            scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
+            earnedXp: 0,
+            details: {
+              type: med.type,
+              doseMg: med.doseMg,
+              isTaken: false,
+            },
+          };
+        } else if (nextUpcoming.type === 'exercise') {
+          const exercise = nextUpcoming.item;
+          upcomingItem = {
+            id: exercise.id,
+            type: 'exercise',
+            title: exercise.name,
+            description: `${exercise.duration ? `${exercise.duration} min` : ''}`,
+            scheduledAt: this.formatTimeToBasic(nextUpcoming.scheduledDate, timezone),
+            earnedXp: 0,
+            details: {
+              type: exercise.type,
+              intensity: exercise.intensity,
+              duration: exercise.duration,
+              note: exercise.note,
+              isTaken: false,
+            },
+          };
+        }
       }
     }
 

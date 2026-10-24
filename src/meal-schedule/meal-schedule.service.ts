@@ -8,12 +8,15 @@ import {
 } from './dto/meal-schedule-response.dto';
 import { LeveladdService } from '@/leveladd/leveladd.service';
 import { getUserDayBoundaries } from '../common/utils/timezone.util';
+import { getIsoWeekday } from '../common/utils/weekday.util';
+import { ScheduleCompletionService } from '../schedule-completion/schedule-completion.service';
 
 @Injectable()
 export class MealScheduleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly leveladd: LeveladdService,
+    private readonly scheduleCompletionService: ScheduleCompletionService,
   ) {}
 
   /**
@@ -37,18 +40,27 @@ export class MealScheduleService {
       Number(dto.fats),
     );
 
+    const scheduledDate = new Date(dto.scheduledAt);
+    const fallbackDay = scheduledDate.getDay() === 0 ? 7 : scheduledDate.getDay();
+    const daysOfWeek =
+      dto.daysOfWeek && dto.daysOfWeek.length > 0
+        ? dto.daysOfWeek
+        : dto.recurrence === 'SPECIFIC_DAYS'
+        ? [fallbackDay]
+        : [];
+
     const schedule = await this.prisma.client.mealSchedule.create({
       data: {
         userId,
         mealType: dto.mealType,
-        scheduledAt: new Date(dto.scheduledAt),
+        scheduledAt: scheduledDate,
         isTaken: false,
         calories,
         carbs: Number(dto.carbs),
         protein: Number(dto.protein),
         fats: Number(dto.fats),
         recurrence: dto.recurrence || 'DAILY',
-        daysOfWeek: dto.daysOfWeek || [],
+        daysOfWeek,
         isPaused: dto.isPaused ?? false,
       },
     });
@@ -70,25 +82,23 @@ export class MealScheduleService {
       throw new NotFoundException('Meal schedule not found');
     }
 
-    const { startOfDay: todayStart, endOfDay: todayEnd } = getUserDayBoundaries(timezone);
+    const { dateStr } = getUserDayBoundaries(timezone);
 
-    const alreadyTakenToday = Boolean(
-      (schedule as any).lastTakenDate &&
-        new Date((schedule as any).lastTakenDate) >= todayStart &&
-        new Date((schedule as any).lastTakenDate) <= todayEnd,
-    );
-
-    const earnedXp = 10;
-    const user = await this.prisma.client.user.findUnique({
-      where: { id: userId },
-    });
-
-    // Award XP strictly once per day when marked taken and user is onboarded
-    if (!alreadyTakenToday && isTakens && user && user.onBoarded) {
-      await this.leveladd.addXpToUser(
+    if (isTakens) {
+      await this.scheduleCompletionService.recordCompletion(
         userId,
-        earnedXp,
-        'mealSchedule log entry',
+        scheduleId,
+        'MEAL',
+        timezone,
+        dateStr,
+        10,
+      );
+    } else {
+      await this.scheduleCompletionService.removeCompletion(
+        userId,
+        scheduleId,
+        timezone,
+        dateStr,
       );
     }
 
@@ -195,6 +205,19 @@ export class MealScheduleService {
 
     const normalizedIsTaken = normalizeBooleanValue(dto.isTaken);
 
+    if (normalizedIsTaken === true) {
+      await this.scheduleCompletionService.recordCompletion(
+        userId,
+        scheduleId,
+        'MEAL',
+      );
+    } else if (normalizedIsTaken === false) {
+      await this.scheduleCompletionService.removeCompletion(
+        userId,
+        scheduleId,
+      );
+    }
+
     // Recalculate calories if macros changed
     const carbs = dto.carbs !== undefined ? Number(dto.carbs) : existing.carbs;
     const protein =
@@ -211,7 +234,10 @@ export class MealScheduleService {
       data: {
         ...(dto.mealType && { mealType: dto.mealType }),
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
-        ...(normalizedIsTaken !== undefined && { isTaken: normalizedIsTaken }),
+        ...(normalizedIsTaken !== undefined && {
+          isTaken: normalizedIsTaken,
+          ...(normalizedIsTaken && { lastTakenDate: new Date() }),
+        }),
         ...(dto.recurrence !== undefined && { recurrence: dto.recurrence }),
         ...(dto.daysOfWeek !== undefined && { daysOfWeek: dto.daysOfWeek }),
         ...(dto.isPaused !== undefined && { isPaused: dto.isPaused }),
@@ -239,10 +265,7 @@ export class MealScheduleService {
     const { startOfDay: startOfToday, endOfDay: endOfToday, dateStr } =
       getUserDayBoundaries(timezone, targetDate);
 
-    // Day of week: 1 = Monday ... 7 = Sunday
-    // dateStr is 'YYYY-MM-DD'
-    const [y, m, d] = dateStr.split('-').map(Number);
-    const dayOfWeek = new Date(Date.UTC(y, m - 1, d)).getUTCDay() || 7;
+    const dayOfWeek = getIsoWeekday(timezone, targetDate);
 
     const allSchedules = await this.prisma.client.mealSchedule.findMany({
       where: {
@@ -268,14 +291,14 @@ export class MealScheduleService {
       return true;
     });
 
-    return activeToday.map((schedule) => {
-      const lastTaken = (schedule as any).lastTakenDate
-        ? new Date((schedule as any).lastTakenDate)
-        : null;
-      const isTakenToday = Boolean(
-        lastTaken && lastTaken >= startOfToday && lastTaken <= endOfToday,
-      );
+    const completedIds = await this.scheduleCompletionService.getCompletedScheduleIds(
+      userId,
+      dateStr,
+      'MEAL',
+    );
 
+    return activeToday.map((schedule) => {
+      const isTakenToday = completedIds.has(schedule.id);
       return {
         ...schedule,
         isTaken: isTakenToday,
