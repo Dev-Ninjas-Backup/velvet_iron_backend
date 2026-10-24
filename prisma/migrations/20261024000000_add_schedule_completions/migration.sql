@@ -42,3 +42,4 @@ UPDATE "medication_schedules"
 SET "daysOfWeek" = ARRAY[EXTRACT(ISODOW FROM "scheduleTime")::integer]
 WHERE "recurrence" IN ('WEEKLY', 'SPECIFIC_DAYS')
   AND ("daysOfWeek" IS NULL OR "daysOfWeek" = '{}'::integer[]);
+
