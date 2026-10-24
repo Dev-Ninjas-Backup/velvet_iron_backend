@@ -128,3 +128,4 @@ All 10 test suites in `scripts/test-recent-changes.js` passed with 100% success:
   - Friday (Day 5) query: appeared with `isTaken: false` (PASS)
   - Wednesday completion via Quests Feed: confirmed complete for Wednesday (PASS)
   - Friday independence check: **Friday remained `isTaken: false` (0% leakage)** (PASS)
+
